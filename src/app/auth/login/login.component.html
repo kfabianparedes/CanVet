@@ -17,18 +17,34 @@
                                     <div class="text-center">
                                         <h1 class="text-dark mb-4">¡Bienvenido!</h1>
                                     </div>
-                                    <form class="row user">
+                                    <form [formGroup]="loginForm" class="row user">
                                         <div class="form-group">
-                                            <input type="text" class="border-left-primary font-tamanio form-control" placeholder="Correo electrónico o nombre de usuario">
+                                            <input type="text" formControlName="user" class="border-left-primary font-tamanio form-control" placeholder="Correo electrónico o nombre de usuario">
+                                            <div *ngIf="user.invalid && (user.dirty || user.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                                                <div *ngIf="user.errors.required">
+                                                * El Nickname es requerido.
+                                                </div>
+                                                <div *ngIf="user.errors.maxlength">
+                                                * Se requieren maximo 15 caracteres.
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="form-group">
                                             <input type="password" class="border-left-primary font-tamanio form-control " placeholder="Contraseña">
+
                                         </div>
                                         
                                         <button href="index.html" class="text-center boton btn btn-primary">
                                         <strong>Iniciar Sesión</strong>
                                         </button>
+
                                         <span class="mt-1 forgot-password text-center text-dark" style="cursor:pointer">¿Olvidó su contraseña?</span>&nbsp;   
+                                        <br>
+
+                                        <ngx-recaptcha2 class="captcha-form d-flex justify-content-center" #captchaElem [siteKey]="siteKey" formControlName="recaptcha">
+                                        </ngx-recaptcha2>
+                                        <!-- <ngx-recaptcha2 #captchaElem [siteKey]="siteKey" (success)="handleSuccess($event)" (expire)="disableButton = true" [size]="size" [hl]="lang" [theme]="theme" [type]="type" formControlName="recaptcha"></ngx-recaptcha2> -->
+
                                     </form>
                                     <hr>
                                     

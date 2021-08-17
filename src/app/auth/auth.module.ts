@@ -1,8 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { SharedModule } from '../shared/shared.module';
+import { NgxCaptchaModule } from 'ngx-captcha';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
-import { SharedModule } from '../shared/shared.module';
+
 
 
 
@@ -13,7 +17,10 @@ import { SharedModule } from '../shared/shared.module';
   ],
   imports: [
     CommonModule,
-    SharedModule
+    SharedModule,
+    NgxCaptchaModule,
+    ReactiveFormsModule,
+    FormsModule 
   ],
   exports:[
     LoginComponent,

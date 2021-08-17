@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -7,11 +8,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginComponent implements OnInit {
 
-  constructor() { }
+  siteKey="";
+  loginForm: any;
+  constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
+    this.loginForm = this.formBuilder.group({
+      user:['',[Validators.required, Validators.maxLength(60)]],
+      password:['',Validators.required],
+      recaptcha: ['', Validators.required]
+    });
   }
-  inicializarLoginForm(){
-    
+   // Get usuarioForm
+   get user() {
+    return this.loginForm.get('user');
+  }
+
+  get password() {
+    return this.loginForm.get('password');
   }
 }

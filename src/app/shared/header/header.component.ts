@@ -1,16 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit{
+  
+  @HostListener('window:resize', ['$event'])
+  getScreen(event?: any){
+    this.width = window.innerWidth;
+  }
   status: boolean = false;
   toggled: string = '';
-  constructor() { }
-
+  width!: number;
   ngOnInit(): void {
+    this.width = window.innerWidth;
   }
   clickEvent(){
     this.status = !this.status; 
@@ -20,4 +25,5 @@ export class HeaderComponent implements OnInit {
       this.toggled = 'toggled'; 
     }
   }
+
 }

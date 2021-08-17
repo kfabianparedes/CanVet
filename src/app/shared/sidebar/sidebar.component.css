@@ -1,0 +1,5 @@
+@media screen and (max-width:768) and (min-width:1px){
+    .responsive-tamanio{
+        display: none !important;
+    }
+}

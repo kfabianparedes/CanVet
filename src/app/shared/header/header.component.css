@@ -1,0 +1,11 @@
+
+.btn-nav{
+    margin-left: 2rem;
+}
+
+@media screen and (max-width:768) and (min-width:1px){
+    .quit-tittle{
+        display: none;
+    }
+    
+}

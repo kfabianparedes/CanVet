@@ -1,15 +1,29 @@
 <!-- Sidebar -->
 
-<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion {{toggled}}" id="accordionSidebar">
+<ul class="responsive-tamanio navbar-nav bg-gradient-primary sidebar sidebar-dark accordion {{toggled}} fade-in" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-        <div class="sidebar-brand-icon rotate-n-15">
-            <i class="fas fa-paw"></i>
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="dashboard">
+        <div class="row mt-2">
+            <div class="col-sm-6 col-md-12">
+                <div class="sidebar-brand-icon rotate-n-15">
+                    <i class="fas fa-paw"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3">CANVET</div>
+            </div>
+            
         </div>
-        <div class="sidebar-brand-text mx-3">CANVET</div>
-    </a>
 
+    </a>
+    
+    <!-- Divider -->
+    <!-- <hr class="sidebar-divider my-0 d-md-none">
+    <li class="nav-item">
+        <button  (click)="cerrarSideBar()"class="nav-link btn text-light  d-md-none " >
+            <i class="far fa-window-close fa-lg text-gray-400"></i>
+            <span>Cerrar</span>
+        </button>
+    </li> -->
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
 
@@ -93,7 +107,7 @@
     <hr class="sidebar-divider d-none d-md-block">
 
     <!-- Sidebar Toggler (Sidebar) -->
-    <div class="text-center d-none d-md-inline">
+    <div class="text-center  d-md-inline">
         <button class="rounded-circle border-0" id="sidebarToggle" (click)="clickEvent()"></button>
     </div>
 

@@ -1,0 +1,19 @@
+
+.fondo{
+    height: 100vh;
+}
+.user{
+    font-size: 1.1rem;
+    margin-top: 3rem;
+}
+
+.boton{
+    color:white;
+    font-size: 1.1rem;
+    border-radius: 1rem;
+    height: 2.5rem;
+    background: #4e73df;
+}
+.boton:hover{
+    background:#4e72dfcd;
+}

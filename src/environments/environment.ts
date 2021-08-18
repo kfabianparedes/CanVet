@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  domain_url: 'http://localhost/CanVetAPI',
+  captcha : '6LfsrAkcAAAAAFQruh-XZdBhRXAOHGJwvs8EQpb4'
 };
 
 /*

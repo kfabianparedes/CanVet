@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -8,14 +9,22 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class LoginComponent implements OnInit {
 
-  siteKey="";
-  loginForm: any;
-  constructor(private formBuilder: FormBuilder) { }
+  // public loginForm = this.formBuilder.group({
+  //   user:['',[Validators.required, Validators.maxLength(60)]],
+  //   password:['',Validators.required],
+  //   recaptcha: ['', Validators.required]
+  // });
+  captchaInvalido:boolean=false;
+  siteKey=environment.captcha;
+  loginForm: FormGroup;
+
+  constructor(private formBuilder: FormBuilder) { 
+  }
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
       user:['',[Validators.required, Validators.maxLength(60)]],
-      password:['',Validators.required],
+      password:['',[Validators.required,Validators.maxLength(60)]],
       recaptcha: ['', Validators.required]
     });
   }
@@ -26,5 +35,9 @@ export class LoginComponent implements OnInit {
 
   get password() {
     return this.loginForm.get('password');
+  }
+
+  expiraCaptcha(){
+    this.captchaInvalido=false
   }
 }

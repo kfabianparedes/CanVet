@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { environment } from 'src/environments/environment';
+import Swal from 'sweetalert2';
 import { AuthService } from '../auth.service';
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -60,7 +60,7 @@ export class LoginComponent implements OnInit {
           this.cargando = false;
           this.mostrar_alerta = true;
           this.color_alerta='danger';
-
+          
           if (error['error']['error'] !== undefined) {
             if (error['error']['error'] === 'error_noExistenciaDeUsuario') {
               this.mensaje_alerta = 'El email o alias de usuario proporcionado no se encuentra registrado.';
@@ -75,15 +75,28 @@ export class LoginComponent implements OnInit {
             }else if(error['error']['error'] === 'error_noExistenciaRol'){
               this.mensaje_alerta = 'Hubo un error al buscar el rol del usuario ingresado.';
             }
-
           } else {
             this.mensaje_alerta = 'Hubo un error al iniciar sesión. Por favor, intente de nuevo.';
           }
+          
         }
       );
     }else{
-
-    }
-    
+      this.mensaje_alerta = 'Los datos ingresados no respetan el formato. Por favor, intente de nuevo.';
+    };
+    Swal.fire({
+      icon: 'error',
+      title: '¡Hubo un error!',
+      text: this.mensaje_alerta,
+    })
+  }
+  
+  alertaError(mensaje:string)
+  {
+    Swal.fire({
+      icon: 'error',
+      title: '¡Hubo un error!',
+      text: mensaje,
+    })
   }
 }

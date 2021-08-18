@@ -7,12 +7,12 @@ import { RouterModule } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LayoutComponent } from './layout.component';
 import { SharedModule } from '../shared/shared.module';
-
+import { CategoriaComponent } from './categoria/categoria.component';
 
 @NgModule({
   declarations: [
     DashboardComponent,
-    LayoutComponent,
+    LayoutComponent,CategoriaComponent,
   ],
   imports: [
     CommonModule,

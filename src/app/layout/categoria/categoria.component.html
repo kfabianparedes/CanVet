@@ -1,0 +1,109 @@
+<div class="row justify-content-center">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800 col-12 text-center">Categorias de productos</h1>
+    <br><br>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4 col-12 col-lg-8" style="height: 100%;">
+        <div class="card-header py-3 row">
+            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+        </div>
+        <div class="card-body text-gray-400 ">
+            <div class="table-responsive"  style="overflow-x: hidden;">
+                <table class="table table-bordered text-gray-400" id="dataTable" width="100%"  cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th > <span style="color: #6E707E;">#</span></th>
+                            <th ><span style="color: #6E707E;">Nombre</span></th>
+                            <th ><span style="color: #6E707E;">Estado</span></th>
+                            <th ><span style="color: #6E707E;">Acciones</span></th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th > <span style="color: #6E707E;">#</span></th>
+                            <th ><span style="color: #6E707E;">Nombre</span></th>
+                            <th ><span style="color: #6E707E;">Estado</span></th>
+                            <th ><span style="color: #6E707E;">Acciones</span></th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        <tr *ngFor="let cat of categorias ; let i = index">
+                            <td style="color: #6E707E;">{{i + 1}}</td>
+                            <td style="color: #6E707E;">{{cat.CAT_NOMBRE}}</td>
+                            <td style="color: #6E707E;">{{(cat.CAT_ESTADO==1)?'Activo':'Inactivo'}}</td>
+                            <td >
+                                <span class="row justify-content-center">
+                                    <span class="col-3"  *ngIf = "cat.CAT_ESTADO != 1; else Habilitar">
+                                        <a (click)="habilitarInhabilitarCategoria(cat.CAT_ID,cat.CAT_ESTADO)" class="btn btn-success btn-circle btn-sm " ngbTooltip="gaa">
+                                            <i class="fas fa-check" aria-hidden="true"></i>
+                                        </a>
+                                    </span>
+                                    <ng-template #Habilitar>
+                                        <span class="col-3">
+                                            <a (click)="habilitarInhabilitarCategoria(cat.CAT_ID,cat.CAT_ESTADO)"  class="btn btn-danger btn-circle btn-sm ">
+                                                <i class="fa fa-times" aria-hidden="true"></i>
+                                            </a>
+                                        </span>
+                                    </ng-template>
+                                    <span class="col-3">
+                                        <a (click)="abrirEditarCategoria()" class="btn btn-warning btn-circle btn-sm">
+                                            <i style="color: white;" class="far fa-edit" aria-hidden="true"   ></i>
+                                        </a>
+                                    </span>
+                                    
+                                </span>
+                                
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="js/demo/datatables-demo.js"></script>
+
+<ng-template #editarCategoria let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLongTitle">Editar Categoría</h4>
+        <button  type="button"  class="close" (click)="d('Cross click')" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        
+    </div>
+    <div class="modal-footer">
+    </div> 
+</ng-template>
+<ng-template #crearCategoria let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLongTitle">Crear Categoría</h4>
+        <button  type="button"  class="close" (click)="d('Cross click')" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        
+    </div>
+    <div class="modal-footer">
+    </div> 
+</ng-template>

@@ -6,8 +6,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
-
-
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -20,7 +19,8 @@ import { LoginComponent } from './login/login.component';
     SharedModule,
     NgxCaptchaModule,
     ReactiveFormsModule,
-    FormsModule 
+    FormsModule,
+    NgbModule
   ],
   exports:[
     LoginComponent,

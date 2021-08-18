@@ -41,11 +41,14 @@
                                             </div>
                                         </div>
                                         
-                                        <button [disabled]="loginForm.invalid && !captchaInvalido" href="index.html" class="text-center boton btn btn-primary">
+                                        <button (click)="authLogin()" [disabled]="loginForm.invalid && !captchaInvalido" class="text-center boton btn btn-primary">
                                         <strong>Iniciar Sesión</strong>
                                         </button>
-
+                                        <div *ngIf="cargando" >
+                                            <ngb-progressbar class="indeterminate" type="primary" height="500%" [value]="100" [striped]="true" [animated]="true"></ngb-progressbar>
+                                        </div>
                                         <span class="mt-1 forgot-password text-center text-dark" style="cursor:pointer">¿Olvidó su contraseña?</span>&nbsp;   
+                                        <ngb-alert *ngIf="mostrar_alerta" [type]="color_alerta" (closed)="mostrar_alerta = false" >{{mensaje_alerta}}</ngb-alert>
                                         <div class="mt-1 ">
                                             <ngx-recaptcha2 class="captcha-form d-flex justify-content-center" #captchaElem [siteKey]="siteKey" (expire)="expiraCaptcha()" formControlName="recaptcha">
                                             </ngx-recaptcha2>

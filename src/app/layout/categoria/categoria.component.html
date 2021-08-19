@@ -1,13 +1,23 @@
-<div class="row justify-content-center">
 
+<div *ngIf="carga" class="progress" style="height:1rem">
+    <ngb-progressbar class="indeterminate" type="primary" height="1rem" [value]="100" [striped]="true" [animated]="true"></ngb-progressbar>
+</div>
+<div *ngIf = "!carga" class="row justify-content-center">
+    
     <!-- Page Heading -->
     <h1 class="h3 mb-2 text-gray-800 col-12 text-center">Categorias de productos</h1>
     <br><br>
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4 col-12 col-lg-8" style="height: 100%;">
-        <div class="card-header py-3 row">
-            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+        <div class="card-header py-3 row justify-content-between">
+            <div class="col-5">
+                <input type="text" class="border-left-primary font-tamanio form-control" placeholder="Buscar">
+            </div>
+            <div class="col-5" style="float:right">
+                <button (click)="abrirCrearCategoria()" style="float:right" type="button" class="btn btn-primary">Crear Categoría</button>
+            </div>
+            
         </div>
         <div class="card-body text-gray-400 ">
             <div class="table-responsive"  style="overflow-x: hidden;">
@@ -48,7 +58,7 @@
                                         </span>
                                     </ng-template>
                                     <span class="col-3">
-                                        <a (click)="abrirEditarCategoria()" class="btn btn-warning btn-circle btn-sm">
+                                        <a (click)="abrirEditarCategoria(cat)" class="btn btn-warning btn-circle btn-sm">
                                             <i style="color: white;" class="far fa-edit" aria-hidden="true"   ></i>
                                         </a>
                                     </span>
@@ -83,27 +93,89 @@
 
 <ng-template #editarCategoria let-d="dismiss">
     <div class="modal-header">
-        <h4 class="modal-title" id="exampleModalLongTitle">Editar Categoría</h4>
-        <button  type="button"  class="close" (click)="d('Cross click')" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-        </button>
+        <h4 class="modal-title" id="exampleModalLongTitle">Categoría: {{categoriaSeleccionada.CAT_NOMBRE}}</h4>
     </div>
     <div class="modal-body">
-        
+        <br>
+        <form [formGroup]="categoriaForm">
+            <div class="form-group row">
+                <div class="col-6">
+                    <label for="">
+                        Nombre de la categoría
+                    </label>
+                </div>
+                <div>
+                    <input type="text" formControlName="nombreCategoria" class="border-left-primary font-tamanio form-control" placeholder="Ingrese la categoría">
+                    <div *ngIf="nombreCategoria.invalid && (nombreCategoria.dirty || nombreCategoria.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                        <div *ngIf="nombreCategoria.errors.required">
+                        * El nombre de la categoría es requerido.
+                        </div>
+                        <div *ngIf="nombreCategoria.errors.maxlength">
+                        * Se requieren máximo 60 caracteres.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <br>
+        <div class="row justify-content-center">
+            <div class="col-4 text-center">
+                <a (click) = "d('Cross click')" class="btn btn-warning btn-icon-split">
+                    <span class="text">Cancelar</span>
+                </a>
+            </div>
+            <div class="col-4">
+                <a class="btn btn-primary btn-icon-split">
+                    <span class="text">Aceptar</span>
+                </a>
+            </div>
+        </div>
     </div>
-    <div class="modal-footer">
-    </div> 
+    <!-- <div class="modal-footer">
+    </div>  -->
 </ng-template>
 <ng-template #crearCategoria let-d="dismiss">
     <div class="modal-header">
         <h4 class="modal-title" id="exampleModalLongTitle">Crear Categoría</h4>
-        <button  type="button"  class="close" (click)="d('Cross click')" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body">
         
     </div>
-    <div class="modal-footer">
-    </div> 
+    <div class="modal-body">
+        <br>
+        <form [formGroup]="categoriaForm">
+            <div class="form-group row">
+                <div class="col-6">
+                    <label for="">
+                        Nombre de la categoría
+                    </label>
+                </div>
+                <div>
+                    <input type="text" formControlName="nombreCategoria" class="border-left-primary font-tamanio form-control" placeholder="Ingrese la categoría">
+                    <div *ngIf="nombreCategoria.invalid && (nombreCategoria.dirty || nombreCategoria.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                        <div *ngIf="nombreCategoria.errors.required">
+                        * El nombre de la categoría es requerido.
+                        </div>
+                        <div *ngIf="nombreCategoria.errors.maxlength">
+                        * Se requieren máximo 60 caracteres.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <br>
+        <div class="row justify-content-center">
+            <div class="col-4 text-center">
+                <a (click) = "d('Cross click')" class="btn btn-warning btn-icon-split">
+                    <span class="text">Cancelar</span>
+                </a>
+            </div>
+            <div class="col-4">
+                <a class="btn btn-primary btn-icon-split">
+                    <span class="text">Aceptar</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="modal-footer">
+        
+    </div>  -->
 </ng-template>

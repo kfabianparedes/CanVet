@@ -2,7 +2,7 @@ import { Component,  ElementRef, OnInit, ViewChild } from '@angular/core';
 import {Categoria} from '../categoria/categoria.model';
 import {CategoriaService} from '../categoria/categoria.service';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
-
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-categoria',
@@ -14,12 +14,17 @@ export class CategoriaComponent implements OnInit {
 
   categorias: Categoria[] = [];
   constructor(private categoriaService:CategoriaService,
+              private formBuilder: FormBuilder,
               public modal: NgbModal,
               configModal: NgbModalConfig) 
               { 
                 configModal.backdrop = 'static';
                 configModal.keyboard = false;
               }
+  carga = false; 
+  categoriaForm: FormGroup;
+  
+  categoriaSeleccionada:Categoria; 
 
   //modal para editar una categoria
   @ViewChild('editarCategoria') editarCat: ElementRef;
@@ -28,19 +33,35 @@ export class CategoriaComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.carga = true;
     this.listarCategorias();
+    
   }
 
+  inicializarFormulario(){
+    this.categoriaForm = this.formBuilder.group({
+      nombreCategoria:['',[Validators.required, Validators.maxLength(60)]]
+    });
+  }
+  
+
   listarCategorias(){
+    
     this.categoriaService.listarCategorias().subscribe(data=>{
       
       this.categorias = data['resultado']; 
       console.log(this.categorias);
+      this.carga = false;
     },error =>{
-
+      this.carga = false;
     }
     );
   }
+
+  get nombreCategoria() {
+    return this.categoriaForm.get('nombreCategoria');
+  }
+
   habilitarInhabilitarCategoria(CAT_ID:number,CAT_ESTADO:number){
     
     
@@ -58,11 +79,19 @@ export class CategoriaComponent implements OnInit {
       });
   }
   closeModal(): any {
+    this.categoriaForm.reset();
     this.modal.dismissAll();
   }
   
-  abrirEditarCategoria() {
+  abrirEditarCategoria(categoria:Categoria) {
+    this.inicializarFormulario();
+    this.categoriaSeleccionada = categoria;
     this.modal.open(this.editarCat);
+  }
+
+  abrirCrearCategoria() {
+    this.inicializarFormulario();
+    this.modal.open(this.crearCat);
   }
 
 }

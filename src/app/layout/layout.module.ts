@@ -10,11 +10,12 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { LayoutComponent } from './layout.component';
 import { SharedModule } from '../shared/shared.module';
 import { CategoriaComponent } from './categoria/categoria.component';
+import { ProductoComponent } from './producto/producto.component';
 
 @NgModule({
   declarations: [
     DashboardComponent,
-    LayoutComponent,CategoriaComponent,
+    LayoutComponent,CategoriaComponent,ProductoComponent
   ],
   imports: [
     CommonModule,

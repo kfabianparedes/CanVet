@@ -6,6 +6,7 @@ import { CategoriaComponent } from './layout/categoria/categoria.component';
 import { DashboardComponent } from './layout/dashboard/dashboard.component';
 import { LayoutComponent } from './layout/layout.component';
 import { NotfoundComponent } from './layout/notfound/notfound.component';
+import { ProductoComponent } from './layout/producto/producto.component';
 
 const routes: Routes = [
   {
@@ -15,6 +16,7 @@ const routes: Routes = [
       {path:'dashboard',component:DashboardComponent},
       {path:'',redirectTo:'/dashboard',pathMatch:'full'},
       {path:'categorias',component:CategoriaComponent},
+      {path:'productos',component:ProductoComponent},
     ]
   },
 

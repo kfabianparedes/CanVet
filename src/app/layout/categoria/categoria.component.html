@@ -46,19 +46,19 @@
                             <td >
                                 <span class="row justify-content-center">
                                     <span class="col-3"  *ngIf = "cat.CAT_ESTADO != 1; else Habilitar">
-                                        <a (click)="habilitarInhabilitarCategoria(cat.CAT_ID,cat.CAT_ESTADO)" class="btn btn-success btn-circle btn-sm " ngbTooltip="gaa">
+                                        <a (click)="habilitarInhabilitarCategoria(cat.CAT_ID,cat.CAT_ESTADO)" class="btn btn-success btn-circle btn-sm " ngbTooltip="Habilitar">
                                             <i class="fas fa-check" aria-hidden="true"></i>
                                         </a>
                                     </span>
                                     <ng-template #Habilitar>
                                         <span class="col-3">
-                                            <a (click)="habilitarInhabilitarCategoria(cat.CAT_ID,cat.CAT_ESTADO)"  class="btn btn-danger btn-circle btn-sm ">
+                                            <a (click)="habilitarInhabilitarCategoria(cat.CAT_ID,cat.CAT_ESTADO)"  class="btn btn-danger btn-circle btn-sm "ngbTooltip="Deshabilitar">
                                                 <i class="fa fa-times" aria-hidden="true"></i>
                                             </a>
                                         </span>
                                     </ng-template>
                                     <span class="col-3">
-                                        <a (click)="abrirEditarCategoria(cat)" class="btn btn-warning btn-circle btn-sm">
+                                        <a (click)="abrirEditarCategoria(cat)" class="btn btn-warning btn-circle btn-sm" ngbTooltip="Deshabilitar" >
                                             <i style="color: white;" class="far fa-edit" aria-hidden="true"   ></i>
                                         </a>
                                     </span>

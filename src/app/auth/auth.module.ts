@@ -4,15 +4,15 @@ import { SharedModule } from '../shared/shared.module';
 import { NgxCaptchaModule } from 'ngx-captcha';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
-import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ProfileComponent } from './profile/profile.component';
 
 
 @NgModule({
   declarations: [
     LoginComponent,
-    RegisterComponent
+    ProfileComponent,
   ],
   imports: [
     CommonModule,
@@ -24,7 +24,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
   ],
   exports:[
     LoginComponent,
-    RegisterComponent
   ]
 })
 export class AuthModule { }

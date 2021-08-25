@@ -1,4 +1,4 @@
-@media screen and (max-width:768) and (min-width:1px){
+@media screen and (max-width:768px){
     .responsive-tamanio{
         display: none !important;
     }

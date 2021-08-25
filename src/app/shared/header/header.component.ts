@@ -1,4 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-header',
@@ -14,8 +15,20 @@ export class HeaderComponent implements OnInit{
   status: boolean = false;
   toggled: string = '';
   width!: number;
+  
+  USE_USUARIO:string;
+  USU_ID:string;
+  hash:string;
+  constructor(private storageService:StorageService){
+
+  }
   ngOnInit(): void {
     this.width = window.innerWidth;
+    this.USE_USUARIO = this.storageService.getString('USE_USUARIO');
+    this.hash = this.USE_USUARIO;
+
+    
+    this.USU_ID = this.storageService.getString('USU_ID');
   }
   clickEvent(){
     this.status = !this.status; 

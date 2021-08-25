@@ -83,14 +83,14 @@ export class LoginComponent implements OnInit {
             firstMitad = codigoAscii.substring(0, Math.round(dividir));
             secondMitad = codigoAscii.substring(Math.round(dividir), codigoAscii.length);
             textoCompleto = cantidad + '$$' + firstMitad + respuesta.autenticar + secondMitad;
-            this.storageService.storeString('USE_SUB', textoCompleto);
+            this.storageService.storeSub('USE_SUB', textoCompleto);
             this.storageService.storeString('USE_USUARIO', this.user.value.toLowerCase());    // Nombre de usuario (alias)
             this.storageService.storeString('USE_ID', respuesta.id);      // Es el ID de cliente, no el de usuario
             this.storageService.storeString('USE_NAMES', respuesta.fullName);   // Concatenación de nombres y apellidos
             this.storageService.storeString("USE_EMAIL", respuesta.email); //email del cliente
             this.storageService.storeString('USE_TYPE', respuesta.tipo);     // Tipo de usuario 0, representa a un cliente
-            this.storageService.storeString('USE_STATE', respuesta.estado.toString());
-
+            this.storageService.storeString('USE_STATE', respuesta.estado);
+            this.storageService.storeString('USE_SESION', respuesta.sesion);
             if (respuesta.estado === 0) {     // Si estado es "inactivo" (0), entonces muestra un mensaje de error
               this.cargando = false;
               this.mostrar_alerta = true;
@@ -133,9 +133,9 @@ export class LoginComponent implements OnInit {
             }else if(error['error']['error'] === 'error_userInvalid'){
               this.mensaje_alerta = 'El email o alias de usuario proporcionado no son correctos.';
               this.alertaError();
-            }else if(error['error']['error'] === 'error_crearSesion'){
-              this.mensaje_alerta = 'Hubo un error al crear la sesión. Por favor, intente de nuevo';
-              this.alertaError();
+            // }else if(error['error']['error'] === 'error_crearSesion'){
+            //   this.mensaje_alerta = 'Hubo un error al crear la sesión. Por favor, intente de nuevo';
+            //   this.alertaError();
             }else if(error['error']['error'] === 'error_noExistenciaRol'){
               this.mensaje_alerta = 'Hubo un error al buscar el rol del usuario ingresado.';
               this.alertaError();

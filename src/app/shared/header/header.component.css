@@ -7,5 +7,7 @@
     .quit-tittle{
         display: none;
     }
-    
+    .navbar{
+        display: none;
+    }    
 }

@@ -1,71 +1,150 @@
+<!-- <div class="container-fluid fondo" style="height: 100%;">
+    <br><br>
+    <div class="container-fluid">
+        <div class="card row " style="margin-top: 1rem;">
+            <ngb-alert *ngIf="mostrar_alerta" [type]="color_alerta" (closed)="mostrar_alerta = false" class="login-button">{{mensaje_alerta}}</ngb-alert>
+            <div class="col-sm-11 col-md-10 col-lg-10 ">
+                <div class="row justify-content-center">
+                    <div class="offset-1 col-5 ocultar-img">
+                        <img style="border:none" class="img-fluid img-thumbnail" src="../../../assets/img/logo_completo.jpg">
+                    </div>
+                    <div class="offset-0 offset-sm-1  offset-md-1 offset-lg-1  col-sm-8 col-md-11 col-lg-5 mt-5 ">
+                        <div class="row login">
+                            <div class="text-center">
+                                <h1 class="text-dark mb-4">¡Bienvenido!</h1>
+                            </div>
+                            <form [formGroup]="loginForm" class="row insert-login">
+                                <div class="form-group col-12">
+                                    <input type="text" formControlName="user" class="border-left-primary font-tamanio form-control" placeholder="Correo electrónico o nombre de usuario">
+                                    <div *ngIf="user.invalid && (user.dirty || user.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                                        <div *ngIf="user.errors.required">
+                                        * El nombre de usuario es requerido.
+                                        </div>
+                                        <div *ngIf="user.errors.maxlength">
+                                        * Se requieren máximo 60 caracteres.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-12">
+                                    <input type="password" formControlName="password" class="border-left-primary font-tamanio form-control " placeholder="Contraseña">
+                                    <div *ngIf="password.invalid && (password.dirty || password.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                                        <div *ngIf="password.errors.required">
+                                        * La contraseña es requerida.
+                                        </div>
+                                        <div *ngIf="password.errors.maxlength">
+                                        * Se requieren máximo 60 caracteres.
+                                        </div>
+                                        <div *ngIf="password.errors.minlength">
+                                            * Se requieren mínimo 8 caracteres.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 text-center mb-1" style="width: 100%;">
+                                    <button (click)="authLogin();" [disabled]="loginForm.invalid && !captchaInvalido" class="row boton btn btn-primary">
+                                        <strong>Iniciar Sesión</strong>
+                                    </button>
+                                </div>
+                                
+                                <div class="col-12">
+                                    <div class="col-12 text-center" style="width: 100%;">
+                                        <span class="mt-1 forgot-password  text-dark" style="cursor:pointer">¿Olvidó su contraseña?</span>&nbsp;   
+                                    </div>
+                                    <div class="row">
+                                        <ngx-recaptcha2  class=" justify-content-center captcha-form d-flex " #captchaElem [siteKey]="siteKey" (expire)="expiraCaptcha()" formControlName="recaptcha">
+                                        </ngx-recaptcha2>
+                                    </div>
+                                    </div>
+                                    
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br><br>
+        </div>
+        <div class="row">
+            <app-footer style="background: var(--blue);color:white;"></app-footer>
+            
+        </div>
+    </div>
+        
+        
+</div> -->
+
 <div class="container-fluid bg-gradient-primary fondo">
     <div class=" container">
         <!-- Outer Row -->
         <div class="row justify-content-center">
-    
-            <div class="col-12 col-lg-12 col-md-9 cuadro-login">
-    
-                <div class="card o-hidden border-0 shadow-lg my-5">
-                    <div class="card-body p-0">
-                        <!-- Nested Row within Card Body -->
-                        <div class="row">
-                            <div class="col-lg-6 d-none d-lg-block ">
-                                <img style="border:none" class="img-fluid img-thumbnail" src="../../../assets/img/logo_completo.jpg">
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="p-5">
-                                    <div class="text-center">
-                                        <h1 class="text-dark mb-4">¡Bienvenido!</h1>
+            <div class="card row o-hidden border-0 shadow-lg my-5">
+                <div class="card-body p-0">
+                    <!-- Nested Row within Card Body -->
+                    <div class="row">
+                        <ngb-alert *ngIf="mostrar_alerta" [type]="color_alerta" (closed)="mostrar_alerta = false" >{{mensaje_alerta}}</ngb-alert>
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-lg-6 d-none d-lg-block ">
+                                    <img style="border:none" class="img-fluid img-thumbnail" src="../../../assets/img/logo_completo.jpg">
+                                </div>
+                                <div class="col-lg-6 mt-4 mb-4">
+                                    <div class="p-1 justify-content-center row">
+                                        <div class="row text-center">
+                                            <h1 class="text-dark mb-4">¡Bienvenido!</h1>
+                                        </div>
+                                        <form [formGroup]="loginForm" class="col-sm-12 col-md-10 row justify-content-center">
+                                            <div class="form-group row">
+                                                <input type="text" formControlName="user" class="border-left-primary font-tamanio form-control" placeholder="Correo electrónico o nombre de usuario">
+                                                <div *ngIf="user.invalid && (user.dirty || user.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                                                    <div *ngIf="user.errors.required">
+                                                    * El nombre de usuario es requerido.
+                                                    </div>
+                                                    <div *ngIf="user.errors.maxlength">
+                                                    * Se requieren máximo 60 caracteres.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <input type="password" formControlName="password" class="border-left-primary font-tamanio form-control " placeholder="Contraseña">
+                                                <div *ngIf="password.invalid && (password.dirty || password.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                                                    <div *ngIf="password.errors.required">
+                                                    * La contraseña es requerida.
+                                                    </div>
+                                                    <div *ngIf="password.errors.maxlength">
+                                                    * Se requieren máximo 20 caracteres.
+                                                    </div>
+                                                    <div *ngIf="password.errors.minlength">
+                                                        * Se requieren mínimo 8 caracteres.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <button (click)="authLogin();" [disabled]="loginForm.invalid && !captchaInvalido" class="text-center boton btn btn-primary">
+                                                    <strong>Iniciar Sesión</strong>
+                                                </button>
+                                            </div>
+                                            <div class="row text-center" style="width: 100%;">
+                                                <span class="mt-1 forgot-password  text-dark" style="cursor:pointer">¿Olvidó su contraseña?</span>&nbsp;   
+                                            </div>
+                                            <br>
+                                            <div class="captcha-form d-flex justify-content-center">
+                                                <ngx-recaptcha2  [siteKey]="siteKey" (expire)="expiraCaptcha()" formControlName="recaptcha">
+                                                </ngx-recaptcha2>      
+                                            </div>
+
+                                            
+                                        </form>
+                                        
                                     </div>
-                                    <form [formGroup]="loginForm" class="row user">
-                                        <div class="form-group">
-                                            <input type="text" formControlName="user" class="border-left-primary font-tamanio form-control" placeholder="Correo electrónico o nombre de usuario">
-                                            <div *ngIf="user.invalid && (user.dirty || user.touched)" class="my-1" style="color: rgb(197, 68, 68);">
-                                                <div *ngIf="user.errors.required">
-                                                * El nombre de usuario es requerido.
-                                                </div>
-                                                <div *ngIf="user.errors.maxlength">
-                                                * Se requieren máximo 60 caracteres.
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="password" formControlName="password" class="border-left-primary font-tamanio form-control " placeholder="Contraseña">
-                                            <div *ngIf="password.invalid && (password.dirty || password.touched)" class="my-1" style="color: rgb(197, 68, 68);">
-                                                <div *ngIf="password.errors.required">
-                                                * La contraseña es requerida.
-                                                </div>
-                                                <div *ngIf="password.errors.maxlength">
-                                                * Se requieren máximo 60 caracteres.
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                                        <button (click)="authLogin();" [disabled]="loginForm.invalid && !captchaInvalido" class="text-center boton btn btn-primary">
-                                        <strong>Iniciar Sesión</strong>
-                                        </button>
-                                        <div *ngIf="cargando" >
-                                            <ngb-progressbar class="indeterminate" type="primary" height="500%" [value]="100" [striped]="true" [animated]="true"></ngb-progressbar>
-                                        </div>
-                                        <span class="mt-1 forgot-password text-center text-dark" style="cursor:pointer">¿Olvidó su contraseña?</span>&nbsp;   
-                                        <!-- <ngb-alert *ngIf="mostrar_alerta" [type]="color_alerta" (closed)="mostrar_alerta = false" >{{mensaje_alerta}}</ngb-alert> -->
-                                        <div class="mt-1 ">
-                                            <ngx-recaptcha2 class="captcha-form d-flex justify-content-center" #captchaElem [siteKey]="siteKey" (expire)="expiraCaptcha()" formControlName="recaptcha">
-                                            </ngx-recaptcha2>
-                                        </div>
-                                        
-                                    </form>
-                                    
                                 </div>
                             </div>
+                            
                         </div>
                     </div>
                 </div>
-    
             </div>
-            
+            <div class="row">
+                <app-footer style="color:white" ></app-footer>
+            </div>
+
         </div>
-    
     </div>
-    <app-footer style="color:white" ></app-footer>
 </div>

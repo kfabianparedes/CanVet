@@ -1,3 +1,47 @@
+/*
+.captcha-form {
+    position: relative;
+    margin-top: 25px;
+}
+.fondo{
+    background: var(--blue);
+    height: 100vh;
+}
+@media screen and (max-width:320px){
+    .captcha-form{
+        width: 280px;
+    }
+}
+@media screen and (max-width:768px){
+    .ocultar-img{
+        display: none;
+    }
+    .login{
+        justify-content: center;
+    }
+}
+@media screen and (min-width:769px) and (max-width:987px) {
+    .login{
+        margin-left: 1rem;
+        
+    }
+    .insert-login{
+        margin-left: 1rem;
+
+    }
+}
+.boton{
+    color:white;
+    font-size: 1.1rem;
+    border-radius: 1rem;
+    height: 2.5rem;
+    background: #4e73df;
+}
+.boton:hover{
+    background:#4e72dfcd;
+}
+*/
+
 .user{
     font-size: 1.1rem;
     margin-top: 3rem;
@@ -86,7 +130,11 @@
         margin-right: 10px;
         
     }
-    .div-captcha{
-        text-align: center;
+}
+@media screen and (max-width: 280px) {
+    .fondo{
+        height: 100vh;
+        margin-right: 10px;
+        
     }
 }

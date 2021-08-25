@@ -45,6 +45,30 @@ export class CategoriaComponent implements OnInit {
   }
   
 
+  insertarCategoria(){
+
+    this.categoriaService.crearCategoria(this.nombreCategoria.value).subscribe(data => {
+      this.categoriaForm.reset();
+      this.modal.dismissAll();  
+      this.listarCategorias(); 
+    },error=>{
+
+    }
+    );
+
+  }
+
+  catUpdate(cat:Categoria){
+    this.categoriaService.editarCategoria(cat,this.nombreCategoria.value).subscribe(data => {
+      this.categoriaForm.reset();
+      this.modal.dismissAll();  
+      this.listarCategorias(); 
+    },error=>{
+
+    }
+    );
+  }
+
   listarCategorias(){
     
     this.categoriaService.listarCategorias().subscribe(data=>{
@@ -78,6 +102,11 @@ export class CategoriaComponent implements OnInit {
 
       });
   }
+
+
+  
+
+
   closeModal(): any {
     this.categoriaForm.reset();
     this.modal.dismissAll();

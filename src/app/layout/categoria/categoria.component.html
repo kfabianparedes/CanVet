@@ -11,16 +11,17 @@
     <!-- DataTales Example -->
     <div class="card shadow mb-4 col-12 col-lg-8" style="height: 100%;">
         <div class="card-header py-3 row justify-content-between">
-            <div class="col-5">
+            <div class="col-sm-12 col-lg-5">
                 <input type="text" class="border-left-primary font-tamanio form-control" placeholder="Buscar">
             </div>
-            <div class="col-5" style="float:right">
-                <button (click)="abrirCrearCategoria()" style="float:right" type="button" class="btn btn-primary">Crear Categoría</button>
+            <div class="col-12 col-lg-1"> <br></div>
+            <div class="col-sm-12 col-lg-3" >
+                <button  (click)="abrirCrearCategoria()" style="float:right" style="width: 100%;" type="button" class="btn btn-primary">Crear Categoría</button>
             </div>
             
         </div>
         <div class="card-body text-gray-400 ">
-            <div class="table-responsive"  style="overflow-x: hidden;">
+            <div class="table-responsive">
                 <table class="table table-bordered text-gray-400" id="dataTable" width="100%"  cellspacing="0">
                     <thead>
                         <tr>
@@ -45,20 +46,20 @@
                             <td style="color: #6E707E;">{{(cat.CAT_ESTADO==1)?'Activo':'Inactivo'}}</td>
                             <td >
                                 <span class="row justify-content-center">
-                                    <span class="col-3"  *ngIf = "cat.CAT_ESTADO != 1; else Habilitar">
+                                    <span class="col-6 col-lg-3"  *ngIf = "cat.CAT_ESTADO != 1; else Habilitar">
                                         <a (click)="habilitarInhabilitarCategoria(cat.CAT_ID,cat.CAT_ESTADO)" class="btn btn-success btn-circle btn-sm " ngbTooltip="Habilitar">
                                             <i class="fas fa-check" aria-hidden="true"></i>
                                         </a>
                                     </span>
                                     <ng-template #Habilitar>
-                                        <span class="col-3">
+                                        <span class="col-6 col-lg-3">
                                             <a (click)="habilitarInhabilitarCategoria(cat.CAT_ID,cat.CAT_ESTADO)"  class="btn btn-danger btn-circle btn-sm "ngbTooltip="Deshabilitar">
                                                 <i class="fa fa-times" aria-hidden="true"></i>
                                             </a>
                                         </span>
                                     </ng-template>
-                                    <span class="col-3">
-                                        <a (click)="abrirEditarCategoria(cat)" class="btn btn-warning btn-circle btn-sm" ngbTooltip="Deshabilitar" >
+                                    <span class="col-6 col-lg-3">
+                                        <a (click)="abrirEditarCategoria(cat)" class="btn btn-warning btn-circle btn-sm" ngbTooltip="Editar" >
                                             <i style="color: white;" class="far fa-edit" aria-hidden="true"   ></i>
                                         </a>
                                     </span>
@@ -74,22 +75,6 @@
     </div>
 
 </div>
-<!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.min.js"></script>
-
-    <!-- Page level plugins -->
-    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="js/demo/datatables-demo.js"></script>
 
 <ng-template #editarCategoria let-d="dismiss">
     <div class="modal-header">
@@ -125,7 +110,7 @@
                 </a>
             </div>
             <div class="col-4">
-                <a class="btn btn-primary btn-icon-split">
+                <a (click)="catUpdate(categoriaSeleccionada)" class="btn btn-primary btn-icon-split">
                     <span class="text">Aceptar</span>
                 </a>
             </div>
@@ -169,7 +154,7 @@
                 </a>
             </div>
             <div class="col-4">
-                <a class="btn btn-primary btn-icon-split">
+                <a  (click)="insertarCategoria();" class="btn btn-primary btn-icon-split" >
                     <span class="text">Aceptar</span>
                 </a>
             </div>

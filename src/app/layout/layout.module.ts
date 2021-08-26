@@ -12,17 +12,19 @@ import { SharedModule } from '../shared/shared.module';
 import { CategoriaComponent } from './categoria/categoria.component';
 import { ProductoComponent } from './producto/producto.component';
 import { UserComponent } from './user/user.component';
+import { ProveedorComponent } from './proveedor/proveedor.component';
+import {PipesModule} from '../shared/pipes/pipes.module';
 
 @NgModule({
   declarations: [
     DashboardComponent,
-    LayoutComponent,CategoriaComponent,ProductoComponent, UserComponent
+    LayoutComponent,CategoriaComponent,ProductoComponent, UserComponent, ProveedorComponent
   ],
   imports: [
     CommonModule,
     LayoutRoutingModule,
     RouterModule, // AppRoutingModule (Puede funcionar con el routingmodule sin reutilizar el approuting )
-    SharedModule,ReactiveFormsModule,FormsModule,NgbModule
+    SharedModule,ReactiveFormsModule,FormsModule,NgbModule,PipesModule
   ],
   exports:[
     DashboardComponent,

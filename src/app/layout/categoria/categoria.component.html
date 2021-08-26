@@ -12,7 +12,7 @@
     <div class="card shadow mb-4 col-12 col-lg-8" style="height: 100%;">
         <div class="card-header py-3 row justify-content-between">
             <div class="col-sm-12 col-lg-5">
-                <input type="text" class="border-left-primary font-tamanio form-control" placeholder="Buscar">
+                <input type="text" class="border-left-primary font-tamanio form-control" name="filtroTexto" placeholder="Buscar..." [(ngModel)]="filtroTexto">
             </div>
             <div class="col-12 col-lg-1"> <br></div>
             <div class="col-sm-12 col-lg-3" >
@@ -40,7 +40,7 @@
                         </tr>
                     </tfoot>
                     <tbody>
-                        <tr *ngFor="let cat of categorias ; let i = index">
+                        <tr *ngFor="let cat of categorias |filter:filtroTexto ; let i = index  ">
                             <td style="color: #6E707E;">{{i + 1}}</td>
                             <td style="color: #6E707E;">{{cat.CAT_NOMBRE}}</td>
                             <td style="color: #6E707E;">{{(cat.CAT_ESTADO==1)?'Activo':'Inactivo'}}</td>
@@ -75,7 +75,7 @@
     </div>
 
 </div>
-
+<!-- MODALES -->
 <ng-template #editarCategoria let-d="dismiss">
     <div class="modal-header">
         <h4 class="modal-title" id="exampleModalLongTitle">Categoría: {{categoriaSeleccionada.CAT_NOMBRE}}</h4>

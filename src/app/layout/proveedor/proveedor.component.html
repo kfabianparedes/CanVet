@@ -1,0 +1,144 @@
+<!-- <div *ngIf="carga" class="progress" style="height:1rem">
+    <ngb-progressbar class="indeterminate" type="primary" height="1rem" [value]="100" [striped]="true" [animated]="true"></ngb-progressbar>
+</div> -->
+<!-- *ngIf = "!carga" -->
+<div  class="row justify-content-center">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800 col-12 text-center">Proveedores</h1>
+    <br><br>
+    <!-- DataTales Example -->  
+    <div class="card shadow mb-4 col-12 col-lg-8" style="height: 100%;">
+        <div class="card-header py-3 row justify-content-between">
+            <div class="col-sm-12 col-lg-5">
+                <input type="text" class="border-left-primary font-tamanio form-control" placeholder="Buscar">
+            </div>
+            <div class="col-12 col-lg-1"> <br></div>
+            <div class="col-sm-12 col-lg-3" >
+                <!-- (click)="abrirCrearCategoria()" falta añadir funcion que abra el modal para crear un producto -->
+                <button   style="float:right" style="width: 100%;" type="button" class="btn btn-primary">Crear Proveedor</button>
+            </div>
+        </div>
+        <div class="card-body text-gray-400 ">
+            <div class="table-responsive">
+                <table class="table table-bordered text-gray-400" id="dataTable" width="100%"  cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th > <span style="color: #6E707E;">#</span></th>
+                            <th ><span style="color: #6E707E;">Nombre de la empresa</span></th>
+                            <th ><span style="color: #6E707E;">RUC</span></th>
+                            <th ><span style="color: #6E707E;">Número de contacto</span></th>
+                            <th ><span style="color: #6E707E;">Acciones</span></th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th > <span style="color: #6E707E;">#</span></th>
+                            <th ><span style="color: #6E707E;">Nombre</span></th>
+                            <th ><span style="color: #6E707E;">Codigo</span></th>
+                            <th ><span style="color: #6E707E;">Precio Venta</span></th>
+                            <th ><span style="color: #6E707E;">Precio Compra</span></th>
+                            <th ><span style="color: #6E707E;">Stock</span></th>
+                            <th ><span style="color: #6E707E;">Tamaño/Talla</span></th>
+                            <th ><span style="color: #6E707E;">Categoría</span></th>
+                            <th ><span style="color: #6E707E;">Acciones</span></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<ng-template #editarCategoria let-d="dismiss">
+    <div class="modal-header">
+        <!-- {{categoriaSeleccionada.CAT_NOMBRE}} FALTA -->
+        <h4 class="modal-title" id="exampleModalLongTitle">Producto: </h4>
+    </div>
+    <div class="modal-body">
+        <br>
+        <!-- <form [formGroup]="categoriaForm">
+            <div class="form-group row">
+                <div class="col-6">
+                    <label for="">
+                        Nombre de la categoría
+                    </label>
+                </div>
+                <div>
+                    <input type="text" formControlName="nombreCategoria" class="border-left-primary font-tamanio form-control" placeholder="Ingrese la categoría">
+                    <div *ngIf="nombreCategoria.invalid && (nombreCategoria.dirty || nombreCategoria.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                        <div *ngIf="nombreCategoria.errors.required">
+                        * El nombre de la categoría es requerido.
+                        </div>
+                        <div *ngIf="nombreCategoria.errors.maxlength">
+                        * Se requieren máximo 60 caracteres.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form> -->
+        <br>
+        <div class="row justify-content-center">
+            <div class="col-4 text-center">
+                <a (click) = "d('Cross click')" class="btn btn-warning btn-icon-split">
+                    <span class="text">Cancelar</span>
+                </a>
+            </div>
+            <div class="col-4">
+                <!-- (click)="catUpdate(categoriaSeleccionada)" FALTA -->
+                <a  class="btn btn-primary btn-icon-split">
+                    <span class="text">Aceptar</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="modal-footer">
+    </div>  -->
+</ng-template>
+<ng-template #crearCategoria let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLongTitle">Crear Categoría</h4>
+        
+    </div>
+    <div class="modal-body">
+        <br>
+        <!-- <form [formGroup]="categoriaForm">
+            <div class="form-group row">
+                <div class="col-6">
+                    <label for="">
+                        Nombre de la categoría
+                    </label>
+                </div>
+                <div>
+                    <input type="text" formControlName="nombreCategoria" class="border-left-primary font-tamanio form-control" placeholder="Ingrese la categoría">
+                    <div *ngIf="nombreCategoria.invalid && (nombreCategoria.dirty || nombreCategoria.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                        <div *ngIf="nombreCategoria.errors.required">
+                        * El nombre de la categoría es requerido.
+                        </div>
+                        <div *ngIf="nombreCategoria.errors.maxlength">
+                        * Se requieren máximo 60 caracteres.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form> -->
+        <br>
+        <div class="row justify-content-center">
+            <div class="col-4 text-center">
+                <a (click) = "d('Cross click')" class="btn btn-warning btn-icon-split">
+                    <span class="text">Cancelar</span>
+                </a>
+            </div>
+            <div class="col-4">
+                <!-- (click)="insertarCategoria();" FALTA  -->
+                <a   class="btn btn-primary btn-icon-split" >
+                    <span class="text">Aceptar</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="modal-footer">
+        
+    </div>  -->
+</ng-template>

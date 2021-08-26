@@ -13,17 +13,18 @@ export class CategoriaComponent implements OnInit {
 
 
   categorias: Categoria[] = [];
-  constructor(private categoriaService:CategoriaService,
-              private formBuilder: FormBuilder,
-              public modal: NgbModal,
-              configModal: NgbModalConfig) 
-              { 
-                configModal.backdrop = 'static';
-                configModal.keyboard = false;
-              }
+    constructor(private categoriaService:CategoriaService,
+                private formBuilder: FormBuilder,
+                public modal: NgbModal,
+                configModal: NgbModalConfig) 
+                { 
+                  configModal.backdrop = 'static';
+                  configModal.keyboard = false;
+                }
   carga = false; 
   categoriaForm: FormGroup;
   
+  filtroTexto:string;
   categoriaSeleccionada:Categoria; 
 
   //modal para editar una categoria
@@ -35,7 +36,7 @@ export class CategoriaComponent implements OnInit {
   ngOnInit(): void {
     this.carga = true;
     this.listarCategorias();
-    
+    this.filtroTexto = '';
   }
 
   inicializarFormulario(){
@@ -44,7 +45,7 @@ export class CategoriaComponent implements OnInit {
     });
   }
   
-
+  
   insertarCategoria(){
 
     this.categoriaService.crearCategoria(this.nombreCategoria.value).subscribe(data => {
@@ -102,11 +103,6 @@ export class CategoriaComponent implements OnInit {
 
       });
   }
-
-
-  
-
-
   closeModal(): any {
     this.categoriaForm.reset();
     this.modal.dismissAll();

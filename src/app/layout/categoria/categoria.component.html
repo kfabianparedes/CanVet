@@ -40,11 +40,11 @@
                         </tr>
                     </tfoot>
                     <tbody>
-                        <tr *ngFor="let cat of categorias |filter:filtroTexto ; let i = index  ">
-                            <td style="color: #6E707E;">{{i + 1}}</td>
-                            <td style="color: #6E707E;">{{cat.CAT_NOMBRE}}</td>
-                            <td style="color: #6E707E;">{{(cat.CAT_ESTADO==1)?'Activo':'Inactivo'}}</td>
-                            <td >
+                        <tr *ngFor="let cat of categorias | slice:(currentPage-1)*itemsPerPage:currentPage*itemsPerPage ; let i = index  ">
+                            <td class="col-1" style="color: #6E707E;">{{i + 1}}</td>
+                            <td class="col-5" style="color: #6E707E;">{{cat.CAT_NOMBRE}}</td>
+                            <td class="col-3" style="color: #6E707E;">{{cat.CAT_ESTADO==1?'Activo':'Inactivo'}}</td>
+                            <td class="col-3" >
                                 <span class="row justify-content-center">
                                     <span class="col-6 col-lg-3"  *ngIf = "cat.CAT_ESTADO != 1; else Habilitar">
                                         <a (click)="habilitarInhabilitarCategoria(cat.CAT_ID,cat.CAT_ESTADO)" class="btn btn-success btn-circle btn-sm " ngbTooltip="Habilitar">
@@ -70,6 +70,19 @@
                         </tr>
                     </tbody>
                 </table>
+                <!---------------PAGINACIÓN------------->
+                <div *ngIf="categorias?.length>0" style="margin-top: 5px;" class="row box-footer clearfix">     
+                    <div class="col-xl-10 col-lg-9 col-md-9 col-sm-9 col-7">
+                    <ngb-pagination *ngIf="categorias?.length>10" class="d-flex justify-content-start" size="sm" [maxSize]="5" [pageSize]="itemsPerPage"  [collectionSize]="categorias?.length" [(page)]="currentPage"></ngb-pagination>
+                    </div>
+                    <div class="col-xl-2 col-lg-3 col-md-3 col-sm-3 col-5">
+                    <select class="pull-right" [(ngModel)]="itemsPerPage" class="form-control form-control-sm custom-select">
+                        <option value="10">10 elementos</option>
+                        <option value="15">15 elementos</option>
+                        <option value="20">20 elementos</option>                    
+                    </select>  
+                    </div>    
+                </div> 
             </div>
         </div>
     </div>

@@ -26,6 +26,8 @@ export class CategoriaComponent implements OnInit {
   
   filtroTexto:string;
   categoriaSeleccionada:Categoria; 
+  currentPage = 1;
+  itemsPerPage = 10;
 
   //modal para editar una categoria
   @ViewChild('editarCategoria') editarCat: ElementRef;

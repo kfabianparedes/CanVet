@@ -25,9 +25,6 @@ export class HeaderComponent implements OnInit{
   ngOnInit(): void {
     this.width = window.innerWidth;
     this.USE_USUARIO = this.storageService.getString('USE_USUARIO');
-    this.hash = this.USE_USUARIO;
-
-    
     this.USU_ID = this.storageService.getString('USU_ID');
   }
   clickEvent(){

@@ -44,6 +44,7 @@ export class LoginComponent implements OnInit {
       password:['',[Validators.required,Validators.minLength(8),Validators.maxLength(20)]],
       recaptcha: ['', Validators.required]
     });
+    
   }
    // Get usuarioForm
    get user() {
@@ -59,7 +60,7 @@ export class LoginComponent implements OnInit {
   }
 
   authLogin(){
-    
+    this.storageService.clear();
     this.cargando = true;
     if(this.loginForm.valid){
       

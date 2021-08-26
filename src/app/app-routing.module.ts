@@ -7,6 +7,7 @@ import { DashboardComponent } from './layout/dashboard/dashboard.component';
 import { LayoutComponent } from './layout/layout.component';
 import { NotfoundComponent } from './layout/notfound/notfound.component';
 import { ProductoComponent } from './layout/producto/producto.component';
+import { ProveedorComponent } from './layout/proveedor/proveedor.component';
 import { UserComponent } from './layout/user/user.component';
 
 const routes: Routes = [
@@ -19,7 +20,8 @@ const routes: Routes = [
       {path:'categorias',component:CategoriaComponent},
       {path:'productos',component:ProductoComponent},
       {path:'users',component:UserComponent},
-      {path:'profile/:id',component:ProfileComponent},
+      {path:'proveedor',component:ProveedorComponent},
+      {path:'profile',component:ProfileComponent},
     ]
   },
 

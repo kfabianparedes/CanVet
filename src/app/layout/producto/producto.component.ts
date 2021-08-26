@@ -15,7 +15,7 @@ export class ProductoComponent implements OnInit {
 
 
   categorias: Categoria[] = [];
-  productos:Producto[]=[];
+  productos:any[]=[];
   productoSeleccionado:Producto;
   constructor(private categoriaService:CategoriaService,
     private formBuilder: FormBuilder,

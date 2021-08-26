@@ -15,16 +15,15 @@
             </div>
             <div class="col-12 col-lg-1"> <br></div>
             <div class="col-sm-12 col-lg-3" >
-                <!-- (click)="abrirCrearCategoria()" falta añadir funcion que abra el modal para crear un producto -->
                 <button   style="float:right" (click)="abrirCrearProducto()" style="width: 100%;" type="button" class="btn btn-primary">Crear Producto</button>
             </div>
         </div>
         <div class="card-body text-gray-400 ">
-            <div class="table-responsive">
+            <div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
                 <table class="table table-bordered text-gray-400" id="dataTable" width="100%"  cellspacing="0">
                     <thead>
                         <tr>
-                            <th > <span style="color: #6E707E;">#</span></th>
+                            <th ><span style="color: #6E707E;">#</span></th>
                             <th ><span style="color: #6E707E;">Nombre</span></th>
                             <th ><span style="color: #6E707E;">Codigo</span></th>
                             <th ><span style="color: #6E707E;">Precio Venta</span></th>
@@ -37,7 +36,7 @@
                     </thead>
                     <tfoot>
                         <tr>
-                            <th > <span style="color: #6E707E;">#</span></th>
+                            <th ><span style="color: #6E707E;">#</span></th>
                             <th ><span style="color: #6E707E;">Nombre</span></th>
                             <th ><span style="color: #6E707E;">Codigo</span></th>
                             <th ><span style="color: #6E707E;">Precio Venta</span></th>
@@ -48,7 +47,7 @@
                             <th ><span style="color: #6E707E;">Acciones</span></th>
                         </tr>
                     </tfoot>
-                    <tr *ngFor="let pro of productos ; let i = index  ">
+                    <tr *ngFor="let pro of productos ; let i = index">
                         <td style="color: #6E707E;">{{i + 1}}</td>
                         <td style="color: #6E707E;">{{pro.PRO_NOMBRE}}</td>
                         <td style="color: #6E707E;">{{pro.PRO_CODIGO}}</td>
@@ -56,8 +55,30 @@
                         <td style="color: #6E707E;">{{pro.PRO_PRECIO_COMPRA}}</td>
                         <td style="color: #6E707E;">{{pro.PRO_STOCK}}</td>
                         <td style="color: #6E707E;">{{pro.PRO_TAMANIO_TALLA}}</td>
-                        <td *ngFor="let cat of categorias" style="color: #6E707E;">
-                            <span *ngIf="cat.CAT_ID== pro.CAT_ID">{{cat.CAT_NOMBRE}}</span>
+                        <td style="color: #6E707E;">{{pro.CAT_NOMBRE}}</td>
+                        <td >
+                            <span class="row justify-content-center">
+                                <!-- <span class="col-6 col-lg-3"  *ngIf = "cat.CAT_ESTADO != 1; else Habilitar">
+                                    <a (click)="habilitarInhabilitarCategoria(cat.CAT_ID,cat.CAT_ESTADO)" class="btn btn-success btn-circle btn-sm " ngbTooltip="Habilitar">
+                                        <i class="fas fa-check" aria-hidden="true"></i>
+                                    </a>
+                                </span>
+                                <ng-template #Habilitar>
+                                    <span class="col-6 col-lg-3">
+                                        <a (click)="habilitarInhabilitarCategoria(cat.CAT_ID,cat.CAT_ESTADO)"  class="btn btn-danger btn-circle btn-sm "ngbTooltip="Deshabilitar">
+                                            <i class="fa fa-times" aria-hidden="true"></i>
+                                        </a>
+                                    </span>
+                                </ng-template> -->
+                                <span class="col-6 col-lg-3">
+                                    <!-- (click)="abrirEditarCategoria(cat)" -->
+                                    <a  class="btn btn-warning btn-circle btn-sm" ngbTooltip="Editar" >
+                                        <i style="color: white;" class="far fa-edit" aria-hidden="true"   ></i>
+                                    </a>
+                                </span>
+                                
+                            </span>
+                            
                         </td>
                     </tr>
                 </table>

@@ -79,6 +79,10 @@
                 <div class="card-body p-0">
                     <!-- Nested Row within Card Body -->
                     <div class="row">
+                        <div *ngIf="cargando" class="fixed-top progress" style="position: absolute;">
+                            <!-- <ngb-progressbar class="indeterminate" type="secondary" height=".1rem" [value]="100" [striped]="true" [animated]="true"></ngb-progressbar> -->
+                            <ngb-progressbar type="secondary" height=".5rem" [value]="100" [striped]="true" [animated]="true"></ngb-progressbar>
+                        </div>
                         <ngb-alert *ngIf="mostrar_alerta" [type]="color_alerta" (closed)="mostrar_alerta = false" >{{mensaje_alerta}}</ngb-alert>
                         <div class="col-12">
                             <div class="row">

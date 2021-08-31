@@ -1,11 +1,47 @@
 <div class="container-fluid">
     <h1 class="row h3 mb-2 text-gray-800 text-center"><span>Mi perfil</span></h1>
-    <div class="row">
-        <div class="col-5">
-
+    <div class="mt-4 row">
+        <div class="col-sm-12  col-md-4 info ">
+            <div class="row justify-content-center">
+                {{USE_USUARIO}}
+            </div>
+            <div class="row justify-content-center">
+                {{USE_NAMES}}
+            </div>
         </div>
-        <div class="col-7">
-            
+        <div class="col-sm-12  offset-md-1 col-md-6 info">
+            <form [formGroup]="usuarioForm">
+                <div class="row justify-content-center">
+                    <div class="form-group row">
+                        <label><strong>Nombre de usuario:</strong></label>
+                        <input type="text" formControlName="user" class="border-left-primary font-tamanio form-control" placeholder="Ingrese usuario...">
+                    </div>
+                    <div class="form-group row">
+                        <label><strong>Email:</strong></label>
+                        <input type="email" formControlName="email" class="border-left-primary font-tamanio form-control " placeholder="Ingrese correo electrónico...">
+                    </div>
+                    <div class="form-group row">
+                        <label><strong>Contraseña:</strong></label>
+                        <input type="password" formControlName="email" class="border-left-primary font-tamanio form-control " placeholder="Ingrese correo electrónico...">
+                    </div>
+                    <div class="form-group row">
+                        <label><strong>Nombres:</strong></label>
+                        <input type="text" formControlName="nombres" class="border-left-primary font-tamanio form-control " placeholder="Ingrese correo electrónico...">
+                    </div>
+                    <div class="form-group row">
+                        <label><strong>Apellido Paterno:</strong></label>
+                        <input type="text" formControlName="apellido_paterno" class="border-left-primary font-tamanio form-control " placeholder="Ingrese apellido materno...">
+                    </div> 
+                    <div class="form-group row">
+                        <label><strong>Apellido Materno:</strong></label>
+                        <input type="text" formControlName="apellido_materno" class="border-left-primary font-tamanio form-control " placeholder="Ingrese apellido materno...">
+                    </div>
+                    <div class="form-group row">
+                        <label><strong>Sexo:</strong></label>
+                        <input type="text" formControlName="sexo" class="border-left-primary font-tamanio form-control " placeholder="Ingrese apellido materno...">
+                    </div>  
+                </div>
+            </form>
         </div>
     </div>
 </div>

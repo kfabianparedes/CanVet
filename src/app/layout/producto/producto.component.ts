@@ -5,7 +5,6 @@ import {CategoriaService} from '../categoria/categoria.service';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {ProductoService} from '../../services/producto.service';
-import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript';
 @Component({
   selector: 'app-producto',
   templateUrl: './producto.component.html',

@@ -16,7 +16,7 @@
             <div class="col-12 col-lg-1"> <br></div>
             <div class="col-sm-12 col-lg-3" >
                 <!-- (click)="abrirCrearCategoria()" falta añadir funcion que abra el modal para crear un producto -->
-                <button   style="float:right" style="width: 100%;" type="button" class="btn btn-primary">Crear Proveedor</button>
+                <button   (click)="abrirCrearProveedor();" style="float:right" style="width: 100%;" type="button" class="btn btn-primary">Crear Proveedor</button>
             </div>
         </div>
         <div class="card-body text-gray-400 ">
@@ -34,16 +34,43 @@
                     <tfoot>
                         <tr>
                             <th > <span style="color: #6E707E;">#</span></th>
-                            <th ><span style="color: #6E707E;">Nombre</span></th>
-                            <th ><span style="color: #6E707E;">Codigo</span></th>
-                            <th ><span style="color: #6E707E;">Precio Venta</span></th>
-                            <th ><span style="color: #6E707E;">Precio Compra</span></th>
-                            <th ><span style="color: #6E707E;">Stock</span></th>
-                            <th ><span style="color: #6E707E;">Tamaño/Talla</span></th>
-                            <th ><span style="color: #6E707E;">Categoría</span></th>
+                            <th ><span style="color: #6E707E;">Nombre de la empresa</span></th>
+                            <th ><span style="color: #6E707E;">RUC</span></th>
+                            <th ><span style="color: #6E707E;">Número de contacto</span></th>
                             <th ><span style="color: #6E707E;">Acciones</span></th>
                         </tr>
                     </tfoot>
+                        <tr *ngFor="let pro of proveedores ; let i = index">
+                            <td style="color: #6E707E;">{{i + 1}}</td>
+                            <td style="color: #6E707E;">{{pro.PROV_EMPRESA_PROVEEDORA}}</td>
+                            <td style="color: #6E707E;">{{pro.PROV_RUC}}</td>
+                            <td style="color: #6E707E;">{{pro.PROV_NUMERO_CONTACTO}}</td>
+                            <td style="color: #6E707E;">
+                                <span class="row justify-content-center">
+                                    <!-- *ngIf = "cat.CAT_ESTADO != 1; else Habilitar" -->
+                                    <span class="col-6 col-lg-3"  >
+                                        <!-- (click)="habilitarInhabilitarCategoria(cat.CAT_ID,cat.CAT_ESTADO)" -->
+                                        <a  class="btn btn-success btn-circle btn-sm " ngbTooltip="Habilitar">
+                                            <i class="fas fa-check" aria-hidden="true"></i>
+                                        </a>
+                                    </span>
+                                    <ng-template #Habilitar>
+                                        <span class="col-6 col-lg-3">
+                                            <!-- (click)="habilitarInhabilitarCategoria(cat.CAT_ID,cat.CAT_ESTADO)" -->
+                                            <a   class="btn btn-danger btn-circle btn-sm "ngbTooltip="Deshabilitar">
+                                                <i class="fa fa-times" aria-hidden="true"></i>
+                                            </a>
+                                        </span>
+                                    </ng-template>
+                                    <span class="col-6 col-lg-3">
+                                        <a (click)="abrirEditarProveedor(pro)" class="btn btn-warning btn-circle btn-sm" ngbTooltip="Editar" >
+                                            <i style="color: white;" class="far fa-edit" aria-hidden="true"></i>
+                                        </a>
+                                    </span>
+                                    
+                                </span>
+                            </td>
+                        </tr>
                 </table>
             </div>
         </div>
@@ -51,33 +78,74 @@
 </div>
 
 
-<ng-template #editarCategoria let-d="dismiss">
+<ng-template #editarProveedor let-d="dismiss">
     <div class="modal-header">
         <!-- {{categoriaSeleccionada.CAT_NOMBRE}} FALTA -->
-        <h4 class="modal-title" id="exampleModalLongTitle">Producto: </h4>
+        <h4 class="modal-title" id="exampleModalLongTitle">Proveedor: {{proveedorSeleccionado.PROV_EMPRESA_PROVEEDORA}}</h4>
     </div>
     <div class="modal-body">
         <br>
-        <!-- <form [formGroup]="categoriaForm">
+        <form [formGroup]="proveedorForm">
             <div class="form-group row">
-                <div class="col-6">
+                <div class="col-12 ">
                     <label for="">
-                        Nombre de la categoría
+                        Nombre de la empresa
                     </label>
-                </div>
-                <div>
-                    <input type="text" formControlName="nombreCategoria" class="border-left-primary font-tamanio form-control" placeholder="Ingrese la categoría">
-                    <div *ngIf="nombreCategoria.invalid && (nombreCategoria.dirty || nombreCategoria.touched)" class="my-1" style="color: rgb(197, 68, 68);">
-                        <div *ngIf="nombreCategoria.errors.required">
-                        * El nombre de la categoría es requerido.
-                        </div>
-                        <div *ngIf="nombreCategoria.errors.maxlength">
-                        * Se requieren máximo 60 caracteres.
+                    <div>
+                        <input type="text" formControlName="nombreEmpresa" class="border-left-primary font-tamanio form-control" placeholder="Ingrese el nombre">
+                        <div *ngIf="nombreEmpresa.invalid && (nombreEmpresa.dirty || nombreEmpresa.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                            <div *ngIf="nombreEmpresa.errors.required">
+                            * El nombre de la es requerido.
+                            </div>
+                            <div *ngIf="nombreEmpresa.errors.maxlength">
+                            * Se requieren máximo 100 caracteres.
+                            </div>
                         </div>
                     </div>
                 </div>
+
+                <div class="col-12 col-md-6" style="padding-top: 0.5rem;">
+                    <label for="">
+                        RUC
+                    </label>
+                    <div>
+                        <input type="text" formControlName="ruc" class="border-left-primary font-tamanio form-control" placeholder="Ingrese el RUC">
+                        <div *ngIf="ruc.invalid && (ruc.dirty || ruc.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                            <div *ngIf="ruc.errors.required">
+                            * El RUC de la empresa es requerido.
+                            </div>
+                            <div *ngIf="ruc.errors.maxlength">
+                            * Se requieren máximo 11 caracteres.
+                            </div>
+                            <div *ngIf="ruc.errors.minlength">
+                                * Se requieren mínimo 11 caracteres.
+                                </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-6"style="padding-top: 0.5rem;">
+                    <label for="">
+                        Número de contacto
+                    </label>
+                    <div>
+                        <input type="text" formControlName="numeroContacto" class="border-left-primary font-tamanio form-control" placeholder="Ingrese número de contacto">
+                        <div *ngIf="numeroContacto.invalid && (numeroContacto.dirty || numeroContacto.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                            <div *ngIf="numeroContacto.errors.required">
+                            * El número de contacto de la empresa es requerido.
+                            </div>
+                            <div *ngIf="numeroContacto.errors.maxlength">
+                            * Se requieren máximo 20 caracteres.
+                            </div>
+                            <div *ngIf="numeroContacto.errors.minlength">
+                                * Se requieren mínimo 12 caracteres.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
             </div>
-        </form> -->
+        </form>
         <br>
         <div class="row justify-content-center">
             <div class="col-4 text-center">
@@ -96,33 +164,74 @@
     <!-- <div class="modal-footer">
     </div>  -->
 </ng-template>
-<ng-template #crearCategoria let-d="dismiss">
+<ng-template #crearProveedor let-d="dismiss">
     <div class="modal-header">
-        <h4 class="modal-title" id="exampleModalLongTitle">Crear Categoría</h4>
+        <h4 class="modal-title" id="exampleModalLongTitle">Crear Proveedor</h4>
         
     </div>
     <div class="modal-body">
         <br>
-        <!-- <form [formGroup]="categoriaForm">
+        <form [formGroup]="proveedorForm">
             <div class="form-group row">
-                <div class="col-6">
+                <div class="col-12 ">
                     <label for="">
-                        Nombre de la categoría
+                        Nombre de la empresa
                     </label>
-                </div>
-                <div>
-                    <input type="text" formControlName="nombreCategoria" class="border-left-primary font-tamanio form-control" placeholder="Ingrese la categoría">
-                    <div *ngIf="nombreCategoria.invalid && (nombreCategoria.dirty || nombreCategoria.touched)" class="my-1" style="color: rgb(197, 68, 68);">
-                        <div *ngIf="nombreCategoria.errors.required">
-                        * El nombre de la categoría es requerido.
-                        </div>
-                        <div *ngIf="nombreCategoria.errors.maxlength">
-                        * Se requieren máximo 60 caracteres.
+                    <div>
+                        <input type="text" formControlName="nombreEmpresa" class="border-left-primary font-tamanio form-control" placeholder="Ingrese el nombre">
+                        <div *ngIf="nombreEmpresa.invalid && (nombreEmpresa.dirty || nombreEmpresa.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                            <div *ngIf="nombreEmpresa.errors.required">
+                            * El nombre de la es requerido.
+                            </div>
+                            <div *ngIf="nombreEmpresa.errors.maxlength">
+                            * Se requieren máximo 100 caracteres.
+                            </div>
                         </div>
                     </div>
                 </div>
+
+                <div class="col-12 col-md-6" style="padding-top: 0.5rem;">
+                    <label for="">
+                        RUC
+                    </label>
+                    <div>
+                        <input type="text" formControlName="ruc" class="border-left-primary font-tamanio form-control" placeholder="Ingrese el RUC">
+                        <div *ngIf="ruc.invalid && (ruc.dirty || ruc.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                            <div *ngIf="ruc.errors.required">
+                            * El RUC de la empresa es requerido.
+                            </div>
+                            <div *ngIf="ruc.errors.maxlength">
+                            * Se requieren máximo 11 caracteres.
+                            </div>
+                            <div *ngIf="ruc.errors.minlength">
+                                * Se requieren mínimo 11 caracteres.
+                                </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-6"style="padding-top: 0.5rem;">
+                    <label for="">
+                        Número de contacto
+                    </label>
+                    <div>
+                        <input type="text" formControlName="numeroContacto" class="border-left-primary font-tamanio form-control" placeholder="Ingrese número de contacto">
+                        <div *ngIf="numeroContacto.invalid && (numeroContacto.dirty || numeroContacto.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                            <div *ngIf="numeroContacto.errors.required">
+                            * El número de contacto de la empresa es requerido.
+                            </div>
+                            <div *ngIf="numeroContacto.errors.maxlength">
+                            * Se requieren máximo 20 caracteres.
+                            </div>
+                            <div *ngIf="numeroContacto.errors.minlength">
+                                * Se requieren mínimo 12 caracteres.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
             </div>
-        </form> -->
+        </form>
         <br>
         <div class="row justify-content-center">
             <div class="col-4 text-center">
@@ -132,7 +241,7 @@
             </div>
             <div class="col-4">
                 <!-- (click)="insertarCategoria();" FALTA  -->
-                <a   class="btn btn-primary btn-icon-split" >
+                <a  (click)="insertarProveedor();" class="btn btn-primary btn-icon-split" >
                     <span class="text">Aceptar</span>
                 </a>
             </div>

@@ -1,39 +1,25 @@
 import { NgModule } from '@angular/core';
+import { LayoutRoutingModule } from './layout/layout-routing.module';
+import { AuthRoutingModule } from './auth/auth-routing.module';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './auth/login/login.component';
-import { ProfileComponent } from './auth/profile/profile.component';
-import { CategoriaComponent } from './layout/categoria/categoria.component';
-import { DashboardComponent } from './layout/dashboard/dashboard.component';
-import { LayoutComponent } from './layout/layout.component';
+
 import { NotfoundComponent } from './layout/notfound/notfound.component';
-import { ProductoComponent } from './layout/producto/producto.component';
-import { ProveedorComponent } from './layout/proveedor/proveedor.component';
-import { UserComponent } from './layout/user/user.component';
 
 const routes: Routes = [
-  {
-    path:'',
-    component:LayoutComponent,
-    children:[
-      {path:'dashboard',component:DashboardComponent},
-      {path:'',redirectTo:'/dashboard',pathMatch:'full'},
-      {path:'categorias',component:CategoriaComponent},
-      {path:'productos',component:ProductoComponent},
-      {path:'users',component:UserComponent},
-      {path:'proveedor',component:ProveedorComponent},
-      {path:'profile',component:ProfileComponent},
-    ]
-  },
 
-  {path:'login',component:LoginComponent},
-  
-
+  //path: '/auth' AuthRouting
+  //path: '/dashboard' LayoutRouting
+  {path:'',redirectTo:'/dashboard',pathMatch:'full'},
   {path:'**',redirectTo:'/not-found',pathMatch:'full'},
   {path:'not-found',component:NotfoundComponent}
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [
+    RouterModule.forRoot(routes),
+    LayoutRoutingModule,
+    AuthRoutingModule
+  ],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

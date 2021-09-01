@@ -3,7 +3,7 @@
 <ul class="responsive-tamanio navbar-nav bg-gradient-primary sidebar sidebar-dark accordion {{toggled}}  " id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="dashboard">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" [routerLink]="['/dashboard']">
         <div class="row mt-2">
             <div class="col-sm-6 col-md-12">
                 <div class="sidebar-brand-icon rotate-n-15">
@@ -21,7 +21,7 @@
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item">
-        <a class="nav-link" href="/dashboard">
+        <a class="nav-link" [routerLink]="['/dashboard']">
             <i class="fas fa-fw fa-home"></i>
             <span>Inicio</span></a>
     </li>
@@ -39,20 +39,20 @@
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Pet Shop:</h6>
-                <a class="collapse-item" href="buttons.html">            
+                <a class="collapse-item" [routerLink]="['/']">            
                     <i class="fas fa-search"></i>
                     <span>&nbsp; Buscar</span>
                 </a>
-                <a class="collapse-item" href="buttons.html">            
+                <a class="collapse-item" [routerLink]="['/']">            
                     <i class="fas fa-shopping-cart"></i>
                     <span>&nbsp; Vender</span>
                 </a>
                 <h6 class="collapse-header">Spa:</h6>
-                <a class="collapse-item" href="buttons.html">            
+                <a class="collapse-item" [routerLink]="['/']">            
                     <i class="fas fa-search"></i>
                     <span>&nbsp; Buscar</span>
                 </a>
-                <a class="collapse-item" href="buttons.html">            
+                <a class="collapse-item" [routerLink]="['/']">            
                     <i class="fas fa-clock"></i>
                     <span>&nbsp; Cita</span>
                 </a>
@@ -73,21 +73,21 @@
             data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Usuarios:</h6>
-                <a class="collapse-item" href="register.html">
+                <a class="collapse-item" [routerLink]="['/users']" >
                     <i class="fas fa-users"></i>
                     <span>&nbsp;Configuraciones</span>
                 </a>
                 <div class="collapse-divider"></div>
                 <h6 class="collapse-header">Catálogo:</h6>
-                <a class="collapse-item" href="/categorias" >
+                <a class="collapse-item" [routerLink]="['/categorias']" >
                     <i class="fas fa-tag"></i>
                     <span>&nbsp;Categorías</span>
                 </a>
-                <a class="collapse-item" href="/productos">
+                <a class="collapse-item" [routerLink]="['/productos']" >
                     <i class="fas fa-tags"></i>
                     <span>&nbsp;Productos</span>
                 </a>
-                <a class="collapse-item" href="/proveedor">
+                <a class="collapse-item" [routerLink]="['/proveedor']" >
                     <i class="fas fa-truck-loading"></i>
                     <span>&nbsp;Proveedores</span>
                 </a>

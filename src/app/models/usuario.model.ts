@@ -1,4 +1,4 @@
-export class Usuarios {
+export class Usuario {
     USU_ID :number;
     USU_USUARIO : string;
     USU_CONTRASENIA :string;

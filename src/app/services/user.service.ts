@@ -20,7 +20,7 @@ export class UserService {
   constructor(private http: HttpClient, private storageService: StorageService) { }
 
 
-  crearrUsuario(usuario:Usuario):Observable<any>{
+  registerUser(usuario:Usuario):Observable<any>{
     const url = environment.domain_url + '/api/usuarios/insertar';
     const datos = {
       
@@ -39,4 +39,10 @@ export class UserService {
     }
     return this.http.post<any>(url,datos).pipe(retry(2));
   }
+
+  listUsers():Observable<any>{
+    const url = environment.domain_url + '/api/usuarios/listar';
+    return this.http.get<any>(url).pipe(retry(2));
+  }
+
 }

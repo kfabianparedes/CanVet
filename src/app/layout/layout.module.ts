@@ -24,7 +24,11 @@ import {PipesModule} from '../shared/pipes/pipes.module';
     CommonModule,
     LayoutRoutingModule,
     RouterModule, // AppRoutingModule (Puede funcionar con el routingmodule sin reutilizar el approuting )
-    SharedModule,ReactiveFormsModule,FormsModule,NgbModule,PipesModule
+    SharedModule,
+    ReactiveFormsModule,
+    FormsModule,
+    NgbModule,
+    PipesModule
   ],
   exports:[
     DashboardComponent,

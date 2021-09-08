@@ -1,140 +1,75 @@
-/*
-.captcha-form {
-    position: relative;
-    margin-top: 25px;
+.formulario{
+    margin-top: 4.5rem;
+    
 }
-.fondo{
-    background: var(--blue);
-    height: 100vh;
+.limiter {
+  width: 100%;
+  margin: 0 auto;
 }
-@media screen and (max-width:320px){
-    .captcha-form{
-        width: 280px;
-    }
-}
-@media screen and (max-width:768px){
-    .ocultar-img{
-        display: none;
-    }
-    .login{
-        justify-content: center;
-    }
-}
-@media screen and (min-width:769px) and (max-width:987px) {
-    .login{
-        margin-left: 1rem;
-        
-    }
-    .insert-login{
-        margin-left: 1rem;
-
-    }
-}
-.boton{
-    color:white;
-    font-size: 1.1rem;
-    border-radius: 1rem;
-    height: 2.5rem;
-    background: #4e73df;
-}
-.boton:hover{
-    background:#4e72dfcd;
-}
-*/
-
-.user{
-    font-size: 1.1rem;
-    margin-top: 3rem;
+.container-login100 {
+  width: 100%;  
+  min-height: 100vh;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  
+  background-size: cover;
+  background-position: center;
 }
 
-.boton{
-    color:white;
-    font-size: 1.1rem;
-    border-radius: 1rem;
-    height: 2.5rem;
-    background: #4e73df;
-}
-.boton:hover{
-    background:#4e72dfcd;
-}
-@media screen and (min-width:1080px) {
-    .fondo{
-        height: 100vh
-    }
-}
-@media screen and (max-width:1360px) {
-    .fondo{
-        height: 100%
-    }
+.wrap-login100 {
+  width: 960px;
+  height: 600px;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
-@media screen and (max-width:1080px) {
-    .fondo{
-        height: 100vh
-    }
+@media (max-width: 992px) {
+  .wrap-login100 {
+	padding: 75px 90px 33px 85px;
+  }
+  .formulario{
+    margin-top: 0;
+}
 }
 
-@media screen and (max-width:987px) {
-    .fondo{
-        height: 100%
-    }
+@media (max-width: 768px) {
+  .wrap-login100 {
+	padding: 100px 80px 33px 80px;
+  }
+  .formulario{
+    margin-top: 0;
 }
-@media screen and (max-width:768px) {
-    .fondo{
-        height: 100vh
-    }
 }
-@media screen and (max-width:736px) {
-    .fondo{
-        height: 100%
-    }
+
+@media (max-width: 576px) {
+  .wrap-login100 {
+	padding: 70px 15px 33px 15px;
+  }
+  .formulario{
+    margin-top: 0;
+  }
 }
-@media screen and (max-width:576px) {
-    .fondo{
-        height: 100vh
-    }
-}
-@media screen and (max-width:568px) {
-    .fondo{
-        height: 100%
-    }
-}
-@media screen and (max-width:540px) {
-    .fondo{
-        height: 100vh
-    }
-}
-@media screen and (max-width: 500px) {
-    .fondo{
-        height: 100%
-    }
-}
-@media screen and (max-width: 414px) {
-    .fondo{
-        height: 100vh
-    }
-}
-@media screen and (max-width: 411px) {
-    .fondo{
-        height: 100vh
-    }
-}
-@media screen and (max-width: 400px) {
-    .fondo{
-        height: 100vh
-    }
-}
-@media screen and (max-width: 320px) {
-    .fondo{
-        height: 100%;
-        margin-right: 10px;
-        
-    }
-}
-@media screen and (max-width: 280px) {
-    .fondo{
-        height: 100vh;
-        margin-right: 10px;
-        
+
+
+@media (max-width: 320px) {
+    .formulario{
+        margin-top: 0;
+        overflow-x: scroll;
     }
 }

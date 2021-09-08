@@ -9,7 +9,7 @@ const routes: Routes = [
 
   //path: '/auth' AuthRouting
   //path: '/dashboard' LayoutRouting
-  {path:'',redirectTo:'/dashboard',pathMatch:'full'},
+  {path:'',redirectTo:'login',pathMatch:'full'},
   {path:'**',redirectTo:'/not-found',pathMatch:'full'},
   {path:'not-found',component:NotfoundComponent}
 ];
@@ -17,8 +17,9 @@ const routes: Routes = [
 @NgModule({
   imports: [
     RouterModule.forRoot(routes),
-    LayoutRoutingModule,
-    AuthRoutingModule
+    AuthRoutingModule,
+    LayoutRoutingModule
+    
   ],
   exports: [RouterModule]
 })

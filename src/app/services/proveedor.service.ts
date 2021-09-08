@@ -19,6 +19,16 @@ export class ProveedorService {
         return this.http.get<any>(url).pipe( retry(2) );
     }
 
+    habilitarInhabilitarProveedor(proveEdoRId:number,numeroEstado:number){
+        const url = environment.domain_url + '/api/proveedores/habilitarInhabilitarProveedor';
+    
+        const datos = {
+          PROV_ID: proveEdoRId,
+          PROV_ESTADO: numeroEstado
+        }
+        return this.http.put<any>(url,datos).pipe( retry(2) );
+      }
+
     insertarProveedor(pro:Proveedor){
 
         const url = environment.domain_url + '/api/proveedores/insertar';
@@ -30,5 +40,16 @@ export class ProveedorService {
         }
         return this.http.post<any>(url,pro).pipe( retry(2) );
     }
+    actualizarProveedor(pro:Proveedor){
+
+      const url = environment.domain_url + '/api/proveedores/editar';
+
+      const datos = {
+          PROV_RUC: pro.PROV_RUC,
+          PROV_EMPRESA_PROVEEDORA: pro.PROV_EMPRESA_PROVEEDORA,
+          PROV_NUMERO_CONTACTO: pro.PROV_NUMERO_CONTACTO,
+      }
+      return this.http.post<any>(url,pro).pipe( retry(2) );
+  }
 
 }

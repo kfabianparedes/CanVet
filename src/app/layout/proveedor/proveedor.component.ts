@@ -71,6 +71,39 @@ export class ProveedorComponent implements OnInit {
     }
 
   }
+  actualizarProveedor(){
+    this.proveedorSeleccionado.PROV_EMPRESA_PROVEEDORA = this.nombreEmpresa.value;
+    this.proveedorSeleccionado.PROV_RUC = this.ruc.value;
+    this.proveedorSeleccionado.PROV_NUMERO_CONTACTO = this.numeroContacto.value;
+    this.proveedorService.actualizarProveedor(this.proveedorSeleccionado).subscribe(
+      data=>{
+        console.log("si editó");
+        this.proveedores.length = 0 ;
+        this.modal.dismissAll();
+        this.resetearFormulario();  
+        this.listarProveedores();
+      },error=>{
+        console.log("no editó");
+      });
+  
+  }
+  habilitarInhabilitarProveedor(PROV_ID:number,PROV_ESTADO:number){
+    
+    
+    if(PROV_ESTADO == 1){
+      PROV_ESTADO = 2; 
+    }else{
+      PROV_ESTADO =  1; 
+    }
+    
+    this.proveedorService.habilitarInhabilitarProveedor(PROV_ID,PROV_ESTADO).subscribe(data=>
+      {
+        this.listarProveedores();
+      },error=>{
+
+      });
+  }
+
   abrirCrearProveedor(){
     this.inicializarFormularioProveedor();
     this.modal.open(this.crearProv);

@@ -47,17 +47,17 @@
                             <td style="color: #6E707E;">{{pro.PROV_NUMERO_CONTACTO}}</td>
                             <td style="color: #6E707E;">
                                 <span class="row justify-content-center">
-                                    <!-- *ngIf = "cat.CAT_ESTADO != 1; else Habilitar" -->
-                                    <span class="col-6 col-lg-3"  >
-                                        <!-- (click)="habilitarInhabilitarCategoria(cat.CAT_ID,cat.CAT_ESTADO)" -->
-                                        <a  class="btn btn-success btn-circle btn-sm " ngbTooltip="Habilitar">
+                                    <!--  -->
+                                    <span class="col-6 col-lg-3" *ngIf = "pro.PROV_ESTADO != 1; else Habilitar" >
+                                        <!--  -->
+                                        <a (click)="habilitarInhabilitarProveedor(pro.PROV_ID,pro.PROV_ESTADO)" class="btn btn-success btn-circle btn-sm " ngbTooltip="Habilitar">
                                             <i class="fas fa-check" aria-hidden="true"></i>
                                         </a>
                                     </span>
                                     <ng-template #Habilitar>
                                         <span class="col-6 col-lg-3">
-                                            <!-- (click)="habilitarInhabilitarCategoria(cat.CAT_ID,cat.CAT_ESTADO)" -->
-                                            <a   class="btn btn-danger btn-circle btn-sm "ngbTooltip="Deshabilitar">
+                                            <!--  -->
+                                            <a  (click)="habilitarInhabilitarProveedor(pro.PROV_ID,pro.PROV_ESTADO)"  class="btn btn-danger btn-circle btn-sm "ngbTooltip="Deshabilitar">
                                                 <i class="fa fa-times" aria-hidden="true"></i>
                                             </a>
                                         </span>
@@ -155,7 +155,7 @@
             </div>
             <div class="col-4">
                 <!-- (click)="catUpdate(categoriaSeleccionada)" FALTA -->
-                <a  class="btn btn-primary btn-icon-split">
+                <a  (click)="actualizarProveedor()" class="btn btn-primary btn-icon-split">
                     <span class="text">Aceptar</span>
                 </a>
             </div>

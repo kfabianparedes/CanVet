@@ -24,10 +24,15 @@ export class ProveedorComponent implements OnInit {
   ngOnInit(): void {
     this.listarProveedores();
   }
-
+  currentPage = 1;
+  itemsPerPage = 10;
   
   carga = false; 
   proveedorForm: FormGroup;
+
+  tipoAlerta = "";
+  mostrarAlerta = false;
+  mensajeAlerta= "";  
 
   //modal para editar un Producto
   @ViewChild('editarProveedor') editarProv: ElementRef;

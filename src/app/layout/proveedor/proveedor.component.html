@@ -19,58 +19,58 @@
                 <button   (click)="abrirCrearProveedor();" style="float:right" style="width: 100%;" type="button" class="btn btn-primary">Crear Proveedor</button>
             </div>
         </div>
+
         <div class="card-body text-gray-400 ">
-            <div class="table-responsive">
+            <div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xls">
                 <table class="table table-bordered text-gray-400" id="dataTable" width="100%"  cellspacing="0">
                     <thead>
                         <tr>
-                            <th > <span style="color: #6E707E;">#</span></th>
+                            <th ><span style="color: #6E707E;">#</span></th>
                             <th ><span style="color: #6E707E;">Nombre de la empresa</span></th>
                             <th ><span style="color: #6E707E;">RUC</span></th>
                             <th ><span style="color: #6E707E;">Número de contacto</span></th>
                             <th ><span style="color: #6E707E;">Acciones</span></th>
                         </tr>
                     </thead>
-                    <tfoot>
-                        <tr>
-                            <th > <span style="color: #6E707E;">#</span></th>
-                            <th ><span style="color: #6E707E;">Nombre de la empresa</span></th>
-                            <th ><span style="color: #6E707E;">RUC</span></th>
-                            <th ><span style="color: #6E707E;">Número de contacto</span></th>
-                            <th ><span style="color: #6E707E;">Acciones</span></th>
-                        </tr>
-                    </tfoot>
-                        <tr *ngFor="let pro of proveedores ; let i = index">
-                            <td style="color: #6E707E;">{{i + 1}}</td>
-                            <td style="color: #6E707E;">{{pro.PROV_EMPRESA_PROVEEDORA}}</td>
-                            <td style="color: #6E707E;">{{pro.PROV_RUC}}</td>
-                            <td style="color: #6E707E;">{{pro.PROV_NUMERO_CONTACTO}}</td>
-                            <td style="color: #6E707E;">
+                    <tbody>
+                        <tr *ngFor="let pro of proveedores  ; let i = index">
+                            <td class="col-1" style="color: #6E707E;">{{i + 1}}</td>
+                            <td class="col-4" style="color: #6E707E;">{{pro.PROV_EMPRESA_PROVEEDORA}}</td>
+                            <td class="col-2" style="color: #6E707E;">{{pro.PROV_RUC}}</td>
+                            <td class="col-2" style="color: #6E707E;">{{pro.PROV_NUMERO_CONTACTO}}</td>
+                            <td class="col-3" style="color: #6E707E;">
                                 <span class="row justify-content-center">
-                                    <!--  -->
-                                    <span class="col-6 col-lg-3" *ngIf = "pro.PROV_ESTADO != 1; else Habilitar" >
-                                        <!--  -->
+
+                                    <span class="col-6 col-lg-3" *ngIf="pro.PROV_ESTADO != 1; else Habilitar" >
+
                                         <a (click)="habilitarInhabilitarProveedor(pro.PROV_ID,pro.PROV_ESTADO)" class="btn btn-success btn-circle btn-sm " ngbTooltip="Habilitar">
                                             <i class="fas fa-check" aria-hidden="true"></i>
                                         </a>
+
                                     </span>
                                     <ng-template #Habilitar>
+
                                         <span class="col-6 col-lg-3">
-                                            <!--  -->
+
                                             <a  (click)="habilitarInhabilitarProveedor(pro.PROV_ID,pro.PROV_ESTADO)"  class="btn btn-danger btn-circle btn-sm "ngbTooltip="Deshabilitar">
                                                 <i class="fa fa-times" aria-hidden="true"></i>
+
                                             </a>
                                         </span>
                                     </ng-template>
+
                                     <span class="col-6 col-lg-3">
+
                                         <a (click)="abrirEditarProveedor(pro)" class="btn btn-warning btn-circle btn-sm" ngbTooltip="Editar" >
                                             <i style="color: white;" class="far fa-edit" aria-hidden="true"></i>
                                         </a>
+                                        
                                     </span>
                                     
                                 </span>
                             </td>
                         </tr>
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -147,18 +147,18 @@
             </div>
         </form>
         <br>
-        <div class="row justify-content-center">
-            <div class="col-4 text-center">
+        <div class="row justify-content-center ">
+            <div class="my-1 col-sm-3 col-md-3 col-lg-3">
+                <a  (click)="actualizarProveedor();" class="btn btn-primary btn-icon-split" >
+                    <span class="text"><strong>Registrar</strong>&nbsp;<i class="fas fa-save"></i></span>
+                </a>
+            </div>
+            <div class="my-1 col-sm-3 col-md-3 col-lg-3">
                 <a (click) = "d('Cross click')" class="btn btn-warning btn-icon-split">
-                    <span class="text">Cancelar</span>
+                    <span class="text"><strong>Cancelar</strong>&nbsp;<i class="fas fa-arrow-circle-left"></i></span>
                 </a>
             </div>
-            <div class="col-4">
-                <!-- (click)="catUpdate(categoriaSeleccionada)" FALTA -->
-                <a  (click)="actualizarProveedor()" class="btn btn-primary btn-icon-split">
-                    <span class="text">Aceptar</span>
-                </a>
-            </div>
+            
         </div>
     </div>
     <!-- <div class="modal-footer">
@@ -233,18 +233,18 @@
             </div>
         </form>
         <br>
-        <div class="row justify-content-center">
-            <div class="col-4 text-center">
-                <a (click) = "d('Cross click')" class="btn btn-warning btn-icon-split">
-                    <span class="text">Cancelar</span>
-                </a>
-            </div>
-            <div class="col-4">
-                <!-- (click)="insertarCategoria();" FALTA  -->
+        <div class="row justify-content-center ">
+            <div class="my-1 col-sm-3 col-md-3 col-lg-3">
                 <a  (click)="insertarProveedor();" class="btn btn-primary btn-icon-split" >
-                    <span class="text">Aceptar</span>
+                    <span class="text"><strong>Registrar</strong>&nbsp;<i class="fas fa-save"></i></span>
                 </a>
             </div>
+            <div class="my-1 col-sm-3 col-md-3 col-lg-3">
+                <a (click) = "d('Cross click')" class="btn btn-warning btn-icon-split">
+                    <span class="text"><strong>Cancelar</strong>&nbsp;<i class="fas fa-arrow-circle-left"></i></span>
+                </a>
+            </div>
+            
         </div>
     </div>
     <!-- <div class="modal-footer">

@@ -2,6 +2,7 @@
 <div *ngIf="carga" class="progress" style="height:1rem">
     <ngb-progressbar class="indeterminate" type="primary" height="1rem" [value]="100" [striped]="true" [animated]="true"></ngb-progressbar>
 </div>
+<ngb-alert *ngIf="mostrarAlerta" [type]="tipoAlerta" (closed)="mostrarAlerta = false" >{{mensajeAlerta}}</ngb-alert>
 <div *ngIf = "!carga" class="row justify-content-center">
     
     <!-- Page Heading -->
@@ -31,14 +32,6 @@
                             <th ><span style="color: #6E707E;">Acciones</span></th>
                         </tr>
                     </thead>
-                    <tfoot>
-                        <tr>
-                            <th > <span style="color: #6E707E;">#</span></th>
-                            <th ><span style="color: #6E707E;">Nombre</span></th>
-                            <th ><span style="color: #6E707E;">Estado</span></th>
-                            <th ><span style="color: #6E707E;">Acciones</span></th>
-                        </tr>
-                    </tfoot>
                     <tbody>
                         <tr *ngFor="let cat of categorias | slice:(currentPage-1)*itemsPerPage:currentPage*itemsPerPage ; let i = index  ">
                             <td class="col-1" style="color: #6E707E;">{{i + 1}}</td>
@@ -46,7 +39,7 @@
                             <td class="col-3" style="color: #6E707E;">{{cat.CAT_ESTADO==1?'Activo':'Inactivo'}}</td>
                             <td class="col-3" >
                                 <span class="row justify-content-center">
-                                    <span class="col-6 col-lg-3"  *ngIf = "cat.CAT_ESTADO != 1; else Habilitar">
+                                    <span class="col-6 col-lg-3"  *ngIf="cat.CAT_ESTADO != 1; else Habilitar">
                                         <a (click)="habilitarInhabilitarCategoria(cat.CAT_ID,cat.CAT_ESTADO)" class="btn btn-success btn-circle btn-sm " ngbTooltip="Habilitar">
                                             <i class="fas fa-check" aria-hidden="true"></i>
                                         </a>
@@ -116,17 +109,18 @@
             </div>
         </form>
         <br>
-        <div class="row justify-content-center">
-            <div class="col-4 text-center">
+        <div class="row justify-content-center ">
+            <div class="my-1 col-sm-3 col-md-3 col-lg-3">
+                <a  (click)="catUpdate(categoriaSeleccionada)" class="btn btn-primary btn-icon-split" >
+                    <span class="text"><strong>Registrar</strong>&nbsp;<i class="fas fa-save"></i></span>
+                </a>
+            </div>
+            <div class="my-1 col-sm-3 col-md-3 col-lg-3">
                 <a (click) = "d('Cross click')" class="btn btn-warning btn-icon-split">
-                    <span class="text">Cancelar</span>
+                    <span class="text"><strong>Cancelar</strong>&nbsp;<i class="fas fa-arrow-circle-left"></i></span>
                 </a>
             </div>
-            <div class="col-4">
-                <a (click)="catUpdate(categoriaSeleccionada)" class="btn btn-primary btn-icon-split">
-                    <span class="text">Aceptar</span>
-                </a>
-            </div>
+            
         </div>
     </div>
     <!-- <div class="modal-footer">
@@ -159,18 +153,18 @@
                 </div>
             </div>
         </form>
-        <br>
-        <div class="row justify-content-center">
-            <div class="col-4 text-center">
+        <br><div class="row justify-content-center ">
+            <div class="my-1 col-sm-3 col-md-3 col-lg-3">
+                <a  (click)="insertarCategoria()" class="btn btn-primary btn-icon-split" >
+                    <span class="text"><strong>Registrar</strong>&nbsp;<i class="fas fa-save"></i></span>
+                </a>
+            </div>
+            <div class="my-1 col-sm-3 col-md-3 col-lg-3">
                 <a (click) = "d('Cross click')" class="btn btn-warning btn-icon-split">
-                    <span class="text">Cancelar</span>
+                    <span class="text"><strong>Cancelar</strong>&nbsp;<i class="fas fa-arrow-circle-left"></i></span>
                 </a>
             </div>
-            <div class="col-4">
-                <a  (click)="insertarCategoria();" class="btn btn-primary btn-icon-split" >
-                    <span class="text">Aceptar</span>
-                </a>
-            </div>
+            
         </div>
     </div>
     <!-- <div class="modal-footer">

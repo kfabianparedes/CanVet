@@ -19,86 +19,160 @@
             </div>
         </div>
         <div class="card-body text-gray-400 ">
-            <div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
+            <div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xls">
                 <table class="table table-bordered text-gray-400" id="dataTable" width="100%"  cellspacing="0">
                     <thead>
                         <tr>
                             <th ><span style="color: #6E707E;">#</span></th>
                             <th ><span style="color: #6E707E;">Nombre</span></th>
-                            <th ><span style="color: #6E707E;">Codigo</span></th>
                             <th ><span style="color: #6E707E;">Precio Venta</span></th>
                             <th ><span style="color: #6E707E;">Precio Compra</span></th>
-                            <th ><span style="color: #6E707E;">Fecha de registro de precio anterior</span></th>
-                            <th ><span style="color: #6E707E;">Precio anterior</span></th>
                             <th ><span style="color: #6E707E;">Stock</span></th>
                             <th ><span style="color: #6E707E;">Tamaño/Talla</span></th>
                             <th ><span style="color: #6E707E;">Categoría</span></th>
-                            <th ><span style="color: #6E707E;">Proveedor</span></th>
                             <th ><span style="color: #6E707E;">Acciones</span></th>
                         </tr>
                     </thead>
-                    <tfoot>
-                        <tr>
-                            <th ><span style="color: #6E707E;">#</span></th>
-                            <th ><span style="color: #6E707E;">Nombre</span></th>
-                            <th ><span style="color: #6E707E;">Codigo</span></th>
-                            <th ><span style="color: #6E707E;">Precio Venta</span></th>
-                            <th ><span style="color: #6E707E;">Precio Compra</span></th>
-                            <th ><span style="color: #6E707E;">Fecha de registro de precio anterior</span></th>
-                            <th ><span style="color: #6E707E;">Precio anterior</span></th>
-                            <th ><span style="color: #6E707E;">Stock</span></th>
-                            <th ><span style="color: #6E707E;">Tamaño/Talla</span></th>
-                            <th ><span style="color: #6E707E;">Categoría</span></th>
-                            <th ><span style="color: #6E707E;">Proveedor</span></th>
-                            <th ><span style="color: #6E707E;">Acciones</span></th>
-                        </tr>
-                    </tfoot>
-                    <tr *ngFor="let pro of productos ; let i = index">
-                        <td style="color: #6E707E;">{{i + 1}}</td>
-                        <td style="color: #6E707E;">{{pro.PRO_NOMBRE}}</td>
-                        <td style="color: #6E707E;">{{pro.PRO_CODIGO}}</td>
-                        <td style="color: #6E707E;">{{pro.PRO_PRECIO_VENTA}}</td>
-                        <td style="color: #6E707E;">{{pro.PRO_PRECIO_COMPRA}}</td>
-                        <td style="color: #6E707E;">{{
-                            (pro?.PRO_FECHA_CAMBIO_PRECIO==null)?'No tiene':pro.PRO_FECHA_CAMBIO_PRECIO | date: 'dd/MM/yyyy'
-                        }}</td>
-                        <td style="color: #6E707E;">{{
-                            (pro?.PRO_PRECIO_ANTERIOR==null)?'No tiene':pro.PRO_PRECIO_ANTERIOR
-                        }}</td>
-                        <td style="color: #6E707E;">{{pro.PRO_STOCK}}</td>
-                        <td style="color: #6E707E;">{{pro.PRO_TAMANIO_TALLA}}</td>
-                        <td style="color: #6E707E;">{{pro.CAT_NOMBRE}}</td>
-                        <td style="color: #6E707E;">{{pro.PROV_EMPRESA_PROVEEDORA}}</td>
-                        <td >
-                            <span class="row justify-content-center">
-                                <span class="col-6 col-lg-3"  *ngIf = "pro.PRO_ESTADO != 1; else Habilitar">
-                                    <a (click)="habilitarInhabilitarProducto(pro.PRO_ID,pro.PRO_ESTADO)" class="btn btn-success btn-circle btn-sm " ngbTooltip="Habilitar">
-                                        <i class="fas fa-check" aria-hidden="true"></i>
-                                    </a>
-                                </span>
-                                <ng-template #Habilitar>
-                                    <span class="col-6 col-lg-3">
-                                        <a (click)="habilitarInhabilitarProducto(pro.PRO_ID,pro.PRO_ESTADO)"  class="btn btn-danger btn-circle btn-sm "ngbTooltip="Deshabilitar">
-                                            <i class="fa fa-times" aria-hidden="true"></i>
+                    <tbody>
+                        <tr *ngFor="let pro of productos ; let i = index">
+                            <td style="color: #6E707E;">{{i + 1}}</td>
+                            <td style="color: #6E707E;">{{pro.PRO_NOMBRE}}</td>
+                            <td style="color: #6E707E;">{{pro.PRO_PRECIO_VENTA}}</td>
+                            <td style="color: #6E707E;">{{pro.PRO_PRECIO_COMPRA}}</td>
+                            <!-- <td style="color: #6E707E;">{{
+                                (pro?.PRO_FECHA_CAMBIO_PRECIO==null)?'No tiene':pro.PRO_FECHA_CAMBIO_PRECIO | date: 'dd/MM/yyyy'
+                            }}</td>
+                            <td style="color: #6E707E;">{{
+                                (pro?.PRO_PRECIO_ANTERIOR==null)?'No tiene':pro.PRO_PRECIO_ANTERIOR
+                            }}</td> -->
+                            <td style="color: #6E707E;">{{pro.PRO_STOCK}}</td>
+                            <td style="color: #6E707E;">{{pro.PRO_TAMANIO_TALLA}}</td>
+                            <td style="color: #6E707E;">{{pro.CAT_NOMBRE}}</td>
+                            <td >
+                                <span class="row justify-content-center">
+                                    <span class="col-4 col-lg-3"  *ngIf = "pro.PRO_ESTADO != 1; else Habilitar">
+                                        <a (click)="habilitarInhabilitarProducto(pro.PRO_ID,pro.PRO_ESTADO)" class="btn btn-success btn-circle btn-sm " ngbTooltip="Habilitar">
+                                            <i class="fas fa-check" aria-hidden="true"></i>
                                         </a>
                                     </span>
-                                </ng-template>
-                                <span class="col-6 col-lg-3">
-                                    <!-- (click)="abrirEditarCategoria(cat)" -->
-                                    <a  (click)="abrirEditarProducto(pro)" class="btn btn-warning btn-circle btn-sm" ngbTooltip="Editar" >
-                                        <i style="color: white;" class="far fa-edit" aria-hidden="true"   ></i>
-                                    </a>
+                                    <ng-template #Habilitar>
+                                        <span class="col-4 col-lg-3">
+                                            <a (click)="habilitarInhabilitarProducto(pro.PRO_ID,pro.PRO_ESTADO)"  class="btn btn-danger btn-circle btn-sm "ngbTooltip="Deshabilitar">
+                                                <i class="fa fa-times" aria-hidden="true"></i>
+                                            </a>
+                                        </span>
+                                    </ng-template>
+                                    <span class="col-4 col-lg-3">
+                                        <!-- (click)="abrirEditarCategoria(cat)" -->
+                                        <a   (click)="abrirVerMasProducto(pro)" class="btn btn-primary btn-circle btn-sm" ngbTooltip="ver más" >
+                                            <i style="color: white;" class="fas fa-eye" aria-hidden="true"   ></i>
+                                        </a>
+                                    </span>
+                                    <span class="col-4 col-lg-3">
+                                        <!-- (click)="abrirEditarCategoria(cat)" -->
+                                        <a  (click)="abrirEditarProducto(pro)" class="btn btn-warning btn-circle btn-sm" ngbTooltip="Editar" >
+                                            <i style="color: white;" class="far fa-edit" aria-hidden="true"   ></i>
+                                        </a>
+                                    </span>
+                                    
                                 </span>
                                 
-                            </span>
-                            
-                        </td>
-                    </tr>
+                            </td>
+                        </tr>
+                    </tbody>
                 </table>
             </div>
         </div>
     </div>
 </div>
+<!-- MODALES -->
+
+<ng-template #verProducto let-d="dismiss">
+    <div class="modal-header">
+        <!-- {{categoriaSeleccionada.CAT_NOMBRE}} FALTA -->
+        <h4 class="modal-title" id="exampleModalLongTitle">Producto: {{productoSeleccionado.PRO_NOMBRE}} </h4>
+    </div>
+    <div class="modal-body">
+        <br>
+            <div class="form-group row">
+                    
+                <div class="col-12 col-lg-6" >
+                    <label for="" style="margin-top: 2rem;">
+                        Nombre del producto
+                    </label>
+                    <input type="text" disabled value="{{productoSeleccionado.PRO_NOMBRE}}" class="border-left-primary font-tamanio form-control" >
+                    
+                </div>
+                <div class="col-12 col-lg-6">
+                    <label for="" style="margin-top: 2rem;">
+                        tamaño/talla del producto
+                    </label>
+                    <input type="text"  disabled value="{{productoSeleccionado.PRO_TAMANIO_TALLA}}" class="border-left-primary font-tamanio form-control" >
+                </div>
+                <div class="col-12 col-lg-6">
+                    <label for="" style="margin-top: 2rem;">
+                        Precio de venta
+                    </label>
+                    <input type="text" disabled value="{{productoSeleccionado.PRO_PRECIO_VENTA}}" class="border-left-primary font-tamanio form-control" >
+                </div>
+                <div class="col-12 col-lg-6">
+                    <label for="" style="margin-top: 2rem">
+                        Precio de compra
+                    </label>
+                    <input type="text" disabled value="{{productoSeleccionado.PRO_PRECIO_COMPRA}}" class="border-left-primary font-tamanio form-control" >
+                </div>
+                <div class="col-12 col-lg-6">
+                    <label for="" style="margin-top: 2rem">
+                        Categoría
+                    </label>
+                    <input type="text" disabled value="{{nombreCategoria}}" class="border-left-primary font-tamsanio form-control">
+                </div>    
+                <div class="col-12 col-lg-6">
+                    <label for="" style="margin-top: 2rem">
+                        Proveedor
+                    </label>
+                    <input type="text" disabled value="{{nombreProveedor}}" class="border-left-primary font-tamanio form-control" >
+                </div>
+                <div *ngIf="precioAnterior != null" class="col-12 col-lg-6">
+                    <label for="" style="margin-top: 2rem">
+                        Precio de compra anterior
+                    </label>
+                    <input type="text" disabled value="{{precioAnterior}}" class="border-left-primary font-tamanio form-control" >
+                </div>
+                <div *ngIf="fechaAnterior != null"  class="col-12 col-lg-6">
+                    <label for="" style="margin-top: 2rem">
+                        fecha de cambio de precio
+                    </label>
+                    <input type="text" disabled value="{{fechaAnterior | date: 'dd/MM/yyyy'}}" class="border-left-primary font-tamanio form-control" >
+                </div>
+                <!-- <div class="col-12 col-lg-6">
+                    <label style="margin-top: 2rem;" class="mr-sm-2" for="inlineFormCustomSelect">Categoría</label>
+                    <select disabled class="custom-select mr-sm-2 " id="inlineFormCustomSelect">
+                        <option hidden value="" disabled selected>Escoge una opción</option>
+                        <option [value]="productoSeleccionado.CAT_ID" *ngFor="let cat of categorias">{{cat.CAT_NOMBRE}}</option>
+                    </select>
+                </div>
+                <div class="col-12 col-lg-6">
+                    <label style="margin-top: 2rem;" class="mr-sm-2" for="inlineFormCustomSelect">Proveedor</label>
+                    <select disabled class="custom-select mr-sm-2 " id="inlineFormCustomSelect">
+                        <option hidden value="" disabled selected>Escoge una opción</option>
+                        <option [value]="productoSeleccionado.PROV_ID" *ngFor="let pro of proveedores">{{pro.PROV_EMPRESA_PROVEEDORA}}</option>
+                    </select>
+                </div> -->
+            </div><br><br>
+            <div class="row justify-content-center ">
+                <div class="my-1 col-sm-3 col-md-3 col-lg-3">
+                    <a (click) = "d('Cross click')" class="btn btn-warning btn-icon-split">
+                        <span class="text"><strong>Salir</strong>&nbsp;<i class="fas fa-arrow-circle-left"></i></span>
+                    </a>
+                </div>
+                
+            </div>
+        <br>
+    </div>
+    <!-- <div class="modal-footer">
+    </div>  -->
+</ng-template>
 
 <ng-template #editarProducto let-d="dismiss">
     <div class="modal-header">
@@ -114,7 +188,7 @@
                     <label for="" style="margin-top: 2rem;">
                         Nombre del producto
                     </label>
-                    <input type="text" formControlName="nombreProducto" class="border-left-primary font-tamanio form-control" placeholder="Ingrese el nombre">
+                    <input  type="text" formControlName="nombreProducto" class="border-left-primary font-tamanio form-control" placeholder="Ingrese el nombre">
                     <div *ngIf="nombreProducto.invalid && (nombreProducto.dirty || nombreProducto.touched)" class="my-1" style="color: rgb(197, 68, 68);">
                         <div *ngIf="nombreProducto.errors.required">
                         * El nombre del producto es requerido.
@@ -191,18 +265,18 @@
                     </div>
                 </div>
             </div><br><br>
-            <div class="row justify-content-center">
-                <div class="col-6 col-lg-4 text-center">
-                    <a (click) = "d('Cross click')" class="btn btn-warning btn-icon-split">
-                        <span class="text">Cancelar</span>
+            <div class="row justify-content-center ">
+                <div class="my-1 col-sm-3 col-md-3 col-lg-3">
+                    <a  (click)="editarProductoFunc()" class="btn btn-primary btn-icon-split" >
+                        <span class="text"><strong>Registrar</strong>&nbsp;<i class="fas fa-save"></i></span>
                     </a>
                 </div>
-                <div class="col-6 col-lg-4">
-                    <!-- (click)="insertarCategoria();" FALTA  -->
-                    <button  (click)="editarProductoFunc()" [disabled] = "productoForm.invalid"  class="btn btn-primary btn-icon-split" >
-                        <span class="text">Aceptar</span>
-                    </button>
+                <div class="my-1 col-sm-3 col-md-3 col-lg-3">
+                    <a (click) = "d('Cross click')" class="btn btn-warning btn-icon-split">
+                        <span class="text"><strong>Cancelar</strong>&nbsp;<i class="fas fa-arrow-circle-left"></i></span>
+                    </a>
                 </div>
+                
             </div>
         </form>
         <br>
@@ -301,18 +375,18 @@
                     </div>
                 </div>
             </div><br><br>
-            <div class="row justify-content-center">
-                <div class="col-6 col-lg-4 text-center">
-                    <a (click) = "d('Cross click')" class="btn btn-warning btn-icon-split">
-                        <span class="text">Cancelar</span>
+            <div class="row justify-content-center ">
+                <div class="my-1 col-sm-3 col-md-3 col-lg-3">
+                    <a  (click)="insertarProducto(productoForm.value)" class="btn btn-primary btn-icon-split" >
+                        <span class="text"><strong>Registrar</strong>&nbsp;<i class="fas fa-save"></i></span>
                     </a>
                 </div>
-                <div class="col-6 col-lg-4">
-                    <!-- (click)="insertarCategoria();" FALTA  -->
-                    <button  (click)="insertarProducto(productoForm.value)" [disabled] = "productoForm.invalid"  class="btn btn-primary btn-icon-split" >
-                        <span class="text">Aceptar</span>
-                    </button>
+                <div class="my-1 col-sm-3 col-md-3 col-lg-3">
+                    <a (click) = "d('Cross click')" class="btn btn-warning btn-icon-split">
+                        <span class="text"><strong>Cancelar</strong>&nbsp;<i class="fas fa-arrow-circle-left"></i></span>
+                    </a>
                 </div>
+                
             </div>
         </form>
         <br>

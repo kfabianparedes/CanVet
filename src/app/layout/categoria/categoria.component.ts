@@ -23,6 +23,9 @@ export class CategoriaComponent implements OnInit {
                 }
   carga = false; 
   categoriaForm: FormGroup;
+  tipoAlerta = "";
+  mostrarAlerta = false;
+  mensajeAlerta= "";  
   
   filtroTexto:string;
   categoriaSeleccionada:Categoria; 
@@ -51,9 +54,13 @@ export class CategoriaComponent implements OnInit {
   insertarCategoria(){
 
     this.categoriaService.crearCategoria(this.nombreCategoria.value).subscribe(data => {
+      
       this.categoriaForm.reset();
       this.modal.dismissAll();  
       this.listarCategorias(); 
+      this.tipoAlerta = 'success';
+      this.mostrarAlerta = true; 
+      this.mensajeAlerta = 'Se ha creado la categoría satisfactoriamente.';
     },error=>{
 
     }
@@ -66,6 +73,9 @@ export class CategoriaComponent implements OnInit {
       this.categoriaForm.reset();
       this.modal.dismissAll();  
       this.listarCategorias(); 
+      this.tipoAlerta = 'success';
+      this.mostrarAlerta = true; 
+      this.mensajeAlerta = 'Se ha actualizado la categoría satisfactoriamente.';
     },error=>{
 
     }
@@ -94,13 +104,18 @@ export class CategoriaComponent implements OnInit {
     
     if(CAT_ESTADO == 1){
       CAT_ESTADO = 2; 
+      this.mensajeAlerta = 'Se ha inhabilitado la categoría satisfactoriamente.';
     }else{
       CAT_ESTADO =  1; 
+      this.mensajeAlerta = 'Se ha habilitado la categoría satisfactoriamente.'
     }
     
+
     this.categoriaService.habilitarInhabilitarCategoria(CAT_ID,CAT_ESTADO).subscribe(data=>
       {
         this.listarCategorias();
+        this.tipoAlerta = 'success';
+        this.mostrarAlerta = true; 
       },error=>{
 
       });

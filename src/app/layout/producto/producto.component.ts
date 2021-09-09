@@ -32,15 +32,26 @@ export class ProductoComponent implements OnInit {
       configModal.keyboard = false;
     }
 
+
+  nombreCategoria:string;
+  nombreProveedor:string;
+  precioAnterior:number; 
+  fechaAnterior:Date;
+
   carga = false; 
   productoForm: FormGroup;
   productoInsertar = new Producto();
   
+  tipoAlerta = "";
+  mostrarAlerta = false;
+  mensajeAlerta= "";  
 
   //modal para editar un Producto
   @ViewChild('editarProducto') editarPro: ElementRef;
   //modal para crear una categoria
   @ViewChild('crearProducto') crearPro: ElementRef;
+  //modal para ver más de algún producto verProducto
+  @ViewChild('verProducto') verMasPro: ElementRef;
 
 
   ngOnInit(): void {
@@ -56,6 +67,15 @@ export class ProductoComponent implements OnInit {
     },error=>{
 
     });
+  }
+  abrirVerMasProducto(producto:any){
+    this.productoSeleccionado = producto;
+    this.nombreCategoria = producto.CAT_NOMBRE;
+    this.nombreProveedor = producto.PROV_EMPRESA_PROVEEDORA;
+    this.precioAnterior = producto.PRO_PRECIO_ANTERIOR;
+    this.fechaAnterior = producto.PRO_FECHA_CAMBIO_PRECIO;
+    console.log(this.nombreCategoria);
+    this.modal.open(this.verMasPro, {size: 'lg'});
   }
   abrirEditarProducto(producto:Producto) {
     this.listarProveedores();
@@ -171,6 +191,8 @@ export class ProductoComponent implements OnInit {
   }
 
   closeModal(): any {
+    this.productoInsertar = null; 
+    this.productoSeleccionado = null;
     this.productoForm.reset();
     this.modal.dismissAll();
   } 

@@ -41,7 +41,7 @@ export class UserService {
   }
 
   listUsers():Observable<any>{
-    const url = environment.domain_url + '/api/usuarios/listar';
+    const url = environment.domain_url + '/api/usuarios/listarUsuarios';
     return this.http.get<any>(url).pipe(retry(2));
   }
 

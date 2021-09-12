@@ -1,8 +1,12 @@
+import { DatePipe } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, Validators } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
+import { Rol } from 'src/app/models/rol.model';
 import { Usuario } from 'src/app/models/usuario.model';
+import { RolService } from 'src/app/services/rol.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-user',
@@ -11,10 +15,16 @@ import { Usuario } from 'src/app/models/usuario.model';
 })
 export class UserComponent implements OnInit {
   usuarios: Usuario[] = [];
+  roles: Rol[] = [];
   userForm : FormGroup;
+  sexo:string = 'F';
+  opacarDateFechaNacimiento: boolean = true;
   constructor(private formBuilder: FormBuilder,
               public modal: NgbModal,
-              public configModal: NgbModalConfig) 
+              public configModal: NgbModalConfig,
+              private userService: UserService,
+              private datePipe: DatePipe,
+              private rolService: RolService) 
               { 
                 configModal.backdrop = 'static';
                 configModal.keyboard = false;
@@ -33,26 +43,36 @@ export class UserComponent implements OnInit {
   mostrar_alerta: boolean = false;
   tipo_alerta: string;
 
-  //modal para editar una categoria
+  //Variables para ocultar la contraseña
+  PASSWORD_CURRENT_ICON = 'fa fa-eye-slash';
+  PASSWORD_CURRENT_TYPE = 'password';
+
+  //modal para editar un usuario
   @ViewChild('editUserModal') editUserModal: ElementRef;
-  //modal para crear una categoria
+  //modal para crear un usuario
   @ViewChild('createUserModal') createUserModal: ElementRef;
-  
+  //modal para visualizar un usuario
+  @ViewChild('seeMoreModal') seeMoreModal: ElementRef; 
+
   ngOnInit(): void {
     this.inicializarFormulario();
+    this.listUsers();
+    this.listarRoles();
   }
 
   closeModal(): any {
     this.userForm.reset();
     this.modal.dismissAll();
   }
-
+  obtenerSexo(sexo: string) {
+    this.sexo = sexo;
+  }  
   registerUser(){
     this.inicializarFormulario();
     this.modal.open(this.createUserModal);
   }
   createUser(){
-
+    
   }
   editUser(user:Usuario){
 
@@ -64,6 +84,26 @@ export class UserComponent implements OnInit {
   disableUser(id:number, state:number){
 
   }
+  listUsers(){
+    this.userService.listUsers().subscribe(
+      data=>{
+        this.usuarios = data.resultado;
+      }
+      ,error=>{
+        this.carga = false;
+        this.mostrar_alerta = true;
+        this.tipo_alerta='danger';
+        if (error['error']['error'] !== undefined) {
+          if (error['error']['error'] === 'error_deBD') {
+            this.mensaje_alerta = 'Hubo un error al intentar ejecutar su solicitud. Por favor, actualice la página.';
+          }
+        }
+        else{
+          this.mensaje_alerta = 'Hubo un error al mostrar la información de esta página. Por favor, actualice la página.';
+        }
+      }
+    );
+  }
   searchUser(){
     if(this.usuarios.length<0){
       this.mensaje_alerta = 'No existen usuarios registrados, registre uno y vuelva a intentarlo.';
@@ -74,7 +114,50 @@ export class UserComponent implements OnInit {
       //Realizar búsqueda de usuario
     }
   }
+  listarRoles(){
+    this.rolService.listUsers().subscribe(
+      data=>{
+        this.roles = data.resultado;
+      }
+      ,error=>{
+        this.carga = false;
+        this.mostrar_alerta = true;
+        this.tipo_alerta='danger';
+        if (error['error']['error'] !== undefined) {
+          if (error['error']['error'] === 'error_deBD') {
+            this.mensaje_alerta = 'Hubo un error al intentar ejecutar su solicitud. Por favor, actualice la página.';
+          }
+        }
+        else{
+          this.mensaje_alerta = 'Hubo un error al mostrar la información de esta página. Por favor, actualice la página.';
+        }
+      }
+    )
+  }
+  seeMore(user:Usuario){
+    this.modal.open(this.seeMoreModal);
+  }
+  cambiarVistaContrasena() { // CAMBIA DE ICONO Y DE TIPO EN LA CONSTRASEÑA
+    if (this.PASSWORD_CURRENT_ICON === 'fa fa-eye-slash') {
+      this.PASSWORD_CURRENT_ICON = 'fa fa-eye';
+      this.PASSWORD_CURRENT_TYPE = 'text';
+    } else {
+      this.PASSWORD_CURRENT_ICON = 'fa fa-eye-slash';
+      this.PASSWORD_CURRENT_TYPE = 'password';
+    }
+  }
+  getTodayFechaNacimiento(): string {
+    const fechaActual = this.datePipe.transform(new Date(), 'yyyy-MM-dd').split('-');
+    const dia = fechaActual[2];
+    const mes = fechaActual[1];
+    const anio = Number(fechaActual[0]) - 18;
+    const fechaMaxima = anio + '-' + mes + '-' + dia;
 
+    return new Date(fechaMaxima).toISOString().split('T')[0] ;
+  }
+  cambiarDeStyleDate() {
+    this.opacarDateFechaNacimiento = false;
+  }
   //reactive form 
   inicializarFormulario(){
     this.userForm = this.formBuilder.group({
@@ -126,4 +209,5 @@ export class UserComponent implements OnInit {
   get rol() {
     return this.userForm.get('rol');
   }
+  
 }

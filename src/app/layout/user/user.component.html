@@ -27,71 +27,72 @@
             <div  *ngIf="usuarios.length<=0; else userModule">
                 <h3>No hay usuarios registrados.</h3>
             </div>
+            <!---------------PAGINACIÓN------------->
+            <div *ngIf="usuarios?.length>0" style="margin-top: 5px;" class="row box-footer clearfix">     
+                <div class="col-xl-10 col-lg-9 col-md-9 col-sm-9 col-7">
+                <ngb-pagination *ngIf="usuarios?.length>10" class="d-flex justify-content-start" size="sm" [maxSize]="5" [pageSize]="itemsPerPage"  [collectionSize]="usuarios?.length" [(page)]="currentPage"></ngb-pagination>
+                </div>
+                <div class="col-xl-2 col-lg-3 col-md-3 col-sm-3 col-5">
+                <select class="pull-right" [(ngModel)]="itemsPerPage" class="form-control form-control-sm custom-select">
+                    <option value="10">10 elementos</option>
+                    <option value="15">15 elementos</option>
+                    <option value="20">20 elementos</option>                    
+                </select>  
+                </div>    
+            </div> 
             <ng-template #userModule>
                 <div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xls">
                     <table class="table table-bordered text-gray-400" id="dataTable" width="100%"  cellspacing="0">
                         <thead>
                             <tr>
-                                <th ><span  class="row-table" >Código</span></th>
-                                <th ><span  class="row-table" >Usuario</span></th>
-                                <th ><span  class="row-table" >Email</span></th>
-                                <th ><span  class="row-table" >Nombres</span></th>
-                                <th ><span  class="row-table" >Apellidos</span></th>
-                                <th ><span  class="row-table" >Sexo</span></th>
-                                <th ><span  class="row-table" >DNI</span></th>
-                                <th ><span  class="row-table" >Celular</span></th>
-                                <th ><span  class="row-table" >Dirección</span></th>
-                                <th ><span  class="row-table" >Rol</span></th>
-                                <th ><span  class="row-table" >Estado</span></th>
-                                <th ><span  class="row-table" >Acciones</span></th>
+                                <th class="row-table text-center"><span>Código</span></th>
+                                <th class="row-table text-center"><span>Nombres</span></th>
+                                <th class="row-table text-center"><span>Apellidos</span></th>
+                                <th class="row-table text-center"><span>Celular</span></th>
+                                <th class="row-table text-center"><span>Rol</span></th>
+                                <th class="row-table text-center"><span>Estado</span></th>
+                                <th class="row-table text-center"><span>Acciones</span></th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor="let user of usuarios | slice:(currentPage-1)*itemsPerPage:currentPage*itemsPerPage ; let i = index  ">
-                                <td class="col-1 row-table" >{{i + 1}}</td>
-                                <td class="col-5 row-table" >{{user.USU_NOMBRES}}</td>
-                                <td class="col-3 row-table" >{{user.ROL_ID==1?'Administrador':'Empleado'}}</td>
-                                <td class="col-3 row-table" >{{user.USU_ESTADO==1?'Activo':'Inactivo'}}</td>
-                                <td class="col-3" >
+                                <td class="col-1 text-center row-table" >{{user.USU_ID}}</td>
+                                <td class="col-2 row-table" >{{user.USU_NOMBRES}}</td>
+                                <td class="col-2 row-table" >{{user.USU_APELLIDO_PATERNO}}&nbsp;{{user.USU_APELLIDO_MATERNO}}</td>
+                                <td class="col-1 row-table" >{{user.USU_CELULAR}}</td>
+                                <td class="col-2 row-table" >{{user.ROL_ID==1?'Administrador':'Empleado'}}</td>
+                                <td class="col-1 row-table" >{{user.USU_ESTADO==1?'Activo':'Inactivo'}}</td>
+                                <td class="col-3 row-table" >
                                     <span class="row justify-content-center">
-                                        <span class="col-6 col-lg-3"  *ngIf = "user.USU_ESTADO != 1 && user.USU_ESTADO !=2; else Habilitar">
+                                        <span class="col-md-3 justify-content-center"  *ngIf="user.USU_ESTADO != 1 && user.USU_ESTADO !=2; else Habilitar">
                                             <a (click)="disableUser(user.USU_ID,user.USU_ESTADO)" class="btn btn-success btn-circle btn-sm " ngbTooltip="Habilitar">
                                                 <i class="fas fa-check" aria-hidden="true"></i>
                                             </a>
                                         </span>
                                         <ng-template #Habilitar>
-                                            <span class="col-6 col-lg-3">
+                                            <span class="col-md-3 justify-content-center">
                                                 <a (click)="disableUser(user.USU_ID,user.USU_ESTADO)"  class="btn btn-danger btn-circle btn-sm "ngbTooltip="Deshabilitar">
                                                     <i class="fa fa-times" aria-hidden="true"></i>
                                                 </a>
                                             </span>
                                         </ng-template>
-                                        <span class="col-6 col-lg-3">
+                                        <span class="col-md-3 justify-content-center">
+                                            <a   (click)="seeMore(user)" class="btn btn-primary btn-circle btn-sm" ngbTooltip="ver más" >
+                                                <i style="color: white;" class="fas fa-eye" aria-hidden="true"   ></i>
+                                            </a>
+                                        </span>
+                                        <span class="col-md-3 justify-content-center">
                                             <a (click)="editUser(user)" class="btn btn-warning btn-circle btn-sm" ngbTooltip="Editar" >
                                                 <i style="color: white;" class="far fa-edit" aria-hidden="true"   ></i>
                                             </a>
                                         </span>
-                                        
                                     </span>
-                                    
                                 </td>
                             </tr>
                         </tbody>
                         
                     </table>
-                    <!---------------PAGINACIÓN------------->
-                    <div *ngIf="usuarios?.length>0" style="margin-top: 5px;" class="row box-footer clearfix">     
-                        <div class="col-xl-10 col-lg-9 col-md-9 col-sm-9 col-7">
-                        <ngb-pagination *ngIf="usuarios?.length>10" class="d-flex justify-content-start" size="sm" [maxSize]="5" [pageSize]="itemsPerPage"  [collectionSize]="usuarios?.length" [(page)]="currentPage"></ngb-pagination>
-                        </div>
-                        <div class="col-xl-2 col-lg-3 col-md-3 col-sm-3 col-5">
-                        <select class="pull-right" [(ngModel)]="itemsPerPage" class="form-control form-control-sm custom-select">
-                            <option value="10">10 elementos</option>
-                            <option value="15">15 elementos</option>
-                            <option value="20">20 elementos</option>                    
-                        </select>  
-                        </div>    
-                    </div> 
+                    
                 </div>
             </ng-template>
             
@@ -147,94 +148,344 @@
     </div>
     <div class="modal-body">
         <form [formGroup]="userForm">
-            <div class="form-group row">
-                    <div class="my-2 col-sm-12 col-md-12 col-lg-6">
-                        <label for="inputUser">Usuario</label>
-                        <div>
-                            <input type="text" formControlName="user" id="inputUser" class="border-left-primary font-tamanio form-control" placeholder="Ingrese la categoría">
-                            <div *ngIf="user.invalid && (user.dirty || user.touched)" class="my-1" style="color: rgb(197, 68, 68);">
-                                <div *ngIf="user.errors.required">
-                                * El nombre de usuario es requerido.
+            <div class="form-group">
+                    <div class="row justify-content-center">
+                        <div class="my-2 col-sm-12 col-md-12 col-lg-6">
+                            <label for="inputNombres">Nombres</label>
+                            <div>
+                                <input type="text" formControlName="nombres" id="inputNombres" class="border-left-primary font-tamanio form-control" placeholder="Ingrese la categoría">
+                                <div *ngIf="nombres.invalid && (nombres.dirty || nombres.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                                    <div *ngIf="nombres.errors.required">
+                                    * El nombre de usuario es requerido.
+                                    </div>
+                                    <div *ngIf="nombres.errors.maxlength">
+                                    * Se requieren máximo 60 caracteres.
+                                    </div>
+                                    <div *ngIf="nombres.errors.pattern">
+                                    * El formato es inválido.
+                                    </div>
                                 </div>
-                                <div *ngIf="user.errors.maxlength">
-                                * Se requieren máximo 60 caracteres.
+                            </div>
+                        </div>
+                        <div class="my-2 col-sm-12 col-md-12 col-lg-6">
+                            <label for="inputSexo">Sexo</label>
+                            <div class="row">
+                                    <div class="form-check" style="align-items: center;text-align: center;">
+                                        <input (change)="obtenerSexo('M')"  class="form-check-input" type="radio" name="exampleRadios" id="inputMasculino">
+                                        <label class="form-check-label" for="inputMasculino">Masculino</label>
+                                    </div>
+                                    <div class="form-check" style="align-items: center;text-align: center;">
+                                        <input (change)="obtenerSexo('F')"  class="form-check-input" type="radio" name="exampleRadios" id="inputFemenino" checked>
+                                        <label class="form-check-label" for="inputFemenino">Femenino</label>
+                                    </div> 
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="my-2 col-sm-12 col-md-12 col-lg-6">
+                            <label for="inputApellidoPaterno">Apellido Paterno</label>
+                            <div>
+                                <input type="text" formControlName="apellido_paterno" id="inputApellidoPaterno" class="border-left-primary font-tamanio form-control" placeholder="Ingrese primer apellido">
+                                <div *ngIf="apellido_paterno.invalid && (apellido_paterno.dirty || apellido_paterno.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                                    <div *ngIf="apellido_paterno.errors.required">
+                                    * El nombre de usuario es requerido.
+                                    </div>
+                                    <div *ngIf="apellido_paterno.errors.maxlength">
+                                    * Se requieren máximo 60 caracteres.
+                                    </div>
+                                    <div *ngIf="apellido_paterno.errors.pattern">
+                                    * El formato es inválido.
+                                    </div>
                                 </div>
-                                <div *ngIf="user.errors.pattern">
-                                * El formato es inválido.
+                            </div>
+                        </div>
+                        <div class="my-2 col-sm-12 col-md-12 col-lg-6">
+                            <label for="inputApeliidoMaterno">Apellido Materno</label>
+                            <div>
+                                <input type="text" formControlName="apellido_materno" id="inputApeliidoMaterno" class="border-left-primary font-tamanio form-control" placeholder="Ingrese segundo apellido">
+                                <div *ngIf="apellido_materno.invalid && (apellido_materno.dirty || apellido_materno.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                                    <div *ngIf="apellido_materno.errors.required">
+                                    * El nombre de usuario es requerido.
+                                    </div>
+                                    <div *ngIf="apellido_materno.errors.maxlength">
+                                    * Se requieren máximo 60 caracteres.
+                                    </div>
+                                    <div *ngIf="apellido_materno.errors.pattern">
+                                    * El formato es inválido.
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="my-2 col-sm-12 col-md-12 col-lg-6">
-                        <label for="inputEmail">Email</label>
-                        <div>
-                            <input type="text" formControlName="email" id="inputEmail" class="border-left-primary font-tamanio form-control" placeholder="Ingrese la categoría">
-                            <div *ngIf="email.invalid && (email.dirty || email.touched)" class="my-1" style="color: rgb(197, 68, 68);">
-                                <div *ngIf="email.errors.required">
-                                * El nombre de usuario es requerido.
+                    <div class="row justify-content-center">
+                        <div class="my-2 col-sm-12 col-md-12 col-lg-6">
+                            <label for="inputUser" >Usuario</label>
+                            <div>
+                                <input type="text" id="inputUser" formControlName="user" class="border-left-primary font-tamanio form-control" placeholder="Ingrese alias de usuario">
+                                <div *ngIf="user.invalid && (user.dirty || user.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                                    <div *ngIf="user.errors.required">
+                                    * El nombre de la categoría es requerido.
+                                    </div>
+                                    <div *ngIf="user.errors.maxlength">
+                                    * Se requieren máximo 50 caracteres.
+                                    </div>
+                                    <div *ngIf="user.errors.pattern">
+                                    * El formato es inválido.
+                                    </div>
                                 </div>
-                                <div *ngIf="email.errors.maxlength">
-                                * Se requieren máximo 60 caracteres.
+                            </div>
+                        </div>
+                        <div class="my-2 col-sm-11 col-md-11 col-lg-5">
+                            <label for="inputContrasenia">Contraseña</label>
+                            <div>
+                                <input type={{PASSWORD_CURRENT_TYPE}} id="inputContrasenia" formControlName="contrasena" class="border-left-primary font-tamanio form-control" placeholder="Ingrese contraseña">
+                                <div *ngIf="contrasena.invalid && (contrasena.dirty || contrasena.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                                    <div *ngIf="contrasena.errors.required">
+                                    * El nombre de la categoría es requerido.
+                                    </div>
+                                    <div *ngIf="contrasena.errors.maxlength">
+                                    * Se requieren máximo 50 caracteres.
+                                    </div>
+                                    <div *ngIf="contrasena.errors.pattern">
+                                    * El formato es inválido.
+                                    </div>
                                 </div>
-                                <div *ngIf="email.errors.pattern">
-                                * El formato es inválido.
+                            </div>
+                        </div>
+                        <div class="my-2 col-sm-1 col-md-1 col-lg-1 mt-sm-0 mt-md-5 centrar-ojo">
+                            <span (click)="cambiarVistaContrasena()">
+                                <i  class={{PASSWORD_CURRENT_ICON}} aria-hidden="true" ></i>
+                            </span>
+                        </div>
+                        
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="my-2 col-sm-12 col-md-12 col-lg-6">
+                            <label for="inputEmail">Correo electrónico</label>
+                            <div>
+                                <input type="email" formControlName="email" id="inputEmail" class="border-left-primary font-tamanio form-control" placeholder="Ingrese email">
+                                <div *ngIf="email.invalid && (email.dirty || email.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                                    <div *ngIf="email.errors.required">
+                                    * El nombre de usuario es requerido.
+                                    </div>
+                                    <div *ngIf="email.errors.maxlength">
+                                    * Se requieren máximo 60 caracteres.
+                                    </div>
+                                    <div *ngIf="email.errors.pattern">
+                                    * El formato es inválido.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="my-2 col-sm-12 col-md-12 col-lg-6">
+                            <label for="inputCelular">Celular</label>
+                            <div>
+                                <input type="text" formControlName="celular" id="inputCelular" class="border-left-primary font-tamanio form-control" placeholder="Ingrese celular">
+                                <div *ngIf="celular.invalid && (celular.dirty || celular.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                                    <div *ngIf="celular.errors.required">
+                                    * El celular es requerido es requerido.
+                                    </div>
+                                    <div *ngIf="celular.errors.maxlength">
+                                    * Se requieren máximo 60 caracteres.
+                                    </div>
+                                    <div *ngIf="celular.errors.pattern">
+                                    * El formato es inválido.
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="my-2 col-sm-12 col-md-12 col-lg-6">
-                        <label for="">Nombres</label>
-                        <div>
-                            <input type="text" formControlName="nombres" class="border-left-primary font-tamanio form-control" placeholder="Ingrese la categoría">
-                            <div *ngIf="nombres.invalid && (nombres.dirty || nombres.touched)" class="my-1" style="color: rgb(197, 68, 68);">
-                                <div *ngIf="nombres.errors.required">
-                                * El nombre de la categoría es requerido.
+                    <div class="row justify-content-center">
+                        <div class="my-2 col-sm-12 col-md-12 col-lg-6">
+                            <label style="padding-left:0.5rem">Fecha de Nacimiento</label>
+                            <input  [max]="getTodayFechaNacimiento()" [ngClass]="{'textoGris': opacarDateFechaNacimiento }" 
+                                (change)="cambiarDeStyleDate()" formControlName="fecha_nacimiento" type="date" id="fechaInput" name="fechaInput" class="border-left-primary  form-control" >
+                            <div *ngIf="fecha_nacimiento.invalid && (fecha_nacimiento.dirty || fecha_nacimiento.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                                <div *ngIf="fecha_nacimiento.errors.required">
+                                * La fecha es requerida.
                                 </div>
-                                <div *ngIf="nombres.errors.maxlength">
-                                * Se requieren máximo 50 caracteres.
-                                </div>
-                                <div *ngIf="nombres.errors.pattern">
-                                * El formato es inválido.
+                            </div>
+                        </div>
+                        <div class="my-2 col-sm-12 col-md-12 col-lg-6">
+                            <label for="inputdni">DNI</label>
+                            <div>
+                                <input type="text" formControlName="dni" id="inputdni" class="border-left-primary font-tamanio form-control" placeholder="Ingrese documento de identidad">
+                                <div *ngIf="dni.invalid && (dni.dirty || dni.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                                    <div *ngIf="dni.errors.required">
+                                    * El dni es requerido es requerido.
+                                    </div>
+                                    <div *ngIf="dni.errors.maxlength">
+                                    * Se requieren máximo 60 caracteres.
+                                    </div>
+                                    <div *ngIf="dni.errors.pattern">
+                                    * El formato es inválido.
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="my-2 col-sm-12 col-md-12 col-lg-6">
-                        <label for="">Nombres</label>
-                        <div>
-                            <input type="text" formControlName="nombres" class="border-left-primary font-tamanio form-control" placeholder="Ingrese la categoría">
-                            <div *ngIf="nombres.invalid && (nombres.dirty || nombres.touched)" class="my-1" style="color: rgb(197, 68, 68);">
-                                <div *ngIf="nombres.errors.required">
-                                * El nombre de la categoría es requerido.
+                    <div class="row justify-content-center">
+                        <div class="my-2 col-sm-12 col-md-12 col-lg-6">
+                            <label for="inputDireccion">Dirección</label>
+                            <div>
+                                <input type="text" formControlName="direccion" id="inputDireccion" class="border-left-primary font-tamanio form-control" placeholder="Ingrese dirección">
+                                <div *ngIf="direccion.invalid && (direccion.dirty || direccion.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                                    <div *ngIf="direccion.errors.required">
+                                    * El direccion es requerido es requerido.
+                                    </div>
+                                    <div *ngIf="direccion.errors.maxlength">
+                                    * Se requieren máximo 60 caracteres.
+                                    </div>
+                                    <div *ngIf="direccion.errors.pattern">
+                                    * El formato es inválido.
+                                    </div>
                                 </div>
-                                <div *ngIf="nombres.errors.maxlength">
-                                * Se requieren máximo 50 caracteres.
-                                </div>
-                                <div *ngIf="nombres.errors.pattern">
-                                * El formato es inválido.
+                            </div>
+                        </div>
+                        <div class="my-2 col-sm-12 col-md-12 col-lg-6">
+                            <label class="mr-sm-2" for="inputRol">Rol</label>
+                            <select  formControlName="rol" id="inputRol" class="border-left-primary form-select mr-sm-2" >
+                                <option hidden value="" disabled>Escoge una opción</option>
+                                <option [value]="rol.ROL_ID" *ngFor="let rol of roles">{{rol.ROL_NOMBRE}}</option>
+                            </select>
+                            <div *ngIf="rol.invalid && (rol.dirty || rol.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                                <div *ngIf="rol.errors.required">
+                                    * El rol es requerido.
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
-                
+            </div>
+        </form>
+        <div class="row d-flex text-center justify-content-center">
+            <div class="my-2 col-sm-12 col-md-12 col-lg-3 ">
+                <button  (click)="createUser();" [disabled]="userForm.invalid" class="btn btn-primary btn-icon-split" >
+                    <span class="text"><strong>Registrar</strong>&nbsp;<i class="fas fa-save"></i></span>
+                </button>
+            </div>
+            <div class="my-2 col-sm-12 col-md-12 col-lg-3">
+                <button (click)="d('Cross click')" class="btn btn-warning btn-icon-split">
+                    <span class="text"><strong>Cancelar</strong>&nbsp;<i class="fas fa-arrow-circle-left"></i></span>
+                </button>
+            </div>
+        </div>
+        
+    </div>
+</ng-template>
+
+<ng-template #seeMoreModal>
+    <div class="modal-header justify-content-center">
+        <h4 class="modal-title " >Registar Usuario</h4>
+    </div>
+    <div class="modal-body">
+        <form>
+            <div class="form-group">
+                    <div class="row justify-content-center">
+                        <div class="my-2 col-sm-12 col-md-12 col-lg-6">
+                            <label for="inputNombres">Nombres</label>
+                            <div>
+                                <input type="text" formControlName="nombres" id="inputNombres" class="border-left-primary font-tamanio form-control" placeholder="Ingrese la categoría">
+                            </div>
+                        </div>
+                        <div class="my-2 col-sm-12 col-md-12 col-lg-6">
+                            <label for="inputSexo">Sexo</label>
+                            <div class="row">
+                                    <div class="form-check" style="align-items: center;text-align: center;">
+                                        <input (change)="obtenerSexo('M')"  class="form-check-input" type="radio" name="exampleRadios" id="inputMasculino">
+                                        <label class="form-check-label" for="inputMasculino">Masculino</label>
+                                    </div>
+                                    <div class="form-check" style="align-items: center;text-align: center;">
+                                        <input (change)="obtenerSexo('F')"  class="form-check-input" type="radio" name="exampleRadios" id="inputFemenino" checked>
+                                        <label class="form-check-label" for="inputFemenino">Femenino</label>
+                                    </div> 
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="my-2 col-sm-12 col-md-12 col-lg-6">
+                            <label for="inputApellidoPaterno">Apellido Paterno</label>
+                            <div>
+                                <input type="text" formControlName="apellido_paterno" id="inputApellidoPaterno" class="border-left-primary font-tamanio form-control" placeholder="Ingrese primer apellido">
+                            </div>
+                        </div>
+                        <div class="my-2 col-sm-12 col-md-12 col-lg-6">
+                            <label for="inputApeliidoMaterno">Apellido Materno</label>
+                            <div>
+                                <input type="text" formControlName="apellido_materno" id="inputApeliidoMaterno" class="border-left-primary font-tamanio form-control" placeholder="Ingrese segundo apellido">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="my-2 col-sm-12 col-md-12 col-lg-6">
+                            <label for="inputUser" >Usuario</label>
+                            <div>
+                                <input type="text" id="inputUser" formControlName="user" class="border-left-primary font-tamanio form-control" placeholder="Ingrese alias de usuario">
+                            </div>
+                        </div>
+                        <div class="my-2 col-sm-11 col-md-11 col-lg-5">
+                            <label for="inputContrasenia">Contraseña</label>
+                            <div>
+                                <input type={{PASSWORD_CURRENT_TYPE}} id="inputContrasenia" formControlName="contrasena" class="border-left-primary font-tamanio form-control" placeholder="Ingrese contraseña">
+                            </div>
+                        </div>
+                        <div class="my-2 col-sm-1 col-md-1 col-lg-1 mt-sm-0 mt-md-5 centrar-ojo">
+                            <span (click)="cambiarVistaContrasena()">
+                                <i  class={{PASSWORD_CURRENT_ICON}} aria-hidden="true" ></i>
+                            </span>
+                        </div>
+                        
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="my-2 col-sm-12 col-md-12 col-lg-6">
+                            <label for="inputEmail">Correo electrónico</label>
+                            <div>
+                                <input type="email" formControlName="email" id="inputEmail" class="border-left-primary font-tamanio form-control" placeholder="Ingrese email">
+                            </div>
+                        </div>
+                        <div class="my-2 col-sm-12 col-md-12 col-lg-6">
+                            <label for="inputCelular">Celular</label>
+                            <div>
+                                <input type="text" formControlName="celular" id="inputCelular" class="border-left-primary font-tamanio form-control" placeholder="Ingrese celular">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="my-2 col-sm-12 col-md-12 col-lg-6">
+                            <label style="padding-left:0.5rem">Fecha de Nacimiento</label>
+                            <input  [max]="getTodayFechaNacimiento()" [ngClass]="{'textoGris': opacarDateFechaNacimiento }" 
+                                (change)="cambiarDeStyleDate()" formControlName="fecha_nacimiento" type="date" id="fechaInput" name="fechaInput" class="border-left-primary  form-control" >
+                        </div>
+                        <div class="my-2 col-sm-12 col-md-12 col-lg-6">
+                            <label for="inputdni">DNI</label>
+                            <div>
+                                <input type="text" formControlName="dni" id="inputdni" class="border-left-primary font-tamanio form-control" placeholder="Ingrese documento de identidad">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="my-2 col-sm-12 col-md-12 col-lg-6">
+                            <label for="inputDireccion">Dirección</label>
+                            <div>
+                                <input type="text" formControlName="direccion" id="inputDireccion" class="border-left-primary font-tamanio form-control" placeholder="Ingrese dirección">
+                            </div>
+                        </div>
+                        <div class="my-2 col-sm-12 col-md-12 col-lg-6">
+                            <label class="mr-sm-2" for="inputRol">Rol</label>
+                            <select  formControlName="rol" id="inputRol" class="border-left-primary form-select mr-sm-2" >
+                                <option hidden value="" disabled>Escoge una opción</option>
+                                <option [value]="rol.ROL_ID" *ngFor="let rol of roles">{{rol.ROL_NOMBRE}}</option>
+                            </select>
+                        </div>
+                    </div>
             </div>
         </form>
         <br>
         <div class="row justify-content-center ">
             <div class="my-1 col-sm-3 col-md-3 col-lg-3">
-                <a  (click)="createUser();" class="btn btn-primary btn-icon-split" >
-                    <span class="text"><strong>Registrar</strong>&nbsp;<i class="fas fa-save"></i></span>
-                </a>
-            </div>
-            <div class="my-1 col-sm-3 col-md-3 col-lg-3">
-                <a (click) = "d('Cross click')" class="btn btn-warning btn-icon-split">
+                <a (click)="closeModal()" class="btn btn-warning btn-icon-split">
                     <span class="text"><strong>Cancelar</strong>&nbsp;<i class="fas fa-arrow-circle-left"></i></span>
                 </a>
             </div>
-            
         </div>
     </div>
 </ng-template>

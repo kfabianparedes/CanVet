@@ -1,7 +1,11 @@
 .row-table{
      color: #6E707E;
 }
-.btn{
-    display: flex;
-    justify-content: center;
+.margin-icon{
+    margin-top: 15rem;
+}
+@media screen and (max-width:768px){
+    .centrar-ojo{
+        text-align: center;
+    }
 }

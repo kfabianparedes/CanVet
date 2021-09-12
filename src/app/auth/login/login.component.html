@@ -2,14 +2,18 @@
     <div class="limiter">
 		<div class="container-login100" >
 			<div class="wrap-login100">
+                <div *ngIf="cargando" class="progress progress-sm" >
+                    <ngb-progressbar class="indeterminate" type="secondary" height=".5rem" [value]="100" [striped]="true" [animated]="true"></ngb-progressbar>
+                </div>
+                <div class="justify-content-center" style="width: 100%;">
+                    <ngb-alert *ngIf="mostrar_alerta" [type]="color_alerta" (closed)="mostrar_alerta = false" >{{mensaje_alerta}}</ngb-alert>
+                </div>
                 <div class="justify-content-center formulario">
+                    
                     <div class="card row o-hidden border-0 ">
                         <div class="card-body p-0">
+                            
                             <div class="row">
-                                <div *ngIf="cargando" class="fixed-top progress" style="position: absolute;">
-                                    <ngb-progressbar type="secondary" height=".5rem" [value]="100" [striped]="true" [animated]="true"></ngb-progressbar>
-                                </div>
-                                <ngb-alert *ngIf="mostrar_alerta" [type]="color_alerta" (closed)="mostrar_alerta = false" >{{mensaje_alerta}}</ngb-alert>
                                 <div class="col-12">
                                     <div class="row">
                                         <div class="col-lg-6 d-none d-lg-block ">

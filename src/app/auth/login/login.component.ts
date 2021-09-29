@@ -39,6 +39,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.storageService.clear();
     this.loginForm = this.formBuilder.group({
       user:['',[Validators.required, Validators.maxLength(60)]],
       password:['',[Validators.required,Validators.minLength(8),Validators.maxLength(20)]],
@@ -60,7 +61,7 @@ export class LoginComponent implements OnInit {
   }
 
   authLogin(){
-    this.storageService.clear();
+    this.mostrar_alerta = false;
     this.cargando = true;
     if(this.loginForm.valid){
       
@@ -74,7 +75,6 @@ export class LoginComponent implements OnInit {
           let textoCompleto: string;
 
           this.cargando = false;
-          console.log(respuesta);
           if (respuesta.exito) {
             for ( let i = 0; i < cantidad ; i++) {
               codigoAscii = codigoAscii + this.user.value[i].charCodeAt(0).toString();
@@ -86,10 +86,10 @@ export class LoginComponent implements OnInit {
             textoCompleto = cantidad + '$$' + firstMitad + respuesta.autenticar + secondMitad;
             this.storageService.storeSub('USE_SUB', textoCompleto);
             this.storageService.storeString('USE_USUARIO', this.user.value.toLowerCase());    // Nombre de usuario (alias)
-            this.storageService.storeString('USE_ID', respuesta.id);      // Es el ID de cliente, no el de usuario
+            this.storageService.storeString('USE_ID', respuesta.id);      // Es el ID de usuario
             this.storageService.storeString('USE_NAMES', respuesta.fullName);   // Concatenación de nombres y apellidos
             this.storageService.storeString("USE_EMAIL", respuesta.email); //email del cliente
-            this.storageService.storeString('USE_TYPE', respuesta.tipo);     // Tipo de usuario 0, representa a un cliente
+            this.storageService.storeString('USE_TYPE', respuesta.tipo);     // Empleado 1 y Administrador 2 
             this.storageService.storeString('USE_STATE', respuesta.estado);
             this.storageService.storeString('USE_SESION', respuesta.sesion);
             if (respuesta.estado === 0) {     // Si estado es "inactivo" (0), entonces muestra un mensaje de error

@@ -4,6 +4,7 @@ import { LayoutRoutingModule } from './layout-routing.module';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -30,7 +31,8 @@ import { VentaComponent } from './venta/venta.component';
     ReactiveFormsModule,
     FormsModule,
     NgbModule,
-    PipesModule
+    PipesModule,
+    MatProgressBarModule
   ],
   exports:[
     DashboardComponent,

@@ -4,12 +4,8 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class StorageService {
-  codigoAscii = '';
+
   storeString(key: string, value: string) {
-    // for ( let i = 0; i < value.length ; i++) {
-    //   this.codigoAscii = this.codigoAscii + value[i].charCodeAt(0).toString();
-    // }
-    // console.log(this.codigoAscii);
     localStorage.setItem(key,value);
   }
   storeSub(key:string, value:string){
@@ -20,11 +16,6 @@ export class StorageService {
   }
 
   getString(key: string) {
-    const valor = localStorage.getItem(key);
-    // for ( let i = 0; i < valor.length ; i++) {
-    //   this.codigoAscii = this.codigoAscii + String.fromCharCode(valor).toString();
-    // }
-    console.log(this.codigoAscii);
     return localStorage.getItem(key);
   }
 

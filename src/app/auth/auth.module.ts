@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from '../shared/shared.module';
 import { NgxCaptchaModule } from 'ngx-captcha';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 import { LoginComponent } from './login/login.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -20,7 +21,8 @@ import { ProfileComponent } from './profile/profile.component';
     NgxCaptchaModule,
     ReactiveFormsModule,
     FormsModule,
-    NgbModule
+    NgbModule,
+    MatProgressBarModule
   ],
   exports:[
     LoginComponent,

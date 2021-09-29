@@ -1,4 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
@@ -19,12 +20,12 @@ export class HeaderComponent implements OnInit{
   USE_USUARIO:string;
   USU_ID:string;
   hash:string;
-  constructor(private storageService:StorageService){
+  constructor(private router:Router ,private storageService:StorageService){
 
   }
   ngOnInit(): void {
     this.width = window.innerWidth;
-    this.USE_USUARIO = this.storageService.getString('USE_USUARIO');
+    this.USE_USUARIO = this.storageService.getString('USE_NAMES');
     this.USU_ID = this.storageService.getString('USU_ID');
   }
   clickEvent(){
@@ -34,6 +35,12 @@ export class HeaderComponent implements OnInit{
     }else{
       this.toggled = 'toggled'; 
     }
+  }
+
+  cerrarSesion(){
+    this.router.navigate(["/"]);
+    this.storageService.clear();
+    
   }
 
 }

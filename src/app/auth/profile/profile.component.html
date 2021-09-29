@@ -1,4 +1,6 @@
-<div class="container-fluid">
+<div class="row justify-content-center">
+    <mat-progress-bar *ngIf="cargando" mode="indeterminate" class="alert-loading"></mat-progress-bar>
+    <ngb-alert *ngIf="mostrar_alerta" [type]="tipo_alerta" (closed)="mostrar_alerta = false" class="alert-loading">{{mensaje_alerta}}</ngb-alert>
     <h1 class="row h3 mb-2 text-gray-800 text-center"><span>Mi perfil</span></h1>
     <div class="mt-4 row">
         <div class="col-sm-12  col-md-4 info ">
@@ -10,36 +12,113 @@
             </div>
         </div>
         <div class="col-sm-12  offset-md-1 col-md-6 info">
-            <form [formGroup]="usuarioForm">
+            <form [formGroup]="userForm">
                 <div class="row justify-content-center">
                     <div class="form-group row">
                         <label><strong>Nombre de usuario:</strong></label>
                         <input type="text" formControlName="user" class="border-left-primary font-tamanio form-control" placeholder="Ingrese usuario...">
+                        <div *ngIf="user.invalid && (user.dirty || user.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                            <div *ngIf="user.errors.required">
+                            * El nombre de la categoría es requerido.
+                            </div>
+                            <div *ngIf="user.errors.maxlength">
+                            * Se requieren máximo 60 caracteres.
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group row">
                         <label><strong>Email:</strong></label>
                         <input type="email" formControlName="email" class="border-left-primary font-tamanio form-control " placeholder="Ingrese correo electrónico...">
+                        <div *ngIf="email.invalid && (email.dirty || email.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                            <div *ngIf="email.errors.required">
+                            * El email es requerido.
+                            </div>
+                            <div *ngIf="email.errors.maxlength">
+                            * Se requieren máximo 60 caracteres.
+                            </div>
+                            <div *ngIf="email.errors.pattern">
+                            * El formato es inválido.
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group row">
-                        <label><strong>Contraseña:</strong></label>
-                        <input type="password" formControlName="email" class="border-left-primary font-tamanio form-control " placeholder="Ingrese correo electrónico...">
+                       <div class="p-0 col-sm-8 col-md-11 col-lg-11">
+                            <label><strong>Contraseña:</strong></label>
+                            <div>
+                                <input type={{PASSWORD_CURRENT_TYPE}} id="inputContrasenia" formControlName="contrasena" class="border-left-primary font-tamanio form-control" placeholder="Ingrese Contraseña">
+                                <div *ngIf="contrasena.invalid && (contrasena.dirty || contrasena.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                                    <div *ngIf="contrasena.errors.required">
+                                    * La contraseña es requerida.
+                                    </div>
+                                    <div *ngIf="contrasena.errors.maxlength">
+                                    * Se requieren máximo 20 caracteres.
+                                    </div>
+                                    <div *ngIf="contrasena.errors.minlength">
+                                    * Se requieren mínimo 8 caracteres.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-0 col-sm-1 col-md-1 col-lg-1 centrar-ojo text-center">
+                            <span (click)="cambiarVistaContrasena()">
+                                <i  class={{PASSWORD_CURRENT_ICON}} aria-hidden="true" ></i>
+                            </span>
+                        </div>
                     </div>
+                    
                     <div class="form-group row">
                         <label><strong>Nombres:</strong></label>
                         <input type="text" formControlName="nombres" class="border-left-primary font-tamanio form-control " placeholder="Ingrese correo electrónico...">
+                        <div *ngIf="nombres.invalid && (nombres.dirty || nombres.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                            <div *ngIf="nombres.errors.required">
+                            * El nombre de usuario es requerido.
+                            </div>
+                            <div *ngIf="nombres.errors.maxlength">
+                            * Se requieren máximo 50 caracteres.
+                            </div>
+                            <div *ngIf="nombres.errors.pattern">
+                            * El formato es inválido.
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group row">
                         <label><strong>Apellido Paterno:</strong></label>
                         <input type="text" formControlName="apellido_paterno" class="border-left-primary font-tamanio form-control " placeholder="Ingrese apellido materno...">
+                        <div *ngIf="apellido_paterno.invalid && (apellido_paterno.dirty || apellido_paterno.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                            <div *ngIf="apellido_paterno.errors.required">
+                            * El apellido paterno es requerido.
+                            </div>
+                            <div *ngIf="apellido_paterno.errors.maxlength">
+                            * Se requieren máximo 30 caracteres.
+                            </div>
+                            <div *ngIf="apellido_paterno.errors.pattern">
+                            * El formato es inválido.
+                            </div>
+                        </div>
                     </div> 
                     <div class="form-group row">
                         <label><strong>Apellido Materno:</strong></label>
                         <input type="text" formControlName="apellido_materno" class="border-left-primary font-tamanio form-control " placeholder="Ingrese apellido materno...">
+                        <div *ngIf="apellido_materno.invalid && (apellido_materno.dirty || apellido_materno.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                            <div *ngIf="apellido_materno.errors.required">
+                            * El apellido materno es requerido.
+                            </div>
+                            <div *ngIf="apellido_materno.errors.maxlength">
+                            * Se requieren máximo 30 caracteres.
+                            </div>
+                            <div *ngIf="apellido_materno.errors.pattern">
+                            * El formato es inválido.
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group row">
                         <label><strong>Sexo:</strong></label>
                         <input type="text" formControlName="sexo" class="border-left-primary font-tamanio form-control " placeholder="Ingrese apellido materno...">
                     </div>  
+                    
+                </div>
+                <div class="row mt-3 justify-content-center">
+                    <button class="col-4 btn btn-primary" (click)="userUpdate()">Actualizar</button>
                 </div>
             </form>
         </div>

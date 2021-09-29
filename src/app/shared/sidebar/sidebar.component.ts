@@ -1,12 +1,21 @@
-import { Component} from '@angular/core';
-
+import { Component, OnInit} from '@angular/core';
+import { StorageService } from 'src/app/services/storage.service';
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css']
 })
-export class SidebarComponent {
+export class SidebarComponent implements OnInit{
+
+  USE_TYPE: string;
   
+  constructor(private storageService:StorageService){
+  }
+
+  ngOnInit(): void {
+    this.USE_TYPE = this.storageService.getString('USE_TYPE');
+    console.log(this.USE_TYPE);
+  }
   toggled: string = '';
   
   clickEvent(){

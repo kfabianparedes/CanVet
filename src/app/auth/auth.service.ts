@@ -20,5 +20,4 @@ export class AuthService {
       }
     ).pipe(retry(2));
   }
-
 }

@@ -8,6 +8,7 @@ export class Usuario {
     USU_SEXO : string; 
     USU_DNI : string;
     USU_CELULAR : string;
+    USU_FECHA_NACIMIENTO:string;
     USU_DIRECCION :string;
     USU_EMAIL :string;
     USU_ESTADO :number; //Habilitado(1) / Deshabilitado(0) / Cambio de contraseña (2) 

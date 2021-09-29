@@ -12,7 +12,7 @@ export class RolService {
 
   constructor(private http: HttpClient, private storageService: StorageService) { }
 
-  listUsers():Observable<any>{
+  listRols():Observable<any>{
     const url = environment.domain_url + '/api/roles/listarRoles';
     return this.http.get<any>(url).pipe(retry(2));
   }

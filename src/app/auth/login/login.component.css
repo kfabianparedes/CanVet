@@ -45,7 +45,10 @@
   }
   .formulario{
     margin-top: 0;
-}
+  }
+  .alert-loading{
+    width: 100%;
+  }
 }
 
 @media (max-width: 768px) {
@@ -72,4 +75,8 @@
         margin-top: 0;
         overflow-x: scroll;
     }
+}
+
+.alert-loading{
+  width: 100%;
 }

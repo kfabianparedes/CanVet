@@ -1,0 +1,15 @@
+.centrar-ojo{
+    margin-top: 2.5rem;
+    padding-left: 1rem;
+}
+.alert-loading{
+    margin-top:-1.5rem;
+    margin-bottom:1.5rem;
+}
+@media screen and (max-width:768px){
+    .centrar-ojo{
+        text-align: center;
+        margin-top: 1rem;
+        padding: 0;
+    }
+}

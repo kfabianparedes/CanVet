@@ -9,6 +9,7 @@ import { AuthModule } from './auth/auth.module';
 import { CommonModule } from '@angular/common';
 import { AppComponent } from './app.component';
 import { NotfoundComponent } from './layout/notfound/notfound.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 
@@ -23,7 +24,7 @@ import { NotfoundComponent } from './layout/notfound/notfound.component';
     AppRoutingModule,
     LayoutModule,
     AuthModule,
-    SharedModule,HttpClientModule,CommonModule
+    SharedModule,HttpClientModule,CommonModule, BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

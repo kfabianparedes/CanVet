@@ -60,10 +60,10 @@
         </div>
     </li>
 
-    <hr class="sidebar-divider ">
+    <hr  *ngIf = "USE_TYPE === '2' " class="sidebar-divider ">
     <!-- Heading -->
     <!-- Nav Item - Pages Collapse Menu -->
-    <li class="nav-item">
+    <li *ngIf = "USE_TYPE === '2' " class="nav-item">
         <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true"
             aria-controls="collapsePages">
             <i class="fas fa-user-shield"></i>

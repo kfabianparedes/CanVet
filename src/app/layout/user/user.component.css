@@ -1,15 +1,75 @@
-.row-table{
+.color-row-table{
      color: #6E707E;
 }
 .margin-icon{
     margin-top: 15rem;
 }
+
+
 @media screen and (max-width:768px){
     .centrar-ojo{
         text-align: center;
     }
+    
 }
 .alert-loading{
     margin-top:-1.5rem;
     margin-bottom:1.5rem;
+}
+
+/*Botones de las tablas*/
+
+
+@media screen and (min-width:1360px){
+    .col-button-table{
+        justify-content: center;
+    }
+    .button-table{
+        margin:0.5rem;
+        padding-right: 2rem;
+    }
+}
+@media screen and (max-width:1359px){
+    .table-module{
+        overflow-x: scroll;
+    }
+    .button-table{
+        justify-content: center;
+        margin: 0.2rem;
+    }
+    .btn-edit{
+        margin-left: 1rem;
+    }
+}
+@media screen and (max-width:1280px){
+    .table-module{
+        overflow-x: scroll;
+    }
+    .button-table{
+        justify-content: center;
+        margin: 0.2rem;
+        padding-right: 1rem;
+    }
+    .btn-edit{
+        margin-left: 0.2rem;
+    }
+}
+@media screen and (max-width:1120px){
+    .table-module{
+        overflow-x: scroll;
+    }
+    .button-table{
+        justify-content: center;
+        margin: 0.2rem;
+    }
+    .btn-edit{
+        margin-left: 1rem;
+    }
+}
+@media screen and (max-width:767px){
+    .button-table{
+        justify-content: center;
+        margin: 0 0 0 1rem;
+    }
+    
 }

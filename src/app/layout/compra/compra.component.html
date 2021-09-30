@@ -1,0 +1,157 @@
+
+<div class="row justify-content-center">
+    <!-- <mat-progress-bar *ngIf="cargando && !modalIn" mode="indeterminate" class="alert-loading"></mat-progress-bar>
+    <ngb-alert *ngIf="mostrar_alerta && !modalIn" [type]="tipo_alerta" (closed)="mostrar_alerta = false" class="alert-loading">{{mensaje_alerta}}</ngb-alert> -->
+    
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800 col-12 text-center">Registo de Compra</h1>
+
+    <!-- DataTales Example -->
+    
+    <div class="card shadow mb-4 col-12 col-lg-11" style="height: 100%;">
+        <div class="card-header py-3 row">
+            <div class="col-sm-12 col-md-5 hora-etiqueta">
+                <span><strong>Fecha de Registro:</strong>&nbsp;&nbsp;{{fecha_hoy | date: 'dd/MM/yyyy'}}</span>
+            </div>
+        </div>
+        <div class="card-body text-gray-400 ">
+           <div class="row color-row-table">
+               <div class="col-sm-12 col-md-5">
+                   <label for="inputProveedor">Proveedor:</label>
+                   <input type="text" id="inputProveedor" class="border-left-primary font-tamanio form-control">
+               </div>
+           </div>
+           <br>
+           <div class="row color-row-table">
+                <div class="col-sm-12 col-md-5 mb-4">
+                    <label for="inputTipoComprobante">Tipo comprobante:</label>
+                    <select  id="inputTipoComprobante" class="border-left-primary form-select mr-sm-2" >
+                        <option hidden value="" disabled>Escoge una opción</option>
+                        <option >asdas</option>
+                    </select>
+                </div>
+                <br>
+                <div class="offset-sm-0 offset-md-1 col-5 col-md-2">
+                        <label for="inputProveedor">Serie/Folio:</label>
+                        <input type="text" id="inputProveedor" class="border-left-primary font-tamanio form-control">
+                </div>
+                
+                <div class="col-7 col-md-4">
+                    <label for="inputProveedor">Nro. Comprobante:</label>
+                    <input type="text" id="inputProveedor" class="border-left-primary font-tamanio form-control">
+                </div>
+           </div>
+
+        </div>
+    </div>
+    <div class="card shadow mb-4 col-12 col-lg-11" style="height: 100%;">
+        <div class="card-header py-3 row">
+            <div class="col-sm-12 col-md-5 ">
+                <button type="button"class="btn btn-primary" ><span></span><i class="fas fa-search"></i>&nbsp;&nbsp;Buscar Artículos</button>
+            </div>
+        </div>
+        <div class="card-body text-gray-400 ">
+            <div  *ngIf="productos_detalle.length>0; else detalleModule">
+                <h3>No hay artículos seleccionados.</h3>
+            </div>
+            <ng-template #detalleModule>
+                <div class="table-module">
+                    <table class="table table-bordered text-gray-400" id="dataTable" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th ><span class="color-row-table">Categoría</span></th>
+                                <th ><span class="color-row-table">Producto</span></th>
+                                <th ><span class="color-row-table">Tamaño/Talla</span></th>
+                                <th ><span class="color-row-table">P. Venta</span></th>
+                                <th ><span class="color-row-table">P. Compra</span></th>
+                                <th ><span class="color-row-table">Stock</span></th>
+                                <th ><span class="color-row-table">Importe</span></th>
+                                <th ><span class="color-row-table">Acciones</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let producto of productos_detalle">
+                                <td class="color-row-table" >{{producto.PRO_NOMBRE}}</td>
+                                <td class="color-row-table" >{{producto.PRO_NOMBRE}}</td>
+                                <td class="color-row-table" >{{producto.PRO_NOMBRE}}</td>
+                                <td class="color-row-table" >{{producto.PRO_NOMBRE}}</td>
+                                <td class="color-row-table" >{{producto.PRO_NOMBRE}}</td>
+                                <td class="color-row-table" >{{producto.PRO_NOMBRE}}</td>
+                                <td class="color-row-table" >{{producto.PRO_NOMBRE}}</td>
+                                <td class="color-row-table" >
+                                    <div class="row">
+                                        <!-- <div class="col-sm-1 button-table"  *ngIf="user.USU_ESTADO != 1 && user.USU_ESTADO !=2; else Habilitar">
+                                            <span (click)="disableUser(user.USU_ID,user.USU_ESTADO)" class="btn btn-success btn-circle btn-sm " ngbTooltip="Habilitar">
+                                                <i class="fas fa-check" aria-hidden="true"></i>
+                                            </span>
+                                        </div> -->
+                                    </div>
+                                </td>
+
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- <div class="table-module">
+                    <table class="table table-bordered text-gray-400" id="dataTable" cellspacing="1">
+                        <thead>
+                            <tr>
+                                <th class="color-row-table text-center"><span>Código</span></th>
+                                <th class="color-row-table text-center"><span>Nombres</span></th>
+                                <th class="color-row-table text-center"><span>Apellidos</span></th>
+                                <th class="color-row-table text-center"><span>Celular</span></th>
+                                <th class="color-row-table text-center"><span>Rol</span></th>
+                                <th class="color-row-table text-center"><span>Estado</span></th>
+                                <th class="color-row-table text-center"><span>Acciones</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let user of productos_detalle | slice:(currentPage-1)*itemsPerPage:currentPage*itemsPerPage ; let i = index  ">
+                                <td class="color-row-table" >{{user.USU_ID}}</td>
+                                <td class="color-row-table" >{{user.USU_NOMBRES}}</td>
+                                <td class="color-row-table" >{{user.USU_APELLIDO_PATERNO}}&nbsp;{{user.USU_APELLIDO_MATERNO}}</td>
+                                <td class="color-row-table" >{{user.USU_CELULAR}}</td>
+                                <td class="color-row-table" >{{user.ROL_ID==1?'Administrador':'Empleado'}}</td>
+                                <td class="color-row-table" >{{user.USU_ESTADO==1?'Activo':'Inactivo'}}</td>
+                                <td class="color-row-table " >
+                                    <div class="row col-button-table">
+                                        <div class="col-sm-1 button-table"  *ngIf="user.USU_ESTADO != 1 && user.USU_ESTADO !=2; else Habilitar">
+                                            <span (click)="disableUser(user.USU_ID,user.USU_ESTADO)" class="btn btn-success btn-circle btn-sm " ngbTooltip="Habilitar">
+                                                <i class="fas fa-check" aria-hidden="true"></i>
+                                            </span>
+                                        </div>
+                                        <ng-template #Habilitar>
+                                            <div class="col-sm-1 button-table">
+                                                <span (click)="disableUser(user.USU_ID,user.USU_ESTADO)"  class="btn btn-danger btn-circle btn-sm "ngbTooltip="Deshabilitar">
+                                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                                </span>
+                                            </div>
+                                        </ng-template>
+                                        <div class="col-sm-1 button-table">
+                                            <span   (click)="seeMore(user)" class="btn btn-primary btn-circle btn-sm" ngbTooltip="Ver Más" >
+                                                <i class="fas fa-eye" aria-hidden="true"   ></i>
+                                            </span>
+                                        </div>
+                                        <div class="col-sm-1 button-table btn-edit">
+                                            <span (click)="editUser(user)" class="btn btn-warning btn-circle btn-sm" ngbTooltip="Editar" >
+                                                <i style="color: white;" class="far fa-edit" aria-hidden="true"   ></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    
+                                </td>
+                            </tr>
+                        </tbody>
+                        
+                    </table>
+                    
+                </div> -->
+            </ng-template>
+
+        </div>
+    </div>
+
+
+</div>
+<!-- MODALES -->

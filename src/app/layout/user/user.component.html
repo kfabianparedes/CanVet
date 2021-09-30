@@ -43,52 +43,53 @@
                 </div>    
             </div> 
             <ng-template #userModule>
-                <div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xls">
-                    <table class="table table-bordered text-gray-400" id="dataTable" width="100%"  cellspacing="0">
+                <div class="table-module">
+                    <table class="table table-bordered text-gray-400" id="dataTable" cellspacing="1">
                         <thead>
                             <tr>
-                                <th class="row-table text-center"><span>Código</span></th>
-                                <th class="row-table text-center"><span>Nombres</span></th>
-                                <th class="row-table text-center"><span>Apellidos</span></th>
-                                <th class="row-table text-center"><span>Celular</span></th>
-                                <th class="row-table text-center"><span>Rol</span></th>
-                                <th class="row-table text-center"><span>Estado</span></th>
-                                <th class="row-table text-center"><span>Acciones</span></th>
+                                <th class="color-row-table text-center"><span>Código</span></th>
+                                <th class="color-row-table text-center"><span>Nombres</span></th>
+                                <th class="color-row-table text-center"><span>Apellidos</span></th>
+                                <th class="color-row-table text-center"><span>Celular</span></th>
+                                <th class="color-row-table text-center"><span>Rol</span></th>
+                                <th class="color-row-table text-center"><span>Estado</span></th>
+                                <th class="color-row-table text-center"><span>Acciones</span></th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor="let user of usuarios | slice:(currentPage-1)*itemsPerPage:currentPage*itemsPerPage ; let i = index  ">
-                                <td class="col-1 text-center row-table" >{{user.USU_ID}}</td>
-                                <td class="col-2 row-table" >{{user.USU_NOMBRES}}</td>
-                                <td class="col-2 row-table" >{{user.USU_APELLIDO_PATERNO}}&nbsp;{{user.USU_APELLIDO_MATERNO}}</td>
-                                <td class="col-1 row-table" >{{user.USU_CELULAR}}</td>
-                                <td class="col-2 row-table" >{{user.ROL_ID==1?'Administrador':'Empleado'}}</td>
-                                <td class="col-1 row-table" >{{user.USU_ESTADO==1?'Activo':'Inactivo'}}</td>
-                                <td class="col-3 row-table" >
-                                    <span class="row justify-content-center">
-                                        <span class="col-md-3 justify-content-center"  *ngIf="user.USU_ESTADO != 1 && user.USU_ESTADO !=2; else Habilitar">
-                                            <a (click)="disableUser(user.USU_ID,user.USU_ESTADO)" class="btn btn-success btn-circle btn-sm " ngbTooltip="Habilitar">
+                                <td class="color-row-table" >{{user.USU_ID}}</td>
+                                <td class="color-row-table" >{{user.USU_NOMBRES}}</td>
+                                <td class="color-row-table" >{{user.USU_APELLIDO_PATERNO}}&nbsp;{{user.USU_APELLIDO_MATERNO}}</td>
+                                <td class="color-row-table" >{{user.USU_CELULAR}}</td>
+                                <td class="color-row-table" >{{user.ROL_ID==1?'Administrador':'Empleado'}}</td>
+                                <td class="color-row-table" >{{user.USU_ESTADO==1?'Activo':'Inactivo'}}</td>
+                                <td class="color-row-table " >
+                                    <div class="row col-button-table">
+                                        <div class="col-sm-1 button-table"  *ngIf="user.USU_ESTADO != 1 && user.USU_ESTADO !=2; else Habilitar">
+                                            <span (click)="disableUser(user.USU_ID,user.USU_ESTADO)" class="btn btn-success btn-circle btn-sm " ngbTooltip="Habilitar">
                                                 <i class="fas fa-check" aria-hidden="true"></i>
-                                            </a>
-                                        </span>
-                                        <ng-template #Habilitar>
-                                            <span class="col-md-3 justify-content-center">
-                                                <a (click)="disableUser(user.USU_ID,user.USU_ESTADO)"  class="btn btn-danger btn-circle btn-sm "ngbTooltip="Deshabilitar">
-                                                    <i class="fa fa-times" aria-hidden="true"></i>
-                                                </a>
                                             </span>
+                                        </div>
+                                        <ng-template #Habilitar>
+                                            <div class="col-sm-1 button-table">
+                                                <span (click)="disableUser(user.USU_ID,user.USU_ESTADO)"  class="btn btn-danger btn-circle btn-sm "ngbTooltip="Deshabilitar">
+                                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                                </span>
+                                            </div>
                                         </ng-template>
-                                        <span class="col-md-3 justify-content-center">
-                                            <a   (click)="seeMore(user)" class="btn btn-primary btn-circle btn-sm" ngbTooltip="ver más" >
-                                                <i style="color: white;" class="fas fa-eye" aria-hidden="true"   ></i>
-                                            </a>
-                                        </span>
-                                        <span class="col-md-3 justify-content-center">
-                                            <a (click)="editUser(user)" class="btn btn-warning btn-circle btn-sm" ngbTooltip="Editar" >
+                                        <div class="col-sm-1 button-table">
+                                            <span   (click)="seeMore(user)" class="btn btn-primary btn-circle btn-sm" ngbTooltip="Ver Más" >
+                                                <i class="fas fa-eye" aria-hidden="true"   ></i>
+                                            </span>
+                                        </div>
+                                        <div class="col-sm-1 button-table btn-edit">
+                                            <span (click)="editUser(user)" class="btn btn-warning btn-circle btn-sm" ngbTooltip="Editar" >
                                                 <i style="color: white;" class="far fa-edit" aria-hidden="true"   ></i>
-                                            </a>
-                                        </span>
-                                    </span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    
                                 </td>
                             </tr>
                         </tbody>

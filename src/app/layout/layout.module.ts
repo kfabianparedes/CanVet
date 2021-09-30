@@ -17,11 +17,12 @@ import { ProveedorComponent } from './proveedor/proveedor.component';
 import {PipesModule} from '../shared/pipes/pipes.module';
 import { CitaComponent } from './cita/cita.component';
 import { VentaComponent } from './venta/venta.component';
+import { CompraComponent } from './compra/compra.component';
 
 @NgModule({
   declarations: [
     DashboardComponent,
-    LayoutComponent,CategoriaComponent,ProductoComponent, UserComponent, ProveedorComponent, CitaComponent, VentaComponent
+    LayoutComponent,CategoriaComponent,ProductoComponent, UserComponent, ProveedorComponent, CitaComponent, VentaComponent, CompraComponent
   ],
   imports: [
     CommonModule,

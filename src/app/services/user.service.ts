@@ -102,7 +102,7 @@ export class UserService {
       USU_SEXO : usuario.USU_SEXO, 
       USU_EMAIL : usuario.USU_EMAIL
     }
-    console.log(datos);
+    console.log(this.httpHead);
     return this.http.put<any>(url,datos,this.httpHead).pipe(retry(2));
   }
 }

@@ -38,7 +38,12 @@ export class ProductoComponent implements OnInit {
   precioAnterior:number; 
   fechaAnterior:Date;
 
+// Paginación
+  currentPage = 1;
+  itemsPerPage = 10;
+
   carga = false; 
+  cargaModal = false; 
   productoForm: FormGroup;
   productoInsertar = new Producto();
   
@@ -55,7 +60,7 @@ export class ProductoComponent implements OnInit {
 
 
   ngOnInit(): void {
-    
+    this.carga = true; 
     this.listarProductos();
   }
 
@@ -64,8 +69,9 @@ export class ProductoComponent implements OnInit {
       data=>{
         this.proveedores = data['resultado'];
         console.log(this.proveedores);
+        this.carga = false; 
     },error=>{
-
+        this.carga = false; 
     });
   }
   abrirVerMasProducto(producto:any){
@@ -144,6 +150,9 @@ export class ProductoComponent implements OnInit {
   }
 
   editarProductoFunc(){
+
+    this.cargaModal = true; 
+
     this.productoInsertar.PRO_ID = this.productoSeleccionado.PRO_ID;
     this.productoInsertar.PRO_CODIGO = "";
     this.productoInsertar.PRO_STOCK = +"0"; 
@@ -159,10 +168,12 @@ export class ProductoComponent implements OnInit {
       this.productoInsertar = null;
       this.productoSeleccionado= null;
       this.productos.length = 0;
+      this.cargaModal = false;
       this.productoForm.reset();
       this.listarProductos();
       this.modal.dismissAll();
     },error=>{
+      this.cargaModal = false;
 
     });
   }
@@ -172,7 +183,9 @@ export class ProductoComponent implements OnInit {
       data=>{
         this.productos = data['resultado']; 
         console.log(this.productos);
+        this.carga = false; 
       },error=>{
+        this.carga = false; 
 
       }
     ); 
@@ -198,6 +211,7 @@ export class ProductoComponent implements OnInit {
   } 
   insertarProducto(producto:any){
     
+    this.cargaModal = true;
     this.productoInsertar.PRO_CODIGO = "";
     this.productoInsertar.PRO_STOCK = +"0"; 
     this.productoInsertar.PRO_TAMANIO_TALLA =  this.tamnioTallaProducto.value;
@@ -231,7 +245,9 @@ export class ProductoComponent implements OnInit {
     this.productoService.insertarProducto(this.productoInsertar).subscribe(
       data=>{
         console.log("Si insertó :D");
+        this.cargaModal = false;
       },error=>{
+        this.cargaModal = false;
 
       }
     );

@@ -1,10 +1,6 @@
-
-<div *ngIf="carga" class="progress" style="height:1rem">
-    <ngb-progressbar class="indeterminate" type="primary" height="1rem" [value]="100" [striped]="true" [animated]="true"></ngb-progressbar>
-</div>
-<ngb-alert *ngIf="mostrarAlerta" [type]="tipoAlerta" (closed)="mostrarAlerta = false" >{{mensajeAlerta}}</ngb-alert>
-<div *ngIf = "!carga" class="row justify-content-center">
-    
+<div  class="row justify-content-center">
+    <mat-progress-bar *ngIf="carga" mode="indeterminate" class="alert-loading"></mat-progress-bar>
+    <ngb-alert *ngIf="mostrarAlerta" [type]="tipoAlerta" class="alert-loading" (closed)="mostrarAlerta = false" >{{mensajeAlerta}}</ngb-alert>
     <!-- Page Heading -->
     <h1 class="h3 mb-2 text-gray-800 col-12 text-center">Categorias de productos</h1>
     <br><br>
@@ -22,7 +18,7 @@
             
         </div>
         <div class="card-body text-gray-400 ">
-            <div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xls">
+            <div class="table-module">
                 <table class="table table-bordered text-gray-400" id="dataTable" width="100%"  cellspacing="0">
                     <thead>
                         <tr>
@@ -38,20 +34,20 @@
                             <td class="col-5" style="color: #6E707E;">{{cat.CAT_NOMBRE}}</td>
                             <td class="col-3" style="color: #6E707E;">{{cat.CAT_ESTADO==1?'Activo':'Inactivo'}}</td>
                             <td class="col-3" >
-                                <span class="row justify-content-center">
-                                    <span class="col-6 col-lg-3"  *ngIf="cat.CAT_ESTADO != 1; else Habilitar">
+                                <span class="row col-button-table">
+                                    <span class="col-sm-1 button-table"  *ngIf="cat.CAT_ESTADO != 1; else Habilitar">
                                         <a (click)="habilitarInhabilitarCategoria(cat.CAT_ID,cat.CAT_ESTADO)" class="btn btn-success btn-circle btn-sm " ngbTooltip="Habilitar">
                                             <i class="fas fa-check" aria-hidden="true"></i>
                                         </a>
                                     </span>
                                     <ng-template #Habilitar>
-                                        <span class="col-6 col-lg-3">
+                                        <span class="col-sm-1 button-table">
                                             <a (click)="habilitarInhabilitarCategoria(cat.CAT_ID,cat.CAT_ESTADO)"  class="btn btn-danger btn-circle btn-sm "ngbTooltip="Deshabilitar">
                                                 <i class="fa fa-times" aria-hidden="true"></i>
                                             </a>
                                         </span>
                                     </ng-template>
-                                    <span class="col-6 col-lg-3">
+                                    <span class="col-sm-1 button-table">
                                         <a (click)="abrirEditarCategoria(cat)" class="btn btn-warning btn-circle btn-sm" ngbTooltip="Editar" >
                                             <i style="color: white;" class="far fa-edit" aria-hidden="true"   ></i>
                                         </a>
@@ -86,6 +82,7 @@
     <div class="modal-header">
         <h4 class="modal-title" id="exampleModalLongTitle">Categoría: {{categoriaSeleccionada.CAT_NOMBRE}}</h4>
     </div>
+    <mat-progress-bar *ngIf="cargaModal" mode="indeterminate"></mat-progress-bar>
     <div class="modal-body">
         <br>
         <form [formGroup]="categoriaForm">
@@ -129,8 +126,8 @@
 <ng-template #crearCategoria let-d="dismiss">
     <div class="modal-header">
         <h4 class="modal-title" id="exampleModalLongTitle">Crear Categoría</h4>
-        
     </div>
+    <mat-progress-bar *ngIf="cargaModal" mode="indeterminate"></mat-progress-bar>
     <div class="modal-body">
         <br>
         <form [formGroup]="categoriaForm">

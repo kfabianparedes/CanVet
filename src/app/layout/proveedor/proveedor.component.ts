@@ -22,12 +22,14 @@ export class ProveedorComponent implements OnInit {
   proveedorSeleccionado:Proveedor;
 
   ngOnInit(): void {
+    this.carga = true; 
     this.listarProveedores();
   }
   currentPage = 1;
   itemsPerPage = 10;
   
   carga = false; 
+  cargaModal = false; 
   proveedorForm: FormGroup;
 
   tipoAlerta = "";
@@ -43,8 +45,9 @@ export class ProveedorComponent implements OnInit {
     this.proveedorService.listarProveedores().subscribe(
       data=>{
         this.proveedores = data['resultado'];
+        this.carga = false;
       },error=>{  
-
+        this.carga = false;
     });
   }
   inicializarFormularioProveedor(){
@@ -56,6 +59,7 @@ export class ProveedorComponent implements OnInit {
     });
   }
   insertarProveedor(){
+    this.cargaModal = true;
     this.proveedorInsertar.PROV_EMPRESA_PROVEEDORA = this.nombreEmpresa.value;
     this.proveedorInsertar.PROV_RUC = this.ruc.value;
     this.proveedorInsertar.PROV_NUMERO_CONTACTO = this.numeroContacto.value;
@@ -65,6 +69,7 @@ export class ProveedorComponent implements OnInit {
         data=>{
           console.log("Se insertó correctamente");
           this.proveedores.length = 0 ;
+          this.cargaModal = false;
           this.modal.dismissAll();
           this.resetearFormulario();  
           this.listarProveedores();
@@ -73,10 +78,13 @@ export class ProveedorComponent implements OnInit {
       });
     }else{
       console.log("error");
+      this.cargaModal = false;
     }
 
   }
   actualizarProveedor(){
+    
+    this.cargaModal = true;
     this.proveedorSeleccionado.PROV_EMPRESA_PROVEEDORA = this.nombreEmpresa.value;
     this.proveedorSeleccionado.PROV_RUC = this.ruc.value;
     this.proveedorSeleccionado.PROV_NUMERO_CONTACTO = this.numeroContacto.value;
@@ -89,23 +97,29 @@ export class ProveedorComponent implements OnInit {
         this.listarProveedores();
       },error=>{
         console.log("no editó");
+        this.cargaModal = false;
       });
   
   }
   habilitarInhabilitarProveedor(PROV_ID:number,PROV_ESTADO:number){
-    
+    this.carga = true;
     
     if(PROV_ESTADO == 1){
       PROV_ESTADO = 2; 
+      this.mensajeAlerta = 'Se ha inhabilitado la categoría satisfactoriamente.';
     }else{
       PROV_ESTADO =  1; 
+      this.mensajeAlerta = 'Se ha habilitado la categoría satisfactoriamente.'
+
     }
     
     this.proveedorService.habilitarInhabilitarProveedor(PROV_ID,PROV_ESTADO).subscribe(data=>
       {
         this.listarProveedores();
+        this.tipoAlerta = 'success';
+        this.mostrarAlerta = true; 
       },error=>{
-
+        this.carga = false;
       });
   }
 

@@ -22,6 +22,7 @@ export class CategoriaComponent implements OnInit {
                   configModal.keyboard = false;
                 }
   carga = false; 
+  cargaModal = false; 
   categoriaForm: FormGroup;
   tipoAlerta = "";
   mostrarAlerta = false;
@@ -52,16 +53,18 @@ export class CategoriaComponent implements OnInit {
   
   
   insertarCategoria(){
-
+    this.cargaModal = true;
     this.categoriaService.crearCategoria(this.nombreCategoria.value).subscribe(data => {
       
       this.categoriaForm.reset();
+      this.cargaModal = false;
       this.modal.dismissAll();  
       this.listarCategorias(); 
       this.tipoAlerta = 'success';
       this.mostrarAlerta = true; 
       this.mensajeAlerta = 'Se ha creado la categoría satisfactoriamente.';
     },error=>{
+      this.cargaModal = false;
 
     }
     );
@@ -69,14 +72,17 @@ export class CategoriaComponent implements OnInit {
   }
 
   catUpdate(cat:Categoria){
+    this.cargaModal = true;
     this.categoriaService.editarCategoria(cat,this.nombreCategoria.value).subscribe(data => {
       this.categoriaForm.reset();
+      this.cargaModal = false;
       this.modal.dismissAll();  
       this.listarCategorias(); 
       this.tipoAlerta = 'success';
       this.mostrarAlerta = true; 
       this.mensajeAlerta = 'Se ha actualizado la categoría satisfactoriamente.';
     },error=>{
+      this.cargaModal = false;
 
     }
     );
@@ -100,7 +106,7 @@ export class CategoriaComponent implements OnInit {
   }
 
   habilitarInhabilitarCategoria(CAT_ID:number,CAT_ESTADO:number){
-    
+    this.carga = true;
     
     if(CAT_ESTADO == 1){
       CAT_ESTADO = 2; 
@@ -117,7 +123,7 @@ export class CategoriaComponent implements OnInit {
         this.tipoAlerta = 'success';
         this.mostrarAlerta = true; 
       },error=>{
-
+        this.carga = false;
       });
   }
   closeModal(): any {

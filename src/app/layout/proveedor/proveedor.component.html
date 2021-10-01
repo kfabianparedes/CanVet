@@ -3,7 +3,8 @@
 </div> -->
 <!-- *ngIf = "!carga" -->
 <div  class="row justify-content-center">
-
+    <mat-progress-bar *ngIf="carga" mode="indeterminate" class="alert-loading"></mat-progress-bar>
+    <ngb-alert *ngIf="mostrarAlerta" [type]="tipoAlerta" class="alert-loading" (closed)="mostrarAlerta = false" >{{mensajeAlerta}}</ngb-alert>
     <!-- Page Heading -->
     <h1 class="h3 mb-2 text-gray-800 col-12 text-center">Proveedores</h1>
     <br><br>
@@ -21,7 +22,7 @@
         </div>
 
         <div class="card-body text-gray-400 ">
-            <div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xls">
+            <div class="table-module">
                 <table class="table table-bordered text-gray-400" id="dataTable" width="100%"  cellspacing="0">
                     <thead>
                         <tr>
@@ -29,49 +30,55 @@
                             <th ><span style="color: #6E707E;">Nombre de la empresa</span></th>
                             <th ><span style="color: #6E707E;">RUC</span></th>
                             <th ><span style="color: #6E707E;">Número de contacto</span></th>
+                            <th ><span style="color: #6E707E;">Estado</span></th>   
                             <th ><span style="color: #6E707E;">Acciones</span></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let pro of proveedores  ; let i = index">
-                            <td class="col-1" style="color: #6E707E;">{{i + 1}}</td>
-                            <td class="col-4" style="color: #6E707E;">{{pro.PROV_EMPRESA_PROVEEDORA}}</td>
-                            <td class="col-2" style="color: #6E707E;">{{pro.PROV_RUC}}</td>
-                            <td class="col-2" style="color: #6E707E;">{{pro.PROV_NUMERO_CONTACTO}}</td>
-                            <td class="col-3" style="color: #6E707E;">
-                                <span class="row justify-content-center">
+                        <tr *ngFor="let pro of proveedores | slice:(currentPage-1)*itemsPerPage:currentPage*itemsPerPage ; let i = index">
+                            <td class="color-row-table" style="color: #6E707E;">{{i + 1}}</td>
+                            <td class="color-row-table" style="color: #6E707E;">{{pro.PROV_EMPRESA_PROVEEDORA}}</td>
+                            <td class="color-row-table" style="color: #6E707E;">{{pro.PROV_RUC}}</td>
+                            <td class="color-row-table" style="color: #6E707E;">{{pro.PROV_NUMERO_CONTACTO}}</td>
+                            <td class="color-row-table" style="color: #6E707E;">{{pro.PROV_ESTADO==1?'Activo':'Inactivo'}}</td>
+                            <td class="color-row-table" style="color: #6E707E;">
+                                <span class="row col-button-table">
 
-                                    <span class="col-6 col-lg-3" *ngIf="pro.PROV_ESTADO != 1; else Habilitar" >
-
+                                    <span class="col-sm-1 button-table" *ngIf="pro.PROV_ESTADO != 1; else Habilitar" >
                                         <a (click)="habilitarInhabilitarProveedor(pro.PROV_ID,pro.PROV_ESTADO)" class="btn btn-success btn-circle btn-sm " ngbTooltip="Habilitar">
                                             <i class="fas fa-check" aria-hidden="true"></i>
                                         </a>
-
                                     </span>
                                     <ng-template #Habilitar>
-
-                                        <span class="col-6 col-lg-3">
-
+                                        <span class="col-sm-1 button-table">
                                             <a  (click)="habilitarInhabilitarProveedor(pro.PROV_ID,pro.PROV_ESTADO)"  class="btn btn-danger btn-circle btn-sm "ngbTooltip="Deshabilitar">
                                                 <i class="fa fa-times" aria-hidden="true"></i>
-
                                             </a>
                                         </span>
                                     </ng-template>
-
-                                    <span class="col-6 col-lg-3">
-
+                                    <span class="col-sm-1 button-table">
                                         <a (click)="abrirEditarProveedor(pro)" class="btn btn-warning btn-circle btn-sm" ngbTooltip="Editar" >
                                             <i style="color: white;" class="far fa-edit" aria-hidden="true"></i>
                                         </a>
-                                        
                                     </span>
-                                    
                                 </span>
                             </td>
                         </tr>
                     </tbody>
                 </table>
+                 <!---------------PAGINACIÓN------------->
+                 <div *ngIf="proveedores?.length>0" style="margin-top: 5px;" class="row box-footer clearfix">     
+                    <div class="col-xl-10 col-lg-9 col-md-9 col-sm-9 col-7">
+                    <ngb-pagination *ngIf="proveedores?.length>10" class="d-flex justify-content-start" size="sm" [maxSize]="5" [pageSize]="itemsPerPage"  [collectionSize]="proveedores?.length" [(page)]="currentPage"></ngb-pagination>
+                    </div>
+                    <div class="col-xl-2 col-lg-3 col-md-3 col-sm-3 col-5">
+                    <select class="pull-right" [(ngModel)]="itemsPerPage" class="form-control form-control-sm custom-select">
+                        <option value="10">10 elementos</option>
+                        <option value="15">15 elementos</option>
+                        <option value="20">20 elementos</option>                    
+                    </select>  
+                    </div>    
+                </div> 
             </div>
         </div>
     </div>
@@ -83,6 +90,7 @@
         <!-- {{categoriaSeleccionada.CAT_NOMBRE}} FALTA -->
         <h4 class="modal-title" id="exampleModalLongTitle">Proveedor: {{proveedorSeleccionado.PROV_EMPRESA_PROVEEDORA}}</h4>
     </div>
+    <mat-progress-bar *ngIf="cargaModal" mode="indeterminate"></mat-progress-bar>
     <div class="modal-body">
         <br>
         <form [formGroup]="proveedorForm">
@@ -169,6 +177,7 @@
         <h4 class="modal-title" id="exampleModalLongTitle">Crear Proveedor</h4>
         
     </div>
+    <mat-progress-bar *ngIf="cargaModal" mode="indeterminate"></mat-progress-bar>
     <div class="modal-body">
         <br>
         <form [formGroup]="proveedorForm">

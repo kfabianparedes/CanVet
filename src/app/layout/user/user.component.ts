@@ -147,7 +147,6 @@ export class UserComponent implements OnInit {
       this.newUser.USU_DNI = this.dni.value;
       this.newUser.USU_ESTADO = 1; //Habilitado(1) / Deshabilitado(0) / Cambio de contraseña (2) 
       this.newUser.ROL_ID = this.rol.value;
-      console.log(this.newUser);
       this.userService.registerUser(this.newUser).subscribe(
         data=>{
           if(data.exito){

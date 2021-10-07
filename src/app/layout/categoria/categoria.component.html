@@ -6,73 +6,82 @@
     <br><br>
 
     <!-- DataTales Example -->
-    <div class="card shadow mb-4 col-12 col-lg-8" style="height: 100%;">
+    <div class="card shadow mb-4 col-12 col-sm-12 col-md-10 col-lg-8">
         <div class="card-header py-3 row justify-content-between">
-            <div class="col-sm-12 col-lg-5">
-                <input type="text" class="border-left-primary font-tamanio form-control" name="filtroTexto" placeholder="Buscar..." [(ngModel)]="filtroTexto">
+            <div class="py-1 col-sm-12 col-md-7 col-lg-7">
+                <div class="row">
+                    <div class="col-9 col-lg-7">
+                        <input type="text" class="border-left-primary font-tamanio form-control" name="filtroTexto" placeholder="Buscar..." [(ngModel)]="filtroTexto">
+                    </div>
+                    <div class="col-3 col-lg-2  py-1">
+                        <button  [disabled]="categorias.length<=0" style="float:right" style="width: 100%;" type="button" class="btn btn-primary"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
             </div>
-            <div class="col-12 col-lg-1"> <br></div>
-            <div class="col-sm-12 col-lg-3" >
-                <button  (click)="abrirCrearCategoria()" style="float:right" style="width: 100%;" type="button" class="btn btn-primary">Crear Categoría</button>
+            <div class="py-1 col-sm-12 col-md-4 col-lg-4" >
+                <button   (click)="abrirCrearCategoria()"  style="float:right" style="width: 100%;" type="button" class="btn btn-primary">Crear Categoría</button>
             </div>
-            
         </div>
         <div class="card-body text-gray-400 ">
-            <div class="table-module">
-                <table class="table table-bordered text-gray-400" id="dataTable" width="100%"  cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th > <span style="color: #6E707E;">#</span></th>
-                            <th ><span style="color: #6E707E;">Nombre</span></th>
-                            <th ><span style="color: #6E707E;">Estado</span></th>
-                            <th ><span style="color: #6E707E;">Acciones</span></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let cat of categorias | slice:(currentPage-1)*itemsPerPage:currentPage*itemsPerPage ; let i = index  ">
-                            <td class="col-1" style="color: #6E707E;">{{i + 1}}</td>
-                            <td class="col-5" style="color: #6E707E;">{{cat.CAT_NOMBRE}}</td>
-                            <td class="col-3" style="color: #6E707E;">{{cat.CAT_ESTADO==1?'Activo':'Inactivo'}}</td>
-                            <td class="col-3" >
-                                <span class="row col-button-table">
-                                    <span class="col-sm-1 button-table"  *ngIf="cat.CAT_ESTADO != 1; else Habilitar">
-                                        <a (click)="habilitarInhabilitarCategoria(cat.CAT_ID,cat.CAT_ESTADO)" class="btn btn-success btn-circle btn-sm " ngbTooltip="Habilitar">
-                                            <i class="fas fa-check" aria-hidden="true"></i>
-                                        </a>
-                                    </span>
-                                    <ng-template #Habilitar>
-                                        <span class="col-sm-1 button-table">
-                                            <a (click)="habilitarInhabilitarCategoria(cat.CAT_ID,cat.CAT_ESTADO)"  class="btn btn-danger btn-circle btn-sm "ngbTooltip="Deshabilitar">
-                                                <i class="fa fa-times" aria-hidden="true"></i>
-                                            </a>
-                                        </span>
-                                    </ng-template>
-                                    <span class="col-sm-1 button-table">
-                                        <a (click)="abrirEditarCategoria(cat)" class="btn btn-warning btn-circle btn-sm" ngbTooltip="Editar" >
-                                            <i style="color: white;" class="far fa-edit" aria-hidden="true"   ></i>
-                                        </a>
-                                    </span>
-                                    
-                                </span>
-                                
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <!---------------PAGINACIÓN------------->
-                <div *ngIf="categorias?.length>0" style="margin-top: 5px;" class="row box-footer clearfix">     
-                    <div class="col-xl-10 col-lg-9 col-md-9 col-sm-9 col-7">
+            <div  *ngIf="categorias.length<=0; else categoriaModule">
+                <h3>No hay categorias registradas.</h3>
+            </div>
+            <!---------------PAGINACIÓN------------->
+            <div *ngIf="categorias?.length>0" class="row box-footer clearfix mt-3">     
+                <div class="col-xl-9 col-lg-8 col-md-7 col-sm-7 col-xs-6 col-6">
                     <ngb-pagination *ngIf="categorias?.length>10" class="d-flex justify-content-start" size="sm" [maxSize]="5" [pageSize]="itemsPerPage"  [collectionSize]="categorias?.length" [(page)]="currentPage"></ngb-pagination>
-                    </div>
-                    <div class="col-xl-2 col-lg-3 col-md-3 col-sm-3 col-5">
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-5 col-sm-5 col-xs-6 col-6">
                     <select class="pull-right" [(ngModel)]="itemsPerPage" class="form-control form-control-sm custom-select">
                         <option value="10">10 elementos</option>
                         <option value="15">15 elementos</option>
                         <option value="20">20 elementos</option>                    
                     </select>  
-                    </div>    
-                </div> 
+                </div>    
             </div>
+            <ng-template #categoriaModule>
+                <div class="table-module text-center">
+                    <table class="table table-bordered text-gray-400" id="dataTable" width="100%"  cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th > <span class="color-row-table">Código</span></th>
+                                <th ><span class="color-row-table">Nombre</span></th>
+                                <th ><span class="color-row-table">Estado</span></th>
+                                <th ><span class="color-row-table">Acciones</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let cat of categorias | slice:(currentPage-1)*itemsPerPage:currentPage*itemsPerPage ; let i = index  ">
+                                <td class="color-row-table">{{cat.CAT_ID}}</td>
+                                <td class="color-row-table">{{cat.CAT_NOMBRE}}</td>
+                                <td class="color-row-table">{{cat.CAT_ESTADO==1?'Activo':'Inactivo'}}</td>
+                                <td class="color-row-table">
+                                    <div class="row btnes">
+                                        <span class="col-1 button-table"  *ngIf="cat.CAT_ESTADO != 1; else Habilitar">
+                                            <a (click)="habilitarInhabilitarCategoria(cat.CAT_ID,cat.CAT_ESTADO)" class="btn btn-success btn-circle btn-sm " ngbTooltip="Habilitar">
+                                                <i class="fas fa-check" aria-hidden="true"></i>
+                                            </a>
+                                        </span>
+                                        <ng-template #Habilitar>
+                                            <span class="col-1 button-table">
+                                                <a (click)="habilitarInhabilitarCategoria(cat.CAT_ID,cat.CAT_ESTADO)"  class="btn btn-danger btn-circle btn-sm "ngbTooltip="Deshabilitar">
+                                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                                </a>
+                                            </span>
+                                        </ng-template>
+                                        <span class="col-1 button-table btn-edit">
+                                            <a (click)="abrirEditarCategoria(cat)" class="btn btn-warning btn-circle btn-sm" ngbTooltip="Editar" >
+                                                <i style="color: white;" class="far fa-edit" aria-hidden="true"   ></i>
+                                            </a>
+                                        </span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </ng-template>
+            
         </div>
     </div>
 
@@ -107,14 +116,14 @@
         </form>
         <br>
         <div class="row justify-content-center ">
-            <div class="my-1 col-sm-3 col-md-3 col-lg-3">
+            <div class="my-1 col-sm-3 col-md-4 col-lg-4">
                 <a  (click)="catUpdate(categoriaSeleccionada)" class="btn btn-primary btn-icon-split" >
-                    <span class="text"><strong>Registrar</strong>&nbsp;<i class="fas fa-save"></i></span>
+                    <span class="text">Registrar&nbsp;<i class="fas fa-save"></i></span>
                 </a>
             </div>
-            <div class="my-1 col-sm-3 col-md-3 col-lg-3">
+            <div class="my-1 col-sm-3 col-md-4 col-lg-4">
                 <a (click) = "d('Cross click')" class="btn btn-warning btn-icon-split">
-                    <span class="text"><strong>Cancelar</strong>&nbsp;<i class="fas fa-arrow-circle-left"></i></span>
+                    <span class="text">Cancelar&nbsp;<i class="fas fa-arrow-circle-left"></i></span>
                 </a>
             </div>
             
@@ -151,20 +160,18 @@
             </div>
         </form>
         <br><div class="row justify-content-center ">
-            <div class="my-1 col-sm-3 col-md-3 col-lg-3">
+            <div class="my-1 col-sm-3 col-md-4 col-lg-4">
                 <a  (click)="insertarCategoria()" class="btn btn-primary btn-icon-split" >
-                    <span class="text"><strong>Registrar</strong>&nbsp;<i class="fas fa-save"></i></span>
+                    <span class="text">Registrar&nbsp;<i class="fas fa-save"></i></span>
                 </a>
             </div>
-            <div class="my-1 col-sm-3 col-md-3 col-lg-3">
+            <div class="my-1 col-sm-3 col-md-4 col-lg-4">
                 <a (click) = "d('Cross click')" class="btn btn-warning btn-icon-split">
-                    <span class="text"><strong>Cancelar</strong>&nbsp;<i class="fas fa-arrow-circle-left"></i></span>
+                    <span class="text">Cancelar&nbsp;<i class="fas fa-arrow-circle-left"></i></span>
                 </a>
             </div>
             
         </div>
     </div>
-    <!-- <div class="modal-footer">
-        
-    </div>  -->
+    
 </ng-template>

@@ -9,7 +9,7 @@
     <h1 class="h3 mb-2 text-gray-800 col-12 text-center">Proveedores</h1>
     <br><br>
     <!-- DataTales Example -->  
-    <div class="card shadow mb-4 col-12 col-lg-8" style="height: 100%;">
+    <div class="card shadow mb-4 col-12 col-lg-11" style="height: 100%;">
         <div class="card-header py-3 row justify-content-between">
             <div class="col-sm-12 col-lg-5">
                 <input type="text" class="border-left-primary font-tamanio form-control" placeholder="Buscar">
@@ -20,66 +20,72 @@
                 <button   (click)="abrirCrearProveedor();" style="float:right" style="width: 100%;" type="button" class="btn btn-primary">Crear Proveedor</button>
             </div>
         </div>
-
         <div class="card-body text-gray-400 ">
-            <div class="table-module">
-                <table class="table table-bordered text-gray-400" id="dataTable" width="100%"  cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th ><span style="color: #6E707E;">#</span></th>
-                            <th ><span style="color: #6E707E;">Nombre de la empresa</span></th>
-                            <th ><span style="color: #6E707E;">RUC</span></th>
-                            <th ><span style="color: #6E707E;">Número de contacto</span></th>
-                            <th ><span style="color: #6E707E;">Estado</span></th>   
-                            <th ><span style="color: #6E707E;">Acciones</span></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let pro of proveedores | slice:(currentPage-1)*itemsPerPage:currentPage*itemsPerPage ; let i = index">
-                            <td class="color-row-table" style="color: #6E707E;">{{i + 1}}</td>
-                            <td class="color-row-table" style="color: #6E707E;">{{pro.PROV_EMPRESA_PROVEEDORA}}</td>
-                            <td class="color-row-table" style="color: #6E707E;">{{pro.PROV_RUC}}</td>
-                            <td class="color-row-table" style="color: #6E707E;">{{pro.PROV_NUMERO_CONTACTO}}</td>
-                            <td class="color-row-table" style="color: #6E707E;">{{pro.PROV_ESTADO==1?'Activo':'Inactivo'}}</td>
-                            <td class="color-row-table" style="color: #6E707E;">
-                                <span class="row col-button-table">
-
-                                    <span class="col-sm-1 button-table" *ngIf="pro.PROV_ESTADO != 1; else Habilitar" >
-                                        <a (click)="habilitarInhabilitarProveedor(pro.PROV_ID,pro.PROV_ESTADO)" class="btn btn-success btn-circle btn-sm " ngbTooltip="Habilitar">
-                                            <i class="fas fa-check" aria-hidden="true"></i>
-                                        </a>
-                                    </span>
-                                    <ng-template #Habilitar>
-                                        <span class="col-sm-1 button-table">
-                                            <a  (click)="habilitarInhabilitarProveedor(pro.PROV_ID,pro.PROV_ESTADO)"  class="btn btn-danger btn-circle btn-sm "ngbTooltip="Deshabilitar">
-                                                <i class="fa fa-times" aria-hidden="true"></i>
-                                            </a>
-                                        </span>
-                                    </ng-template>
-                                    <span class="col-sm-1 button-table">
-                                        <a (click)="abrirEditarProveedor(pro)" class="btn btn-warning btn-circle btn-sm" ngbTooltip="Editar" >
-                                            <i style="color: white;" class="far fa-edit" aria-hidden="true"></i>
-                                        </a>
-                                    </span>
-                                </span>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                 <!---------------PAGINACIÓN------------->
-                 <div *ngIf="proveedores?.length>0" style="margin-top: 5px;" class="row box-footer clearfix">     
-                    <div class="col-xl-10 col-lg-9 col-md-9 col-sm-9 col-7">
+            <div class="row" *ngIf="proveedores.length<=0; else proveedores_tabla">
+                <h3>No hay proveedores registrados.</h3>
+            </div>
+            <!---------------PAGINACIÓN------------->
+            <div *ngIf="proveedores?.length>0" class="row box-footer clearfix mt-2">     
+                <div class="col-xl-10 col-lg-9 col-md-8 col-sm-7 col-6">
                     <ngb-pagination *ngIf="proveedores?.length>10" class="d-flex justify-content-start" size="sm" [maxSize]="5" [pageSize]="itemsPerPage"  [collectionSize]="proveedores?.length" [(page)]="currentPage"></ngb-pagination>
-                    </div>
-                    <div class="col-xl-2 col-lg-3 col-md-3 col-sm-3 col-5">
+                </div>
+                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-5 col-6">
                     <select class="pull-right" [(ngModel)]="itemsPerPage" class="form-control form-control-sm custom-select">
                         <option value="10">10 elementos</option>
                         <option value="15">15 elementos</option>
                         <option value="20">20 elementos</option>                    
                     </select>  
-                    </div>    
-                </div> 
-            </div>
+                </div>    
+            </div> 
+            <ng-template #proveedores_tabla>
+                <div class="table-module text-center">
+                    <table class="table table-bordered text-gray-400" id="dataTable" width="100%"  cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th class="color-row-table">Código</th>
+                                <th class="color-row-table">Nombre</th>
+                                <th class="color-row-table">RUC</th>
+                                <th class="color-row-table">Nro. de contacto</th>
+                                <th class="color-row-table">Estado</th>   
+                                <th class="color-row-table">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let pro of proveedores | slice:(currentPage-1)*itemsPerPage:currentPage*itemsPerPage ; let i = index">
+                                <td class="color-row-table">{{pro.PROV_ID}}</td>
+                                <td class="color-row-table">{{pro.PROV_EMPRESA_PROVEEDORA}}</td>
+                                <td class="color-row-table">{{pro.PROV_RUC}}</td>
+                                <td class="color-row-table">{{pro.PROV_NUMERO_CONTACTO}}</td>
+                                <td class="color-row-table">{{pro.PROV_ESTADO==1?'Activo':'Inactivo'}}</td>
+                                <td class="color-row-table">
+                                    <div class="row btnes">
+                                        <div class="col-1 button-table" *ngIf="pro.PROV_ESTADO != 1; else Habilitar" >
+                                            <span (click)="habilitarInhabilitarProveedor(pro.PROV_ID,pro.PROV_ESTADO)" class="btn btn-success btn-circle btn-sm " ngbTooltip="Habilitar">
+                                                <i class="fas fa-check" aria-hidden="true"></i>
+                                            </span>
+                                        </div>
+                                        <ng-template #Habilitar>
+                                            <div class="col-1 button-table">
+                                                <span  (click)="habilitarInhabilitarProveedor(pro.PROV_ID,pro.PROV_ESTADO)"  class="btn btn-danger btn-circle btn-sm "ngbTooltip="Deshabilitar">
+                                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                                </span>
+                                            </div>
+                                        </ng-template>
+                                        <div class="col-1 button-table">
+                                            <span (click)="abrirEditarProveedor(pro)" class="btn btn-warning btn-circle btn-sm" ngbTooltip="Editar" >
+                                                <i style="color: white;" class="far fa-edit" aria-hidden="true"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                     
+                </div>
+            </ng-template>
+            
+            
         </div>
     </div>
 </div>
@@ -156,26 +162,23 @@
         </form>
         <br>
         <div class="row justify-content-center ">
-            <div class="my-1 col-sm-3 col-md-3 col-lg-3">
+            <div class="my-1 col-sm-3 col-md-4 col-lg-4">
                 <a  (click)="actualizarProveedor();" class="btn btn-primary btn-icon-split" >
-                    <span class="text"><strong>Registrar</strong>&nbsp;<i class="fas fa-save"></i></span>
+                    <span class="text">Registrar&nbsp;<i class="fas fa-save"></i></span>
                 </a>
             </div>
-            <div class="my-1 col-sm-3 col-md-3 col-lg-3">
+            <div class="my-1 col-sm-3 col-md-4 col-lg-4">
                 <a (click) = "d('Cross click')" class="btn btn-warning btn-icon-split">
-                    <span class="text"><strong>Cancelar</strong>&nbsp;<i class="fas fa-arrow-circle-left"></i></span>
+                    <span class="text">Cancelar&nbsp;<i class="fas fa-arrow-circle-left"></i></span>
                 </a>
             </div>
             
         </div>
     </div>
-    <!-- <div class="modal-footer">
-    </div>  -->
 </ng-template>
 <ng-template #crearProveedor let-d="dismiss">
     <div class="modal-header">
         <h4 class="modal-title" id="exampleModalLongTitle">Crear Proveedor</h4>
-        
     </div>
     <mat-progress-bar *ngIf="cargaModal" mode="indeterminate"></mat-progress-bar>
     <div class="modal-body">
@@ -243,20 +246,17 @@
         </form>
         <br>
         <div class="row justify-content-center ">
-            <div class="my-1 col-sm-3 col-md-3 col-lg-3">
+            <div class="my-1 col-sm-3 col-md-4 col-lg-4">
                 <a  (click)="insertarProveedor();" class="btn btn-primary btn-icon-split" >
-                    <span class="text"><strong>Registrar</strong>&nbsp;<i class="fas fa-save"></i></span>
+                    <span class="text">Registrar&nbsp;<i class="fas fa-save"></i></span>
                 </a>
             </div>
-            <div class="my-1 col-sm-3 col-md-3 col-lg-3">
+            <div class="my-1 col-sm-3 col-md-4 col-lg-4">
                 <a (click) = "d('Cross click')" class="btn btn-warning btn-icon-split">
-                    <span class="text"><strong>Cancelar</strong>&nbsp;<i class="fas fa-arrow-circle-left"></i></span>
+                    <span class="text">Cancelar&nbsp;<i class="fas fa-arrow-circle-left"></i></span>
                 </a>
             </div>
             
         </div>
     </div>
-    <!-- <div class="modal-footer">
-        
-    </div>  -->
 </ng-template>

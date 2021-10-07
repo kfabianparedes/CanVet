@@ -30,18 +30,18 @@
                 <h3>No hay usuarios registrados.</h3>
             </div>
             <!---------------PAGINACIÓN------------->
-            <div *ngIf="usuarios?.length>0" style="margin-top: 5px;" class="row box-footer clearfix">     
-                <div class="col-xl-10 col-lg-9 col-md-9 col-sm-9 col-7">
+            <div *ngIf="usuarios?.length>0" class="row box-footer clearfix mt-3">     
+                <div class="col-xl-10 col-lg-9 col-md-7 col-sm-7 col-6">
                 <ngb-pagination *ngIf="usuarios?.length>10" class="d-flex justify-content-start" size="sm" [maxSize]="5" [pageSize]="itemsPerPage"  [collectionSize]="usuarios?.length" [(page)]="currentPage"></ngb-pagination>
                 </div>
-                <div class="col-xl-2 col-lg-3 col-md-3 col-sm-3 col-5">
+                <div class="col-xl-2 col-lg-3 col-md-5 col-sm-5 col-6">
                 <select class="pull-right" [(ngModel)]="itemsPerPage" class="form-control form-control-sm custom-select">
                     <option value="10">10 elementos</option>
                     <option value="15">15 elementos</option>
                     <option value="20">20 elementos</option>                    
                 </select>  
                 </div>    
-            </div> 
+            </div>
             <ng-template #userModule>
                 <div class="table-module">
                     <table class="table table-bordered text-gray-400" id="dataTable" cellspacing="1">
@@ -64,32 +64,31 @@
                                 <td class="color-row-table" >{{user.USU_CELULAR}}</td>
                                 <td class="color-row-table" >{{user.ROL_ID==1?'Administrador':'Empleado'}}</td>
                                 <td class="color-row-table" >{{user.USU_ESTADO==1?'Activo':'Inactivo'}}</td>
-                                <td class="color-row-table " >
-                                    <div class="row col-button-table">
-                                        <div class="col-sm-1 button-table"  *ngIf="user.USU_ESTADO != 1 && user.USU_ESTADO !=2; else Habilitar">
+                                <td class="color-row-table" >
+                                    <div class="row btnes">
+                                        <div class="col-1 button-table"  *ngIf="user.USU_ESTADO != 1 && user.USU_ESTADO !=2; else Habilitar">
                                             <span (click)="disableUser(user.USU_ID,user.USU_ESTADO)" class="btn btn-success btn-circle btn-sm " ngbTooltip="Habilitar">
                                                 <i class="fas fa-check" aria-hidden="true"></i>
                                             </span>
                                         </div>
                                         <ng-template #Habilitar>
-                                            <div class="col-sm-1 button-table">
+                                            <div class="col-1 button-table">
                                                 <span (click)="disableUser(user.USU_ID,user.USU_ESTADO)"  class="btn btn-danger btn-circle btn-sm "ngbTooltip="Deshabilitar">
                                                     <i class="fa fa-times" aria-hidden="true"></i>
                                                 </span>
                                             </div>
                                         </ng-template>
-                                        <div class="col-sm-1 button-table">
+                                        <div class="col-1 button-table">
                                             <span   (click)="seeMore(user)" class="btn btn-primary btn-circle btn-sm" ngbTooltip="Ver Más" >
                                                 <i class="fas fa-eye" aria-hidden="true"   ></i>
                                             </span>
                                         </div>
-                                        <div class="col-sm-1 button-table btn-edit">
+                                        <div class="col-1 button-table btn-edit">
                                             <span (click)="editUser(user)" class="btn btn-warning btn-circle btn-sm" ngbTooltip="Editar" >
                                                 <i style="color: white;" class="far fa-edit" aria-hidden="true"   ></i>
                                             </span>
                                         </div>
                                     </div>
-                                    
                                 </td>
                             </tr>
                         </tbody>

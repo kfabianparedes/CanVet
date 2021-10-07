@@ -1,58 +1,165 @@
 
 <div class="row justify-content-center">
-    <!-- <mat-progress-bar *ngIf="cargando && !modalIn" mode="indeterminate" class="alert-loading"></mat-progress-bar>
-    <ngb-alert *ngIf="mostrar_alerta && !modalIn" [type]="tipo_alerta" (closed)="mostrar_alerta = false" class="alert-loading">{{mensaje_alerta}}</ngb-alert> -->
+    <mat-progress-bar *ngIf="cargando && !modalIn" mode="indeterminate" class="alert-loading"></mat-progress-bar>
+    <ngb-alert *ngIf="mostrar_alerta && !modalIn" [type]="tipo_alerta" (closed)="mostrar_alerta = false" class="alert-loading">{{mensaje_alerta}}</ngb-alert>
     
     <!-- Page Heading -->
     <h1 class="h3 mb-2 text-gray-800 col-12 text-center">Registo de Compra</h1>
 
     <!-- DataTales Example -->
-    
     <div class="card shadow mb-4 col-12 col-lg-11" style="height: 100%;">
-        <div class="card-header py-3 row">
-            <div class="col-sm-12 col-md-5 hora-etiqueta">
+        <div class="card-header py-3 row ">
+            <!-- <div class="mt-2 col-sm-12 col-md-5 col-lg-4 mb-2 text-left-md">
                 <span><strong>Fecha de Registro:</strong>&nbsp;&nbsp;{{fecha_hoy | date: 'dd/MM/yyyy'}}</span>
-            </div>
+            </div> -->
+            <h5>Comprobante de pago</h5>
         </div>
         <div class="card-body text-gray-400 ">
-           <div class="row color-row-table">
-               <div class="col-sm-12 col-md-5">
-                   <label for="inputProveedor">Proveedor:</label>
-                   <input type="text" id="inputProveedor" class="border-left-primary font-tamanio form-control">
-               </div>
-           </div>
-           <br>
-           <div class="row color-row-table">
-                <div class="col-sm-12 col-md-5 mb-4">
-                    <label for="inputTipoComprobante">Tipo comprobante:</label>
-                    <select  id="inputTipoComprobante" class="border-left-primary form-select mr-sm-2" >
-                        <option hidden value="" disabled>Escoge una opción</option>
-                        <option >asdas</option>
-                    </select>
+            <form [formGroup]="comprobanteForm">
+                <div class="row color-row-table">
+                    <div class="col-sm-12 col-md-5">
+                        <label for="inputProveedor">Proveedor:</label>
+                        <select formControlName="id_proveedor" id="inputProveedor" class="border-left-primary form-select">
+                            <option hidden value="" disabled>Escoge una opción</option>
+                            <option [value]="proveedor.PROV_ID" *ngFor="let proveedor of proveedores">{{proveedor.PROV_EMPRESA_PROVEEDORA}}</option>
+                        </select>   
+                        <div *ngIf="id_proveedor.invalid && (id_proveedor.dirty || id_proveedor.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                            <div *ngIf="id_proveedor.errors.required">
+                                * El proveedor es requerido.
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <br>
-                <div class="offset-sm-0 offset-md-1 col-5 col-md-2">
+                <div class="row color-row-table">
+                    <div class="col-sm-12 col-md-5 mb-4">
+                        <label for="inputTipoComprobante">Tipo comprobante:</label>
+                        <select  formControlName="tipo_comprobante" id="inputTipoComprobante" class="border-left-primary form-select">
+                            <option hidden value="" disabled>Escoge una opción</option>
+                            <option [value]="comprobante.COMPROBANTE_ID" *ngFor="let comprobante of comprobantes">{{comprobante.COMPROBANTE_TIPO}}</option>
+                        </select>
+                        <div *ngIf="tipo_comprobante.invalid && (tipo_comprobante.dirty || tipo_comprobante.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                            <div *ngIf="tipo_comprobante.errors.required">
+                                * El tipo de comprobante es requerido.
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="offset-sm-0 offset-md-1 col-5 col-md-2">
                         <label for="inputProveedor">Serie/Folio:</label>
-                        <input type="text" id="inputProveedor" class="border-left-primary font-tamanio form-control">
+                        <input formControlName="serie" type="text" id="inputProveedor" class="border-left-primary font-tamanio form-control">
+                        <div *ngIf="serie.invalid && (serie.dirty || serie.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                            <div *ngIf="serie.errors.required">
+                                * El número de serie es requerido.
+                            </div>
+                            <div *ngIf="serie.errors.maxlength">
+                                * Se requieren máximo 10 caracteres.
+                            </div>
+                            <div *ngIf="serie.errors.pattern">
+                                * El formato es inválido.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-7 col-md-4">
+                        <label for="inputProveedor">Nro. Comprobante:</label>
+                        <input formControlName="nro_comprobante" type="text" id="inputProveedor" class="border-left-primary font-tamanio form-control">
+                        <div *ngIf="nro_comprobante.invalid && (nro_comprobante.dirty || nro_comprobante.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                            <div *ngIf="nro_comprobante.errors.required">
+                                * El número de comprobante es requerido.
+                            </div>
+                            <div *ngIf="nro_comprobante.errors.maxlength">
+                                * Se requieren máximo 10 caracteres.
+                            </div>
+                            <div *ngIf="nro_comprobante.errors.pattern">
+                                * El formato es inválido.
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                
-                <div class="col-7 col-md-4">
-                    <label for="inputProveedor">Nro. Comprobante:</label>
-                    <input type="text" id="inputProveedor" class="border-left-primary font-tamanio form-control">
+            </form>
+        </div>
+        <div class="card-footer py-3 row justify-content-between">
+            <div class=" col-sm-12 col-md-4 col-xl-3">
+                <button  (click)="activarGuiaRemision()" type="button" class="btn btn-{{color_btn_remision}}"><i class="fas fa-file-signature"></i>&nbsp;&nbsp;Guía de Remisión&nbsp;&nbsp;&nbsp;&nbsp;<i class="fas fa-{{signo}}"></i></button>
+            </div>
+            <!-- <div class="my-2 col-sm-12 col-md-12 col-lg-6">
+                <label style="padding-left:0.5rem">Fecha de Nacimiento</label>
+                <input  [max]="fecha_hoy" [ngClass]="{'textoGris': opacarFecha}" 
+                    (change)="cambiarDeStyleDate()" formControlName="fecha_nacimiento" type="date" id="fechaInput" name="fechaInput" class="border-left-primary  form-control" >
+                <div *ngIf="fecha_nacimiento.invalid && (fecha_nacimiento.dirty || fecha_nacimiento.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                    <div *ngIf="fecha_nacimiento.errors.required">
+                    * La fecha es requerida.
+                    </div>
                 </div>
-           </div>
-
+            </div> -->
+            <!-- <div class="mt-2 col-sm-12 col-md-5 col-xl-4" >
+                <span><strong>Fecha de Registro:</strong>&nbsp;&nbsp;{{fecha_hoy | date: 'dd/MM/yyyy'}}</span>
+            </div>  -->
         </div>
     </div>
-    <div class="card shadow mb-4 col-12 col-lg-11" style="height: 100%;">
+    <div *ngIf="mostrar_guia" class="card shadow mb-4 col-12 col-lg-11" >
+        <div class="card-header py-3 row">
+            <h5>Guía de remisión</h5>
+        </div>
+        <div class="card-body text-gray-400 ">
+            <form [formGroup]="comprobanteForm">
+                <div class="row color-row-table">
+                    <div class="col-sm-12 col-md-5 mb-4">
+                        <label for="inputTipoComprobante">Tipo comprobante:</label>
+                        <select  formControlName="tipo_comprobante" id="inputTipoComprobante" class="border-left-primary form-select">
+                            <option hidden value="" disabled>Escoge una opción</option>
+                            <option [value]="comprobante.COMPROBANTE_ID" *ngFor="let comprobante of comprobantes">{{comprobante.COMPROBANTE_TIPO}}</option>
+                        </select>
+                        <div *ngIf="tipo_comprobante.invalid && (tipo_comprobante.dirty || tipo_comprobante.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                            <div *ngIf="tipo_comprobante.errors.required">
+                                * El tipo de comprobante es requerido.
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="offset-sm-0 offset-md-1 col-5 col-md-2">
+                        <label for="inputProveedor">Serie/Folio:</label>
+                        <input formControlName="serie" type="text" id="inputProveedor" class="border-left-primary font-tamanio form-control">
+                        <div *ngIf="serie.invalid && (serie.dirty || serie.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                            <div *ngIf="serie.errors.required">
+                                * El número de serie es requerido.
+                            </div>
+                            <div *ngIf="serie.errors.maxlength">
+                                * Se requieren máximo 10 caracteres.
+                            </div>
+                            <div *ngIf="serie.errors.pattern">
+                                * El formato es inválido.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-7 col-md-4">
+                        <label for="inputProveedor">Nro. Comprobante:</label>
+                        <input formControlName="nro_comprobante" type="text" id="inputProveedor" class="border-left-primary font-tamanio form-control">
+                        <div *ngIf="nro_comprobante.invalid && (nro_comprobante.dirty || nro_comprobante.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                            <div *ngIf="nro_comprobante.errors.required">
+                                * El número de comprobante es requerido.
+                            </div>
+                            <div *ngIf="nro_comprobante.errors.maxlength">
+                                * Se requieren máximo 10 caracteres.
+                            </div>
+                            <div *ngIf="nro_comprobante.errors.pattern">
+                                * El formato es inválido.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="card shadow mb-4 col-12 col-lg-11" >
         <div class="card-header py-3 row">
             <div class="col-sm-12 col-md-5 ">
-                <button type="button"class="btn btn-primary" ><span></span><i class="fas fa-search"></i>&nbsp;&nbsp;Buscar Artículos</button>
+                <button [disabled]="!comprobanteForm.invalid" (click)="articulosProveedor()" type="button" class="btn btn-primary" ><i class="fas fa-search"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Buscar Artículos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
             </div>
         </div>
         <div class="card-body text-gray-400 ">
             <div  *ngIf="productos_detalle.length>0; else detalleModule">
-                <h3>No hay artículos seleccionados.</h3>
+                <h1 class="h3 mb-2 text-gray-800 col-12 text-center">No hay artículos seleccionados.</h1>
             </div>
             <ng-template #detalleModule>
                 <div class="table-module">
@@ -71,14 +178,14 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let producto of productos_detalle">
-                                <td class="color-row-table" >{{producto.PRO_NOMBRE}}</td>
-                                <td class="color-row-table" >{{producto.PRO_NOMBRE}}</td>
-                                <td class="color-row-table" >{{producto.PRO_NOMBRE}}</td>
-                                <td class="color-row-table" >{{producto.PRO_NOMBRE}}</td>
-                                <td class="color-row-table" >{{producto.PRO_NOMBRE}}</td>
-                                <td class="color-row-table" >{{producto.PRO_NOMBRE}}</td>
-                                <td class="color-row-table" >{{producto.PRO_NOMBRE}}</td>
-                                <td class="color-row-table" >
+                                <td class="color-row-table">{{producto.CAT_NOMBRE}}</td>
+                                <td class="color-row-table">{{producto.PRO_NOMBRE}}</td>
+                                <td class="color-row-table">{{producto.PRO_TAMANIO_TALLA}}</td>
+                                <td class="color-row-table">{{producto.PRO_PRECIO_VENTA.toFixed(2)}}</td>
+                                <td class="color-row-table">{{producto.PRO_PRECIO_COMPRA.toFixed(2)}}</td>
+                                <td class="color-row-table">{{producto.PRO_STOCK}}</td>
+                                <td class="color-row-table">{{importe_detalle.toFixed(2)}}</td>
+                                <td class="color-row-table">
                                     <div class="row">
                                         <!-- <div class="col-sm-1 button-table"  *ngIf="user.USU_ESTADO != 1 && user.USU_ESTADO !=2; else Habilitar">
                                             <span (click)="disableUser(user.USU_ID,user.USU_ESTADO)" class="btn btn-success btn-circle btn-sm " ngbTooltip="Habilitar">
@@ -87,71 +194,102 @@
                                         </div> -->
                                     </div>
                                 </td>
-
-
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <!-- <div class="table-module">
-                    <table class="table table-bordered text-gray-400" id="dataTable" cellspacing="1">
-                        <thead>
-                            <tr>
-                                <th class="color-row-table text-center"><span>Código</span></th>
-                                <th class="color-row-table text-center"><span>Nombres</span></th>
-                                <th class="color-row-table text-center"><span>Apellidos</span></th>
-                                <th class="color-row-table text-center"><span>Celular</span></th>
-                                <th class="color-row-table text-center"><span>Rol</span></th>
-                                <th class="color-row-table text-center"><span>Estado</span></th>
-                                <th class="color-row-table text-center"><span>Acciones</span></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let user of productos_detalle | slice:(currentPage-1)*itemsPerPage:currentPage*itemsPerPage ; let i = index  ">
-                                <td class="color-row-table" >{{user.USU_ID}}</td>
-                                <td class="color-row-table" >{{user.USU_NOMBRES}}</td>
-                                <td class="color-row-table" >{{user.USU_APELLIDO_PATERNO}}&nbsp;{{user.USU_APELLIDO_MATERNO}}</td>
-                                <td class="color-row-table" >{{user.USU_CELULAR}}</td>
-                                <td class="color-row-table" >{{user.ROL_ID==1?'Administrador':'Empleado'}}</td>
-                                <td class="color-row-table" >{{user.USU_ESTADO==1?'Activo':'Inactivo'}}</td>
-                                <td class="color-row-table " >
-                                    <div class="row col-button-table">
-                                        <div class="col-sm-1 button-table"  *ngIf="user.USU_ESTADO != 1 && user.USU_ESTADO !=2; else Habilitar">
-                                            <span (click)="disableUser(user.USU_ID,user.USU_ESTADO)" class="btn btn-success btn-circle btn-sm " ngbTooltip="Habilitar">
-                                                <i class="fas fa-check" aria-hidden="true"></i>
-                                            </span>
-                                        </div>
-                                        <ng-template #Habilitar>
-                                            <div class="col-sm-1 button-table">
-                                                <span (click)="disableUser(user.USU_ID,user.USU_ESTADO)"  class="btn btn-danger btn-circle btn-sm "ngbTooltip="Deshabilitar">
-                                                    <i class="fa fa-times" aria-hidden="true"></i>
-                                                </span>
-                                            </div>
-                                        </ng-template>
-                                        <div class="col-sm-1 button-table">
-                                            <span   (click)="seeMore(user)" class="btn btn-primary btn-circle btn-sm" ngbTooltip="Ver Más" >
-                                                <i class="fas fa-eye" aria-hidden="true"   ></i>
-                                            </span>
-                                        </div>
-                                        <div class="col-sm-1 button-table btn-edit">
-                                            <span (click)="editUser(user)" class="btn btn-warning btn-circle btn-sm" ngbTooltip="Editar" >
-                                                <i style="color: white;" class="far fa-edit" aria-hidden="true"   ></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    
-                                </td>
-                            </tr>
-                        </tbody>
-                        
-                    </table>
-                    
-                </div> -->
             </ng-template>
 
         </div>
     </div>
-
+    
 
 </div>
 <!-- MODALES -->
+<ng-template #articulosModal>
+    <div class="modal-header justify-content-center">
+        <h4 class="modal-title " >Buscar Artículo</h4>
+    </div>
+    <mat-progress-bar *ngIf="cargando && modalIn" mode="indeterminate" ></mat-progress-bar>
+    <ngb-alert *ngIf="mostrar_alerta && modalIn" [type]="tipo_alerta" (closed)="mostrar_alerta = false" >{{mensaje_alerta}}</ngb-alert>
+    <div class="modal-body">
+        <div class="row">
+            <div class="card">
+                <div class="card-header py-3 row justify-content-between">
+                    <div class="py-1 col-sm-12 col-md-7 col-lg-5">
+                        <div class="row">
+                            <div class="col-8">
+                                <input type="text" class="border-left-primary font-tamanio form-control" name="filtroTexto" placeholder="Buscar..." >
+                            </div>
+                            <div class="col-4 py-1">
+                                <button  [disabled]="productos.length<=0" style="float:right" style="width: 100%;" type="button" class="btn btn-primary"><i class="fas fa-search"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="py-1 col-sm-12 col-md-4 col-lg-3" >
+                        <button   style="float:right" style="width: 100%;" type="button" class="btn btn-primary">Registrar usuario</button>
+                    </div>
+                </div>
+                <div class="card-body text-gray-400">
+                    <div class="row" *ngIf="productos.length<=0; else productos_busqueda">
+                        <h3>No hay artículos de este proveedor.</h3>
+                    </div>
+                    <!---------------PAGINACIÓN------------->
+                    <div *ngIf="productos?.length>0" class="row box-footer clearfix mt-3">     
+                        <div class="col-xl-10 col-lg-9 col-md-7 col-sm-7 col-6">
+                        <ngb-pagination *ngIf="productos?.length>5" class="d-flex justify-content-start" size="sm" [maxSize]="5" [pageSize]="itemsPerPageModal"  [collectionSize]="productos?.length" [(page)]="currentPageModal"></ngb-pagination>
+                        </div>
+                        <div class="col-xl-2 col-lg-3 col-md-5 col-sm-5 col-6">
+                        <select class="pull-right" [(ngModel)]="itemsPerPageModal" class="form-control form-control-sm custom-select">
+                            <option value="5"> 5 elementos</option>
+                            <option value="10">10 elementos</option>
+                            <option value="15">15 elementos</option>
+                            <option value="20">20 elementos</option>                    
+                        </select>  
+                        </div>    
+                    </div>
+                    <ng-template #productos_busqueda>
+                        <div class="table-module" >
+                            <table class="table table-bordered text-gray-400" id="dataTable" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th ><span class="color-row-table">Agregar</span></th>
+                                        <th ><span class="color-row-table">Producto</span></th>
+                                        <th ><span class="color-row-table">Categoría</span></th>
+                                        <th ><span class="color-row-table">Tamaño/Talla</span></th>
+                                        <th ><span class="color-row-table">P. Venta</span></th>
+                                        <th ><span class="color-row-table">P. Compra</span></th>
+                                        <th ><span class="color-row-table">Stock</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let producto of productos | slice:(currentPageModal-1)*itemsPerPageModal:currentPageModal*itemsPerPageModal ; let i = index  " >
+                                        <td class="color-row-table text-center">
+                                            <span (click)="agregarProducto(producto)" class="btn btn-success btn-circle btn-sm" ngbTooltip="Editar" >
+                                                <i class="fa fa-plus" aria-hidden="true"   ></i>
+                                            </span>
+                                        </td>
+                                        <td class="color-row-table">{{producto.PRO_NOMBRE}}</td>
+                                        <td class="color-row-table">{{producto.CAT_NOMBRE}}</td>
+                                        <td class="color-row-table">{{producto.PRO_TAMANIO_TALLA}}</td>
+                                        <td class="color-row-table">S/{{producto.PRO_PRECIO_VENTA.toFixed(2)}}</td>
+                                        <td class="color-row-table">S/{{producto.PRO_PRECIO_COMPRA.toFixed(2)}}</td>
+                                        <td class="color-row-table">{{producto.PRO_STOCK}}</td>
+                                        
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </ng-template>
+                </div>
+            </div>
+        </div>
+        <div class="row d-flex text-center justify-content-center">
+            <div class="my-2 col-sm-12 col-md-12 col-lg-3">
+                <button (click)="closeModal()" class="btn btn-warning btn-icon-split">
+                    <span class="text">Volver&nbsp;<i class="fas fa-arrow-circle-left"></i></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</ng-template>

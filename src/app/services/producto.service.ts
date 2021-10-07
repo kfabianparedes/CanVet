@@ -17,6 +17,10 @@ export class ProductoService {
     return this.http.get<any>(url).pipe( retry(2) );
   }
 
+  listarProductosPorProveedor(idProveedor:number):Observable<any>{
+    const url = environment.domain_url + '/api/productos/listarProductosPorProveedor?PROV_ID='+idProveedor;
+    return this.http.get<any>(url).pipe( retry(2) );
+  }
   habilitarDeshabilitarProducto(producto_id:number, nuevoEstado:number):Observable<any>{
     const url = environment.domain_url + '/api/productos/habilitarInhabilitarProducto';
 

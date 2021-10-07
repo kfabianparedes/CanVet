@@ -16,6 +16,7 @@ export class ProveedorComponent implements OnInit {
     private formBuilder: FormBuilder,configModal: NgbModalConfig,private proveedorService:ProveedorService) { 
       configModal.backdrop = 'static';
       configModal.keyboard = false;
+      configModal.size = 'md'
     }
   proveedores:Proveedor[]=[];
   proveedorInsertar= new Proveedor();

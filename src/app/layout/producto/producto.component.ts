@@ -108,17 +108,6 @@ export class ProductoComponent implements OnInit {
       proveedor:['',[Validators.required]],
     });
 
-    
-    // this.productoForm = this.formBuilder.group({
-    //   nombreProducto:['',[Validators.required, Validators.maxLength(60)]],
-    //   codigoProducto:['',[Validators.required, Validators.maxLength(60)]],
-    //   pVentaProducto:['',[Validators.required, Validators.maxLength(60)]],
-    //   pCompraProducto:['',[Validators.required, Validators.maxLength(60)]],
-    //   stockProducto:['',[Validators.required, Validators.maxLength(60)]],
-    //   tamnioTallaProducto:['',[Validators.required, Validators.maxLength(60)]],
-    //   categoria:['',[Validators.required, Validators.maxLength(60)]],
-      
-    // });
   }
   get categoria() {
     return this.productoForm.get('categoria');
@@ -225,14 +214,14 @@ export class ProductoComponent implements OnInit {
     this.crearNuevoProducto();
   }
 
-  habilitarInhabilitarProducto(PRO_ID:number,PRO_ESTAOD:number){
+  habilitarInhabilitarProducto(PRO_ID:number,PRO_ESTADO:number){
 
-    if(PRO_ESTAOD == 1){
-      PRO_ESTAOD = 2; 
+    if(PRO_ESTADO == 1){
+      PRO_ESTADO = 2; 
     }else{
-      PRO_ESTAOD =  1; 
+      PRO_ESTADO =  1; 
     }
-    this.productoService.habilitarDeshabilitarProducto(PRO_ID,PRO_ESTAOD).subscribe(
+    this.productoService.habilitarDeshabilitarProducto(PRO_ID,PRO_ESTADO).subscribe(
       data=>{
         this.listarProductos(); 
       },error=>{

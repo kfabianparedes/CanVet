@@ -1,3 +1,6 @@
+.color-row-table{
+    color: #6E707E;
+}
 .btn{
     display: flex;
     justify-content: center;
@@ -7,19 +10,19 @@
     margin-bottom:1.5rem;
 }
 
-.color-row-table{
-    color: #6E707E;
-}
-/*Botones de las tablas*/
-
-
+/****************/
 @media screen and (min-width:1360px){
     .col-button-table{
-        justify-content: center;
+        align-items: center;
+        justify-content: space-between;
     }
     .button-table{
         margin:0.5rem;
         padding-right: 2rem;
+    }
+    .btnes{
+        display: flex;
+        justify-content: center;
     }
 }
 @media screen and (max-width:1359px){
@@ -31,7 +34,12 @@
         margin: 0.2rem;
     }
     .btn-edit{
-        margin-left: 1rem;
+        margin-left: 0.2rem;
+    }
+    .btnes{
+        padding-right: 1rem;
+        display: flex;
+        justify-content: center;
     }
 }
 @media screen and (max-width:1280px){
@@ -56,13 +64,15 @@
         margin: 0.2rem;
     }
     .btn-edit{
-        margin-left: 1rem;
+        margin-left: 0.1rem;
+    }
+    .btnes{
+        margin-left: -1rem;
     }
 }
 @media screen and (max-width:767px){
-    .button-table{
-        justify-content: center;
-        margin: 0 0 0 1rem;
+    .btnes{
+        padding-left: 8px;
+        margin-left: -2rem;
     }
-    
-}
+} 

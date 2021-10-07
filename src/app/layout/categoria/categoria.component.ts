@@ -20,6 +20,7 @@ export class CategoriaComponent implements OnInit {
                 { 
                   configModal.backdrop = 'static';
                   configModal.keyboard = false;
+                  configModal.size = 'md'
                 }
   carga = false; 
   cargaModal = false; 

@@ -7,6 +7,8 @@ import { ProductoService } from 'src/app/services/producto.service';
 import { ProveedorService } from 'src/app/services/proveedor.service';
 import { Producto } from '../producto/producto.models';
 import { Proveedor } from '../proveedor/proveedor.models';
+import { DatePipe } from '@angular/common';
+import { DetalleProducto } from 'src/app/models/detalle-producto';
 
 @Component({
   selector: 'app-compra',
@@ -15,11 +17,13 @@ import { Proveedor } from '../proveedor/proveedor.models';
 })
 export class CompraComponent implements OnInit {
 
-  public fecha_hoy: Date = new Date();
-  productos_detalle : any[] = [];
+  productos_detalle : Producto[] = [];
   proveedores: Proveedor[] = [];
   comprobantes:Comprobante[] =[];
-  productos:any[]=[];
+  detallesProducto:DetalleProducto[]=[];
+  productos:Producto[]=[];
+  importes: number[] = [];
+  detalle = new DetalleProducto();
   comprobanteForm : FormGroup;
   guiaRemisionForm : FormGroup;
   //Variables de cargando y error
@@ -28,10 +32,12 @@ export class CompraComponent implements OnInit {
   mensaje_alerta: string;
   mostrar_alerta: boolean = false;
   tipo_alerta: string;
+  
+  mensaje_tabla: string;
 
   //Varibale para el tipo de comprobante
   mostrar_guia: boolean = false;
-
+  proveedor_seleccionado:boolean = false;
   // Paginación
   currentPage = 1;
   itemsPerPage = 10;
@@ -44,7 +50,12 @@ export class CompraComponent implements OnInit {
 
   //variables de tabla
   importe_detalle:number = 0;
+  cantidad_detalles:number[]= [];
+  nro_productos_visibles: number = 0;
+  TotalCompra:number = 0;
+  //variable de fecha
   opacarFecha: boolean = true;
+  listarProductoTabla: boolean;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -52,7 +63,8 @@ export class CompraComponent implements OnInit {
     private comprobanteService:ComprobanteService,
     private modal: NgbModal,
     private configModal: NgbModalConfig,
-    private productoService:ProductoService
+    private productoService:ProductoService,
+    private datePipe: DatePipe
     ){ 
       this.configModal.backdrop = 'static';
       this.configModal.keyboard = false;
@@ -62,6 +74,7 @@ export class CompraComponent implements OnInit {
   @ViewChild('articulosModal') articulosModal: ElementRef;
 
   ngOnInit(): void {
+    this.listarProductoTabla = true;
     this.inicializarFormulario();
     this.listarProveedores();
     this.listarComprobantes();
@@ -118,16 +131,20 @@ export class CompraComponent implements OnInit {
     )
   }
   listarProductos(id:number){
+    this.mostrar_alerta = false;
     this.cargando = true;
-    this.modalIn = true;
     this.productoService.listarProductosPorProveedor(id).subscribe(
       data=>{
         this.productos = data.resultado; 
-        this.cargando = false; 
+        console.log(this.productos);
+        this.cargando = false;
+        this.listarProductoTabla = false;
+        this.nro_productos_visibles = this.productos.length; 
       },error=>{
         this.cargando = false;
         this.mostrar_alerta = true;
         this.tipo_alerta='danger';
+        this.modalIn = true;
         if (error.error.error !== undefined) {
           if (error.error.error === 'error_deBD') {
             this.mensaje_alerta = 'Hubo un error al intentar ejecutar su solicitud. Por favor, actualice la página.';
@@ -140,6 +157,7 @@ export class CompraComponent implements OnInit {
     ); 
   }
   activarGuiaRemision(){
+    this.inicializarGuiaFormulario();
     if(!this.mostrar_guia)
       this.mostrar_guia = true;
     else
@@ -154,10 +172,12 @@ export class CompraComponent implements OnInit {
       this.color_btn_remision = 'success';
     }
   }
-  articulosProveedor(){
+  articulosProveedor(){ 
     if(this.id_proveedor.value){
-      this.listarProductos(this.id_proveedor.value);
+      if(this.listarProductoTabla)
+        this.listarProductos(this.id_proveedor.value);
       this.modal.open(this.articulosModal);
+      this.modalIn = true;
     }else{
       this.mensaje_alerta = 'No ha seleccionado el proveedor. Vuelva a intentarlo de nuevo.';
       this.tipo_alerta = 'danger';
@@ -167,7 +187,44 @@ export class CompraComponent implements OnInit {
     
   }
   agregarProducto(producto:Producto){
+    this.productos_detalle.push(producto);
+    this.productos.forEach( (element, index) => {
+      if(element === producto) this.productos.splice(index,1);
+    });
+    //Deshabilitar el select option de los proveedores
+    this.id_proveedor.disable();
+  }
+  quitarProducto(producto:Producto,indice:any){
+    this.productos.unshift(producto);
+    this.productos_detalle.forEach((element,index)=>{
+      if(element === producto) 
+        this.productos_detalle.splice(index,1);
+      //Deshabilitar el select option de los proveedores
+      if(this.productos_detalle.length==0){
+        this.id_proveedor.enable();
+        this.listarProductoTabla = true;
+      }
+    });
+    this.importes.splice(indice,1);
+    this.cantidad_detalles.splice(indice,1);
+    this.TotalCompra = this.importes.reduce((a, b) => a + b, 0);
     
+
+  }
+  agregarCantidadTabla(precio:any, indice:any){
+    console.log(this.cantidad_detalles[indice]);
+    if(Number.isInteger(+this.cantidad_detalles[indice])){
+      this.importes[indice] = +(this.cantidad_detalles[indice] * precio).toFixed(2); 
+      this.TotalCompra = this.importes.reduce((a, b) => a + b, 0);
+      this.mostrar_alerta = false;
+    }else{
+      this.mensaje_alerta = 'Debes ingresar número, vuelve a intentarlo.';
+      this.tipo_alerta = 'danger';
+      this.mostrar_alerta = true;
+      this.modalIn = false;
+    }
+  }
+  registrarCompra(){
   }
   inicializarFormulario(){
     this.comprobanteForm = this.formBuilder.group({
@@ -175,6 +232,7 @@ export class CompraComponent implements OnInit {
       tipo_comprobante:['',[Validators.required]],
       serie:['',[Validators.required, Validators.pattern(/^([0-9])*$/), Validators.maxLength(10)]],
       nro_comprobante:['',[Validators.required, Validators.pattern(/^([0-9])*$/), Validators.maxLength(10)]],
+      fecha_emision:['',[Validators.required]]
     });
   }
   inicializarGuiaFormulario(){
@@ -199,7 +257,7 @@ export class CompraComponent implements OnInit {
     return this.comprobanteForm.get('nro_comprobante');
   }
   get fecha_emision(){
-    return this.guiaRemisionForm.get('fecha_emision');
+    return this.comprobanteForm.get('fecha_emision');
   }
   //GETS DE GUIA DE REMISION
   get tipo_comprobante_guia() {
@@ -217,4 +275,8 @@ export class CompraComponent implements OnInit {
   cambiarDeStyleDate() {
     this.opacarFecha = false;
   }
+  getTodayFecha(): string {
+    return new Date().toISOString().split('T')[0];
+  }
+  
 }

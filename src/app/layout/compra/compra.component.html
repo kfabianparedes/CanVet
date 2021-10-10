@@ -9,23 +9,29 @@
     <!-- DataTales Example -->
     <div class="card shadow mb-4 col-12 col-lg-11" style="height: 100%;">
         <div class="card-header py-3 row ">
-            <!-- <div class="mt-2 col-sm-12 col-md-5 col-lg-4 mb-2 text-left-md">
-                <span><strong>Fecha de Registro:</strong>&nbsp;&nbsp;{{fecha_hoy | date: 'dd/MM/yyyy'}}</span>
-            </div> -->
             <h5>Comprobante de pago</h5>
         </div>
         <div class="card-body text-gray-400 ">
             <form [formGroup]="comprobanteForm">
                 <div class="row color-row-table">
-                    <div class="col-sm-12 col-md-5">
+                    <div class="col-sm-12 col-md-5 mb-4">
                         <label for="inputProveedor">Proveedor:</label>
-                        <select formControlName="id_proveedor" id="inputProveedor" class="border-left-primary form-select">
+                        <select formControlName="id_proveedor" (change)="this.listarProductoTabla = true;" id="inputProveedor" class="border-left-primary form-select">
                             <option hidden value="" disabled>Escoge una opción</option>
                             <option [value]="proveedor.PROV_ID" *ngFor="let proveedor of proveedores">{{proveedor.PROV_EMPRESA_PROVEEDORA}}</option>
                         </select>   
                         <div *ngIf="id_proveedor.invalid && (id_proveedor.dirty || id_proveedor.touched)" class="my-1" style="color: rgb(197, 68, 68);">
                             <div *ngIf="id_proveedor.errors.required">
                                 * El proveedor es requerido.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="offset-sm-0 offset-md-1  col-sm-12 col-md-5 ">
+                        <label for="inputFechaComprobante">Fecha de Emisión:</label>
+                        <input [max]="getTodayFecha()" [ngClass]="{'textoGris': opacarFecha }" (change)="cambiarDeStyleDate()" type="date" name="inputFechaComprobante" formControlName="fecha_emision" class="border-left-primary font-tamanio form-control">
+                        <div *ngIf="fecha_emision.invalid && (fecha_emision.dirty || fecha_emision.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                            <div *ngIf="fecha_emision.errors.required">
+                                * La fecha de emisión es requerida.
                             </div>
                         </div>
                     </div>
@@ -82,19 +88,6 @@
             <div class=" col-sm-12 col-md-4 col-xl-3">
                 <button  (click)="activarGuiaRemision()" type="button" class="btn btn-{{color_btn_remision}}"><i class="fas fa-file-signature"></i>&nbsp;&nbsp;Guía de Remisión&nbsp;&nbsp;&nbsp;&nbsp;<i class="fas fa-{{signo}}"></i></button>
             </div>
-            <!-- <div class="my-2 col-sm-12 col-md-12 col-lg-6">
-                <label style="padding-left:0.5rem">Fecha de Nacimiento</label>
-                <input  [max]="fecha_hoy" [ngClass]="{'textoGris': opacarFecha}" 
-                    (change)="cambiarDeStyleDate()" formControlName="fecha_nacimiento" type="date" id="fechaInput" name="fechaInput" class="border-left-primary  form-control" >
-                <div *ngIf="fecha_nacimiento.invalid && (fecha_nacimiento.dirty || fecha_nacimiento.touched)" class="my-1" style="color: rgb(197, 68, 68);">
-                    <div *ngIf="fecha_nacimiento.errors.required">
-                    * La fecha es requerida.
-                    </div>
-                </div>
-            </div> -->
-            <!-- <div class="mt-2 col-sm-12 col-md-5 col-xl-4" >
-                <span><strong>Fecha de Registro:</strong>&nbsp;&nbsp;{{fecha_hoy | date: 'dd/MM/yyyy'}}</span>
-            </div>  -->
         </div>
     </div>
     <div *ngIf="mostrar_guia" class="card shadow mb-4 col-12 col-lg-11" >
@@ -102,47 +95,45 @@
             <h5>Guía de remisión</h5>
         </div>
         <div class="card-body text-gray-400 ">
-            <form [formGroup]="comprobanteForm">
+            <form [formGroup]="guiaRemisionForm">
                 <div class="row color-row-table">
                     <div class="col-sm-12 col-md-5 mb-4">
-                        <label for="inputTipoComprobante">Tipo comprobante:</label>
-                        <select  formControlName="tipo_comprobante" id="inputTipoComprobante" class="border-left-primary form-select">
-                            <option hidden value="" disabled>Escoge una opción</option>
-                            <option [value]="comprobante.COMPROBANTE_ID" *ngFor="let comprobante of comprobantes">{{comprobante.COMPROBANTE_TIPO}}</option>
-                        </select>
-                        <div *ngIf="tipo_comprobante.invalid && (tipo_comprobante.dirty || tipo_comprobante.touched)" class="my-1" style="color: rgb(197, 68, 68);">
-                            <div *ngIf="tipo_comprobante.errors.required">
-                                * El tipo de comprobante es requerido.
+                        <label for="inputGuiaRemision">Fecha de Emisión:</label>
+                        <input formControlName="fecha_emision_guia" [max]="getTodayFecha()" [ngClass]="{'textoGris': opacarFecha }" 
+                        (change)="cambiarDeStyleDate()" type="date" name="inputGuiaRemision" class="border-left-primary font-tamanio form-control">
+                        <div *ngIf="fecha_emision_guia.invalid && (fecha_emision_guia.dirty || fecha_emision_guia.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                            <div *ngIf="fecha_emision_guia.errors.required">
+                                * La fecha de emisión es requerida.
                             </div>
                         </div>
                     </div>
                     <br>
                     <div class="offset-sm-0 offset-md-1 col-5 col-md-2">
                         <label for="inputProveedor">Serie/Folio:</label>
-                        <input formControlName="serie" type="text" id="inputProveedor" class="border-left-primary font-tamanio form-control">
-                        <div *ngIf="serie.invalid && (serie.dirty || serie.touched)" class="my-1" style="color: rgb(197, 68, 68);">
-                            <div *ngIf="serie.errors.required">
-                                * El número de serie es requerido.
+                        <input formControlName="serie_guia" type="text" id="inputProveedor" class="border-left-primary font-tamanio form-control">
+                        <div *ngIf="serie_guia.invalid && (serie_guia.dirty || serie_guia.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                            <div *ngIf="serie_guia.errors.required">
+                                * El número de guia es requerido.
                             </div>
-                            <div *ngIf="serie.errors.maxlength">
+                            <div *ngIf="serie_guia.errors.maxlength">
                                 * Se requieren máximo 10 caracteres.
                             </div>
-                            <div *ngIf="serie.errors.pattern">
+                            <div *ngIf="serie_guia.errors.pattern">
                                 * El formato es inválido.
                             </div>
                         </div>
                     </div>
                     <div class="col-7 col-md-4">
                         <label for="inputProveedor">Nro. Comprobante:</label>
-                        <input formControlName="nro_comprobante" type="text" id="inputProveedor" class="border-left-primary font-tamanio form-control">
-                        <div *ngIf="nro_comprobante.invalid && (nro_comprobante.dirty || nro_comprobante.touched)" class="my-1" style="color: rgb(197, 68, 68);">
-                            <div *ngIf="nro_comprobante.errors.required">
+                        <input formControlName="nro_comprobante_guia" type="text" id="inputProveedor" class="border-left-primary font-tamanio form-control">
+                        <div *ngIf="nro_comprobante_guia.invalid && (nro_comprobante_guia.dirty || nro_comprobante_guia.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                            <div *ngIf="nro_comprobante_guia.errors.required">
                                 * El número de comprobante es requerido.
                             </div>
-                            <div *ngIf="nro_comprobante.errors.maxlength">
+                            <div *ngIf="nro_comprobante_guia.errors.maxlength">
                                 * Se requieren máximo 10 caracteres.
                             </div>
-                            <div *ngIf="nro_comprobante.errors.pattern">
+                            <div *ngIf="nro_comprobante_guia.errors.pattern">
                                 * El formato es inválido.
                             </div>
                         </div>
@@ -158,40 +149,67 @@
             </div>
         </div>
         <div class="card-body text-gray-400 ">
-            <div  *ngIf="productos_detalle.length>0; else detalleModule">
+            <div  *ngIf="productos_detalle.length<=0; else detalleModule">
                 <h1 class="h3 mb-2 text-gray-800 col-12 text-center">No hay artículos seleccionados.</h1>
+            </div>
+            <div *ngIf="productos_detalle.length>0" class="row h3 text-dark mt-3">
+                <div class="offset-md-9 offset-sm-0  col-sm-12 col-md-3">
+                   Total: <span type="text" class="border-left-primary form-control">S/{{TotalCompra.toFixed(2)}}</span>
+                </div>
+            </div>
+            <!---------------PAGINACIÓN------------->
+            <div *ngIf="productos_detalle?.length>0" class="row box-footer clearfix mt-3">     
+                <div class="col-xl-10 col-lg-9 col-md-7 col-sm-6 col-7">
+                <ngb-pagination *ngIf="productos_detalle?.length>10" class="d-flex justify-content-start" size="sm" [maxSize]="1" [pageSize]="itemsPerPage"  [collectionSize]="productos_detalle?.length" [(page)]="currentPage"></ngb-pagination>
+                </div>
+                <div class="col-xl-2 col-lg-3 col-md-5 col-sm-4 col-5">
+                <select class="pull-right" [(ngModel)]="itemsPerPage" class="form-control form-control-sm custom-select">
+                    <option value="10">10 elementos</option>
+                    <option value="15">15 elementos</option>
+                    <option value="20">20 elementos</option>                    
+                </select>  
+                </div>    
             </div>
             <ng-template #detalleModule>
                 <div class="table-module">
                     <table class="table table-bordered text-gray-400" id="dataTable" cellspacing="0">
                         <thead>
                             <tr>
-                                <th ><span class="color-row-table">Categoría</span></th>
-                                <th ><span class="color-row-table">Producto</span></th>
-                                <th ><span class="color-row-table">Tamaño/Talla</span></th>
-                                <th ><span class="color-row-table">P. Venta</span></th>
-                                <th ><span class="color-row-table">P. Compra</span></th>
-                                <th ><span class="color-row-table">Stock</span></th>
-                                <th ><span class="color-row-table">Importe</span></th>
-                                <th ><span class="color-row-table">Acciones</span></th>
+                                <th class="color-row-table">Categoría</th>
+                                <th class="color-row-table">Producto</th>
+                                <th class="color-row-table">Tamaño/Talla</th>
+                                <!-- <th class="color-row-table">P. Venta</th> -->
+                                <th class="color-row-table">P. Compra</th>
+                                <th class="color-row-table">Stock</th>
+                                <th class="color-row-table">Cantidad</th>
+                                <th class="color-row-table">Importe (S/)</th>
+                                <th class="color-row-table">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let producto of productos_detalle">
+                            <tr *ngFor="let producto of productos_detalle | slice:(currentPage-1)*itemsPerPage:currentPage*itemsPerPage ; let i = index  ">
                                 <td class="color-row-table">{{producto.CAT_NOMBRE}}</td>
                                 <td class="color-row-table">{{producto.PRO_NOMBRE}}</td>
                                 <td class="color-row-table">{{producto.PRO_TAMANIO_TALLA}}</td>
-                                <td class="color-row-table">{{producto.PRO_PRECIO_VENTA.toFixed(2)}}</td>
+                                <!-- <td class="color-row-table">{{producto.PRO_PRECIO_VENTA.toFixed(2)}}</td> -->
                                 <td class="color-row-table">{{producto.PRO_PRECIO_COMPRA.toFixed(2)}}</td>
                                 <td class="color-row-table">{{producto.PRO_STOCK}}</td>
-                                <td class="color-row-table">{{importe_detalle.toFixed(2)}}</td>
+                                <td class="color-row-table">
+                                    <input type="text" class="border-left-primary form-control"  (keyup)="agregarCantidadTabla(producto.PRO_PRECIO_COMPRA,i)" [(ngModel)]="cantidad_detalles[i]">
+                                </td>
+                                <!-- <td class="color-row-table"> -->
+                                    <td class="color-row-table">{{importes[i]}}</td>
+                                    <!-- <input type="text" class="border-left-primary form-control" disabled [(ngModel)]="importe_detalle"> -->
+                                <!-- </td> -->
+                                <!-- <td class="color-row-table">{{cantidad_detalle.toFixed(2)}}</td> -->
+                                <!-- <td class="color-row-table">{{importe_detalle.toFixed(2)}}</td> -->
                                 <td class="color-row-table">
                                     <div class="row">
-                                        <!-- <div class="col-sm-1 button-table"  *ngIf="user.USU_ESTADO != 1 && user.USU_ESTADO !=2; else Habilitar">
-                                            <span (click)="disableUser(user.USU_ID,user.USU_ESTADO)" class="btn btn-success btn-circle btn-sm " ngbTooltip="Habilitar">
-                                                <i class="fas fa-check" aria-hidden="true"></i>
+                                        <div class="col-sm-1">
+                                            <span (click)="quitarProducto(producto,i)" class="btn btn-danger btn-circle btn-sm " ngbTooltip="Quitar">
+                                                <i class="fas fa-trash" aria-hidden="true"></i>
                                             </span>
-                                        </div> -->
+                                        </div>
                                     </div>
                                 </td>
                             </tr>
@@ -200,6 +218,11 @@
                 </div>
             </ng-template>
 
+        </div>
+        <div class="card-footer py-3 row justify-content-center">
+            <div class=" col-sm-12 col-md-4 col-xl-3">
+                <button  (click)="registrarCompra()" type="button" class="btn btn-primary"><i class="fas fa-save"></i>&nbsp;&nbsp;&nbsp;&nbsp;Registrar Compra</button>
+            </div>
         </div>
     </div>
     
@@ -249,7 +272,7 @@
                         </div>    
                     </div>
                     <ng-template #productos_busqueda>
-                        <div class="table-module" >
+                        <div class="table-module text-center" >
                             <table class="table table-bordered text-gray-400" id="dataTable" cellspacing="0">
                                 <thead>
                                     <tr>

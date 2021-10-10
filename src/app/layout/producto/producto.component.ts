@@ -7,7 +7,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {ProductoService} from '../../services/producto.service';
 import {ProveedorService} from '../../services/proveedor.service';
 import { Proveedor } from '../proveedor/proveedor.models';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-producto',

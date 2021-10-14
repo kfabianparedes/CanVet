@@ -14,7 +14,6 @@ export class SidebarComponent implements OnInit{
 
   ngOnInit(): void {
     this.USE_TYPE = this.storageService.getString('USE_TYPE');
-    console.log(this.USE_TYPE);
   }
   toggled: string = '';
   

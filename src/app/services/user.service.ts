@@ -86,7 +86,6 @@ export class UserService {
       USU_ESTADO : usuario.USU_ESTADO, //Habilitado(1) / Deshabilitado(0) / Cambio de contraseña (2) 
       ROL_ID :usuario.ROL_ID 
     }
-    console.log(datos);
     return this.http.put<any>(url,datos,this.httpHead).pipe(retry(2));
   }
 
@@ -102,7 +101,6 @@ export class UserService {
       USU_SEXO : usuario.USU_SEXO, 
       USU_EMAIL : usuario.USU_EMAIL
     }
-    console.log(this.httpHead);
     return this.http.put<any>(url,datos,this.httpHead).pipe(retry(2));
   }
 }

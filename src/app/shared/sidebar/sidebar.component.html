@@ -2,7 +2,7 @@
 
 <ul class="responsive-tamanio navbar-nav bg-gradient-primary sidebar sidebar-dark accordion {{toggled}}  " id="accordionSidebar">
 
-    <!-- Sidebar - Brand -->
+    <!-- Logo y huella  -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" [routerLink]="['/dashboard']">
         <div class="row mt-2">
             <div class="col-sm-6 col-md-12">
@@ -11,25 +11,16 @@
                 </div>
                 <div class="sidebar-brand-text mx-3">CANVET</div>
             </div>
-            
         </div>
-
     </a>
     
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
-
-    <!-- Nav Item - Dashboard -->
     <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/dashboard']">
-            <i class="fas fa-fw fa-home"></i>
-            <span>Inicio</span></a>
+        <a class="nav-link" [routerLink]="['/dashboard']"><i class="fas fa-fw fa-home"></i><span>Inicio</span></a>
     </li>
-
     <!-- Divider -->
     <hr class="sidebar-divider">
-
-    <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
             aria-expanded="true" aria-controls="collapseTwo">
@@ -94,16 +85,11 @@
             </div>
         </div>
     </li>
-
-    
-
-    
-
     <!-- Divider -->
-    <hr class="sidebar-divider ">
+    <hr *ngIf = "USE_TYPE === '2' " class="sidebar-divider ">
     <!-- Divider -->
     <!-- Nav Item - Dashboard -->
-    <li class="nav-item">
+    <li *ngIf = "USE_TYPE === '2' " class="nav-item">
         <a class="nav-link" [routerLink]="['/compra']">
             <i class="fas fa-fw fa-truck"></i>
             <span>Compras</span></a>
@@ -112,6 +98,5 @@
     <div class="text-center  d-md-inline">
         <button class="rounded-circle border-0" id="sidebarToggle" (click)="clickEvent()"></button>
     </div>
-
 </ul>
 <!-- End of Sidebar -->

@@ -1,0 +1,51 @@
+
+<div class="row justify-content-center">
+    <mat-progress-bar *ngIf="cargando && !modalIn" mode="indeterminate" class="alert-loading"></mat-progress-bar>
+    <ngb-alert *ngIf="mostrar_alerta && !modalIn" [type]="tipo_alerta" (closed)="mostrar_alerta = false" class="alert-loading">{{mensaje_alerta}}</ngb-alert>
+    
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800 col-12 text-center">Registro de clientes</h1>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4 col-12 col-lg-11" style="height: 100%;">
+        <div class="card-header py-3 row justify-content-between">
+            <div class="py-1 col-sm-12 col-md-5 col-lg-4">
+                <div class="row">
+                    <div class="col-9">
+                        <input type="text" class="border-left-primary font-tamanio form-control"  [(ngModel)]="busquedaClienteNatural" name="busquedaClienteNatural" placeholder="Buscar..." >
+                    </div>
+                    <div class="col-3 py-1">
+                        <button  [disabled]="clientes.length<=0" style="float:right" style="width: 100%;" type="button" class="btn btn-primary"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="py-1 col-sm-12 col-md-4 col-lg-3" >
+                <button  (click)="registrarClienteNaturalModal()" style="float:right" style="width: 100%;" type="button" class="btn btn-primary">Registrar cliente</button>
+            </div>
+        </div>
+        <div class="card-body text-gray-400 ">
+
+        </div>
+    </div>
+
+    <div class="card shadow mb-4 col-12 col-lg-11" style="height: 100%;">
+        <div class="card-header py-3 row justify-content-between ">
+            <div class="py-1 col-sm-12 col-md-5 col-lg-4">
+                <div class="row">
+                    <div class="col-9">
+                        <input type="text" class="border-left-primary font-tamanio form-control"  [(ngModel)]="busquedaClienteNatural" name="busquedaClienteNatural" placeholder="Buscar..." >
+                    </div>
+                    <div class="col-3 py-1">
+                        <button  [disabled]="clientes_juridicos.length<=0" style="float:right" style="width: 100%;" type="button" class="btn btn-primary"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="py-1 col-sm-12 col-md-4 col-lg-3" >
+                <button  (click)="registrarClienteJuridicoModal()" style="float:right" style="width: 100%;" type="button" class="btn btn-primary">Registrar cliente jurídico</button>
+            </div>
+        </div>
+        <div class="card-body text-gray-400 ">
+
+        </div>
+    </div>
+</div>

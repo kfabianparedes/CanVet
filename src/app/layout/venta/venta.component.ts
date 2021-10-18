@@ -3,7 +3,9 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Comprobante } from 'src/app/models/comprobante.model';
+import { MetodoPago } from 'src/app/models/metodo-pago';
 import { ComprobanteService } from 'src/app/services/comprobante.service';
+import { MetodoPagoService } from 'src/app/services/metodoPago.service';
 import { ProductoService } from 'src/app/services/producto.service';
 import { UserService } from 'src/app/services/user.service';
 import { Producto } from '../producto/producto.models';
@@ -29,6 +31,7 @@ export class VentaComponent implements OnInit {
   productos_detalle : Producto[] = [];
   importes: number[] = [];
   comprobantes:Comprobante[] =[];
+  metodos_pago: MetodoPago[]=[];
   //variable de fecha
   opacarFecha: boolean = true;
   listarProductoTabla: boolean;
@@ -49,6 +52,8 @@ export class VentaComponent implements OnInit {
   mostrar_guia: boolean = false;
   proveedor_seleccionado:boolean = false;
   btnRegistroValido:boolean = false;
+
+  dni_ruc:string = 'Documento identificador';
   constructor(
     private formBuilder: FormBuilder,
     private comprobanteService:ComprobanteService,
@@ -56,7 +61,8 @@ export class VentaComponent implements OnInit {
     private modal: NgbModal,
     private configModal: NgbModalConfig,
     private datePipe: DatePipe,
-    private userService: UserService
+    private userService: UserService,
+    private metodoPago:MetodoPagoService
   ) {
       this.configModal.backdrop = 'static';
       this.configModal.keyboard = false;
@@ -64,10 +70,13 @@ export class VentaComponent implements OnInit {
    }
   
   @ViewChild('articulosModal') articulosModal: ElementRef;
+  @ViewChild('clienteModal') clienteModal: ElementRef;
+
   ngOnInit(): void {
     this.listarProductoTabla = true;
     this.inicializarFormulario();
     this.listarComprobantes();
+    this.listarMetodoPago();
   }
   
   closeModal(): any {
@@ -82,6 +91,28 @@ export class VentaComponent implements OnInit {
         this.cargando = false;
       },
       (error)=>{
+        this.cargando = false;
+        this.mostrar_alerta = true;
+        this.tipo_alerta='danger';
+        if (error.error.error !== undefined) {
+          if (error.error.error === 'error_deBD') {
+            this.mensaje_alerta = 'Hubo un error al intentar ejecutar su solicitud. Por favor, actualice la página.';
+          }
+        }
+        else{
+          this.mensaje_alerta = 'Hubo un error al mostrar la información de esta página. Por favor, actualice la página.';
+        }
+      }
+    )
+  }
+  listarMetodoPago(){
+    this.cargando = true;
+    this.modalIn = false;
+    this.metodoPago.listarMetodosDePago().subscribe(
+      (data)=>{
+        this.metodos_pago = data['resultado'];
+        this.cargando = false;
+      },(error)=>{
         this.cargando = false;
         this.mostrar_alerta = true;
         this.tipo_alerta='danger';
@@ -132,7 +163,6 @@ export class VentaComponent implements OnInit {
       if(element === producto) this.productos.splice(index,1);
     });
   }
-
   agregarCantidadTabla(precio:any, indice:any){
     const regexp = new RegExp(/^([0-9])*$/);
     if(Number.isInteger(+this.cantidad_detalles[indice]) && regexp.test(this.cantidad_detalles[indice].toString()) && this.cantidad_detalles[indice]!==null){
@@ -148,7 +178,6 @@ export class VentaComponent implements OnInit {
       this.btnRegistroValido = false;
     }
   }
-  
   quitarProducto(producto:Producto,indice:any){
     this.productos.unshift(producto);
     this.productos_detalle.forEach((element,index)=>{
@@ -164,16 +193,24 @@ export class VentaComponent implements OnInit {
     this.cantidad_detalles.splice(indice,1);
     this.TotalCompra = this.importes.reduce((a, b) => a + b, 0);
   }
+
   registrarVenta(){
     
   }
+  registrarCliente(){
+    this.modal.open(this.clienteModal);
+    this.mostrar_alerta = false;
+    this.modalIn = true;
+  }
+
   inicializarFormulario(){
     this.comprobanteForm = this.formBuilder.group({
       documento:['',[Validators.required,Validators.minLength(8),Validators.maxLength(11)]],
       tipo_comprobante:['',[Validators.required]],
       serie:['',[Validators.required, Validators.pattern(/^([0-9])*$/), Validators.maxLength(5)]],
       nro_comprobante:['',[Validators.required, Validators.pattern(/^([0-9])*$/), Validators.maxLength(10)]],
-      fecha_emision:['',[Validators.required]]
+      fecha_emision:['',[Validators.required]],
+      forma_pago:['',[Validators.required]]
     });
   }
   //getters & setters
@@ -191,6 +228,9 @@ export class VentaComponent implements OnInit {
   }
   get fecha_emision(){
     return this.comprobanteForm.get('fecha_emision');
+  }
+  get forma_pago(){
+    return this.comprobanteForm.get('forma_pago');
   }
 
   cambiarDeStyleDate() {

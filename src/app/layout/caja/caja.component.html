@@ -1,0 +1,70 @@
+<div class="row justify-content-center">
+    <mat-progress-bar *ngIf="cargando && !modalIn" mode="indeterminate" class="alert-loading"></mat-progress-bar>
+    <ngb-alert *ngIf="mostrar_alerta && !modalIn" [type]="tipo_alerta" (closed)="mostrar_alerta = false" class="alert-loading">{{mensaje_alerta}}</ngb-alert>
+    
+    <h1 class="h3 mb-2 text-gray-800 col-12 text-center">Apertura/Cierre de Caja</h1>
+    <div class="card shadow mb-4 col-12 col-lg-11" style="height: 100%;">
+        <div class="card-header py-3 row ">
+            <h5 style="cursor:pointer" (click)="abrirCaja()">Abrir Caja 
+                <span>
+                    <i  class="fas fa-angle-{{flechaApertura}}"></i>
+                </span>
+            </h5>
+        </div>
+        <div *ngIf="mostrarApertura" class="card-body text-gray-400 ">
+            <form [formGroup]="aperturaCajaForm">
+                <div class="row color-row-table">
+                    <div class="col-sm-12 col-md-3 col-lg-3 mt-2 mb-2">
+                        <label for="inputMontoInicial">Monto inicial (S/):</label>
+                    </div>
+                    <div class="col-6 col-md-4 col-lg-4 mb-4">
+                        <input formControlName="monto_incial" type="text" id="inputMontoInicial" class="border-left-primary font-tamanio form-control">
+                        <div *ngIf="monto_incial.invalid && (monto_incial.dirty || monto_incial.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                            <div *ngIf="monto_incial.errors.required">
+                                * El monto inicial de la caja es requerido.
+                            </div>
+                            <div *ngIf="monto_incial.errors.pattern">
+                                * El formato es inválido.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4">
+                        <button (click)=registrarApertura() [disabled]="aperturaCajaForm.invalid" class="btn btn-primary">Abrir Caja&nbsp; <i class="fas fa-dollar-sign"></i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="card shadow mb-4 col-12 col-lg-11" style="height: 100%;">
+        <div class="card-header py-3 row">
+            <h5 style="cursor:pointer" (click)="cerrarCaja()">Cerrar Caja 
+                <span>
+                    <i class="fas fa-angle-{{flechaCierre}}"></i>
+                </span>
+            </h5>
+        </div>
+        <div *ngIf="mostrarCierre" class="card-body text-gray-400 ">
+            <form [formGroup]="aperturaCajaForm">
+                <div class="row color-row-table">
+                    <div class="col-sm-12 col-md-3 col-lg-3 mt-2 mb-2">
+                        <label for="inputMontoInicial">Monto inicial (S/):</label>
+                    </div>
+                    <div class="col-6 col-md-4 col-lg-4 mb-4">
+                        <input formControlName="monto_incial" type="text" id="inputMontoInicial" class="border-left-primary font-tamanio form-control">
+                        <div *ngIf="monto_incial.invalid && (monto_incial.dirty || monto_incial.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                            <div *ngIf="monto_incial.errors.required">
+                                * El monto inicial de la caja es requerido.
+                            </div>
+                            <div *ngIf="monto_incial.errors.pattern">
+                                * El formato es inválido.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4">
+                        <button [disabled]="aperturaCajaForm.invalid" class="btn btn-primary">Abrir Caja&nbsp; <i class="fas fa-dollar-sign"></i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -15,14 +15,25 @@ import { ProductoComponent } from './producto/producto.component';
 import { UserComponent } from './user/user.component';
 import { ProveedorComponent } from './proveedor/proveedor.component';
 import {PipesModule} from '../shared/pipes/pipes.module';
-import { CitaComponent } from './cita/cita.component';
+import { ServicioComponent } from './servicio/servicio.component';
 import { VentaComponent } from './venta/venta.component';
 import { CompraComponent } from './compra/compra.component';
+import { ClienteComponent } from './cliente/cliente.component';
+import { CajaComponent } from './caja/caja.component';
+import { MascotaComponent } from './mascota/mascota.component';
 
 @NgModule({
   declarations: [
     DashboardComponent,
-    LayoutComponent,CategoriaComponent,ProductoComponent, UserComponent, ProveedorComponent, CitaComponent, VentaComponent, CompraComponent
+    LayoutComponent,
+    CategoriaComponent,
+    ProductoComponent,
+    UserComponent, 
+    ProveedorComponent, 
+    ServicioComponent, 
+    VentaComponent, 
+    CompraComponent, 
+    ClienteComponent, CajaComponent, MascotaComponent
   ],
   imports: [
     CommonModule,

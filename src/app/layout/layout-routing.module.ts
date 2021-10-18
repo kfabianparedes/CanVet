@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ProfileComponent } from '../auth/profile/profile.component';
 import { CategoriaComponent } from './categoria/categoria.component';
-import { CitaComponent } from './cita/cita.component';
+import { ServicioComponent } from './servicio/servicio.component';
 import { CompraComponent } from './compra/compra.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LayoutComponent } from './layout.component';
@@ -10,6 +10,9 @@ import { ProductoComponent } from './producto/producto.component';
 import { ProveedorComponent } from './proveedor/proveedor.component';
 import { UserComponent } from './user/user.component';
 import { VentaComponent } from './venta/venta.component';
+import { ClienteComponent } from './cliente/cliente.component';
+import { CajaComponent } from './caja/caja.component';
+import { MascotaComponent } from './mascota/mascota.component';
 
 const routes: Routes = [
   {
@@ -22,9 +25,12 @@ const routes: Routes = [
       {path:'users',component:UserComponent},
       {path:'proveedor',component:ProveedorComponent},
       {path:'profile',component:ProfileComponent},
-      {path:'cita',component:CitaComponent},
+      {path:'servicio',component:ServicioComponent},
       {path:'venta',component:VentaComponent},
-      {path:'compra',component:CompraComponent}
+      {path:'compra',component:CompraComponent},
+      {path:'cliente',component:ClienteComponent},
+      {path:'caja',component:CajaComponent},
+      {path:'mascota',component:MascotaComponent}
 
     ]
   }

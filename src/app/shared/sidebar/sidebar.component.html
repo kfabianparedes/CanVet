@@ -22,30 +22,35 @@
     <!-- Divider -->
     <hr class="sidebar-divider">
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-            aria-expanded="true" aria-controls="collapseTwo">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTransacciones"
+            aria-expanded="true" aria-controls="collapseTransacciones">
             <i class="fas fa-store"></i>
             <span>Transacciones</span>
         </a>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div id="collapseTransacciones" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Pet Shop:</h6>
-                <a class="collapse-item" [routerLink]="['/']">            
-                    <i class="fas fa-search"></i>
-                    <span>&nbsp; Buscar</span>
+                <a class="collapse-item" [routerLink]="['caja']">            
+                    <i class="fas fa-cash-register"></i>
+                    <span>&nbsp; Caja</span>
                 </a>
                 <a class="collapse-item" [routerLink]="['venta']">            
                     <i class="fas fa-shopping-cart"></i>
                     <span>&nbsp; Vender</span>
                 </a>
                 <h6 class="collapse-header">Spa:</h6>
-                <a class="collapse-item" [routerLink]="['/']">            
-                    <i class="fas fa-search"></i>
-                    <span>&nbsp; Buscar</span>
-                </a>
-                <a class="collapse-item" [routerLink]="['cita']">            
+                <a class="collapse-item" [routerLink]="['servicio']">            
                     <i class="fas fa-clock"></i>
-                    <span>&nbsp; Cita</span>
+                    <span>&nbsp; Servicios</span>
+                </a>
+                <h6 class="collapse-header">Administración:</h6>
+                <a class="collapse-item" [routerLink]="['cliente']">            
+                    <i class="fas fa-users"></i>
+                    <span>&nbsp; Clientes</span>
+                </a>
+                <a class="collapse-item" [routerLink]="['mascota']">            
+                    <i class="fas fa-cat"></i>
+                    <span>&nbsp; Mascotas&nbsp;</span>
                 </a>
             </div>
         </div>
@@ -66,21 +71,21 @@
                 <h6 class="collapse-header">Usuarios:</h6>
                 <a class="collapse-item" [routerLink]="['/users']" >
                     <i class="fas fa-users"></i>
-                    <span>&nbsp;Configuraciones</span>
+                    <span>&nbsp; Configuraciones</span>
                 </a>
                 <div class="collapse-divider"></div>
                 <h6 class="collapse-header">Catálogo:</h6>
                 <a class="collapse-item" [routerLink]="['/categorias']" >
                     <i class="fas fa-tag"></i>
-                    <span>&nbsp;Categorías</span>
+                    <span>&nbsp; Categorías</span>
                 </a>
                 <a class="collapse-item" [routerLink]="['/productos']" >
                     <i class="fas fa-tags"></i>
-                    <span>&nbsp;Productos</span>
+                    <span>&nbsp; Productos</span>
                 </a>
                 <a class="collapse-item" [routerLink]="['/proveedor']" >
                     <i class="fas fa-truck-loading"></i>
-                    <span>&nbsp;Proveedores</span>
+                    <span>&nbsp; Proveedores</span>
                 </a>
             </div>
         </div>

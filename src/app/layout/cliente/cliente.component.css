@@ -5,7 +5,9 @@
     margin-top:-1.5rem;
     margin-bottom:1.5rem;
 }
-
+.puntero{
+    cursor: pointer;
+}
 @media screen and (min-width:1360px){
     .col-button-table{
         align-items: center;

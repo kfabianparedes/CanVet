@@ -22,6 +22,7 @@ import { ClienteComponent } from './cliente/cliente.component';
 import { CajaComponent } from './caja/caja.component';
 import { MascotaComponent } from './mascota/mascota.component';
 import { DirectivesModule } from '../shared/directives/directives.module';
+import { ReportesComponent } from './reportes/reportes.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,7 @@ import { DirectivesModule } from '../shared/directives/directives.module';
     ServicioComponent, 
     VentaComponent, 
     CompraComponent, 
-    ClienteComponent, CajaComponent, MascotaComponent
+    ClienteComponent, CajaComponent, MascotaComponent, ReportesComponent
   ],
   imports: [
     CommonModule,

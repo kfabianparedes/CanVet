@@ -90,14 +90,17 @@
             </div>
         </div>
     </li>
-    <!-- Divider -->
     <hr *ngIf = "USE_TYPE === '2' " class="sidebar-divider ">
-    <!-- Divider -->
-    <!-- Nav Item - Dashboard -->
     <li *ngIf = "USE_TYPE === '2' " class="nav-item">
         <a class="nav-link" [routerLink]="['/compra']">
             <i class="fas fa-fw fa-truck"></i>
             <span>Compras</span></a>
+    </li>
+    <hr *ngIf = "USE_TYPE === '2' " class="sidebar-divider ">
+    <li *ngIf = "USE_TYPE === '2' " class="nav-item">
+        <a class="nav-link" [routerLink]="['/reportes']">
+            <i class="fas fa-chart-bar"></i>
+            <span>Reportes</span></a>
     </li>
     <!-- Sidebar Toggler (Sidebar) -->
     <div class="text-center  d-md-inline">

@@ -35,7 +35,7 @@ export class ClienteComponent implements OnInit {
   busquedaClienteNatural: string = '';
   busquedaClienteJuridico: string = '';
   sortClientesNatural: any[];
-  sortClientesJuridico: Cliente[]= [];
+  sortClientesJuridico: any[]= [];
 
   //Variable de registro de cliente
   clienteForm : FormGroup;
@@ -45,11 +45,18 @@ export class ClienteComponent implements OnInit {
   clienteJuridico: Cliente = new Cliente();
   datosJuridicos: DatosJuridicos = new DatosJuridicos();
   @ViewChild('clienteModal') clienteModal: ElementRef;
+  @ViewChild('editarClienteNaturalModal') editarClienteNaturalModal: ElementRef;
+  @ViewChild('editarclienteJuridicoModal') editarclienteJuridicoModal: ElementRef;
 
+  //Variables de actualización de clientes
+  clienteSeleccionado: any;
+  datosJuridicoSeleccionado: DatosJuridicos = new DatosJuridicos();
 
   currentPage = 1;
   itemsPerPage = 5;
-  
+
+  currentPageJuridico = 1;
+  itemsPerPageJuridico = 5;
   constructor(
     private clienteService:ClienteService,
     private formBuilder: FormBuilder,
@@ -67,7 +74,8 @@ export class ClienteComponent implements OnInit {
   ngOnInit(): void {
     this.listarClientes();
     this.listarEmpresas();
-
+    this.inicializarClienteNaturalFormulario();
+    this.inicializarClienteJuridicoFormulario();
   }
   
   limpiar(){
@@ -85,7 +93,6 @@ export class ClienteComponent implements OnInit {
       (data)=>{
         this.empresas = data['resultado'];
         this.cargando = false;
-        console.log(this.empresas);
       },
       (error)=>{
         this.cargando = false;
@@ -108,8 +115,9 @@ export class ClienteComponent implements OnInit {
     this.clienteService.listarClientes().subscribe(
       (data)=>{
         this.sortClientesNatural = data['resultado'].CLIENTES_NORMALES;
-        this.clientes_juridicos = data['resultado'].CLIENTES_JURIDICOS;
+        this.sortClientesJuridico = data['resultado'].CLIENTES_JURIDICOS;
         this.clientes = this.sortClientesNatural.slice();
+        this.clientes_juridicos = this.sortClientesJuridico.slice();
         this.cargando = false;
         console.log(data);
         console.log(this.clientes);
@@ -133,10 +141,87 @@ export class ClienteComponent implements OnInit {
     
   }
   borrarCliente(id:number){
+    
+  }
+  editarClienteNatural(cliente:any){
+    this.clienteSeleccionado = cliente;
+    this.inicializarClienteNaturalFormulario();
+    this.nombres.setValue(this.clienteSeleccionado.CLIENTE_NOMBRES);
+    this.apellidos.setValue(this.clienteSeleccionado.CLIENTE_APELLIDOS);
+    this.dni.setValue(this.clienteSeleccionado.CLIENTE_DNI);
+    this.direccion.setValue(this.clienteSeleccionado.CLIENTE_DIRECCION);
+    this.celular.setValue(this.clienteSeleccionado.CLIENTE_TELEFONO);
+    this.modal.open(this.editarClienteNaturalModal);
+    // cliente.CLIENTE_NOMBRES;
+    // cliente.CLIENTE_APELLIDOS;
+    // cliente.CLIENTE_DNI;
+    // cliente.CLIENTE_DIRECCION;
+    // cliente.CLIENTE_TELEFONO;
+  }
+  editarClienteJuridico(cliente_juridico:any){
+    this.clienteSeleccionado = cliente_juridico;
+    console.log(this.clienteSeleccionado);
+    this.nombres_.setValue(this.clienteSeleccionado.CLIENTE_NOMBRES);
+    this.razon_social.setValue(this.clienteSeleccionado.DJ_RAZON_SOCIAL);
+    this.ruc.setValue(this.clienteSeleccionado.DJ_RUC);
+    this.tipo_empresa.setValue(this.clienteSeleccionado.TIPO_EMPRESA_ID);
+    this.celular_.setValue(this.clienteSeleccionado.CLIENTE_TELEFONO);
+    this.direccion_.setValue(this.clienteSeleccionado.CLIENTE_DIRECCION);
+
+    this.modal.open(this.editarclienteJuridicoModal);
+  }
+  actualizarClienteNatural(){
 
   }
-  editarcliente(cliente:Cliente){
+  actualizarClienteJuridico(){
 
+    // this.mostrar_alerta = false;
+    // this.modalIn = true;
+    // this.cargando = true;
+    // this.clienteNatural.CLIENTE_NOMBRES = this.nombres_.value;
+    // this.clienteNatural.CLIENTE_APELLIDOS = this.apellidos.value;
+    // this.clienteNatural.CLIENTE_TELEFONO = this.celular_.value;
+    // this.clienteNatural.CLIENTE_DIRECCION = this.direccion_.value;
+
+    // this.datosJuridicos.DJ_RAZON_SOCIAL = this.razon_social.value;
+    // this.datosJuridicos.DJ_RUC = this.ruc.value;
+    // this.datosJuridicos.TIPO_EMPRESA_ID = this.tipo_empresa.value;
+    // this.clienteService.registrarCliente(this.clienteNatural,this.datosJuridicos).subscribe(
+    //   (data)=>{
+    //     this.cargando = false;
+    //     this.modalIn = false;
+    //     this.mostrar_alerta = true;
+    //     this.mensaje_alerta = 'El registro del cliente se realizó correctamente.';
+    //     this.tipo_alerta = 'success';
+    //     this.modal.dismissAll();  
+    //     this.listarClientes();
+    //     this.limpiar();
+    //   },
+    //   (error)=>{
+    //     this.cargando = false;
+    //     this.mostrar_alerta = true;
+    //     this.modalIn = true;
+    //     this.tipo_alerta='danger';
+    //     if (error.error.error !== undefined) {
+    //       if (error.error.error === 'error_deBD') {
+    //         this.mensaje_alerta = 'Hubo un error al intentar ejecutar su solicitud. Problemas con el servidor, vuelva a intentarlo.';
+    //       } else if(error.error.error === 'error_deCampo'){
+    //         this.mensaje_alerta = 'Los datos ingresados son invalidos. Por favor, vuelva a intentarlo.';
+    //       }else if(error.error.error === 'error_ejecucionQuery'){
+    //         this.mensaje_alerta = 'Hubo un error al registrar la orden de compra, Por favor, actualice la página o inténtelo más tarde.';
+    //       }else if(error.error.error === 'error_existenciaRUC'){
+    //         this.mensaje_alerta = 'El RUC ingresado ya le pertenece a un usuario. Por favor, vuelva a intentarlo.';
+    //       }else if(error.error.error === 'error_noExistenciaTipoEmpresa'){
+    //         this.mensaje_alerta = 'Hubo un error identificando el tipo de empresa. Por favor, vuelva a intentarlo.';
+    //       }else if(error.error.error === 'error_ExistenciaRazonSocial'){
+    //         this.mensaje_alerta = 'La razón social le pertenece a otro cliente. Por favor, vuelva a intentarlo.';
+    //       }
+    //     }
+    //     else{
+    //       this.mensaje_alerta = 'Hubo un error al mostrar la información de esta página. Por favor, actualice la página.';
+    //     }
+    //   }
+    // );
   }
   registrarCliente(){
     this.modal.open(this.clienteModal);
@@ -187,6 +272,7 @@ export class ClienteComponent implements OnInit {
             }else if(error.error.error === 'error_existenciaDNI'){
               this.mensaje_alerta = 'El DNI ingresado ya le pertenece a un cliente. Por favor, vuelva a intentarlo.';
             }
+            
             /*********************FALTAN LAS OTRAS VALIDACIONES *********************/
           }
           else{
@@ -239,6 +325,10 @@ export class ClienteComponent implements OnInit {
               this.mensaje_alerta = 'Hubo un error al registrar la orden de compra, Por favor, actualice la página o inténtelo más tarde.';
             }else if(error.error.error === 'error_existenciaRUC'){
               this.mensaje_alerta = 'El RUC ingresado ya le pertenece a un usuario. Por favor, vuelva a intentarlo.';
+            }else if(error.error.error === 'error_noExistenciaTipoEmpresa'){
+              this.mensaje_alerta = 'Hubo un error identificando el tipo de empresa. Por favor, vuelva a intentarlo.';
+            }else if(error.error.error === 'error_ExistenciaRazonSocial'){
+              this.mensaje_alerta = 'La razón social le pertenece a otro cliente. Por favor, vuelva a intentarlo.';
             }
           }
           else{
@@ -325,5 +415,47 @@ export class ClienteComponent implements OnInit {
     }
   }
 
+  onSorted({column, direction}: any) {
+    // resetting other headers
+    this.headers.forEach(header => {
+      if (header.sortable !== column) {
+        header.direction = '';
+      }
+    });
+    // sorting countries
+    if (direction === '' || column === '') {
+      this.clientes_juridicos = this.sortClientesJuridico.slice();
+    } else {
+      this.clientes_juridicos = [...this.sortClientesJuridico].sort((a, b) => {
+        const res = compare(a[column], b[column]);
+        return direction === 'asc' ? res : -res;
+      });
+    }
+  }
   
+  /****************** ABRIR Y CERRAR TABLAS **************/
+  //Mostrar 
+  mostrarTablaNatural = false;
+  mostrarTablaJuridica = false;
+  flechaNatural:string = 'down';
+  flechaJuridica:string = 'down';
+
+  abrirTablaNatural(){
+    if (this.flechaNatural === 'down') {
+      this.mostrarTablaNatural = true;
+      this.flechaNatural = 'up';
+    } else {
+      this.flechaNatural = 'down';
+      this.mostrarTablaNatural = false;
+    }
+  }
+  abrirTablaJuridica(){
+    if (this.flechaJuridica === 'down') {
+      this.mostrarTablaJuridica = true;
+      this.flechaJuridica = 'up';
+    } else {
+      this.flechaJuridica = 'down';
+      this.mostrarTablaJuridica = false;
+    }
+  }
 }

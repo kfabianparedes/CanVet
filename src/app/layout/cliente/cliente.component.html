@@ -9,13 +9,15 @@
     <!-- DataTales Example -->
     <div class="card shadow mb-3 col-12 col-lg-11" style="height: 100%;">
         <div class="card-header py-3 row justify-content-between">
+            <h5 class="text-center" style="cursor:pointer" (click)="abrirTablaNatural()">Clientes Naturales 
+                <span>
+                    <i  class="fas fa-angle-{{flechaNatural}}"></i>
+                </span>
+            </h5><hr>
             <div class="py-1 col-sm-12 col-md-5 col-lg-4">
                 <div class="row">
-                    <div class="col-9">
-                        <input type="text" class="border-left-primary font-tamanio form-control"  [(ngModel)]="busquedaClienteNatural" name="busquedaClienteNatural" placeholder="Buscar..." >
-                    </div>
-                    <div class="col-3 py-1">
-                        <button  [disabled]="clientes.length<=0" style="float:right" style="width: 100%;" type="button" class="btn btn-primary"><i class="fas fa-search"></i></button>
+                    <div class="col-md-9 col-sm-12">
+                        <input type="text" class="border-left-primary font-tamanio form-control"  [(ngModel)]="busquedaClienteNatural" name="busquedaClienteNatural" placeholder="Ingrese DNI..">
                     </div>
                 </div>
             </div>
@@ -23,7 +25,7 @@
                 <button  (click)="registrarCliente()" style="float:right" style="width: 100%;" type="button" class="btn btn-primary">Registrar cliente</button>
             </div>
         </div>
-        <div class="card-body text-gray-400 ">
+        <div *ngIf="mostrarTablaNatural" class="card-body text-gray-400 ">
             <div  *ngIf="clientes.length<=0; else clienteNaturalModule">
                 <h3>No hay clientes registrados.</h3>
             </div>
@@ -47,25 +49,25 @@
                     <table class="table table-bordered text-gray-400" id="dataTable" cellspacing="1">
                         <thead>
                             <tr>
-                                <th class="color-row-table text-center" scope="col" sortable="CLIENTE_ID" (sort)="onSort($event)"><span>Código</span></th>
-                                <th class="color-row-table text-center" scope="col" sortable="CLIENTE_NOMBRES" (sort)="onSort($event)"><span>Nombres</span></th>
-                                <th class="color-row-table text-center" scope="col" sortable="CLIENTE_APELLIDOS" (sort)="onSort($event)"><span>Apellidos</span></th>
-                                <th class="color-row-table text-center" scope="col" sortable="CLIENTE_TELEFONO" (sort)="onSort($event)"><span>Celular</span></th>
-                                <th class="color-row-table text-center" scope="col"><span>Dirección</span></th>
-                                <th class="color-row-table text-center" scope="col"><span>Acciones</span></th>
+                                <th class="color-row-table text-center puntero" scope="col" sortable="CLIENTE_ID" (sort)="onSort($event)"><span>Código</span></th>
+                                <th class="color-row-table text-center puntero" scope="col" sortable="CLIENTE_DNI" (sort)="onSort($event)"><span>DNI</span></th>
+                                <th class="color-row-table text-center puntero" scope="col" sortable="CLIENTE_NOMBRES" (sort)="onSort($event)"><span>Nombres</span></th>
+                                <th class="color-row-table text-center puntero" scope="col" sortable="CLIENTE_APELLIDOS" (sort)="onSort($event)"><span>Apellidos</span></th>
+                                <th class="color-row-table text-center puntero" scope="col" sortable="CLIENTE_TELEFONO" (sort)="onSort($event)"><span>Celular</span></th>
+                                <th class="color-row-table text-center puntero" scope="col"><span>Acciones</span></th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let cliente of clientes|slice:(currentPage-1)*itemsPerPage:currentPage*itemsPerPage ; let i = index">
-                                <td class="color-row-table" >{{cliente.CLIENTE_ID}}</td>
-                                <td class="color-row-table" >{{cliente.CLIENTE_NOMBRES}}</td>
-                                <td class="color-row-table" >{{cliente.CLIENTE_APELLIDOS}}</td>
-                                <td class="color-row-table" >{{cliente.CLIENTE_TELEFONO}}</td>
-                                <td class="color-row-table" >{{cliente.CLIENTE_DIRECCION}}</td>
-                                <td class="color-row-table" >
+                            <tr *ngFor="let cliente of clientes| filterClientByDNI:busquedaClienteNatural |slice:(currentPage-1)*itemsPerPage:currentPage*itemsPerPage ; let i = index ">
+                                <td class="color-row-table">{{cliente.CLIENTE_ID}}</td>
+                                <td class="color-row-table">{{cliente.CLIENTE_DNI}}</td>
+                                <td class="color-row-table">{{cliente.CLIENTE_NOMBRES}}</td>
+                                <td class="color-row-table">{{cliente.CLIENTE_APELLIDOS}}</td>
+                                <td class="color-row-table">{{cliente.CLIENTE_TELEFONO}}</td>
+                                <td class="color-row-table">
                                     <div class="row btnes">
                                         <div class="col-1 button-table btn-edit">
-                                            <span (click)="editarcliente(cliente)" class="btn btn-warning btn-circle btn-sm" ngbTooltip="Editar" >
+                                            <span (click)="editarClienteNatural(cliente)" class="btn btn-warning btn-circle btn-sm" ngbTooltip="Editar" >
                                                 <i style="color: white;" class="far fa-edit" aria-hidden="true"></i>
                                             </span>
                                         </div>
@@ -86,24 +88,84 @@
         </div>
     </div>
 
-    <!-- <div class="card shadow mb-4 col-12 col-lg-11" style="height: 100%;">
+    <div class="card shadow mb-4 col-12 col-lg-11" style="height: 100%;">
         <div class="card-header py-3 row justify-content-between ">
+            <h5 class="text-center" style="cursor:pointer" (click)="abrirTablaJuridica()">Clientes Jurídicos 
+                <span>
+                    <i  class="fas fa-angle-{{flechaJuridica}}"></i>
+                </span>
+            </h5><hr>
             <div class="py-1 col-sm-12 col-md-5 col-lg-4">
                 <div class="row">
-                    <div class="col-9">
-                        <input type="text" class="border-left-primary font-tamanio form-control"  [(ngModel)]="busquedaClienteNatural" name="busquedaClienteNatural" placeholder="Buscar..." >
+                    <div class="col-md-9 col-sm-12">
+                        <input type="text" class="border-left-primary font-tamanio form-control"  [(ngModel)]="busquedaClienteJuridico" name="busquedaClienteJuridico" placeholder="Buscar RUC..." >
                     </div>
-                    <div class="col-3 py-1">
-                        <button  [disabled]="clientes_juridicos.length<=0" style="float:right" style="width: 100%;" type="button" class="btn btn-primary"><i class="fas fa-search"></i></button>
-                    </div>
+                    
                 </div>
             </div>
-            
         </div>
-        <div class="card-body text-gray-400 ">
+        <div *ngIf="mostrarTablaJuridica" class="card-body text-gray-400 ">
+            <div  *ngIf="clientes_juridicos.length<=0; else clienteJuridicoModule">
+                <h3>No hay clientes jurídicos registrados.</h3>
+            </div>
+            <!---------------PAGINACIÓN------------->
+            <div *ngIf="clientes_juridicos?.length>0" class="row box-footer clearfix mt-3">     
+                <div class="col-xl-10 col-lg-9 col-md-7 col-sm-7 col-6">
+                    <ngb-pagination *ngIf="clientes_juridicos?.length>5" class="d-flex justify-content-start" size="sm" [maxSize]="5" [pageSize]="itemsPerPageJuridico"  [collectionSize]="clientes_juridicos?.length" [(page)]="currentPageJuridico"></ngb-pagination>
+                </div>
+                <div class="col-xl-2 col-lg-3 col-md-5 col-sm-5 col-6">
+                    <select class="pull-right" [(ngModel)]="itemsPerPageJuridico" class="form-control form-control-sm custom-select">
+                        <option value="5"> 5 elementos</option>
+                        <option value="10">10 elementos</option>
+                        <option value="15">15 elementos</option>
+                        <option value="20">20 elementos</option>                    
+                    </select>  
+                </div>    
+            </div>
 
+            <ng-template #clienteJuridicoModule>
+                <div class="table-module">
+                    <table class="table table-bordered text-gray-400" id="dataTable" cellspacing="1">
+                        <thead>
+                            <tr>
+                                <th class="color-row-table text-center puntero" scope="col" sortable="CLIENTE_ID" (sort)="onSorted($event)"><span>Código</span></th>
+                                <th class="color-row-table text-center puntero" scope="col" sortable="DJ_RUC" (sort)="onSorted($event)"><span>RUC</span></th>
+                                <th class="color-row-table text-center puntero" scope="col" sortable="CLIENTE_NOMBRES" (sort)="onSorted($event)"><span>Nombre</span></th>
+                                <th class="color-row-table text-center puntero" scope="col" sortable="DJ_RAZON_SOCIAL" (sort)="onSorted($event)"><span>Razón Social</span></th>
+                                <th class="color-row-table text-center puntero" scope="col" sortable="CLIENTE_TELEFONO" (sort)="onSorted($event)"><span>Celular</span></th>
+                                <th class="color-row-table text-center puntero" scope="col"><span>Acciones</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let cliente_juridico of clientes_juridicos| filterClientByRUC:busquedaClienteJuridico |slice:(currentPageJuridico-1)*itemsPerPageJuridico:currentPageJuridico*itemsPerPageJuridico ; let i = index ">
+                                <td class="color-row-table">{{cliente_juridico.CLIENTE_ID}}</td>
+                                <td class="color-row-table">{{cliente_juridico.DJ_RUC}}</td>
+                                <td class="color-row-table">{{cliente_juridico.CLIENTE_NOMBRES}}</td>
+                                <td class="color-row-table">{{cliente_juridico.DJ_RAZON_SOCIAL}}</td>
+                                <td class="color-row-table">{{cliente_juridico.CLIENTE_TELEFONO}}</td>
+                                <td class="color-row-table">
+                                    <div class="row btnes">
+                                        <div class="col-1 button-table btn-edit">
+                                            <span (click)="editarClienteJuridico(cliente_juridico)" class="btn btn-warning btn-circle btn-sm" ngbTooltip="Editar" >
+                                                <i style="color: white;" class="far fa-edit" aria-hidden="true"></i>
+                                            </span>
+                                        </div>
+                                        <div class="col-1 button-table">
+                                            <span (click)="borrarCliente(cliente_juridico.CLIENTE_ID)" class="btn btn-danger btn-circle btn-sm " ngbTooltip="Eliminar">
+                                                <i class="fas fa-trash" aria-hidden="true"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                        
+                    </table>
+                    
+                </div>
+            </ng-template>
         </div>
-    </div> -->
+    </div>
 </div>
 
 
@@ -338,5 +400,238 @@
         </ul>
           
         <div [ngbNavOutlet]="nav" class="mt-2"></div>
+    </div>
+</ng-template>
+
+
+<ng-template #editarClienteNaturalModal>
+    <div class="modal-header justify-content-center">
+        <h4 class="modal-title" >Actualizar Cliente Natural</h4>
+    </div>
+
+    <mat-progress-bar *ngIf="cargando && modalIn" mode="indeterminate" ></mat-progress-bar>
+    <ngb-alert *ngIf="mostrar_alerta && modalIn" [type]="tipo_alerta" (closed)="mostrar_alerta = false" >{{mensaje_alerta}}</ngb-alert>
+    
+    <div class="modal-body">
+        <form [formGroup]="clienteForm">
+            <div class="row color-row-table mt-4 mb-3">
+                <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
+                    <label for="inputNombreClienteNatural">Nombre:</label>
+                    <input formControlName="nombres" type="text" id="inputNombreClienteNatural" class="border-left-primary font-tamanio form-control">
+                    <div *ngIf="nombres.invalid && (nombres.dirty || nombres.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                        <div *ngIf="nombres.errors.required">
+                            * El nombre del cliente es requerido.
+                        </div>
+                        <div *ngIf="nombres.errors.pattern">
+                            * El formato es inválido.
+                        </div>
+                        <div *ngIf="nombres.errors.maxlength">
+                            * Se requieren máximo 100 caracteres.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-6">
+                    <label for="inputApellidosClienteNatural">Apellidos:</label>
+                    <input formControlName="apellidos" type="text" id="inputApellidosClienteNatural" class="border-left-primary font-tamanio form-control">
+                    <div *ngIf="apellidos.invalid && (apellidos.dirty || apellidos.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                        <div *ngIf="apellidos.errors.pattern">
+                            * El formato es inválido.
+                        </div>
+                        <div *ngIf="apellidos.errors.maxlength">
+                            * Se requieren máximo 30 caracteres.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row color-row-table mb-3">
+                <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
+                    <label for="inputCelularClienteNatural">Celular: <small class="text-danger">&nbsp;(Ejemplo: +51987802338)</small></label>
+                    <input formControlName="celular" type="text" id="inputCelularClienteNatural" class="border-left-primary font-tamanio form-control">
+                    <div *ngIf="celular.invalid && (celular.dirty || celular.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                        <div *ngIf="celular.errors.required">
+                            * El celular del cliente es requerido.
+                        </div>
+                        <div *ngIf="celular.errors.pattern">
+                            * El formato es inválido.
+                        </div>
+                        <div *ngIf="celular.errors.minlength">
+                            * Se requieren mínimo 12 caracteres.
+                        </div>
+                        <div *ngIf="celular.errors.maxlength">
+                            * Se requieren máximo 12 caracteres.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-6">
+                    <label for="inputDNIClienteNatural">DNI:</label>
+                    <input formControlName="dni" type="text" id="inputDNIClienteNatural" class="mt-lg-0 mt-md-4 border-left-primary font-tamanio form-control">
+                    <div *ngIf="dni.invalid && (dni.dirty || dni.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                        <div *ngIf="dni.errors.required">
+                            * El dni del cliente es requerido.
+                        </div>
+                        <div *ngIf="dni.errors.pattern">
+                            * El formato es inválido.
+                        </div>
+                        <div *ngIf="dni.errors.minlength">
+                            * Se requieren mínimo 8 caracteres.
+                        </div>
+                        <div *ngIf="dni.errors.maxlength">
+                            * Se requieren máximo 8 caracteres.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row color-row-table justify-content-center mb-3">
+                <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
+                    <label for="inputDireccionClienteNatural">Dirección:</label>
+                    <input formControlName="direccion" type="text" id="inputDireccionClienteNatural" class="border-left-primary font-tamanio form-control">
+                    <div *ngIf="direccion.invalid && (direccion.dirty || direccion.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                        <div *ngIf="direccion.errors.pattern">
+                            * El formato es inválido.
+                        </div>
+                        <div *ngIf="direccion.errors.maxlength">
+                            * Se requieren maximo 100 caracteres.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="row d-flex text-center justify-content-center">
+            <div class="my-2 col-sm-12 col-md-12 col-lg-3">
+                <button [disabled]="clienteForm.invalid" (click)="actualizarClienteNatural()" class="btn btn-primary btn-icon-split">
+                    <span class="text">Registrar&nbsp;<i class="fas fa-save"></i></span>
+                </button>
+            </div>
+            <div class="my-2 col-sm-12 col-md-12 col-lg-3">
+                <button (click)="closeModal()" class="btn btn-warning btn-icon-split">
+                    <span class="text">Volver&nbsp;<i class="fas fa-arrow-circle-left"></i></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+
+<ng-template #editarclienteJuridicoModal>
+    <div class="modal-header justify-content-center">
+        <h4 class="modal-title ">Actualizar Cliente Jurídico</h4>
+    </div>
+    <mat-progress-bar *ngIf="cargando && modalIn" mode="indeterminate" ></mat-progress-bar>
+    <ngb-alert *ngIf="mostrar_alerta && modalIn" [type]="tipo_alerta" (closed)="mostrar_alerta = false" >{{mensaje_alerta}}</ngb-alert>
+    <div class="modal-body">
+        <form [formGroup]="clienteJuridicoForm">
+            <div class="row color-row-table mt-4 mb-3">
+                <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
+                    <label for="inputNombreClienteJuridico">Nombre:</label>
+                    <input formControlName="nombres_" type="text" id="inputNombreClienteJuridico" class="border-left-primary font-tamanio form-control">
+                    <div *ngIf="nombres_.invalid && (nombres_.dirty || nombres_.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                        <div *ngIf="nombres_.errors.required">
+                            * El nombre es requerido.
+                        </div>
+                        <div *ngIf="nombres_.errors.pattern">
+                            * El formato es inválido.
+                        </div>
+                        <div *ngIf="nombres_.errors.maxlength">
+                            * Se requieren máximo 100 caracteres.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-6">
+                    <label for="inputRazonSocialClienteJuridico">Razón Social:</label>
+                    <input formControlName="razon_social" type="text" id="inputRazonSocialClienteJuridico" class="border-left-primary font-tamanio form-control">
+                    <div *ngIf="razon_social.invalid && (razon_social.dirty || razon_social.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                        <div *ngIf="razon_social.errors.required">
+                            * Los razón social del cliente es requerida.
+                        </div>
+                        <div *ngIf="razon_social.errors.pattern">
+                            * El formato es inválido.
+                        </div>
+                        <div *ngIf="razon_social.errors.maxlength">
+                            * Se requieren máximo 100 caracteres.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row color-row-table mb-3">
+                <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
+                    <label for="inputRUCClienteJuridico">RUC:</label>
+                    <input formControlName="ruc" type="text" id="inputRUCClienteJuridico" class="border-left-primary font-tamanio form-control">
+                    <div *ngIf="ruc.invalid && (ruc.dirty || ruc.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                        <div *ngIf="ruc.errors.required">
+                            * El ruc del cliente es requerido.
+                        </div>
+                        <div *ngIf="ruc.errors.pattern">
+                            * El formato es inválido.
+                        </div>
+                        <div *ngIf="ruc.errors.minlength">
+                            * Se requieren mínimo 11 caracteres.
+                        </div>
+                        <div *ngIf="ruc.errors.maxlength">
+                            * Se requieren máximo 11 caracteres.
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-6">
+                    <label for="inputTipoEmpresa">Empresa:</label>
+                    <select  formControlName="tipo_empresa" id="inputTipoEmpresa" class="border-left-primary form-select">
+                        <option hidden value="" disabled>Escoge una opción</option>
+                        <option [value]="empresa.TIPO_EMPRESA_ID" *ngFor="let empresa of empresas">{{empresa.TIPO_EMPRESA_CLAVE}}</option>
+                    </select>
+                    <div *ngIf="tipo_empresa.invalid && (tipo_empresa.dirty || tipo_empresa.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                        <div *ngIf="tipo_empresa.errors.required">
+                            * El tipo de empresa es requerido.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row color-row-table justify-content-center mb-3">
+                <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
+                    <label for="inputDireccionClienteNatural">Dirección:</label>
+                    <input formControlName="direccion_" type="text" id="inputDireccionClienteNatural" class="mt-lg-0 mt-md-4 border-left-primary font-tamanio form-control">
+                    <div *ngIf="direccion_.invalid && (direccion_.dirty || direccion_.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                        <div *ngIf="direccion_.errors.required">
+                            * La dirección del cliente es requerida.
+                        </div>
+                        <div *ngIf="direccion_.errors.pattern">
+                            * El formato es inválido.
+                        </div>
+                        <div *ngIf="direccion_.errors.maxlength">
+                            * Se requieren maximo 100 caracteres.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-6">
+                    <label for="inputCelularClienteJuridico">Celular: <small class="text-danger">&nbsp;(Ejemplo: +51987802338)</small></label>
+                    <input formControlName="celular_" type="text" id="inputCelularClienteJuridico" class="border-left-primary font-tamanio form-control">
+                    <div *ngIf="celular_.invalid && (celular_.dirty || celular_.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                        <div *ngIf="celular_.errors.required">
+                            * El celular_ del cliente es requerido.
+                        </div>
+                        <div *ngIf="celular_.errors.pattern">
+                            * El formato es inválido.
+                        </div>
+                        <div *ngIf="celular_.errors.minlength">
+                            * Se requieren mínimo 12 caracteres.
+                        </div>
+                        <div *ngIf="celular_.errors.maxlength">
+                            * Se requieren máximo 12 caracteres.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="row d-flex text-center justify-content-center">
+            <div class="my-2 col-sm-12 col-md-12 col-lg-3">
+                <button [disabled]="clienteJuridicoForm.invalid" (click)="actualizarClienteJuridico()" class="btn btn-primary btn-icon-split">
+                    <span class="text">Registrar&nbsp;<i class="fas fa-save"></i></span>
+                </button>
+            </div>
+            <div class="my-2 col-sm-12 col-md-12 col-lg-3">
+                <button (click)="closeModal()" class="btn btn-warning btn-icon-split">
+                    <span class="text">Volver&nbsp;<i class="fas fa-arrow-circle-left"></i></span>
+                </button>
+            </div>
+        </div>
     </div>
 </ng-template>

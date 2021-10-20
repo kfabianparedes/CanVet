@@ -13,6 +13,7 @@ import { VentaComponent } from './venta/venta.component';
 import { ClienteComponent } from './cliente/cliente.component';
 import { CajaComponent } from './caja/caja.component';
 import { MascotaComponent } from './mascota/mascota.component';
+import { ReportesComponent } from './reportes/reportes.component';
 
 const routes: Routes = [
   {
@@ -30,7 +31,8 @@ const routes: Routes = [
       {path:'compra',component:CompraComponent},
       {path:'cliente',component:ClienteComponent},
       {path:'caja',component:CajaComponent},
-      {path:'mascota',component:MascotaComponent}
+      {path:'mascota',component:MascotaComponent},
+      {path:'reportes',component:ReportesComponent}
 
     ]
   }

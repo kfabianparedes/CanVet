@@ -1,15 +1,19 @@
 import { DatePipe } from '@angular/common';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
+import { Cliente } from 'src/app/models/cliente';
 import { Comprobante } from 'src/app/models/comprobante.model';
+import { DatosJuridicos } from 'src/app/models/datos-juridicos';
 import { Empresa } from 'src/app/models/empresa';
 import { MetodoPago } from 'src/app/models/metodo-pago';
+import { ClienteService } from 'src/app/services/cliente.service';
 import { ComprobanteService } from 'src/app/services/comprobante.service';
 import { EmpresaService } from 'src/app/services/empresa.service';
 import { MetodoPagoService } from 'src/app/services/metodoPago.service';
 import { ProductoService } from 'src/app/services/producto.service';
 import { UserService } from 'src/app/services/user.service';
+import { compare, SorteableDirective } from 'src/app/shared/directives/sorteable.directive';
 import { Producto } from '../producto/producto.models';
 
 @Component({
@@ -30,6 +34,8 @@ export class VentaComponent implements OnInit {
 
   comprobanteForm : FormGroup;
   productos:Producto[]=[];
+  productos_ordenamiento:any[]=[];
+
   productos_detalle : Producto[] = [];
   importes: number[] = [];
   comprobantes:Comprobante[] =[];
@@ -58,12 +64,17 @@ export class VentaComponent implements OnInit {
   dni_ruc:string = 'Documento identificador';
 
 
+  //Variable de clientes
+  clientes: Cliente[] = [];
+  clientes_juridicos: Cliente[] = [];
   //Variable de registro de cliente
   clienteForm : FormGroup;
   clienteJuridicoForm : FormGroup;
   empresas: Empresa[] = [];
   @ViewChild('clienteModal') clienteModal: ElementRef;
-
+  clienteNatural: Cliente = new Cliente();
+  clienteJuridico: Cliente = new Cliente();
+  datosJuridicos: DatosJuridicos = new DatosJuridicos();
   
   constructor(
     private formBuilder: FormBuilder,
@@ -74,7 +85,8 @@ export class VentaComponent implements OnInit {
     private datePipe: DatePipe,
     private userService: UserService,
     private metodoPago:MetodoPagoService,
-    private empresaService:EmpresaService
+    private empresaService:EmpresaService,
+    private clienteService:ClienteService
   ) {
       this.configModal.backdrop = 'static';
       this.configModal.keyboard = false;
@@ -147,7 +159,8 @@ export class VentaComponent implements OnInit {
       this.cargando = true;
       this.productoService.listarProductos().subscribe(
         data=>{
-          this.productos = data.resultado; 
+          this.productos_ordenamiento = data.resultado;
+          this.productos = this.productos_ordenamiento.slice(); 
           this.cargando = false;
           this.listarProductoTabla = false;
         },error=>{
@@ -255,9 +268,43 @@ export class VentaComponent implements OnInit {
     return fechaActual;
   }
 
+  /***************************BUSCAR CLIENTE POR DNI/RUC ********************/
 
 
   /************************************REGISTRO DE CLIENTES************************************/
+  limpiar(){
+    this.clienteForm.reset();
+    this.clienteJuridicoForm.reset();
+    this.clienteNatural = new Cliente();
+    this.clienteJuridico = new Cliente();
+  }
+
+  listarClientes(){
+    this.cargando = true;
+    this.modalIn = false;
+    this.clienteService.listarClientes().subscribe(
+      (data)=>{
+        this.clientes = data['resultado'].CLIENTES_NORMALES;
+        this.clientes_juridicos = data['resultado'].CLIENTES_JURIDICOS;
+        this.cargando = false;
+      },
+      (error)=>{
+        this.cargando = false;
+        this.mostrar_alerta = true;
+        this.tipo_alerta='danger';
+        if (error['error']['error'] !== undefined) {
+          if (error['error']['error'] === 'error_deBD') {
+            this.mensaje_alerta = 'Hubo un error al intentar ejecutar su solicitud. Por favor, actualice la página.';
+          }
+        }
+        else{
+          this.mensaje_alerta = 'Hubo un error al mostrar la información de esta página. Por favor, actualice la página.';
+        }
+      }
+    )
+    
+  }
+  
   listarEmpresas(){
     this.modalIn = false;
     this.cargando = true;
@@ -265,7 +312,6 @@ export class VentaComponent implements OnInit {
       (data)=>{
         this.empresas = data['resultado'];
         this.cargando = false;
-        console.log(this.empresas);
       },
       (error)=>{
         this.cargando = false;
@@ -284,18 +330,117 @@ export class VentaComponent implements OnInit {
   }
 
   registrarClienteNatural(){
-    
+    if(this.clienteForm.invalid){
+      this.mensaje_alerta = 'No ha ingresado datos válidos. Vuelva a intentarlo de nuevo.';
+      this.tipo_alerta = 'danger';
+      this.mostrar_alerta = true;
+      this.modalIn = true;
+    }else{
+      this.mostrar_alerta = false;
+      this.modalIn = true;
+      this.cargando = true;
+      this.clienteNatural.CLIENTE_NOMBRES = this.nombres.value;
+      this.clienteNatural.CLIENTE_APELLIDOS = this.apellidos.value;
+      this.clienteNatural.CLIENTE_TELEFONO = this.celular.value;
+      this.clienteNatural.CLIENTE_DNI = this.dni.value;
+      this.clienteNatural.CLIENTE_DIRECCION = this.direccion.value;
+      this.clienteService.registrarCliente(this.clienteNatural).subscribe(
+        (data)=>{
+          this.cargando = false;
+          this.modalIn = false;
+          this.mostrar_alerta = true;
+          this.mensaje_alerta = 'El registro del cliente se realizó correctamente.';
+          this.tipo_alerta = 'success';
+          this.modal.dismissAll();  
+          this.limpiar();
+          this.listarClientes();
+        },
+        (error)=>{
+          this.cargando = false;
+          this.mostrar_alerta = true;
+          this.modalIn = true;
+          this.tipo_alerta='danger';
+          if (error.error.error !== undefined) {
+            if (error.error.error === 'error_deBD') {
+              this.mensaje_alerta = 'Hubo un error al intentar ejecutar su solicitud. Problemas con el servidor, vuelva a intentarlo.';
+            } else if(error.error.error === 'error_deCampo'){
+              this.mensaje_alerta = 'Los datos ingresados son invalidos. Por favor, vuelva a intentarlo.';
+            }else if(error.error.error === 'error_ejecucionQuery'){
+              this.mensaje_alerta = 'Hubo un error al registrar la orden de compra, Por favor, actualice la página o inténtelo más tarde.';
+            }else if(error.error.error === 'error_existenciaDNI'){
+              this.mensaje_alerta = 'El DNI ingresado ya le pertenece a un cliente. Por favor, vuelva a intentarlo.';
+            }
+          }
+          else{
+            this.mensaje_alerta = 'Hubo un error al mostrar la información de esta página. Por favor, actualice la página.';
+          }
+        }
+      );
+    }
   }
   registrarClienteJuridico(){
+    if(this.clienteJuridicoForm.invalid){
+      this.mensaje_alerta = 'No ha ingresado datos válidos. Vuelva a intentarlo de nuevo.';
+      this.tipo_alerta = 'danger';
+      this.mostrar_alerta = true;
+      this.modalIn = true;
+    }else{
+      this.mostrar_alerta = false;
+      this.modalIn = true;
+      this.cargando = true;
+      this.clienteNatural.CLIENTE_NOMBRES = this.nombres_.value;
+      this.clienteNatural.CLIENTE_APELLIDOS = this.apellidos.value;
+      this.clienteNatural.CLIENTE_TELEFONO = this.celular_.value;
+      this.clienteNatural.CLIENTE_DIRECCION = this.direccion_.value;
 
+      this.datosJuridicos.DJ_RAZON_SOCIAL = this.razon_social.value;
+      this.datosJuridicos.DJ_RUC = this.ruc.value;
+      this.datosJuridicos.TIPO_EMPRESA_ID = this.tipo_empresa.value;
+      this.clienteService.registrarCliente(this.clienteNatural,this.datosJuridicos).subscribe(
+        (data)=>{
+          this.cargando = false;
+          this.modalIn = false;
+          this.mostrar_alerta = true;
+          this.mensaje_alerta = 'El registro del cliente se realizó correctamente.';
+          this.tipo_alerta = 'success';
+          this.modal.dismissAll();  
+          this.listarClientes();
+          this.limpiar();
+        },
+        (error)=>{
+          this.cargando = false;
+          this.mostrar_alerta = true;
+          this.modalIn = true;
+          this.tipo_alerta='danger';
+          if (error.error.error !== undefined) {
+            if (error.error.error === 'error_deBD') {
+              this.mensaje_alerta = 'Hubo un error al intentar ejecutar su solicitud. Problemas con el servidor, vuelva a intentarlo.';
+            } else if(error.error.error === 'error_deCampo'){
+              this.mensaje_alerta = 'Los datos ingresados son invalidos. Por favor, vuelva a intentarlo.';
+            }else if(error.error.error === 'error_ejecucionQuery'){
+              this.mensaje_alerta = 'Hubo un error al registrar la orden de compra, Por favor, actualice la página o inténtelo más tarde.';
+            }else if(error.error.error === 'error_existenciaRUC'){
+              this.mensaje_alerta = 'El RUC ingresado ya le pertenece a un usuario. Por favor, vuelva a intentarlo.';
+            }else if(error.error.error === 'error_noExistenciaTipoEmpresa'){
+              this.mensaje_alerta = 'Hubo un error identificando el tipo de empresa. Por favor, vuelva a intentarlo.';
+            }else if(error.error.error === 'error_ExistenciaRazonSocial'){
+              this.mensaje_alerta = 'La razón social le pertenece a otro cliente. Por favor, vuelva a intentarlo.';
+            }
+          }
+          else{
+            this.mensaje_alerta = 'Hubo un error al mostrar la información de esta página. Por favor, actualice la página.';
+          }
+        }
+      );
+    }
   }
   inicializarClienteNaturalFormulario(){
     this.clienteForm = this.formBuilder.group({
-      nombres:['',[Validators.required,Validators.pattern('[a-zñáéíóúA-ZÑÁÉÍÓÚ]+'),Validators.maxLength(100)]],
-      apellidos: ['', [Validators.required, Validators.pattern('[a-zñáéíóúA-ZÑÁÉÍÓÚ]+'),Validators.maxLength(30)]],
-      celular: ['', [Validators.required, Validators.pattern('[+][0-9]+'), Validators.maxLength(20), Validators.minLength(12)]] ,
+      nombres:['',[Validators.required,Validators.pattern('[a-zñáéíóúA-ZÑÁÉÍÓÚ ]+'),Validators.maxLength(100)]],
+      apellidos: ['', [Validators.pattern('[a-zñáéíóúA-ZÑÁÉÍÓÚ ]+'),Validators.maxLength(30)]],
+      celular: ['', [Validators.required, Validators.pattern('[+][0-9]+'), Validators.maxLength(12), Validators.minLength(12)]] ,
       dni: ['', [Validators.required, Validators.pattern(/^([0-9])*$/), Validators.minLength(8),  Validators.maxLength(8)]],
-      direccion: ['', [Validators.required , Validators.pattern('^[a-zñáéíóú#°/,. A-ZÑÁÉÍÓÚ  0-9]+$'), Validators.maxLength(100)]],
+      direccion: ['', [Validators.pattern('^[a-zñáéíóú#°/,. A-ZÑÁÉÍÓÚ  0-9]+$'), Validators.maxLength(100)]],
     });
   }
 
@@ -318,8 +463,8 @@ export class VentaComponent implements OnInit {
   } 
   inicializarClienteJuridicoFormulario(){
     this.clienteJuridicoForm = this.formBuilder.group({
-      nombres_:['',[Validators.required,Validators.pattern('[a-zñáéíóúA-ZÑÁÉÍÓÚ.]+$'),Validators.maxLength(100)]],
-      razon_social: ['', [Validators.required,Validators.pattern('^[a-zñáéíóúA-ZÑÁÉÍÓÚ.]+$'), Validators.maxLength(100)]],
+      nombres_:['',[Validators.required,Validators.pattern('[a-zñáéíóúA-ZÑÁÉÍÓÚ. ]+$'),Validators.maxLength(100)]],
+      razon_social: ['', [Validators.required,Validators.pattern('^[a-zñáéíóúA-ZÑÁÉÍÓÚ. ]+$'), Validators.maxLength(100)]],
       ruc: ['', [Validators.required, Validators.pattern(/^([0-9])*$/), Validators.minLength(11),  Validators.maxLength(11)]],
       tipo_empresa:['',[Validators.required]],
       celular_: ['', [Validators.pattern('[+][0-9]+'), Validators.maxLength(12), Validators.minLength(12)]] ,
@@ -345,5 +490,27 @@ export class VentaComponent implements OnInit {
   get tipo_empresa() {
     return this.clienteJuridicoForm.get('tipo_empresa');
   } 
+
+
+  /********************** ORDENAMIENTO DE TABLA ARTICULOS ***********************/
+  @ViewChildren(SorteableDirective) headers: QueryList<SorteableDirective>;
+  
+  onSort({column, direction}: any) {
+    // resetting other headers
+    this.headers.forEach(header => {
+      if (header.sortable !== column) {
+        header.direction = '';
+      }
+    });
+    // sorting countries
+    if (direction === '' || column === '') {
+      this.productos = this.productos_ordenamiento.slice();
+    } else {
+      this.productos = [...this.productos_ordenamiento].sort((a, b) => {
+        const res = compare(a[column], b[column]);
+        return direction === 'asc' ? res : -res;
+      });
+    }
+  }
 
 }

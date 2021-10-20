@@ -62,9 +62,7 @@ export class ClienteComponent implements OnInit {
     private formBuilder: FormBuilder,
     private modal: NgbModal,
     private configModal: NgbModalConfig,
-    private datePipe: DatePipe,
-    private empresaService:EmpresaService,
-    private pipe: DecimalPipe
+    private empresaService:EmpresaService
   ) {
       this.configModal.backdrop = 'static';
       this.configModal.keyboard = false;
@@ -81,6 +79,8 @@ export class ClienteComponent implements OnInit {
   limpiar(){
     this.clienteForm.reset();
     this.clienteJuridicoForm.reset();
+    this.clienteNatural = new Cliente();
+    this.clienteJuridico = new Cliente();
   }
   closeModal(): any {
     this.modal.dismissAll();
@@ -171,57 +171,101 @@ export class ClienteComponent implements OnInit {
     this.modal.open(this.editarclienteJuridicoModal);
   }
   actualizarClienteNatural(){
-
+    this.mostrar_alerta = false;
+    this.modalIn = true;
+    this.cargando = true;
+    this.clienteNatural.CLIENTE_ID = this.clienteSeleccionado.CLIENTE_ID;
+    this.clienteNatural.CLIENTE_NOMBRES = this.nombres.value;
+    this.clienteNatural.CLIENTE_APELLIDOS = this.apellidos.value;
+    this.clienteNatural.CLIENTE_TELEFONO = this.celular.value;
+    this.clienteNatural.CLIENTE_DNI = this.dni.value;
+    this.clienteNatural.CLIENTE_DIRECCION = this.direccion.value;
+    this.clienteService.actualizarCliente(this.clienteNatural).subscribe(
+      (data)=>{
+        this.cargando = false;
+        this.modalIn = false;
+        this.mostrar_alerta = true;
+        this.mensaje_alerta = 'El cliente se actualizó correctamente.';
+        this.tipo_alerta = 'success';
+        this.modal.dismissAll();  
+        this.limpiar();
+        this.listarClientes();
+      },
+      (error)=>{
+        this.cargando = false;
+        this.mostrar_alerta = true;
+        this.modalIn = true;
+        this.tipo_alerta='danger';
+        if (error.error.error !== undefined) {
+          if (error.error.error === 'error_deBD') {
+            this.mensaje_alerta = 'Hubo un error al intentar ejecutar su solicitud. Problemas con el servidor, vuelva a intentarlo.';
+          } else if(error.error.error === 'error_deCampo'){
+            this.mensaje_alerta = 'Los datos ingresados son invalidos. Por favor, vuelva a intentarlo.';
+          }else if(error.error.error === 'error_ejecucionQuery'){
+            this.mensaje_alerta = 'Hubo un error al registrar la orden de compra, Por favor, actualice la página o inténtelo más tarde.';
+          }else if(error.error.error === 'error_existenciaDNI'){
+            this.mensaje_alerta = 'El DNI ingresado ya le pertenece a un cliente. Por favor, vuelva a intentarlo.';
+          }else if(error.error.error === 'error_noExistenciaCliente'){
+            this.mensaje_alerta = 'Hubo un error identificando al cliente. Por favor, vuelva a intentarlo.';
+          }
+        }
+        else{
+          this.mensaje_alerta = 'Hubo un error al mostrar la información de esta página. Por favor, actualice la página.';
+        }
+      }
+    );
   }
   actualizarClienteJuridico(){
+    this.mostrar_alerta = false;
+    this.modalIn = true;
+    this.cargando = true;
+    this.clienteNatural.CLIENTE_ID = this.clienteSeleccionado.CLIENTE_ID;
+    this.clienteNatural.CLIENTE_NOMBRES = this.nombres_.value;
+    this.clienteNatural.CLIENTE_APELLIDOS = this.apellidos.value;
+    this.clienteNatural.CLIENTE_TELEFONO = this.celular_.value;
+    this.clienteNatural.CLIENTE_DIRECCION = this.direccion_.value;
 
-    // this.mostrar_alerta = false;
-    // this.modalIn = true;
-    // this.cargando = true;
-    // this.clienteNatural.CLIENTE_NOMBRES = this.nombres_.value;
-    // this.clienteNatural.CLIENTE_APELLIDOS = this.apellidos.value;
-    // this.clienteNatural.CLIENTE_TELEFONO = this.celular_.value;
-    // this.clienteNatural.CLIENTE_DIRECCION = this.direccion_.value;
-
-    // this.datosJuridicos.DJ_RAZON_SOCIAL = this.razon_social.value;
-    // this.datosJuridicos.DJ_RUC = this.ruc.value;
-    // this.datosJuridicos.TIPO_EMPRESA_ID = this.tipo_empresa.value;
-    // this.clienteService.registrarCliente(this.clienteNatural,this.datosJuridicos).subscribe(
-    //   (data)=>{
-    //     this.cargando = false;
-    //     this.modalIn = false;
-    //     this.mostrar_alerta = true;
-    //     this.mensaje_alerta = 'El registro del cliente se realizó correctamente.';
-    //     this.tipo_alerta = 'success';
-    //     this.modal.dismissAll();  
-    //     this.listarClientes();
-    //     this.limpiar();
-    //   },
-    //   (error)=>{
-    //     this.cargando = false;
-    //     this.mostrar_alerta = true;
-    //     this.modalIn = true;
-    //     this.tipo_alerta='danger';
-    //     if (error.error.error !== undefined) {
-    //       if (error.error.error === 'error_deBD') {
-    //         this.mensaje_alerta = 'Hubo un error al intentar ejecutar su solicitud. Problemas con el servidor, vuelva a intentarlo.';
-    //       } else if(error.error.error === 'error_deCampo'){
-    //         this.mensaje_alerta = 'Los datos ingresados son invalidos. Por favor, vuelva a intentarlo.';
-    //       }else if(error.error.error === 'error_ejecucionQuery'){
-    //         this.mensaje_alerta = 'Hubo un error al registrar la orden de compra, Por favor, actualice la página o inténtelo más tarde.';
-    //       }else if(error.error.error === 'error_existenciaRUC'){
-    //         this.mensaje_alerta = 'El RUC ingresado ya le pertenece a un usuario. Por favor, vuelva a intentarlo.';
-    //       }else if(error.error.error === 'error_noExistenciaTipoEmpresa'){
-    //         this.mensaje_alerta = 'Hubo un error identificando el tipo de empresa. Por favor, vuelva a intentarlo.';
-    //       }else if(error.error.error === 'error_ExistenciaRazonSocial'){
-    //         this.mensaje_alerta = 'La razón social le pertenece a otro cliente. Por favor, vuelva a intentarlo.';
-    //       }
-    //     }
-    //     else{
-    //       this.mensaje_alerta = 'Hubo un error al mostrar la información de esta página. Por favor, actualice la página.';
-    //     }
-    //   }
-    // );
+    this.datosJuridicos.DJ_RAZON_SOCIAL = this.razon_social.value;
+    this.datosJuridicos.DJ_RUC = this.ruc.value;
+    this.datosJuridicos.TIPO_EMPRESA_ID = this.tipo_empresa.value;
+    this.clienteService.actualizarCliente(this.clienteNatural,this.datosJuridicos).subscribe(
+      (data)=>{
+        this.cargando = false;
+        this.modalIn = false;
+        this.mostrar_alerta = true;
+        this.mensaje_alerta = 'El cliente se actualizó correctamente.';
+        this.tipo_alerta = 'success';
+        this.modal.dismissAll();  
+        this.listarClientes();
+        this.limpiar();
+      },
+      (error)=>{
+        this.cargando = false;
+        this.mostrar_alerta = true;
+        this.modalIn = true;
+        this.tipo_alerta='danger';
+        if (error.error.error !== undefined) {
+          if (error.error.error === 'error_deBD') {
+            this.mensaje_alerta = 'Hubo un error al intentar ejecutar su solicitud. Problemas con el servidor, vuelva a intentarlo.';
+          } else if(error.error.error === 'error_deCampo'){
+            this.mensaje_alerta = 'Los datos ingresados son invalidos. Por favor, vuelva a intentarlo.';
+          }else if(error.error.error === 'error_ejecucionQuery'){
+            this.mensaje_alerta = 'Hubo un error al registrar la orden de compra, Por favor, actualice la página o inténtelo más tarde.';
+          }else if(error.error.error === 'error_existenciaRUC'){
+            this.mensaje_alerta = 'El RUC ingresado ya le pertenece a un usuario. Por favor, vuelva a intentarlo.';
+          }else if(error.error.error === 'error_noExistenciaTipoEmpresa'){
+            this.mensaje_alerta = 'Hubo un error identificando el tipo de empresa. Por favor, vuelva a intentarlo.';
+          }else if(error.error.error === 'error_ExistenciaRazonSocial'){
+            this.mensaje_alerta = 'La razón social le pertenece a otro cliente. Por favor, vuelva a intentarlo.';
+          }else if(error.error.error === 'error_noExistenciaCliente'){
+            this.mensaje_alerta = 'Hubo un error identificando al cliente. Por favor, vuelva a intentarlo.';
+          }
+        }
+        else{
+          this.mensaje_alerta = 'Hubo un error al mostrar la información de esta página. Por favor, actualice la página.';
+        }
+      }
+    );
   }
   registrarCliente(){
     this.modal.open(this.clienteModal);
@@ -272,8 +316,6 @@ export class ClienteComponent implements OnInit {
             }else if(error.error.error === 'error_existenciaDNI'){
               this.mensaje_alerta = 'El DNI ingresado ya le pertenece a un cliente. Por favor, vuelva a intentarlo.';
             }
-            
-            /*********************FALTAN LAS OTRAS VALIDACIONES *********************/
           }
           else{
             this.mensaje_alerta = 'Hubo un error al mostrar la información de esta página. Por favor, actualice la página.';

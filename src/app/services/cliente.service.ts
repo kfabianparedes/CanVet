@@ -33,6 +33,41 @@ export class ClienteService {
         DATOS_JURIDICOS:{
         },
         CLIENTE:{
+          CLIENTE_NOMBRES: cliente.CLIENTE_NOMBRES,
+          CLIENTE_TELEFONO: cliente.CLIENTE_TELEFONO,
+          CLIENTE_DNI: cliente.CLIENTE_DNI,
+          CLIENTE_DIRECCION: cliente.CLIENTE_DIRECCION,
+          CLIENTE_APELLIDOS: cliente.CLIENTE_APELLIDOS
+        }
+      }
+    }else{
+      datos = {
+        DATOS_JURIDICOS:{
+          DJ_RUC:datosJuridicos.DJ_RUC,
+          DJ_RAZON_SOCIAL : datosJuridicos.DJ_RAZON_SOCIAL,
+          TIPO_EMPRESA_ID: datosJuridicos.TIPO_EMPRESA_ID
+        },
+        CLIENTE:{
+          CLIENTE_NOMBRES: cliente.CLIENTE_NOMBRES,
+          CLIENTE_TELEFONO: cliente.CLIENTE_TELEFONO,
+          CLIENTE_DNI: '',
+          CLIENTE_DIRECCION: cliente.CLIENTE_DIRECCION,
+          CLIENTE_APELLIDOS: ''
+        }
+      }
+    }
+    return this.http.post<any>(url,datos,this.httpHead).pipe(retry(2));
+  }
+  
+  actualizarCliente(cliente:Cliente,datosJuridicos?:DatosJuridicos):Observable<any>{
+    const url = environment.domain_url + '/api/clientes/editar.php';
+    let datos;
+    if(datosJuridicos == null){
+      datos = {
+        DATOS_JURIDICOS:{
+        },
+        CLIENTE:{
+            CLIENTE_ID: cliente.CLIENTE_ID,
             CLIENTE_NOMBRES: cliente.CLIENTE_NOMBRES,
             CLIENTE_TELEFONO: cliente.CLIENTE_TELEFONO,
             CLIENTE_DNI: cliente.CLIENTE_DNI,
@@ -48,16 +83,17 @@ export class ClienteService {
           TIPO_EMPRESA_ID: datosJuridicos.TIPO_EMPRESA_ID
         },
         CLIENTE:{
-            CLIENTE_NOMBRES: cliente.CLIENTE_NOMBRES,
-            CLIENTE_TELEFONO: cliente.CLIENTE_TELEFONO,
-            CLIENTE_DNI: '',
-            CLIENTE_DIRECCION: cliente.CLIENTE_DIRECCION,
-            CLIENTE_APELLIDOS: ''
+          CLIENTE_ID: cliente.CLIENTE_ID,
+          CLIENTE_NOMBRES: cliente.CLIENTE_NOMBRES,
+          CLIENTE_TELEFONO: cliente.CLIENTE_TELEFONO,
+          CLIENTE_DNI: '',
+          CLIENTE_DIRECCION: cliente.CLIENTE_DIRECCION,
+          CLIENTE_APELLIDOS: ''
         }
       }
     }
     console.log(datos);
-    return this.http.post<any>(url,datos,this.httpHead).pipe(retry(2));
+    return this.http.put<any>(url,datos,this.httpHead).pipe(retry(2));
   }
 
   listarClientes():Observable<any>{

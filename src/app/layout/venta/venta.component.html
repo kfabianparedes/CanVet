@@ -150,7 +150,7 @@
                     <br>
                     <div class="offset-sm-0 offset-md-1 col-sm-12 col-md-6">
                         <div class="row">
-                            <div class="col-9 col-sm-8 col-md-6 col-lg-7">
+                            <div class="col-10 col-md-10 col-lg-10">
                                 <label for="inputProveedor">{{dni_ruc}}:</label>
                                 <input formControlName="documento" type="text" id="inputProveedor"  class="border-left-primary font-tamanio form-control">
                                 <div *ngIf="documento.invalid && (documento.dirty || documento.touched)" class="my-1" style="color: rgb(197, 68, 68);">
@@ -165,10 +165,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-2 col-sm-2 col-md-1 col-lg-1" style="margin-top: 2rem;">
+                            <div class="col-2 col-sm-2 col-md-1 col-lg-1 py-1 mt-md-4 mt-lg-4 mt-4" >
                                 <button (click)="registrarVenta()" class="btn btn-primary"><i class="fas fa-search"></i></button>
                             </div>
-                            <div class="text-center col-12 col-sm-12 col-md-12 col-lg-4" style="margin-top: 2rem;">
+                            <div class="text-center col-12 col-sm-12 col-md-12 col-lg-12 py-1 mt-1">
                                 <button (click)="nuevoCliente()" class="btn btn-primary">Nuevo Cliente</button>
                             </div>
                         </div>
@@ -313,13 +313,13 @@
                             <table class="table table-bordered text-gray-400" id="dataTable" cellspacing="0">
                                 <thead>
                                     <tr>
-                                        <th ><span class="color-row-table">Agregar</span></th>
-                                        <th ><span class="color-row-table">Producto</span></th>
-                                        <th ><span class="color-row-table">Categoría</span></th>
-                                        <th ><span class="color-row-table">Tamaño/Talla</span></th>
-                                        <th ><span class="color-row-table">P. Venta</span></th>
-                                        <th ><span class="color-row-table">P. Compra</span></th>
-                                        <th ><span class="color-row-table">Stock</span></th>
+                                        <th class="color-row-table puntero">Agregar</th>
+                                        <th class="color-row-table puntero" scope="col" sortable="PRO_NOMBRE" (sort)="onSort($event)" >Producto</th>
+                                        <th class="color-row-table puntero" scope="col" sortable="CAT_NOMBRE" (sort)="onSort($event)" >Categoría</th>
+                                        <th class="color-row-table puntero" scope="col" sortable="PRO_TAMANIO_TALLA" (sort)="onSort($event)" >Tamaño/Talla/Peso</th>
+                                        <th class="color-row-table puntero" scope="col" sortable="PRO_PRECIO_VENTA" (sort)="onSort($event)" >P. Venta</th>
+                                        <th class="color-row-table puntero" scope="col" sortable="PRO_PRECIO_COMPRA" (sort)="onSort($event)" >P. Compra</th>
+                                        <th class="color-row-table puntero" scope="col" sortable="PRO_STOCK" (sort)="onSort($event)" >Stock</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -355,7 +355,7 @@
 
 <ng-template #clienteModal>
     <div class="modal-header justify-content-center">
-        <h4 class="modal-title " >Registrar cliente</h4>
+        <h4 class="modal-title">Registrar cliente</h4>
     </div>
     <mat-progress-bar *ngIf="cargando && modalIn" mode="indeterminate" ></mat-progress-bar>
     <ngb-alert *ngIf="mostrar_alerta && modalIn" [type]="tipo_alerta" (closed)="mostrar_alerta = false" >{{mensaje_alerta}}</ngb-alert>

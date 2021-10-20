@@ -1,10 +1,8 @@
-<!-- <div *ngIf="carga" class="progress" style="height:1rem">
-    <ngb-progressbar class="indeterminate" type="primary" height="1rem" [value]="100" [striped]="true" [animated]="true"></ngb-progressbar>
-</div> -->
+
 <!-- *ngIf = "!carga" -->
 <div  class="row justify-content-center">
-    <mat-progress-bar *ngIf="carga" mode="indeterminate" class="alert-loading"></mat-progress-bar>
-    <ngb-alert *ngIf="mostrarAlerta" [type]="tipoAlerta" class="alert-loading" (closed)="mostrarAlerta = false" >{{mensajeAlerta}}</ngb-alert>
+    <mat-progress-bar *ngIf="carga && !modalIn" mode="indeterminate" class="alert-loading"></mat-progress-bar>
+    <ngb-alert *ngIf="mostrarAlerta && !modalIn" [type]="tipoAlerta" class="alert-loading" (closed)="mostrarAlerta = false" >{{mensajeAlerta}}</ngb-alert>
     <!-- Page Heading -->
     <h1 class="h3 mb-2 text-gray-800 col-12 text-center">Proveedores</h1>
     <br><br>
@@ -43,7 +41,7 @@
                         <thead>
                             <tr>
                                 <th class="color-row-table">Código</th>
-                                <th class="color-row-table">Nombre</th>
+                                <th class="color-row-table">Distribuidor</th>
                                 <th class="color-row-table">RUC</th>
                                 <th class="color-row-table">Nro. de contacto</th>
                                 <th class="color-row-table">Estado</th>   
@@ -96,20 +94,25 @@
         <!-- {{categoriaSeleccionada.CAT_NOMBRE}} FALTA -->
         <h4 class="modal-title" id="exampleModalLongTitle">Proveedor: {{proveedorSeleccionado.PROV_EMPRESA_PROVEEDORA}}</h4>
     </div>
-    <mat-progress-bar *ngIf="cargaModal" mode="indeterminate"></mat-progress-bar>
+    <mat-progress-bar *ngIf="cargaModal && modalIn" mode="indeterminate"></mat-progress-bar>
+    <ngb-alert *ngIf="mostrarAlerta && modalIn" [type]="tipoAlerta" (closed)="mostrarAlerta = false" >{{mensajeAlerta}}</ngb-alert>
+
     <div class="modal-body">
         <br>
         <form [formGroup]="proveedorForm">
             <div class="form-group row">
                 <div class="col-12 ">
                     <label for="">
-                        Nombre de la empresa
+                        Distribuidor
                     </label>
                     <div>
                         <input type="text" formControlName="nombreEmpresa" class="border-left-primary font-tamanio form-control" placeholder="Ingrese el nombre">
                         <div *ngIf="nombreEmpresa.invalid && (nombreEmpresa.dirty || nombreEmpresa.touched)" class="my-1" style="color: rgb(197, 68, 68);">
                             <div *ngIf="nombreEmpresa.errors.required">
-                            * El nombre de la es requerido.
+                            * El nombre del distribuidor es requerido.
+                            </div>
+                            <div *ngIf="nombreEmpresa.errors.pattern">
+                            * El campo no acepta caracteres numéricos.
                             </div>
                             <div *ngIf="nombreEmpresa.errors.maxlength">
                             * Se requieren máximo 100 caracteres.
@@ -131,9 +134,12 @@
                             <div *ngIf="ruc.errors.maxlength">
                             * Se requieren máximo 11 caracteres.
                             </div>
+                            <div *ngIf="ruc.errors.pattern">
+                            * Este campo solo acepta caracteres numéricos.
+                            </div>
                             <div *ngIf="ruc.errors.minlength">
                                 * Se requieren mínimo 11 caracteres.
-                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -149,7 +155,10 @@
                             * El número de contacto de la empresa es requerido.
                             </div>
                             <div *ngIf="numeroContacto.errors.maxlength">
-                            * Se requieren máximo 20 caracteres.
+                            * Se requieren máximo 12 caracteres.
+                            </div>
+                            <div *ngIf="numeroContacto.errors.pattern">
+                            * El campo tiene un formato incorrecto.
                             </div>
                             <div *ngIf="numeroContacto.errors.minlength">
                                 * Se requieren mínimo 12 caracteres.
@@ -163,9 +172,9 @@
         <br>
         <div class="row justify-content-center ">
             <div class="my-1 col-sm-3 col-md-4 col-lg-4">
-                <a  (click)="actualizarProveedor();" class="btn btn-primary btn-icon-split" >
+                <button [disabled]="proveedorForm.invalid" (click)="actualizarProveedor();" class="btn btn-primary btn-icon-split" >
                     <span class="text">Registrar&nbsp;<i class="fas fa-save"></i></span>
-                </a>
+                </button>
             </div>
             <div class="my-1 col-sm-3 col-md-4 col-lg-4">
                 <a (click) = "d('Cross click')" class="btn btn-warning btn-icon-split">
@@ -180,20 +189,24 @@
     <div class="modal-header">
         <h4 class="modal-title" id="exampleModalLongTitle">Crear Proveedor</h4>
     </div>
-    <mat-progress-bar *ngIf="cargaModal" mode="indeterminate"></mat-progress-bar>
+    <mat-progress-bar *ngIf="cargaModal && modalIn" mode="indeterminate"></mat-progress-bar>
+    <ngb-alert *ngIf="mostrarAlerta && modalIn" [type]="tipoAlerta" (closed)="mostrarAlerta = false" >{{mensajeAlerta}}</ngb-alert>
     <div class="modal-body">
         <br>
         <form [formGroup]="proveedorForm">
             <div class="form-group row">
                 <div class="col-12 ">
                     <label for="">
-                        Nombre de la empresa
+                        Distribuidor
                     </label>
                     <div>
                         <input type="text" formControlName="nombreEmpresa" class="border-left-primary font-tamanio form-control" placeholder="Ingrese el nombre">
                         <div *ngIf="nombreEmpresa.invalid && (nombreEmpresa.dirty || nombreEmpresa.touched)" class="my-1" style="color: rgb(197, 68, 68);">
                             <div *ngIf="nombreEmpresa.errors.required">
-                            * El nombre de la es requerido.
+                            * El nombre del distribuidor es requerido.
+                            </div>
+                            <div *ngIf="nombreEmpresa.errors.pattern">
+                            * El campo no acepta caracteres numéricos.
                             </div>
                             <div *ngIf="nombreEmpresa.errors.maxlength">
                             * Se requieren máximo 100 caracteres.
@@ -215,9 +228,12 @@
                             <div *ngIf="ruc.errors.maxlength">
                             * Se requieren máximo 11 caracteres.
                             </div>
+                            <div *ngIf="ruc.errors.pattern">
+                                * Este campo solo acepta caracteres numéricos.
+                            </div>
                             <div *ngIf="ruc.errors.minlength">
                                 * Se requieren mínimo 11 caracteres.
-                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -233,7 +249,10 @@
                             * El número de contacto de la empresa es requerido.
                             </div>
                             <div *ngIf="numeroContacto.errors.maxlength">
-                            * Se requieren máximo 20 caracteres.
+                            * Se requieren máximo 12 caracteres.
+                            </div>
+                            <div *ngIf="numeroContacto.errors.pattern">
+                            * El campo tiene un formato incorrecto.
                             </div>
                             <div *ngIf="numeroContacto.errors.minlength">
                                 * Se requieren mínimo 12 caracteres.
@@ -247,9 +266,9 @@
         <br>
         <div class="row justify-content-center ">
             <div class="my-1 col-sm-3 col-md-4 col-lg-4">
-                <a  (click)="insertarProveedor();" class="btn btn-primary btn-icon-split" >
+                <button  [disabled]="proveedorForm.invalid" (click)="insertarProveedor();" class="btn btn-primary btn-icon-split" >
                     <span class="text">Registrar&nbsp;<i class="fas fa-save"></i></span>
-                </a>
+                </button>
             </div>
             <div class="my-1 col-sm-3 col-md-4 col-lg-4">
                 <a (click) = "d('Cross click')" class="btn btn-warning btn-icon-split">

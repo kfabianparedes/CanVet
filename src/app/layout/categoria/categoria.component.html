@@ -1,6 +1,6 @@
 <div  class="row justify-content-center">
-    <mat-progress-bar *ngIf="carga" mode="indeterminate" class="alert-loading"></mat-progress-bar>
-    <ngb-alert *ngIf="mostrarAlerta" [type]="tipoAlerta" class="alert-loading" (closed)="mostrarAlerta = false" >{{mensajeAlerta}}</ngb-alert>
+    <mat-progress-bar *ngIf="carga && !modalIn" mode="indeterminate" class="alert-loading"></mat-progress-bar>
+    <ngb-alert *ngIf="mostrarAlerta && !modalIn" [type]="tipoAlerta" class="alert-loading" (closed)="mostrarAlerta = false" >{{mensajeAlerta}}</ngb-alert>
     <!-- Page Heading -->
     <h1 class="h3 mb-2 text-gray-800 col-12 text-center">Categorias de productos</h1>
     <br><br>
@@ -92,7 +92,8 @@
     <div class="modal-header">
         <h4 class="modal-title" id="exampleModalLongTitle">Categoría: {{categoriaSeleccionada.CAT_NOMBRE}}</h4>
     </div>
-    <mat-progress-bar *ngIf="cargaModal" mode="indeterminate"></mat-progress-bar>
+    <mat-progress-bar *ngIf="cargaModal && modalIn" mode="indeterminate"></mat-progress-bar>
+    <ngb-alert *ngIf="mostrarAlerta && modalIn" [type]="tipoAlerta" (closed)="mostrarAlerta = false" >{{mensajeAlerta}}</ngb-alert>
     <div class="modal-body">
         <br>
         <form [formGroup]="categoriaForm">
@@ -135,7 +136,8 @@
     <div class="modal-header">
         <h4 class="modal-title" id="exampleModalLongTitle">Crear Categoría</h4>
     </div>
-    <mat-progress-bar *ngIf="cargaModal" mode="indeterminate"></mat-progress-bar>
+    <mat-progress-bar *ngIf="cargaModal && modalIn" mode="indeterminate"></mat-progress-bar>
+    <ngb-alert *ngIf="mostrarAlerta && modalIn" [type]="tipoAlerta" (closed)="mostrarAlerta = false" >{{mensajeAlerta}}</ngb-alert>
     <div class="modal-body">
         <br>
         <form [formGroup]="categoriaForm">

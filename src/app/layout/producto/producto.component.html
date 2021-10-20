@@ -55,8 +55,8 @@
                                 <td class="color-row-table">{{pro.CAT_NOMBRE}}</td>
                                 <td class="color-row-table">{{pro.PRO_NOMBRE}}</td>
                                 <td class="color-row-table">{{pro.PRO_TAMANIO_TALLA}}</td>
-                                <td class="color-row-table">{{pro.PRO_PRECIO_VENTA}}</td>
-                                <td class="color-row-table">{{pro.PRO_PRECIO_COMPRA}}</td>
+                                <td class="color-row-table">{{pro.PRO_PRECIO_VENTA.toFixed(2)}}</td>
+                                <td class="color-row-table">{{pro.PRO_PRECIO_COMPRA.toFixed(2)}}</td>
                                 <td class="color-row-table">{{pro.PRO_STOCK}}</td>
                                 <td class="color-row-table">{{pro.PRO_ESTADO==1?'Activo':'Inactivo'}}</td>
                                 <td class="color-row-table">
@@ -124,13 +124,13 @@
                 <label for="" style="margin-top: 2rem;">
                     Precio de venta
                 </label>
-                <input type="text" disabled value="{{productoSeleccionado.PRO_PRECIO_VENTA}}" class="border-left-primary font-tamanio form-control" >
+                <input type="text" disabled value="{{productoSeleccionado.PRO_PRECIO_VENTA.toFixed(2)}}" class="border-left-primary font-tamanio form-control" >
             </div>
             <div class="col-12 col-lg-6">
                 <label for="" style="margin-top: 2rem">
                     Precio de compra
                 </label>
-                <input type="text" disabled value="{{productoSeleccionado.PRO_PRECIO_COMPRA}}" class="border-left-primary font-tamanio form-control" >
+                <input type="text" disabled value="{{productoSeleccionado.PRO_PRECIO_COMPRA.toFixed(2)}}" class="border-left-primary font-tamanio form-control" >
             </div>
             <div class="col-12 col-lg-6">
                 <label for="" style="margin-top: 2rem">
@@ -140,7 +140,7 @@
             </div>    
             <div class="col-12 col-lg-6">
                 <label for="" style="margin-top: 2rem">
-                    Proveedor
+                    Distribuidor
                 </label>
                 <input type="text" disabled value="{{nombreProveedor}}" class="border-left-primary font-tamanio form-control" >
             </div>
@@ -148,7 +148,7 @@
                 <label for="" style="margin-top: 2rem">
                     Precio de compra anterior
                 </label>
-                <input type="text" disabled value="{{precioAnterior}}" class="border-left-primary font-tamanio form-control" >
+                <input type="text" disabled value="{{precioAnterior.toFixed(2)}}" class="border-left-primary font-tamanio form-control" >
             </div>
             <div *ngIf="fechaAnterior != null"  class="col-12 col-lg-6">
                 <label for="" style="margin-top: 2rem">
@@ -214,8 +214,8 @@
                         <div *ngIf="tamnioTallaProducto.errors.required">
                         * El pVentaProducto/Talla del producto es requerido.
                         </div>
-                        <div *ngIf="tamnioTallaProducto.errors.maxlength">
-                        * Se requieren máximo 60 caracteres.
+                        <div *ngIf="tamnioTallaProducto.errors.pattern">
+                        * Este campo no tiene el formato correcto.
                         </div>
                     </div>
                 </div>
@@ -228,8 +228,8 @@
                         <div *ngIf="tamnioTallaProducto.errors.required">
                         * El pCompraProducto/Talla del producto es requerido.
                         </div>
-                        <div *ngIf="pCompraProducto.errors.maxlength">
-                        * Se requieren máximo 60 caracteres.
+                        <div *ngIf="pCompraProducto.errors.pattern">
+                        * Este campo no tiene el formato correcto.
                         </div>
                     </div>
                 </div>
@@ -246,7 +246,7 @@
                     </div>
                 </div>
                 <div class="col-12 col-lg-6">
-                    <label style="margin-top: 2rem;" class="mr-sm-2" for="inlineFormCustomSelect">Proveedor</label>
+                    <label style="margin-top: 2rem;" class="mr-sm-2" for="inlineFormCustomSelect">Distribuidor</label>
                     <select formControlName="proveedor" class="border-left-primary custom-select mr-sm-2 " id="inlineFormCustomSelect">
                         <option hidden value="" disabled selected>Escoge una opción</option>
                         <option [value]="pro.PROV_ID" *ngFor="let pro of proveedores">{{pro.PROV_EMPRESA_PROVEEDORA}}</option>
@@ -260,9 +260,9 @@
             </div><br>
             <div class="row justify-content-center ">
                 <div class="my-1 col-sm-3 col-md-3 col-lg-3">
-                    <a  (click)="editarProductoFunc()" class="btn btn-primary btn-icon-split" >
+                    <button [disabled]="productoForm.invalid"  (click)="editarProductoFunc()" class="btn btn-primary btn-icon-split" >
                         <span class="text">Registrar&nbsp;<i class="fas fa-save"></i></span>
-                    </a>
+                    </button>
                 </div>
                 <div class="my-1 col-sm-3 col-md-3 col-lg-3">
                     <a (click) = "d('Cross click')" class="btn btn-warning btn-icon-split">
@@ -315,8 +315,8 @@
                         <div *ngIf="pVentaProducto.errors.required">
                         * El precio de venta es requerido.
                         </div>
-                        <div *ngIf="pVentaProducto.errors.maxlength">
-                        * Se requieren máximo 60 caracteres.
+                        <div *ngIf="pVentaProducto.errors.pattern">
+                        * Este campo no tiene el formato correcto.
                         </div>
                     </div>
                 </div>
@@ -327,8 +327,8 @@
                         <div *ngIf="pCompraProducto.errors.required">
                         * El precio de compra es requerido.
                         </div>
-                        <div *ngIf="pCompraProducto.errors.maxlength">
-                        * Se requieren máximo 60 caracteres.
+                        <div *ngIf="pCompraProducto.errors.pattern">
+                        * Este campo no tiene el formato correcto.
                         </div>
                     </div>
                 </div>
@@ -345,7 +345,7 @@
                     </div>
                 </div>
                 <div class="col-12 col-lg-6">
-                    <label style="margin-top: 2rem;" class="mr-sm-2" for="inputSeleccionarProveedor">Proveedor</label>
+                    <label style="margin-top: 2rem;" class="mr-sm-2" for="inputSeleccionarProveedor">Disitribuidor</label>
                     <select formControlName="proveedor" class="border-left-primary custom-select mr-sm-2 " id="inputSeleccionarProveedor">
                         <option hidden value="" disabled selected>Escoge una opción</option>
                         <option [value]="pro.PROV_ID" *ngFor="let pro of proveedores">{{pro.PROV_EMPRESA_PROVEEDORA}}</option>
@@ -359,9 +359,9 @@
             </div><br>
             <div class="row justify-content-center ">
                 <div class="my-1 col-sm-3 col-md-3 col-lg-3">
-                    <a  (click)="insertarProducto(productoForm.value)" class="btn btn-primary btn-icon-split" >
+                    <button [disabled]="productoForm.invalid" (click)="insertarProducto(productoForm.value)" class="btn btn-primary btn-icon-split" >
                         <span class="text">Registrar&nbsp;<i class="fas fa-save"></i></span>
-                    </a>
+                    </button>
                 </div>
                 <div class="my-1 col-sm-3 col-md-3 col-lg-3">
                     <a (click) = "d('Cross click')" class="btn btn-warning btn-icon-split">

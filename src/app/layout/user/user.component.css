@@ -4,6 +4,9 @@
 .margin-icon{
     margin-top: 15rem;
 }
+.puntero{
+    cursor: pointer;
+}
 
 
 @media screen and (max-width:768px){

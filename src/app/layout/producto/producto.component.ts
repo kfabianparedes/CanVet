@@ -41,14 +41,18 @@ export class ProductoComponent implements OnInit {
   currentPage = 1;
   itemsPerPage = 10;
 
-  carga = false; 
-  cargaModal = false; 
+  
   productoForm: FormGroup;
   productoInsertar = new Producto();
   
-  tipoAlerta = "";
-  mostrarAlerta = false;
-  mensajeAlerta= "";  
+  
+  //Variables de cargando y error
+  cargando = false;
+  modalIn = false;
+  mensaje_alerta: string;
+  mostrar_alerta: boolean = false;
+  tipo_alerta :string;
+  
 
   //modal para editar un Producto
   @ViewChild('editarProducto') editarPro: ElementRef;
@@ -59,19 +63,33 @@ export class ProductoComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.carga = true; 
     this.listarProductos();
   }
 
   listarProveedores(){
+    this.cargando = false;
+    this.modalIn = true;
     this.proveedorService.listarProveedores().subscribe(
-      data=>{
+      (data)=>{
         this.proveedores = data['resultado'];
-        console.log(this.proveedores);
-        this.carga = false; 
-    },error=>{
-        this.carga = false; 
-    });
+        this.cargando = false;
+        this.modalIn = true;
+      },
+      (error) =>{
+        this.cargando = false;
+        this.mostrar_alerta = true;
+        this.tipo_alerta='danger';
+        this.modalIn = true;
+        if (error['error']['error'] !== undefined) {
+          if (error['error']['error'] === 'error_deBD') {
+            this.mensaje_alerta = 'Hubo un error al intentar ejecutar su solicitud. Por favor, actualice la página.';
+          }
+        }
+        else{
+          this.mensaje_alerta = 'Hubo un error al mostrar la información de esta página. Por favor, actualice la página.';
+        }
+      }
+    );
   }
   abrirVerMasProducto(producto:any){
     this.productoSeleccionado = producto;
@@ -138,9 +156,8 @@ export class ProductoComponent implements OnInit {
   }
 
   editarProductoFunc(){
-
-    this.cargaModal = true; 
-
+    this.cargando = true;
+    this.modalIn = true;
     this.productoInsertar.PRO_ID = this.productoSeleccionado.PRO_ID;
     this.productoInsertar.PRO_CODIGO = "";
     this.productoInsertar.PRO_STOCK = +"0"; 
@@ -152,42 +169,71 @@ export class ProductoComponent implements OnInit {
     this.productoInsertar.PROV_ID = +this.proveedor.value;
 
     this.productoService.editarProductoSeleccionado(this.productoInsertar).subscribe(
-    data=>{
-      this.productoInsertar = null;
-      this.productoSeleccionado= null;
-      this.productos.length = 0;
-      this.cargaModal = false;
-      this.productoForm.reset();
-      this.listarProductos();
-      this.modal.dismissAll();
-    },error=>{
-      this.cargaModal = false;
+      (data)=>{
+        this.productoInsertar = null;
+        this.productoSeleccionado= null;
+        this.productos.length = 0;
+        this.cargando = false;
+        this.modalIn = false;
+        this.productoForm.reset();
+        this.listarProductos();
+        this.modal.dismissAll();
+      },
+      (error)=>{
+        this.cargando = false;
+        this.modalIn = true;
 
-    });
+      }
+    );
   }
 
   listarProductos(){
+    this.cargando = true;
+    this.modalIn = false;
     this.productoService.listarProductos().subscribe(
-      data=>{
+      (data)=>{
         this.productos = data['resultado']; 
-        console.log(this.productos);
-        this.carga = false; 
-      },error=>{
-        this.carga = false; 
-
+        this.cargando = false; 
+      },
+      (error) =>{
+        this.cargando = false;
+        this.mostrar_alerta = true;
+        this.tipo_alerta='danger';
+        this.modalIn = false;
+        if (error['error']['error'] !== undefined) {
+          if (error['error']['error'] === 'error_deBD') {
+            this.mensaje_alerta = 'Hubo un error al intentar ejecutar su solicitud. Por favor, actualice la página.';
+          }
+        }
+        else{
+          this.mensaje_alerta = 'Hubo un error al mostrar la información de esta página. Por favor, actualice la página.';
+        }
       }
     ); 
   }
   listarCategorias(){
-    
-    this.categoriaService.listarCategorias().subscribe(data=>{
-      
-      this.categorias = data['resultado']; 
-      console.log(this.categorias);
-      this.carga = false;
-    },error =>{
-      this.carga = false;
-    }
+    this.cargando = true;
+    this.modalIn = true;
+    this.categoriaService.listarCategorias().subscribe(
+      (data)=>{
+        this.categorias = data['resultado']; 
+        this.cargando = false;
+        this.modalIn = true;
+      },
+      (error) =>{
+        this.cargando = false;
+        this.mostrar_alerta = true;
+        this.tipo_alerta='danger';
+        this.modalIn = true;
+        if (error['error']['error'] !== undefined) {
+          if (error['error']['error'] === 'error_deBD') {
+            this.mensaje_alerta = 'Hubo un error al intentar ejecutar su solicitud. Por favor, actualice la página.';
+          }
+        }
+        else{
+          this.mensaje_alerta = 'Hubo un error al mostrar la información de esta página. Por favor, actualice la página.';
+        }
+      }
     );
   }
 
@@ -198,8 +244,8 @@ export class ProductoComponent implements OnInit {
     this.modal.dismissAll();
   } 
   insertarProducto(producto:any){
-    
-    this.cargaModal = true;
+    this.cargando = true;
+    this.modalIn = true;
     this.productoInsertar.PRO_CODIGO = "";
     this.productoInsertar.PRO_STOCK = +"0"; 
     this.productoInsertar.PRO_TAMANIO_TALLA =  this.tamnioTallaProducto.value;
@@ -208,8 +254,6 @@ export class ProductoComponent implements OnInit {
     this.productoInsertar.PRO_PRECIO_COMPRA = (+this.pCompraProducto.value * 1.00);
     this.productoInsertar.CAT_ID = +this.categoria.value;
     this.productoInsertar.PROV_ID = +this.proveedor.value;
-    console.log(this.productoInsertar);
-
     this.crearNuevoProducto();
   }
 
@@ -221,23 +265,50 @@ export class ProductoComponent implements OnInit {
       PRO_ESTADO =  1; 
     }
     this.productoService.habilitarDeshabilitarProducto(PRO_ID,PRO_ESTADO).subscribe(
-      data=>{
+      (data)=>{
+        
         this.listarProductos(); 
-      },error=>{
+      },(error)=>{
 
       });
-  }
+  } 
+
 
   crearNuevoProducto(){
-
+    this.cargando = true;
+    this.modalIn = true;
     this.productoService.insertarProducto(this.productoInsertar).subscribe(
       data=>{
-        console.log("Si insertó :D");
-        this.cargaModal = false;
+        this.mensaje_alerta = 'Producto creado de forma exitosa.';
+        this.tipo_alerta = 'success';
+        this.cargando = false;
+        this.modalIn = false;
+        this.listarProductos();
+        this.closeModal();
       },error=>{
-        this.cargaModal = false;
-
+        this.cargando = false;
+        this.mostrar_alerta = true;
+        this.modalIn = true;
+        this.tipo_alerta='danger';
+        if (error.error.error !== undefined) {
+          if (error.error.error === 'error_deBD') {
+            this.mensaje_alerta = 'Hubo un error al intentar ejecutar su solicitud. Problemas con el servidor, vuelva a intentarlo.';
+          } else if(error.error.error === 'error_deCampo'){
+            this.mensaje_alerta = 'Los datos ingresados son invalidos. Por favor, vuelva a intentarlo.';
+          }else if(error.error.error === 'error_ejecucionQuery'){
+            this.mensaje_alerta = 'Hubo un error al registrar el producto. Por favor, actualice la página o inténtelo más tarde.';
+          }else if(error.error.error === 'error_exitenciaProveedorId'){
+            this.mensaje_alerta = 'Hubo un error al registrar el producto (Hubo problemas al validar el proveedor). Por favor, actualice la página o inténtelo más tarde.';
+          }else if(error.error.error === 'error_exitenciaCategoriaId'){
+            this.mensaje_alerta = 'Hubo un error al registrar el producto (Hubo problemas al validar la categoría). Por favor, actualice la página o inténtelo más tarde.';
+          }
+        }
+        else{
+          this.mensaje_alerta = 'Hubo un error en el servidor al registrar el producto. Por favor, actualice la página.';
+        }
+        
       }
+      
     );
   }
   

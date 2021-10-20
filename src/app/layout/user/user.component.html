@@ -32,10 +32,11 @@
             <!---------------PAGINACIÓN------------->
             <div *ngIf="usuarios?.length>0" class="row box-footer clearfix mt-3">     
                 <div class="col-xl-10 col-lg-9 col-md-7 col-sm-7 col-6">
-                <ngb-pagination *ngIf="usuarios?.length>10" class="d-flex justify-content-start" size="sm" [maxSize]="5" [pageSize]="itemsPerPage"  [collectionSize]="usuarios?.length" [(page)]="currentPage"></ngb-pagination>
+                <ngb-pagination *ngIf="usuarios?.length>5" class="d-flex justify-content-start" size="sm" [maxSize]="5" [pageSize]="itemsPerPage"  [collectionSize]="usuarios?.length" [(page)]="currentPage"></ngb-pagination>
                 </div>
                 <div class="col-xl-2 col-lg-3 col-md-5 col-sm-5 col-6">
                 <select class="pull-right" [(ngModel)]="itemsPerPage" class="form-control form-control-sm custom-select">
+                    <option value="5">5 elementos</option>
                     <option value="10">10 elementos</option>
                     <option value="15">15 elementos</option>
                     <option value="20">20 elementos</option>                    
@@ -47,13 +48,13 @@
                     <table class="table table-bordered text-gray-400" id="dataTable" cellspacing="1">
                         <thead>
                             <tr>
-                                <th class="color-row-table text-center"><span>Código</span></th>
-                                <th class="color-row-table text-center"><span>Nombres</span></th>
-                                <th class="color-row-table text-center"><span>Apellidos</span></th>
-                                <th class="color-row-table text-center"><span>Celular</span></th>
-                                <th class="color-row-table text-center"><span>Rol</span></th>
-                                <th class="color-row-table text-center"><span>Estado</span></th>
-                                <th class="color-row-table text-center"><span>Acciones</span></th>
+                                <th class="color-row-table text-center puntero" scope="col" sortable="USU_ID" (sort)="onSort($event)">Código</th>
+                                <th class="color-row-table text-center puntero" scope="col" sortable="USU_NOMBRES" (sort)="onSort($event)">Nombres</th>
+                                <th class="color-row-table text-center puntero" scope="col" sortable="USU_APELLIDO_PATERNO" (sort)="onSort($event)">Apellidos</th>
+                                <th class="color-row-table text-center puntero" scope="col" sortable="USU_CELULAR" (sort)="onSort($event)">Celular</th>
+                                <th class="color-row-table text-center puntero" scope="col" sortable="ROL_ID" (sort)="onSort($event)">Rol</th>
+                                <th class="color-row-table text-center puntero" scope="col" sortable="USU_ESTADO" (sort)="onSort($event)">Estado</th>
+                                <th class="color-row-table text-center puntero" >Acciones</th>
                             </tr>
                         </thead>
                         <tbody>

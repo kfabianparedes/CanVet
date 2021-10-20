@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { FormGroup, Validators } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
@@ -7,6 +7,7 @@ import { Rol } from 'src/app/models/rol.model';
 import { Usuario } from 'src/app/models/usuario.model';
 import { RolService } from 'src/app/services/rol.service';
 import { UserService } from 'src/app/services/user.service';
+import { compare, SorteableDirective } from 'src/app/shared/directives/sorteable.directive';
 
 @Component({
   selector: 'app-user',
@@ -15,6 +16,7 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class UserComponent implements OnInit {
   usuarios: Usuario[] = [];
+  usuariosObtenidos: any[] = [];
   roles: Rol[] = [];
   userForm : FormGroup;
   sexo:string = 'F';
@@ -35,7 +37,7 @@ export class UserComponent implements OnInit {
   userSelected = new Usuario(); 
   newUser = new Usuario();
   currentPage = 1;
-  itemsPerPage = 10;
+  itemsPerPage = 5;
 
   //Variables de cargando y error
   cargando = false;
@@ -202,7 +204,9 @@ export class UserComponent implements OnInit {
     this.cargando = true;
     this.userService.listUsers().subscribe(
       data=>{
-        this.usuarios = data.resultado;
+
+        this.usuariosObtenidos = data.resultado;
+        this.usuarios = this.usuariosObtenidos.slice();
         this.cargando = false;
       }
       ,error=>{
@@ -283,6 +287,27 @@ export class UserComponent implements OnInit {
     // this.apellido_paterno.setValue(this.usuario.USU_APELLIDO_PATERNO);
     // this.apellido_materno.setValue(this.usuario.USU_APELLIDO_MATERNO);
     // this.sexo.setValue(this.usuario.USU_SEXO);
+  }
+
+  /************************************* TABLAS ************************************/
+  @ViewChildren(SorteableDirective) headers: QueryList<SorteableDirective>;
+  
+  onSort({column, direction}: any) {
+    // resetting other headers
+    this.headers.forEach(header => {
+      if (header.sortable !== column) {
+        header.direction = '';
+      }
+    });
+    // sorting countries
+    if (direction === '' || column === '') {
+      this.usuarios = this.usuariosObtenidos.slice();
+    } else {
+      this.usuarios = [...this.usuariosObtenidos].sort((a, b) => {
+        const res = compare(a[column], b[column]);
+        return direction === 'asc' ? res : -res;
+      });
+    }
   }
   
 }

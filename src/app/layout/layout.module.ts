@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule, DatePipe, DecimalPipe } from '@angular/common';
 import { LayoutRoutingModule } from './layout-routing.module';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -21,6 +21,7 @@ import { CompraComponent } from './compra/compra.component';
 import { ClienteComponent } from './cliente/cliente.component';
 import { CajaComponent } from './caja/caja.component';
 import { MascotaComponent } from './mascota/mascota.component';
+import { DirectivesModule } from '../shared/directives/directives.module';
 
 @NgModule({
   declarations: [
@@ -44,12 +45,13 @@ import { MascotaComponent } from './mascota/mascota.component';
     FormsModule,
     NgbModule,
     PipesModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    DirectivesModule
   ],
   exports:[
     DashboardComponent,
     LayoutComponent,
   ],
-  providers:[DatePipe]
+  providers:[DatePipe,DecimalPipe]
 })
 export class LayoutModule { }

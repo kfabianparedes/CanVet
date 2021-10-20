@@ -225,7 +225,8 @@ export class CompraComponent implements OnInit {
   filtrarPorUnidadMedida(){
     if(this.busquedaPorUnidadDeMedida == ''){
       console.log(this.busquedaPorCategoria);
-      this.filtrarPorCategoria();//this.productos = [...this.productos_iniciales]//this.productos_iniciales.filter(producto=>{return producto});  
+      // this.filtrarPorCategoria();
+      this.productos = [...this.productos_iniciales];//this.productos_iniciales.filter(producto=>{return producto});  
     }else{
       this.productos = [...this.productos_iniciales];
       this.productos = this.productos.filter(producto =>producto.PRO_TAMANIO_TALLA.toLowerCase().indexOf(this.busquedaPorUnidadDeMedida.toLowerCase()) > -1);

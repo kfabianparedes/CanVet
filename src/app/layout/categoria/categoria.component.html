@@ -29,10 +29,11 @@
             <!---------------PAGINACIÓN------------->
             <div *ngIf="categorias?.length>0" class="row box-footer clearfix mt-3">     
                 <div class="col-xl-9 col-lg-8 col-md-7 col-sm-7 col-xs-6 col-6">
-                    <ngb-pagination *ngIf="categorias?.length>10" class="d-flex justify-content-start" size="sm" [maxSize]="5" [pageSize]="itemsPerPage"  [collectionSize]="categorias?.length" [(page)]="currentPage"></ngb-pagination>
+                    <ngb-pagination *ngIf="categorias?.length>5" class="d-flex justify-content-start" size="sm" [maxSize]="5" [pageSize]="itemsPerPage"  [collectionSize]="categorias?.length" [(page)]="currentPage"></ngb-pagination>
                 </div>
                 <div class="col-xl-3 col-lg-4 col-md-5 col-sm-5 col-xs-6 col-6">
                     <select class="pull-right" [(ngModel)]="itemsPerPage" class="form-control form-control-sm custom-select">
+                        <option value="5">5 elementos</option>
                         <option value="10">10 elementos</option>
                         <option value="15">15 elementos</option>
                         <option value="20">20 elementos</option>                    
@@ -97,12 +98,10 @@
         <form [formGroup]="categoriaForm">
             <div class="form-group row">
                 <div class="col-6">
-                    <label for="">
-                        Nombre de la categoría
-                    </label>
+                    <label for="inputNombreCategoria">Nombre de la categoría</label>
                 </div>
                 <div>
-                    <input type="text" formControlName="nombreCategoria" class="border-left-primary font-tamanio form-control" placeholder="Ingrese la categoría">
+                    <input input="inputNombreCategoria" type="text" formControlName="nombreCategoria" class="border-left-primary font-tamanio form-control" placeholder="Ingrese la categoría">
                     <div *ngIf="nombreCategoria.invalid && (nombreCategoria.dirty || nombreCategoria.touched)" class="my-1" style="color: rgb(197, 68, 68);">
                         <div *ngIf="nombreCategoria.errors.required">
                         * El nombre de la categoría es requerido.

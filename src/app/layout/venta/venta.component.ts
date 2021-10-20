@@ -3,8 +3,10 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Comprobante } from 'src/app/models/comprobante.model';
+import { Empresa } from 'src/app/models/empresa';
 import { MetodoPago } from 'src/app/models/metodo-pago';
 import { ComprobanteService } from 'src/app/services/comprobante.service';
+import { EmpresaService } from 'src/app/services/empresa.service';
 import { MetodoPagoService } from 'src/app/services/metodoPago.service';
 import { ProductoService } from 'src/app/services/producto.service';
 import { UserService } from 'src/app/services/user.service';
@@ -54,6 +56,15 @@ export class VentaComponent implements OnInit {
   btnRegistroValido:boolean = false;
 
   dni_ruc:string = 'Documento identificador';
+
+
+  //Variable de registro de cliente
+  clienteForm : FormGroup;
+  clienteJuridicoForm : FormGroup;
+  empresas: Empresa[] = [];
+  @ViewChild('clienteModal') clienteModal: ElementRef;
+
+  
   constructor(
     private formBuilder: FormBuilder,
     private comprobanteService:ComprobanteService,
@@ -62,21 +73,22 @@ export class VentaComponent implements OnInit {
     private configModal: NgbModalConfig,
     private datePipe: DatePipe,
     private userService: UserService,
-    private metodoPago:MetodoPagoService
+    private metodoPago:MetodoPagoService,
+    private empresaService:EmpresaService
   ) {
       this.configModal.backdrop = 'static';
       this.configModal.keyboard = false;
-      this.configModal.size = 'xl'
    }
   
   @ViewChild('articulosModal') articulosModal: ElementRef;
-  @ViewChild('clienteModal') clienteModal: ElementRef;
 
   ngOnInit(): void {
     this.listarProductoTabla = true;
     this.inicializarFormulario();
     this.listarComprobantes();
     this.listarMetodoPago();
+    this.listarEmpresas();
+
   }
   
   closeModal(): any {
@@ -128,7 +140,7 @@ export class VentaComponent implements OnInit {
     )
   }
   listarProductos(){
-    this.modal.open(this.articulosModal);
+    this.modal.open(this.articulosModal,{size: 'xl'});
     this.mostrar_alerta = false;
     this.modalIn = true;
     if(this.listarProductoTabla){
@@ -197,10 +209,12 @@ export class VentaComponent implements OnInit {
   registrarVenta(){
     
   }
-  registrarCliente(){
-    this.modal.open(this.clienteModal);
+  nuevoCliente(){
+    this.modal.open(this.clienteModal,{size: 'lg'});
     this.mostrar_alerta = false;
-    this.modalIn = true;
+    this.modalIn = false;
+    this.inicializarClienteNaturalFormulario();
+    this.inicializarClienteJuridicoFormulario();
   }
 
   inicializarFormulario(){
@@ -240,4 +254,96 @@ export class VentaComponent implements OnInit {
     const fechaActual = this.datePipe.transform(new Date().toLocaleString("en-US", {timeZone: "America/Lima"}), "yyyy-MM-dd");
     return fechaActual;
   }
+
+
+
+  /************************************REGISTRO DE CLIENTES************************************/
+  listarEmpresas(){
+    this.modalIn = false;
+    this.cargando = true;
+    this.empresaService.listasTipodeEmpresas().subscribe(
+      (data)=>{
+        this.empresas = data['resultado'];
+        this.cargando = false;
+        console.log(this.empresas);
+      },
+      (error)=>{
+        this.cargando = false;
+        this.mostrar_alerta = true;
+        this.tipo_alerta='danger';
+        if (error['error']['error'] !== undefined) {
+          if (error['error']['error'] === 'error_deBD') {
+            this.mensaje_alerta = 'Hubo un error al intentar ejecutar su solicitud. Por favor, actualice la página.';
+          }
+        }
+        else{
+          this.mensaje_alerta = 'Hubo un error al mostrar la información de esta página. Por favor, actualice la página.';
+        }
+      }
+    )
+  }
+
+  registrarClienteNatural(){
+    
+  }
+  registrarClienteJuridico(){
+
+  }
+  inicializarClienteNaturalFormulario(){
+    this.clienteForm = this.formBuilder.group({
+      nombres:['',[Validators.required,Validators.pattern('[a-zñáéíóúA-ZÑÁÉÍÓÚ]+'),Validators.maxLength(100)]],
+      apellidos: ['', [Validators.required, Validators.pattern('[a-zñáéíóúA-ZÑÁÉÍÓÚ]+'),Validators.maxLength(30)]],
+      celular: ['', [Validators.required, Validators.pattern('[+][0-9]+'), Validators.maxLength(20), Validators.minLength(12)]] ,
+      dni: ['', [Validators.required, Validators.pattern(/^([0-9])*$/), Validators.minLength(8),  Validators.maxLength(8)]],
+      direccion: ['', [Validators.required , Validators.pattern('^[a-zñáéíóú#°/,. A-ZÑÁÉÍÓÚ  0-9]+$'), Validators.maxLength(100)]],
+    });
+  }
+
+  active:number = 1;
+  // getters & setters
+  get nombres() {
+    return this.clienteForm.get('nombres');
+  } 
+  get apellidos() {
+    return this.clienteForm.get('apellidos');
+  } 
+  get celular() {
+    return this.clienteForm.get('celular');
+  } 
+  get dni() {
+    return this.clienteForm.get('dni');
+  } 
+  get direccion() {
+    return this.clienteForm.get('direccion');
+  } 
+  inicializarClienteJuridicoFormulario(){
+    this.clienteJuridicoForm = this.formBuilder.group({
+      nombres_:['',[Validators.required,Validators.pattern('[a-zñáéíóúA-ZÑÁÉÍÓÚ.]+$'),Validators.maxLength(100)]],
+      razon_social: ['', [Validators.required,Validators.pattern('^[a-zñáéíóúA-ZÑÁÉÍÓÚ.]+$'), Validators.maxLength(100)]],
+      ruc: ['', [Validators.required, Validators.pattern(/^([0-9])*$/), Validators.minLength(11),  Validators.maxLength(11)]],
+      tipo_empresa:['',[Validators.required]],
+      celular_: ['', [Validators.pattern('[+][0-9]+'), Validators.maxLength(12), Validators.minLength(12)]] ,
+      direccion_: ['', [Validators.pattern('^[a-zñáéíóú#°/,. A-ZÑÁÉÍÓÚ  0-9]+$'), Validators.maxLength(100)]],
+    });
+  }
+  // getters & setters
+  get nombres_() {
+    return this.clienteJuridicoForm.get('nombres_');
+  } 
+  get celular_() {
+    return this.clienteJuridicoForm.get('celular_');
+  } 
+  get direccion_() {
+    return this.clienteJuridicoForm.get('direccion_');
+  } 
+  get razon_social() {
+    return this.clienteJuridicoForm.get('razon_social');
+  } 
+  get ruc() {
+    return this.clienteJuridicoForm.get('ruc');
+  } 
+  get tipo_empresa() {
+    return this.clienteJuridicoForm.get('tipo_empresa');
+  } 
+
 }

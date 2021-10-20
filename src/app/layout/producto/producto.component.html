@@ -1,7 +1,7 @@
 
 <div  class="row justify-content-center">
-    <mat-progress-bar *ngIf="carga" mode="indeterminate" class="alert-loading"></mat-progress-bar>
-    <ngb-alert *ngIf="mostrarAlerta" [type]="tipoAlerta" (closed)="mostrarAlerta = false" >{{mensajeAlerta}}</ngb-alert>
+    <mat-progress-bar *ngIf="cargando && !modalIn" mode="indeterminate" class="alert-loading"></mat-progress-bar>
+    <ngb-alert *ngIf="mostrar_alerta && !modalIn" [type]="tipo_alerta" (closed)="mostrar_alerta = false" class="alert-loading">{{mensaje_alerta}}</ngb-alert>
     <!-- Page Heading -->
     <h1 class="h3 mb-2 text-gray-800 col-12 text-center">Productos</h1>
     <br><br>
@@ -102,6 +102,8 @@
     <div class="modal-header">
         <h4 class="modal-title" id="exampleModalLongTitle">Producto: {{productoSeleccionado.PRO_NOMBRE}} </h4>
     </div>
+    <mat-progress-bar *ngIf="cargando && modalIn" mode="indeterminate" ></mat-progress-bar>
+    <ngb-alert *ngIf="mostrar_alerta && modalIn" [type]="tipo_alerta" (closed)="mostrar_alerta = false" >{{mensaje_alerta}}</ngb-alert>
     <div class="modal-body">
         <div class="form-group row">
                 
@@ -169,7 +171,9 @@
     <div class="modal-header">
         <h4 class="modal-title" id="exampleModalLongTitle">Producto: {{productoSeleccionado.PRO_NOMBRE}} </h4>
     </div>
-    <mat-progress-bar *ngIf="cargaModal" mode="indeterminate"></mat-progress-bar>
+    <mat-progress-bar *ngIf="cargando && modalIn" mode="indeterminate" ></mat-progress-bar>
+    <ngb-alert *ngIf="mostrar_alerta && modalIn" [type]="tipo_alerta" (closed)="mostrar_alerta = false" >{{mensaje_alerta}}</ngb-alert>
+    
     <div class="modal-body">
         <form [formGroup]="productoForm">
             <div class="form-group row">
@@ -275,16 +279,14 @@
     <div class="modal-header">
         <h4 class="modal-title" id="exampleModalLongTitle">Crear Producto</h4>
     </div>
-    <mat-progress-bar *ngIf="cargaModal" mode="indeterminate"></mat-progress-bar>
+    <mat-progress-bar *ngIf="cargando && modalIn" mode="indeterminate" ></mat-progress-bar>
+    <ngb-alert *ngIf="mostrar_alerta && modalIn" [type]="tipo_alerta" (closed)="mostrar_alerta = false" >{{mensaje_alerta}}</ngb-alert>
     <div class="modal-body">
         <form [formGroup]="productoForm">
             <div class="form-group row">
-                    
                 <div class="col-12 col-lg-6" >
-                    <label for="" style="margin-top: 2rem;">
-                        Nombre del producto
-                    </label>
-                    <input type="text" formControlName="nombreProducto" class="border-left-primary font-tamanio form-control" placeholder="Ingrese el nombre">
+                    <label for="inputNombreProducto" style="margin-top: 2rem;">Nombre del producto</label>
+                    <input id="inputNombreProducto" type="text" formControlName="nombreProducto" class="border-left-primary font-tamanio form-control" placeholder="Ingrese el nombre">
                     <div *ngIf="nombreProducto.invalid && (nombreProducto.dirty || nombreProducto.touched)" class="my-1" style="color: rgb(197, 68, 68);">
                         <div *ngIf="nombreProducto.errors.required">
                         * El nombre del producto es requerido.
@@ -295,13 +297,11 @@
                     </div>
                 </div>
                 <div class="col-12 col-lg-6">
-                    <label for="" style="margin-top: 2rem;">
-                        tamaño/talla del producto
-                    </label>
-                    <input type="text" formControlName="tamnioTallaProducto" class="border-left-primary font-tamanio form-control" placeholder="Ingrese tamaño/talla">
+                    <label for="inputInputUnidadMedida" style="margin-top: 2rem;">Unidad de Medida (Tamaño/Talla/Peso)</label>
+                    <input input="inputInputUnidadMedida" type="text" formControlName="tamnioTallaProducto" class="border-left-primary font-tamanio form-control" placeholder="Ingrese tamaño/talla/peso">
                     <div *ngIf="tamnioTallaProducto.invalid && (tamnioTallaProducto.dirty || tamnioTallaProducto.touched)" class="my-1" style="color: rgb(197, 68, 68);">
                         <div *ngIf="tamnioTallaProducto.errors.required">
-                        * El tamnio/Talla del producto es requerido.
+                        * La unidad de medida es requerida (Talla/Tamaño/Peso).
                         </div>
                         <div *ngIf="tamnioTallaProducto.errors.maxlength">
                         * Se requieren máximo 60 caracteres.
@@ -309,27 +309,23 @@
                     </div>
                 </div>
                 <div class="col-12 col-lg-6">
-                    <label for="" style="margin-top: 2rem;">
-                        Precio de venta
-                    </label>
-                    <input type="text" formControlName="pVentaProducto" class="border-left-primary font-tamanio form-control" placeholder="Ingrese precio de venta">
+                    <label for="inputPrecioVenta" style="margin-top: 2rem;">Precio de venta</label>
+                    <input input="inputPrecioVenta" type="text" formControlName="pVentaProducto" class="border-left-primary font-tamanio form-control" placeholder="Ingrese precio de venta">
                     <div *ngIf="pVentaProducto.invalid && (pVentaProducto.dirty || pVentaProducto.touched)" class="my-1" style="color: rgb(197, 68, 68);">
-                        <div *ngIf="tamnioTallaProducto.errors.required">
-                        * El pVentaProducto/Talla del producto es requerido.
+                        <div *ngIf="pVentaProducto.errors.required">
+                        * El precio de venta es requerido.
                         </div>
-                        <div *ngIf="tamnioTallaProducto.errors.maxlength">
+                        <div *ngIf="pVentaProducto.errors.maxlength">
                         * Se requieren máximo 60 caracteres.
                         </div>
                     </div>
                 </div>
                 <div class="col-12 col-lg-6">
-                    <label for="" style="margin-top: 2rem">
-                        Precio de compra
-                    </label>
-                    <input type="text" formControlName="pCompraProducto" class="border-left-primary font-tamanio form-control" placeholder="Ingrese precio de compra">
+                    <label for="inputPrecioCompra" style="margin-top: 2rem">Precio de compra</label>
+                    <input input="inputPrecioCompra" type="text" formControlName="pCompraProducto" class="border-left-primary font-tamanio form-control" placeholder="Ingrese precio de compra">
                     <div *ngIf="pCompraProducto.invalid && (pCompraProducto.dirty || pCompraProducto.touched)" class="my-1" style="color: rgb(197, 68, 68);">
-                        <div *ngIf="tamnioTallaProducto.errors.required">
-                        * El pCompraProducto/Talla del producto es requerido.
+                        <div *ngIf="pCompraProducto.errors.required">
+                        * El precio de compra es requerido.
                         </div>
                         <div *ngIf="pCompraProducto.errors.maxlength">
                         * Se requieren máximo 60 caracteres.
@@ -337,20 +333,20 @@
                     </div>
                 </div>
                 <div class="col-12 col-lg-6">
-                    <label style="margin-top: 2rem;" class="mr-sm-2" for="inlineFormCustomSelect">Categoría</label>
-                    <select formControlName="categoria" class="border-left-primary custom-select mr-sm-2 " id="inlineFormCustomSelect">
+                    <label style="margin-top: 2rem;" class="mr-sm-2" for="inputSeleccionarCategoria">Categoría</label>
+                    <select formControlName="categoria" class="border-left-primary custom-select mr-sm-2 " id="inputSeleccionarCategoria">
                         <option hidden value="" disabled selected>Escoge una opción</option>
                         <option [value]="cat.CAT_ID" *ngFor="let cat of categorias">{{cat.CAT_NOMBRE}}</option>
                     </select>
                     <div *ngIf="categoria.invalid && (categoria.dirty || categoria.touched)" class="my-1" style="color: rgb(197, 68, 68);">
                         <div *ngIf="categoria.errors.required">
-                            * La categoría es requerido.
+                            * La categoría es requerida.
                         </div>
                     </div>
                 </div>
                 <div class="col-12 col-lg-6">
-                    <label style="margin-top: 2rem;" class="mr-sm-2" for="inlineFormCustomSelect">Proveedor</label>
-                    <select formControlName="proveedor" class="border-left-primary custom-select mr-sm-2 " id="inlineFormCustomSelect">
+                    <label style="margin-top: 2rem;" class="mr-sm-2" for="inputSeleccionarProveedor">Proveedor</label>
+                    <select formControlName="proveedor" class="border-left-primary custom-select mr-sm-2 " id="inputSeleccionarProveedor">
                         <option hidden value="" disabled selected>Escoge una opción</option>
                         <option [value]="pro.PROV_ID" *ngFor="let pro of proveedores">{{pro.PROV_EMPRESA_PROVEEDORA}}</option>
                     </select>

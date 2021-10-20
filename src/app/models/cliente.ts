@@ -5,5 +5,5 @@ export class Cliente {
     CLIENTE_APELLIDOS :string;
     CLIENTE_TELEFONO :string;
     CLIENTE_DIRECCION :string;
-
+    
 }

@@ -3,17 +3,15 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { retry } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { Mascota } from '../models/mascota';
 import { StorageService } from './storage.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class MascotaService {
+export class TipoServicioService {
   ADM = 'dmMLAeOtrn'; //valor para Administrador
   EMP = 'me2Ia1NMer'; // valor para Empleado
   FAKE = 'IiiENOTaaa';// valor envíado por si modifican el localstorage
-
   constructor(private http: HttpClient, private storageService: StorageService) { }
   
   httpHead ={
@@ -24,16 +22,8 @@ export class MascotaService {
     })
   };
 
-  registrarMascota(mascota:Mascota):Observable<any>{
-    const url = environment.domain_url + '/api/mascotas/registrar.php';
-    const datos = {
-      
-    }
-    return this.http.post<any>(url,datos,this.httpHead).pipe(retry(2));
-  }
-
-  listarMascotas():Observable<any>{
-    const url = environment.domain_url + '/api/mascotas/listar.php';
+  listarTipoServicio():Observable<any>{
+    const url = environment.domain_url + '/api/tipoServicio/listar';
     return this.http.get<any>(url,this.httpHead).pipe(retry(2));
   }
 }

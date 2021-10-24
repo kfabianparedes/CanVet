@@ -13,6 +13,7 @@ import { CompraService } from 'src/app/services/compra.service';
 import { GuiaRemision } from 'src/app/models/guia-remision';
 import { Compra } from 'src/app/models/compra';
 import { StorageService } from 'src/app/services/storage.service';
+import { compare, SorteableDirective } from 'src/app/shared/directives/sorteable.directive';
 
 @Component({
   selector: 'app-compra',
@@ -33,7 +34,6 @@ export class CompraComponent implements OnInit {
   compra = new Compra();
   comprobanteForm : FormGroup;
   guiaRemisionForm : FormGroup;
-  busquedaPorNombre = '';
   busquedaPorCategoria ='';
   busquedaPorUnidadDeMedida = '';
   //Variables de cargando y error
@@ -152,7 +152,7 @@ export class CompraComponent implements OnInit {
     this.productoService.listarProductosPorProveedor(id).subscribe(
       data=>{
         this.productos = data.resultado; 
-        this.productos_iniciales = [...this.productos]//this.productos.filter(x=>{return x});
+        this.productos_iniciales = [...this.productos];//this.productos.filter(x=>{return x});
         this.cargando = false;
         this.listarProductoTabla = false;
       },error=>{
@@ -204,32 +204,46 @@ export class CompraComponent implements OnInit {
     }
   }
   
-  filtarPorNombre(){
-    if(this.busquedaPorNombre == ''){
-      this.productos = [...this.productos_iniciales];//this.productos_iniciales.filter(producto=>{return producto});  
-    }else{
-      this.productos = [...this.productos_iniciales];
-      this.productos = this.productos.filter(producto =>producto.PRO_NOMBRE.toLowerCase().indexOf(this.busquedaPorNombre.toLowerCase()) > -1);
-    }
-    console.log(this.productos);
+  listarSoloProductos(){
+    this.productos_iniciales.forEach(elemento=>{
+
+    })
   }
+  diferenciaDeArreglos = (arr1: any[] , arr2: any[]) => {
+    return arr1.filter(elemento => arr2.indexOf(elemento) == -1);
+  }
+
   filtrarPorCategoria(){
+    this.currentPageModal = 1;
+    console.log("Detalles");
+    console.log(this.productos_detalle);
+    this.productos = this.diferenciaDeArreglos(this.productos_iniciales,this.productos_detalle);
+    console.log("A-B");
+    console.log(this.productos);
     if(this.busquedaPorCategoria == ''){
-      this.productos = [...this.productos_iniciales];//this.productos_iniciales.filter(producto=>{return producto});  
+      if(this.busquedaPorUnidadDeMedida == ''){
+        this.productos = this.productos = this.diferenciaDeArreglos(this.productos_iniciales,this.productos_detalle);//this.productos_iniciales.filter(producto=>{return producto});  
+      }else{
+        this.filtrarPorUnidadMedida();
+      }
     }else{
-      this.productos = [...this.productos_iniciales];
+      this.productos = this.productos = this.diferenciaDeArreglos(this.productos_iniciales,this.productos_detalle);
       this.productos = this.productos.filter(producto =>producto.CAT_NOMBRE.toLowerCase().indexOf(this.busquedaPorCategoria.toLowerCase()) > -1);
     }
     console.log(this.productos);
   }
   filtrarPorUnidadMedida(){
+    this.currentPageModal = 1;
     if(this.busquedaPorUnidadDeMedida == ''){
-      console.log(this.busquedaPorCategoria);
-      // this.filtrarPorCategoria();
-      this.productos = [...this.productos_iniciales];//this.productos_iniciales.filter(producto=>{return producto});  
+      this.filtrarPorCategoria();
+      //this.productos = [...this.productos_iniciales];//this.productos_iniciales.filter(producto=>{return producto});  
     }else{
-      this.productos = [...this.productos_iniciales];
-      this.productos = this.productos.filter(producto =>producto.PRO_TAMANIO_TALLA.toLowerCase().indexOf(this.busquedaPorUnidadDeMedida.toLowerCase()) > -1);
+      if(this.busquedaPorCategoria == ''){
+        this.productos = this.diferenciaDeArreglos(this.productos_iniciales,this.productos_detalle);
+        this.productos = this.productos.filter(producto =>producto.PRO_TAMANIO_TALLA.toLowerCase().indexOf(this.busquedaPorUnidadDeMedida.toLowerCase()) > -1);
+      }else{
+        this.productos = this.productos.filter(producto =>producto.PRO_TAMANIO_TALLA.toLowerCase().indexOf(this.busquedaPorUnidadDeMedida.toLowerCase()) > -1);
+      }
     }
     console.log(this.productos);
   }
@@ -239,19 +253,13 @@ export class CompraComponent implements OnInit {
     this.productos.forEach( (element, index) => {
       if(element === producto){
         this.productos.splice(index,1);
-        this.productos_iniciales.splice(index,1);
       } 
 
     });
-    //Deshabilitar el select option de los proveedores
-    console.log(this.productos_detalle);
-    console.log(this.productos);
-    console.log(this.productos_iniciales);
     this.id_proveedor.disable();
   }
   quitarProducto(producto:Producto,indice:any){
     this.productos.unshift(producto);
-    this.productos_iniciales.unshift(producto);
 
     this.productos_detalle.forEach((element,index)=>{
       if(element === producto) 
@@ -293,6 +301,7 @@ export class CompraComponent implements OnInit {
         this.guia.GUIA_FECHA_EMISION = this.fecha_emision_guia.value;
         this.guia.GUIA_NRO_SERIE = this.serie_guia.value;
         this.guia.GUIA_NRO_COMPROBANTE = this.nro_comprobante_guia.value;
+        this.guia.GUIA_FLETE = this.flete.value;
       }
 
       this.compra.COMPRA_FECHA_EMISION_COMPROBANTE = this.fecha_emision.value;
@@ -315,10 +324,6 @@ export class CompraComponent implements OnInit {
           this.detalle = new DetalleProducto();
         });
       }
-      console.log(this.productos_detalle);
-      console.log(this.cantidad_detalles);
-      console.log(this.importes);
-      console.log(this.detallesProducto);
       this.compraService.registrarCompra(this.guia,this.compra,this.detallesProducto,this.enviar_guia).subscribe(
         data=>{
           // console.log(data);
@@ -328,6 +333,8 @@ export class CompraComponent implements OnInit {
           this.mensaje_alerta = 'El registro de la compra se realizó correctamente.';
           this.tipo_alerta = 'success';
           this.limpiar();
+          this.comprobanteForm.reset();
+          this.guiaRemisionForm.reset();
         },
         error=>{
           this.limpiar();
@@ -352,7 +359,13 @@ export class CompraComponent implements OnInit {
               this.mensaje_alerta = 'Hubo un error al intentar ejecutar su solicitud. Hubo un problema con la verificación de articulos.';
             }else if(error.error.error === 'error_ExistenciaCompraId'){
               this.mensaje_alerta = 'Hubo un error al intentar ejecutar su solicitud. La compra no se pudo registrar.';
+            }else if(error.error.error === 'error_ExistenciaNroComprobanteGuía'){
+              this.mensaje_alerta = 'Hubo un error al intentar ejecutar su solicitud. El número de comprobante de la guía ya está registrado.';
+            }else if(error.error.error === 'error_ExistenciaNroComprobanteCompra'){
+              this.mensaje_alerta = 'Hubo un error al intentar ejecutar su solicitud. El número de comprobante de la factura o boleta ya está registrado.';
             }
+
+            
           }
           else{
             this.mensaje_alerta = 'Hubo un error al mostrar la información de esta página. Por favor, actualice la página.';
@@ -369,22 +382,23 @@ export class CompraComponent implements OnInit {
     this.cantidad_detalles.splice(0,this.cantidad_detalles.length);
     this.importes.splice(0,this.importes.length);
     this.id_proveedor.enable();
-    this.comprobanteForm.reset();
-    this.guiaRemisionForm.reset();
+    this.TotalCompra = 0;
+    // this.comprobanteForm.reset();
+    // this.guiaRemisionForm.reset();
   }
   inicializarFormulario(){
     this.comprobanteForm = this.formBuilder.group({
       id_proveedor:['',[Validators.required]],
       tipo_comprobante:['',[Validators.required]],
-      serie:['',[Validators.required, Validators.pattern(/^([0-9])*$/), Validators.maxLength(5)]],
-      nro_comprobante:['',[Validators.required, Validators.pattern(/^([0-9])*$/), Validators.maxLength(10)]],
+      serie:['',[Validators.required, Validators.pattern(/^([0-9])*$/), Validators.minLength(3), Validators.maxLength(5)]],
+      nro_comprobante:['',[Validators.required, Validators.pattern(/^([0-9])*$/), Validators.minLength(7), Validators.maxLength(10)]],
       fecha_emision:['',[Validators.required]]
     });
   }
   inicializarGuiaFormulario(){
     this.guiaRemisionForm = this.formBuilder.group({
-      serie_guia :['',[Validators.required, Validators.pattern(/^([0-9])*$/), Validators.maxLength(5)]],
-      nro_comprobante_guia :['',[Validators.required, Validators.pattern(/^([0-9])*$/), Validators.maxLength(10)]],
+      serie_guia :['',[Validators.required, Validators.pattern(/^([0-9])*$/), Validators.minLength(3), Validators.maxLength(5)]],
+      nro_comprobante_guia :['',[Validators.required, Validators.pattern(/^([0-9])*$/), Validators.minLength(7), Validators.maxLength(10)]],
       fecha_emision_guia:['',[Validators.required]],
       flete:['',[Validators.required, Validators.pattern('[0-9]+[.]?[0-9]*')]]
     })
@@ -426,4 +440,25 @@ export class CompraComponent implements OnInit {
     return fechaActual;
   }
   
+  /************************************* TABLAS ************************************/
+
+  @ViewChildren(SorteableDirective) headers: QueryList<SorteableDirective>;
+  
+  onSort({column, direction}: any) {
+    // resetting other headers
+    this.headers.forEach(header => {
+      if (header.sortable !== column) {
+        header.direction = '';
+      }
+    });
+    // sorting countries
+    if (direction === '' || column === '') {
+      this.productos = this.diferenciaDeArreglos(this.productos_iniciales,this.productos_detalle);
+    } else {
+      this.productos = this.diferenciaDeArreglos(this.productos_iniciales,this.productos_detalle).sort((a, b) => {
+        const res = compare(a[column], b[column]);
+        return direction === 'asc' ? res : -res;
+      });
+    }
+  }
 }

@@ -6,15 +6,17 @@ import { FilterProductByCategoryPipe } from './filterProductByCategory.pipe';
 import { FilterProductByUnityPipe } from './filterProductByUnity.pipe';
 import { FilterClientByDNIPipe } from './filterClientByDNI.pipe';
 import { FilterClientByRUCPipe } from './filterClientByRUC.pipe';
+import { FilterPetByNamePipe } from './filterPetByName.pipe';
 
 @NgModule({
-  declarations: [					
+  declarations: [						
     FilterPipe,
     FilterProductByNamePipe,
     FilterProductByCategoryPipe,
     FilterProductByUnityPipe,
     FilterClientByDNIPipe,
-    FilterClientByRUCPipe
+    FilterClientByRUCPipe,
+    FilterPetByNamePipe
    ],
   imports: [
     CommonModule
@@ -25,7 +27,8 @@ import { FilterClientByRUCPipe } from './filterClientByRUC.pipe';
     FilterProductByCategoryPipe,
     FilterProductByUnityPipe,
     FilterClientByDNIPipe,
-    FilterClientByRUCPipe
+    FilterClientByRUCPipe,
+    FilterPetByNamePipe
   ]
 })
 export class PipesModule { }

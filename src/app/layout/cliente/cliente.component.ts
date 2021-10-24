@@ -152,11 +152,6 @@ export class ClienteComponent implements OnInit {
     this.direccion.setValue(this.clienteSeleccionado.CLIENTE_DIRECCION);
     this.celular.setValue(this.clienteSeleccionado.CLIENTE_TELEFONO);
     this.modal.open(this.editarClienteNaturalModal);
-    // cliente.CLIENTE_NOMBRES;
-    // cliente.CLIENTE_APELLIDOS;
-    // cliente.CLIENTE_DNI;
-    // cliente.CLIENTE_DIRECCION;
-    // cliente.CLIENTE_TELEFONO;
   }
   editarClienteJuridico(cliente_juridico:any){
     this.clienteSeleccionado = cliente_juridico;
@@ -236,8 +231,8 @@ export class ClienteComponent implements OnInit {
         this.mensaje_alerta = 'El cliente se actualizó correctamente.';
         this.tipo_alerta = 'success';
         this.modal.dismissAll();  
-        this.listarClientes();
         this.limpiar();
+        this.listarClientes();
       },
       (error)=>{
         this.cargando = false;
@@ -382,7 +377,7 @@ export class ClienteComponent implements OnInit {
   }
   inicializarClienteNaturalFormulario(){
     this.clienteForm = this.formBuilder.group({
-      nombres:['',[Validators.required,Validators.pattern('[a-zñáéíóúA-ZÑÁÉÍÓÚ ]+'),Validators.maxLength(100)]],
+      nombres:['',[Validators.required,Validators.pattern('[a-zñáéíóúA-ZÑÁÉÍÓÚ. ]+$'),Validators.maxLength(100)]],
       apellidos: ['', [Validators.pattern('[a-zñáéíóúA-ZÑÁÉÍÓÚ ]+'),Validators.maxLength(30)]],
       celular: ['', [Validators.required, Validators.pattern('[+][0-9]+'), Validators.maxLength(12), Validators.minLength(12)]] ,
       dni: ['', [Validators.required, Validators.pattern(/^([0-9])*$/), Validators.minLength(8),  Validators.maxLength(8)]],

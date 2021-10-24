@@ -5,7 +5,9 @@
     margin-top:-1.5rem;
     margin-bottom:1.5rem;
 }
-
+.puntero{
+    cursor: pointer;
+}
 /*Botones de las tablas*/
 
 @media screen and (max-width:1359px){

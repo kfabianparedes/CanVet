@@ -9,11 +9,7 @@
     <!-- DataTales Example -->
     <div class="card shadow mb-3 col-12 col-lg-11" style="height: 100%;">
         <div class="card-header py-3 row justify-content-between">
-            <h5 class="text-center" style="cursor:pointer" (click)="abrirTablaNatural()">Clientes Naturales 
-                <span>
-                    <i  class="fas fa-angle-{{flechaNatural}}"></i>
-                </span>
-            </h5><hr>
+            
             <div class="py-1 col-sm-12 col-md-5 col-lg-4">
                 <div class="row">
                     <div class="col-md-9 col-sm-12">
@@ -22,8 +18,13 @@
                 </div>
             </div>
             <div class="py-1 col-sm-12 col-md-3 col-lg-3">
-                <button  (click)="registrarCliente()" style="float:right" style="width: 100%;" type="button" class="btn btn-primary">Registrar cliente</button>
+                <button  (click)="registrarCliente()" style="float:right" type="button" class="boton btn btn-primary">Registrar cliente</button>
             </div>
+            <h5 class="text-center" style="cursor:pointer" (click)="abrirTablaNatural()">Clientes Naturales 
+                <span>
+                    <i  class="fas fa-angle-{{flechaNatural}}"></i>
+                </span>
+            </h5>
         </div>
         <div *ngIf="mostrarTablaNatural" class="card-body text-gray-400 ">
             <div  *ngIf="clientes.length<=0; else clienteNaturalModule">
@@ -90,11 +91,7 @@
 
     <div class="card shadow mb-4 col-12 col-lg-11" style="height: 100%;">
         <div class="card-header py-3 row justify-content-between ">
-            <h5 class="text-center" style="cursor:pointer" (click)="abrirTablaJuridica()">Clientes Jurídicos 
-                <span>
-                    <i  class="fas fa-angle-{{flechaJuridica}}"></i>
-                </span>
-            </h5><hr>
+            
             <div class="py-1 col-sm-12 col-md-5 col-lg-4">
                 <div class="row">
                     <div class="col-md-9 col-sm-12">
@@ -103,6 +100,11 @@
                     
                 </div>
             </div>
+            <h5 class="text-center" style="cursor:pointer" (click)="abrirTablaJuridica()">Clientes Jurídicos 
+                <span>
+                    <i  class="fas fa-angle-{{flechaJuridica}}"></i>
+                </span>
+            </h5>
         </div>
         <div *ngIf="mostrarTablaJuridica" class="card-body text-gray-400 ">
             <div  *ngIf="clientes_juridicos.length<=0; else clienteJuridicoModule">

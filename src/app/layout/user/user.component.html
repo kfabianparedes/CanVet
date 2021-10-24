@@ -13,16 +13,13 @@
         <div class="card-header py-3 row justify-content-between">
             <div class="py-1 col-sm-12 col-md-5 col-lg-4">
                 <div class="row">
-                    <div class="col-9">
+                    <div class="col-md-9 col-sm-12">
                         <input type="text" class="border-left-primary font-tamanio form-control" name="filtroTexto" placeholder="Buscar..." >
-                    </div>
-                    <div class="col-3 py-1">
-                        <button  [disabled]="usuarios.length<=0" (click)="searchUser()" style="float:right" style="width: 100%;" type="button" class="btn btn-primary"><i class="fas fa-search"></i></button>
                     </div>
                 </div>
             </div>
             <div class="py-1 col-sm-12 col-md-4 col-lg-3" >
-                <button  (click)="registerUserModal()" style="float:right" style="width: 100%;" type="button" class="btn btn-primary">Registrar usuario</button>
+                <button  (click)="registerUserModal()" style="float:right" type="button" class="boton btn btn-primary ">Nuevo usuario</button>
             </div>
         </div>
         <div class="card-body text-gray-400 ">

@@ -61,6 +61,9 @@
                             <div *ngIf="serie.errors.maxlength">
                                 * Se requieren máximo 5 caracteres.
                             </div>
+                            <div *ngIf="serie.errors.minlength">
+                                * Se requieren mínimo 3 caracteres.
+                            </div>
                             <div *ngIf="serie.errors.pattern">
                                 * El formato es inválido.
                             </div>
@@ -75,6 +78,9 @@
                             </div>
                             <div *ngIf="nro_comprobante.errors.maxlength">
                                 * Se requieren máximo 10 caracteres.
+                            </div>
+                            <div *ngIf="nro_comprobante.errors.minlength">
+                                * Se requieren mínimo 7 caracteres.
                             </div>
                             <div *ngIf="nro_comprobante.errors.pattern">
                                 * El formato es inválido.
@@ -114,7 +120,7 @@
                             <div *ngIf="flete.errors.required">
                                 * El flete es requerido.
                             </div>
-                            <div *ngIf="serie_guia.errors.pattern">
+                            <div *ngIf="flete.errors.pattern">
                                 * El formato es inválido.
                             </div>
                         </div>
@@ -129,6 +135,9 @@
                             </div>
                             <div *ngIf="serie_guia.errors.maxlength">
                                 * Se requieren máximo 5 caracteres.
+                            </div>
+                            <div *ngIf="serie_guia.errors.minlength">
+                                * Se requieren mínimo 3 caracteres.
                             </div>
                             <div *ngIf="serie_guia.errors.pattern">
                                 * El formato es inválido.
@@ -145,6 +154,9 @@
                             <div *ngIf="nro_comprobante_guia.errors.maxlength">
                                 * Se requieren máximo 10 caracteres.
                             </div>
+                            <div *ngIf="nro_comprobante_guia.errors.minlength">
+                                * Se requieren mínimo 7 caracteres.
+                            </div>
                             <div *ngIf="nro_comprobante_guia.errors.pattern">
                                 * El formato es inválido.
                             </div>
@@ -157,7 +169,7 @@
     <div class="card shadow mb-4 col-12 col-lg-11" >
         <div class="card-header py-3 row">
             <div class="col-sm-12 col-md-5 ">
-                <button [disabled]="!comprobanteForm.invalid" (click)="articulosProveedor()" type="button" class="btn btn-primary" ><i class="fas fa-search"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Buscar Artículos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                <button [disabled]="comprobanteForm.invalid" (click)="articulosProveedor()" type="button" class="btn btn-primary" ><i class="fas fa-search"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Buscar Artículos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
             </div>
         </div>
         <div class="card-body text-gray-400 ">
@@ -248,21 +260,28 @@
     <div class="modal-body">
         <div class="row">
             <div class="card">
-                <div class="card-header py-3 row justify-content-between">
-                    <div class="col-sm-12 col-md-12 col-lg-3 mb-3">
-                        <label for="inputBuscarNombreProducto">Nombre del producto:</label>
-                        <input id="inputBuscarNombreProducto" type="text" [(ngModel)]="busquedaPorNombre" class="border-left-primary font-tamanio form-control" name="busquedaPorNombre" placeholder="Buscar..." >
-                        <button class="btn btn-success" (click)="filtarPorNombre()"><i class="fa fa-search"></i></button>
-                    </div>
-                    <div class="col-sm-12 col-md-12 col-lg-3 mb-3">
+                <div class="card-header py-3 row ">
+                    <div class="col-sm-12 col-md-12 col-lg-4 mb-4">
                         <label for="inputBuscarCategoria"><i class="fa fa-search"></i>&nbsp;&nbsp;&nbsp;&nbsp;Categoría:</label>
-                        <input id="inputBuscarCategoria" type="text" [(ngModel)]="busquedaPorCategoria" class="border-left-primary font-tamanio form-control" name="busquedaPorCategoria" placeholder="Buscar..." >
-                        <button class="btn btn-success" (click)="filtrarPorCategoria()"><i class="fa fa-search"></i></button>
+                        <div class="row ">
+                            <div class="col-10">
+                                <input id="inputBuscarCategoria" type="text" [(ngModel)]="busquedaPorCategoria" class="border-left-primary font-tamanio form-control" name="busquedaPorCategoria" placeholder="Buscar..." >
+                            </div>
+                            <div class="col-1">
+                                <button class="btn btn-success" (click)="filtrarPorCategoria()"><i class="fa fa-search"></i></button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-sm-12 col-md-12 col-lg-3 mb-3">
+                    <div class="offset-0 offset-md-0 offset-lg-3 offset-xl-4 col-sm-12 col-md-12 col-lg-4 mb-4">
                         <label for="inputBuscarUnidadMedida"><i class="fa fa-search"></i>&nbsp;&nbsp;&nbsp;&nbsp;Unidad de medida:</label>
-                        <input id="inputBuscarUnidadMedida" type="text" [(ngModel)]="busquedaPorUnidadDeMedida" class="border-left-primary font-tamanio form-control" name="busquedaPorUnidadDeMedida" placeholder="Buscar..." >
-                        <button class="btn btn-success" (click)="filtrarPorUnidadMedida()"><i class="fa fa-search"></i></button>
+                        <div class="row">
+                            <div class="col-10">
+                                <input id="inputBuscarUnidadMedida" type="text" [(ngModel)]="busquedaPorUnidadDeMedida" class="border-left-primary font-tamanio form-control" name="busquedaPorUnidadDeMedida" placeholder="Buscar..." >
+                            </div>
+                            <div class="col-1">
+                                <button class="btn btn-success" (click)="filtrarPorUnidadMedida()"><i class="fa fa-search"></i></button>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="card-body text-gray-400">
@@ -288,13 +307,13 @@
                             <table class="table table-bordered text-gray-400" id="dataTable" cellspacing="0">
                                 <thead>
                                     <tr>
-                                        <th ><span class="color-row-table">Agregar</span></th>
-                                        <th ><span class="color-row-table">Producto</span></th>
-                                        <th ><span class="color-row-table">Categoría</span></th>
-                                        <th ><span class="color-row-table">Tamaño/Talla</span></th>
-                                        <th ><span class="color-row-table">P. Venta</span></th>
-                                        <th ><span class="color-row-table">P. Compra</span></th>
-                                        <th ><span class="color-row-table">Stock</span></th>
+                                        <th class="color-row-table puntero">Agregar</th>
+                                        <th class="color-row-table puntero" scope="col" sortable="PRO_NOMBRE" (sort)="onSort($event)">Producto</th>
+                                        <th class="color-row-table puntero" scope="col" sortable="CAT_NOMBRE" (sort)="onSort($event)">Categoría</th>
+                                        <th class="color-row-table puntero" scope="col" sortable="PRO_TAMANIO_TALLA" (sort)="onSort($event)">Tamaño/Talla/Peso</th>
+                                        <th class="color-row-table puntero" scope="col" sortable="PRO_PRECIO_VENTA" (sort)="onSort($event)">P. Venta</th>
+                                        <th class="color-row-table puntero" scope="col" sortable="PRO_PRECIO_COMPRA" (sort)="onSort($event)">P. Compra</th>
+                                        <th class="color-row-table puntero" scope="col" sortable="PRO_STOCK" (sort)="onSort($event)">Stock</th>
                                     </tr>
                                 </thead>
                                 <tbody>

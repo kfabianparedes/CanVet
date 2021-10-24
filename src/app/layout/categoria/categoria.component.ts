@@ -89,9 +89,10 @@ export class CategoriaComponent implements OnInit {
 
   catUpdate(cat:Categoria){
     this.cargaModal = true;
-    this.modalIn = true;
+   
     this.categoriaService.editarCategoria(cat,this.nombreCategoria.value).subscribe(data => {
       this.categoriaForm.reset();
+      this.modalIn = false;
       this.cargaModal = false;
       this.modal.dismissAll();  
       this.listarCategorias(); 
@@ -99,6 +100,7 @@ export class CategoriaComponent implements OnInit {
       this.mostrarAlerta = true; 
       this.mensajeAlerta = 'Se ha actualizado la categoría satisfactoriamente.';
     },error=>{
+      this.modalIn = true;
       this.cargaModal = false; 
       this.mostrarAlerta = true;
       this.tipoAlerta='danger';

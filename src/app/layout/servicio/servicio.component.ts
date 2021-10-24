@@ -1,9 +1,11 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { TipoServicio } from 'src/app/models/tipo-servicio';
 import { MascotaService } from 'src/app/services/mascota.service';
 import { TipoServicioService } from 'src/app/services/tipoServicio.service';
+import { compare, SorteableDirective } from 'src/app/shared/directives/sorteable.directive';
 
 @Component({
   selector: 'app-servicio',
@@ -25,13 +27,19 @@ export class ServicioComponent implements OnInit {
     private formBuilder: FormBuilder,
     private datePipe: DatePipe,
     private mascotaService:MascotaService,
-    private tipoServicioService:TipoServicioService
-  ) { }
+    private tipoServicioService:TipoServicioService,
+    private modal: NgbModal,
+    private configModal: NgbModalConfig,
+  ) {
+    this.configModal.backdrop = 'static';
+    this.configModal.keyboard = false;
+  }
 
   ngOnInit(): void {
     this.listarMascotas();
     this.listarServicios();
     this.inicializarServicioFormulario();
+    this.inicializarCitaFormulario();
   }
 
   //******************INGRESAR DATOS REGISTRO SERVICIO ********************/
@@ -76,12 +84,15 @@ export class ServicioComponent implements OnInit {
 
   listarMascotas(){
     this.cargando = true;
-    this.modalIn = false;
+    this.modalIn = true;
     this.mascotaService.listarMascotas().subscribe(
       data=>{
-        this.mascotas =  data['resultado'];
+        this.mascotas_iniciales = data['resultado'];
+        this.mascotas = this.mascotas_iniciales.slice();
         this.cargando = false;
+        console.log(data);
         console.log(this.mascotas);
+        console.log(this.mascotas_iniciales);
       },
       (error)=>{
         this.cargando = false;
@@ -123,5 +134,103 @@ export class ServicioComponent implements OnInit {
         }
       }
     )
+  }
+
+  /*************************** BUSCAR MASCOTA *************************/
+  @ViewChild('buscarMascotaModal') buscarMascotaModal: ElementRef;
+  //Variables de cliente
+  mascotas_iniciales: any[] = [];
+  busquedaMascota: string = '';
+  mascota_seleccionada: any;
+  nombre_mascota_seleccionada:string = '';
+  //Paginacion de tabla
+  currentPage = 1;
+  itemsPerPage = 5;
+
+  abrirBusqueda(){
+    this.modal.open(this.buscarMascotaModal,{size:'xl'});
+  }
+  agregarMascota(mascota:any){
+    this.mascota_seleccionada = mascota;
+    this.nombre_mascota_seleccionada = this.mascota_seleccionada.MAS_NOMBRE;
+    console.log(this.mascota_seleccionada);
+  }
+  /********************** ORDENAMIENTO DE TABLA ARTICULOS ***********************/
+  @ViewChildren(SorteableDirective) headers: QueryList<SorteableDirective>;
+  closeModal(): any {
+    this.modal.dismissAll();
+    this.limpiar();
+  }
+  limpiar(){
+
+  }
+  onSort({column, direction}: any) {
+    // resetting other headers
+    this.headers.forEach(header => {
+      if (header.sortable !== column) {
+        header.direction = '';
+      }
+    });
+    // sorting countries
+    if (direction === '' || column === '') {
+      this.mascotas = this.mascotas_iniciales.slice();
+    } else {
+      this.mascotas = [...this.mascotas_iniciales].sort((a, b) => {
+        const res = compare(a[column], b[column]);
+        return direction === 'asc' ? res : -res;
+      });
+    }
+  }
+
+  /****************** CREAR CITAS ******************/
+  citaForm : FormGroup;
+  HORA_SERVICIO: string = '';
+  inicializarCitaFormulario(){
+    this.citaForm = this.formBuilder.group({
+      hora:['',[Validators.required]],
+      fecha:['',[Validators.required]]
+    });
+  }
+
+  //getters & setters
+  get hora() {
+    return this.citaForm.get('hora');
+  }
+  get fecha() {
+    return this.citaForm.get('fecha');
+  }
+
+  seconds: boolean = true; // Es para habilitar la casilla de los segundos
+  meridian: boolean = true; // Es para activar el boton AM o PM
+
+  convertirFormt24AFormat12(): string {
+    let AMPM = ' AM';
+    let hora = this.hora.value.hour;
+    let horaF = this.hora.value.hour;
+    let minuto = this.hora.value.minute;
+    let segundo = this.hora.value.second;
+
+    
+    if (hora >= 13) {
+      hora = hora - 12;
+      if(hora<= 9){
+        hora = '0' + hora;
+      }
+      AMPM = ' PM';
+    } else if (hora < 10  ) {
+      hora = '0' + hora;
+    } else if (hora == 12){
+      AMPM = ' PM';
+    }
+    
+    horaF = horaF < 10 ? "0" + horaF : horaF;
+    minuto = minuto < 10 ? "0" + minuto : minuto;
+    segundo = segundo < 10 ? "0" + segundo : segundo;
+    
+    this.HORA_SERVICIO = horaF + ":" + minuto + ":" + segundo;
+   
+    let format12Hrs = hora + ':' + minuto + ':' + segundo + AMPM;
+    
+    return format12Hrs;
   }
 }

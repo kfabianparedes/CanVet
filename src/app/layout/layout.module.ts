@@ -7,6 +7,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 
+
+
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LayoutComponent } from './layout.component';
 import { SharedModule } from '../shared/shared.module';
@@ -23,6 +25,9 @@ import { CajaComponent } from './caja/caja.component';
 import { MascotaComponent } from './mascota/mascota.component';
 import { DirectivesModule } from '../shared/directives/directives.module';
 import { ReportesComponent } from './reportes/reportes.component';
+//gráficos  
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -48,6 +53,7 @@ import { ReportesComponent } from './reportes/reportes.component';
     PipesModule,
     MatProgressBarModule,
     DirectivesModule
+    ,BrowserAnimationsModule,NgxChartsModule
   ],
   exports:[
     DashboardComponent,

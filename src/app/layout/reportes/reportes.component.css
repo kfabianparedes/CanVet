@@ -1,0 +1,19 @@
+@media screen and (max-width:1670px){
+    .table-module{
+        overflow-x: scroll;
+    }
+}
+@media screen and (max-width:1280px){
+    .table-module{
+        overflow-x: scroll;
+    }
+}
+@media screen and (max-width:1120px){
+    .table-module{
+        overflow-x: scroll;
+    }
+}
+.alert-loading{
+    margin-top:-1.5rem;
+    margin-bottom:1.5rem;
+}

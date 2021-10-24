@@ -1,1 +1,64 @@
-<p>reportes works!</p>
+
+<mat-progress-bar *ngIf="cargar" mode="indeterminate" class="alert-loading"></mat-progress-bar>
+<div class="container-fluid" *ngIf="!cargar">
+    <div class="row justify-content-around">
+        <h1 class="h3 mb-5 text-gray-800 text-center">Reportes</h1>
+        <div class="card shadow mb-4 col-12 col-xl-5" style="height: 100%;">
+            <div class="card-header py-3 row justify-content-center">
+                <h5 class="text-center" style="cursor:pointer" (click)="abrirReporteAnual()">Reporte Anual
+                    <span>
+                        <i  class="fas fa-angle-{{flechaReporteAnual}}"></i>
+                    </span>
+                </h5>
+            </div>
+            <div class="table-module" *ngIf="mostrarReporteAnual">
+                <ngx-charts-bar-vertical 
+                [view]="view"
+                scheme="cool"
+                [results]="reporteAnual"
+                [gradient]="gradient"
+                [xAxis]="showXAxis"
+                [legendTitle]="legendTitle"
+                [yAxis]="showYAxis"
+                [legend]="showLegend"
+                [showXAxisLabel]="showXAxisLabel"
+                [showYAxisLabel]="showYAxisLabel"
+                [xAxisLabel]="xAxisLabel"
+                [yAxisLabel]="yAxisLabel"
+                (select)="onSelect($event)">
+                </ngx-charts-bar-vertical>
+            </div>
+        </div>
+        
+        <div class="card shadow mb-4 col-12  col-xl-5" style="height: 100%;">
+            <div class="card-header py-3 row justify-content-between">
+                <h5 class="text-center" style="cursor:pointer" (click)="abrirReporteSemanal()">Reporte Semanal
+                    <span>
+                        <i  class="fas fa-angle-{{flechaReporteSemanal}}"></i>
+                    </span>
+                </h5>
+            </div>
+            <div class="col-sm-12 col-xl-12 table-module"*ngIf="mostrarReporteSemanal" >
+                <ngx-charts-bar-vertical 
+                [view]="view"
+                scheme="cool"
+                [results]="reporteSemanal"
+                [gradient]="gradient"
+                [xAxis]="showXAxis"
+                [yAxis]="showYAxis"
+                [legendTitle]="legendTitle"
+                [legend]="showLegend"
+                [showXAxisLabel]="showXAxisLabel"
+                [showYAxisLabel]="showYAxisLabel"
+                [xAxisLabel]="xAxisLabelSemanales"
+                [yAxisLabel]="yAxisLabelSemanales"
+                (select)="onSelect($event)">
+                </ngx-charts-bar-vertical>
+            </div>
+        </div>
+        
+    </div>
+    
+    
+</div>
+

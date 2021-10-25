@@ -1,1 +1,55 @@
-<p>dashboard works!</p>
+<div class="row justify-content-center">
+    <mat-progress-bar *ngIf="cargando && !modalIn" mode="indeterminate" class="alert-loading"></mat-progress-bar>
+    <ngb-alert *ngIf="mostrar_alerta && !modalIn" [type]="tipo_alerta" (closed)="mostrar_alerta = false" class="alert-loading">{{mensaje_alerta}}</ngb-alert>
+    
+    <!-- Page Heading -->
+    <h1 class="h3 mb-5 text-gray-800 col-12 text-center">¡Bienvenido!</h1>
+
+    <!-- DataTales Example -->
+    <div class="row justify-content-center">
+        <div class="col-sm-12 col-lg-6 contenedor row justify-content-center">
+            <div *ngFor="let servicio of servicios_pendientes" class="card shadow mb-3 col-12 col-md-12 col-sm-12 col-lg-9" >
+                <div class="card-header py-3 row text-center">
+                    <h5>{{servicio.TIPO_SERVICIO_NOMBRE}}</h5>
+                </div>
+                <div class="card-body text-gray-400">
+                    <div class="row color-row-table">
+                        <div class="col-4">
+                            <strong>Fecha:</strong> 
+                        </div>
+                        <div class="col-8">
+                            <i class="fa fa-calendar" style="width: 1.5rem;"></i>{{servicio.SERVICIO_FECHA_HORA | date: 'dd/MM/yyyy'}}
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row color-row-table">
+                        <div class="col-4 ">
+                            <strong>Hora:</strong> 
+                        </div>
+                        <div class="col-8">
+                            <i class="fa fa-clock" style="width: 1.5rem;"></i>{{servicio.SERVICIO_FECHA_HORA | date: 'h:mm:ss a'}}
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer row text-center justify-content-between">
+                    <div class=" col-sm-12 col-md-5 col-lg-5">
+                        <button class="btn btn-warning">
+                            <span class="text"><i class="fas fa-history"></i>&nbsp;&nbsp;&nbsp;Postergar</span>
+                        </button>
+                    </div>
+                    <div class=" col-sm-12 col-md-5 col-lg-5">
+                        <button class="btn btn-danger" >
+                            <span class="text"><i class="fas fa-trash"></i>&nbsp;&nbsp;&nbsp;Terminar</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-lg-6 row justify-content-center">
+
+        </div>
+    </div>
+    
+
+
+</div>

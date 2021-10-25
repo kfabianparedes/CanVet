@@ -74,7 +74,7 @@
                         <textarea formControlName="descripcion"  type="text" id="inputDescripcionServicio" class="border-left-primary font-tamanio form-control"></textarea>
                         <div *ngIf="descripcion.invalid && (descripcion.dirty || descripcion.touched)" class="my-1" style="color: rgb(197, 68, 68);">
                             <div *ngIf="descripcion.errors.maxlength">
-                                * Este campo solo acepta 200 caracteres.
+                                * Se requieren máximo 200 caracteres.
                             </div>
                             <div *ngIf="descripcion.errors.pattern">
                                 * El formato es inválido.
@@ -105,7 +105,7 @@
         </div>
         <div class="card-footer py-3 row justify-content-center">
             <div class="col-sm-12 col-md-4 col-xl-3 ">
-                <button (click)="registrarServicio()" type="button" class="btn btn-primary">Crear Servicio</button>
+                <button [disabled]="servicioForm.invalid || citaForm.invalid || cargando" (click)="registrarServicio()" type="button" class="btn btn-primary">Crear Servicio</button>
             </div>
         </div>
     </div>

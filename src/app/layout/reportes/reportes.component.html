@@ -1,6 +1,6 @@
 
-<mat-progress-bar *ngIf="cargar" mode="indeterminate" class="alert-loading"></mat-progress-bar>
-<div class="container-fluid" *ngIf="!cargar">
+<mat-progress-bar *ngIf="cargando" mode="indeterminate" class="alert-loading"></mat-progress-bar>
+<div class="container-fluid" *ngIf="!cargando">
     <div class="row justify-content-around">
         <h1 class="h3 mb-5 text-gray-800 text-center">Reportes</h1>
         <div class="card shadow mb-4 col-12 col-xl-5" style="height: 100%;">
@@ -39,7 +39,7 @@
                     </span>
                 </h5>
             </div>
-            <div class="col-sm-12 col-xl-12 table-module"*ngIf="mostrarReporteSemanal" >
+            <div class="col-sm-12 col-xl-12 table-module text-center"*ngIf="mostrarReporteSemanal" >
                 <ngx-charts-bar-vertical 
                 [view]="view"
                 scheme="cool"

@@ -8,11 +8,16 @@ import { convertTypeAcquisitionFromJson } from 'typescript';
   styleUrls: ['./reportes.component.css']
 })
 export class ReportesComponent implements OnInit {
+  //Variables de cargando y error
+  cargando = false;
+  modalIn = false;
+  mensaje_alerta: string;
+  mostrar_alerta: boolean = false;
+  tipo_alerta: string;
 
   view: [number,number] = [650  , 400];
   reporteAnual: any[];
   reporteSemanal: any[];
-  cargar = true; 
   //controladores de reporte anual
   flechaReporteAnual:string = 'down';
   mostrarReporteAnual = false; 
@@ -43,17 +48,33 @@ export class ReportesComponent implements OnInit {
   }
 
   cargarResportesAnuales(){
-    this.reporteService.reporteAnual().subscribe(data =>{
-      this.reporteAnual = data['resultado'];
-      this.reporteAnual.forEach(element => {
-          this.totalAnual = this.totalAnual+ element.value;
-      });
-      this.inicializarGraficos();
-      this.cargar  = false; 
-    },
-    error =>{
-    });
+    this.cargando = true;
+    this.modalIn = false;
+    this.reporteService.reporteAnual().subscribe(
+      (data) =>{
+        this.reporteAnual = data['resultado'];
+        this.reporteAnual.forEach(element => {
+            this.totalAnual = this.totalAnual+ element.value;
+        });
+        this.inicializarGraficos();
+        this.cargando = false; 
+      },
+      (error)=>{
+        this.cargando = false;
+        this.mostrar_alerta = true;
+        this.tipo_alerta='danger';
+        if (error['error']['error'] !== undefined) {
+          if (error['error']['error'] === 'error_deBD') {
+            this.mensaje_alerta = 'Hubo un error al intentar ejecutar su solicitud. Por favor, actualice la página.';
+          }
+        }
+        else{
+          this.mensaje_alerta = 'Hubo un error al mostrar la información de esta página. Por favor, actualice la página.';
+        }
+      }
+    );
   }
+
   cargarResportesSemanales(){
     this.reporteService.reporteSemanal().subscribe(data =>{
       this.reporteSemanal = data['resultado'];

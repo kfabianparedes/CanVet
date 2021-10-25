@@ -1,6 +1,9 @@
 .color-row-table{
     color: #6E707E;
 }
+textarea{
+        resize: none;
+}
 .alert-loading{
     margin-top:-1.5rem;
     margin-bottom:1.5rem;

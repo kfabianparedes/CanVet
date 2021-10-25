@@ -2,10 +2,12 @@ import { DatePipe } from '@angular/common';
 import { Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
+import { Servicio } from 'src/app/models/servicio';
 import { TipoServicio } from 'src/app/models/tipo-servicio';
 import { MascotaService } from 'src/app/services/mascota.service';
 import { TipoServicioService } from 'src/app/services/tipoServicio.service';
 import { compare, SorteableDirective } from 'src/app/shared/directives/sorteable.directive';
+import { ServicioService } from 'src/app/services/servicio.service';
 
 @Component({
   selector: 'app-servicio',
@@ -23,10 +25,12 @@ export class ServicioComponent implements OnInit {
   //variable de fecha
   opacarFecha: boolean = true;
   
+  
   constructor(
     private formBuilder: FormBuilder,
     private datePipe: DatePipe,
     private mascotaService:MascotaService,
+    private servicioService:ServicioService,
     private tipoServicioService:TipoServicioService,
     private modal: NgbModal,
     private configModal: NgbModalConfig,
@@ -153,8 +157,34 @@ export class ServicioComponent implements OnInit {
   agregarMascota(mascota:any){
     this.mascota_seleccionada = mascota;
     this.nombre_mascota_seleccionada = this.mascota_seleccionada.MAS_NOMBRE;
+    // this.mascota.setValue(mascota.MAS_ID); 
+    console.log(mascota.MAS_ID);
     console.log(this.mascota_seleccionada);
   }
+  /************************** REGISTRAR SERVICIO ****************************/
+  //variable servicio
+  servicioInsertar = new Servicio();
+  registrarServicio(){
+    this.convertirFormt24AFormat12();
+    this.servicioInsertar.MASCOTA_ID = +this.mascota_seleccionada.MAS_ID;
+    this.servicioInsertar.TIPO_SERVICIO_ID = +this.servicio.value; 
+    this.servicioInsertar.SERVICIO_DESCRIPCION = this.descripcion.value;
+    this.servicioInsertar.SERVICIO_PRECIO = (+this.precio.value * 100); 
+    this.servicioInsertar.HORA_SERVICIO = this.HORA_SERVICIO;
+    this.servicioInsertar.SERVICIO_FECHA_HORA = this.fecha.value; 
+    this.servicioInsertar.SERVICIO_TIPO = +this.modalidad.value; 
+    
+    console.log(this.servicioInsertar);
+    this.servicioService.registrarMascota(this.servicioInsertar).subscribe(
+      data=>{
+      console.log("si funcó :D");
+    },error=>{
+      console.log("no funcó :C");
+    });
+    
+
+  }
+
   /********************** ORDENAMIENTO DE TABLA ARTICULOS ***********************/
   @ViewChildren(SorteableDirective) headers: QueryList<SorteableDirective>;
   closeModal(): any {
@@ -205,10 +235,10 @@ export class ServicioComponent implements OnInit {
 
   convertirFormt24AFormat12(): string {
     let AMPM = ' AM';
-    let hora = this.hora.value.hour;
-    let horaF = this.hora.value.hour;
-    let minuto = this.hora.value.minute;
-    let segundo = this.hora.value.second;
+    let hora =  this.citaForm.get('hora').value.hour;
+    let horaF = this.citaForm.get('hora').value.hour;
+    let minuto = this.citaForm.get('hora').value.minute; 
+    let segundo = this.citaForm.get('hora').value.second;
 
     
     if (hora >= 13) {

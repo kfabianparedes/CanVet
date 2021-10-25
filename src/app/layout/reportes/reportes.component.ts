@@ -34,7 +34,7 @@ export class ReportesComponent implements OnInit {
   showYAxisLabel: boolean ;
   yAxisLabel: string ;
   animations: boolean ;
-
+  noBarWhenZero: boolean;
   //options reportes semanales
   yAxisLabelSemanales: string ;
   xAxisLabelSemanales: string ;
@@ -105,6 +105,7 @@ export class ReportesComponent implements OnInit {
     this.showYAxisLabel = true;
     this.yAxisLabel= 'Ganancias (S/'+this.totalAnual+')';
     this.animations = true;
+    this.noBarWhenZero = false; 
 
     //options reportes semanales
     this.yAxisLabelSemanales = 'Ganancias (S/'+this.totalSemanal+')';

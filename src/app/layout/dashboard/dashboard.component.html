@@ -6,39 +6,188 @@
     <h1 class="h3 mb-5 text-gray-800 col-12 text-center">¡Bienvenido!</h1>
 
     <!-- DataTales Example -->
-    <div class="row justify-content-center">
+    <div class="card shadow mb-3 col-12 col-lg-11" style="height: 100%;">
+        <div class="card-header py-3 row justify-content-between">
+            <div class="py-1 col-sm-12 col-md-5 col-lg-4">
+                <div class="row">
+                    <div class="col-md-9 col-sm-12">
+                        <input type="text" class="border-left-primary font-tamanio form-control"  [(ngModel)]="busquedaServicio" name="busquedaServicio" placeholder="Ingrese nombre de servicio">
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        <div class="card-body text-gray-400 ">
+            <div  *ngIf="servicios_pendientes.length<=0; else serviciosModule">
+                <h3>No hay servicios pendientes.</h3>
+            </div>
+            <!---------------PAGINACIÓN------------->
+            <div *ngIf="servicios_pendientes?.length>0" class="row box-footer clearfix mt-3">     
+                <div class="col-xl-10 col-lg-9 col-md-7 col-sm-7 col-6">
+                    <ngb-pagination *ngIf="servicios_pendientes?.length>5" class="d-flex justify-content-start" size="sm" [maxSize]="5" [pageSize]="itemsPerPage"  [collectionSize]="servicios_pendientes?.length" [(page)]="currentPage"></ngb-pagination>
+                </div>
+                <div class="col-xl-2 col-lg-3 col-md-5 col-sm-5 col-6">
+                    <select class="pull-right" [(ngModel)]="itemsPerPage" class="form-control form-control-sm custom-select">
+                        <option value="5"> 5 elementos</option>
+                        <option value="10">10 elementos</option>
+                        <option value="15">15 elementos</option>
+                        <option value="20">20 elementos</option>                    
+                    </select>  
+                </div>    
+            </div>
+            <ng-template #serviciosModule>
+                <div class="row row-cols-2 row-cols-md-1 row-cols-lg-2 g-4">
+                    <div class="card shadow h-100 mb-3" *ngFor="let servicio of servicios_pendientes">
+                        <div class="card-header py-3 row text-center">
+                            <h5>{{servicio.TIPO_SERVICIO_NOMBRE}} (S/ {{servicio.SERVICIO_PRECIO}})</h5>
+                        </div>
+                        <div class="card-body text-gray-400">
+                            <div class="row color-row-table">
+                                <div class="col-5">
+                                    <i class="fa fa-calendar" style="width: 1.5rem;"></i><strong>Fecha:</strong> 
+                                </div>
+                                <div class="col-7">
+                                    {{servicio.SERVICIO_FECHA_HORA | date: 'dd/MM/yyyy'}}
+                                </div>
+                            </div>
+                            <div class="row color-row-table">
+                                <div class="col-5 ">
+                                    <i class="fa fa-clock" style="width: 1.5rem;"></i><strong>Hora:</strong> 
+                                </div>
+                                <div class="col-7">
+                                    {{servicio.SERVICIO_FECHA_HORA | date: 'h:mm:ss a'}}
+                                </div>
+                            </div>
+                            <div class="row color-row-table">
+                                <div class="col-5 ">
+                                    <i class="fas fa-paw" style="width: 1.5rem;"></i><strong>Especie:</strong> 
+                                </div>
+                                <div class="col-7">
+                                    {{servicio.MAS_ESPECIE}}
+                                </div>
+                            </div>
+                            <div class="row color-row-table">
+                                <div class="col-5 ">
+                                    <i class="fas fa-edit" style="width: 1.5rem;"></i><strong>Nombre:</strong> 
+                                </div>
+                                <div class="col-7">
+                                    {{servicio.MAS_NOMBRE}}
+                                </div>
+                            </div>
+                            <div class="row color-row-table">
+                                <div class="col-5 ">
+                                    <i class="fas fa-palette" style="width: 1.5rem;"></i><strong>Color:</strong> 
+                                </div>
+                                <div class="col-7">
+                                    {{servicio.MAS_COLOR}}
+                                </div>
+                            </div>
+                            <div class="row color-row-table">
+                                <div class="col-5 ">
+                                    <i class="fas fa-user" style="width: 1.5rem;"></i><strong>Dueño:</strong> 
+                                </div>
+                                <div class="col-7">
+                                    {{servicio.CLIENTE_NOMBRES}}
+                                </div>
+                            </div>
+                            <div class="row color-row-table">
+                                <div class="col-5 ">
+                                    <i class="fas fa-money-bill-alt" style="width: 1.5rem;"></i><strong>Adelanto:</strong> 
+                                </div>
+                                <div class="col-7">
+                                    {{servicio.SERVICIO_ADELANTO}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer row text-center justify-content-between">
+                            <div class=" col-5 col-md-5 col-lg-5">
+                                <button class="btn btn-warning" (click)="postergarServicio(servicio)">
+                                    <span class="text"><i class="fas fa-history"></i>&nbsp;&nbsp;&nbsp;Postergar</span>
+                                </button>
+                            </div>
+                            <div class=" col-5 col-md-5 col-lg-5">
+                                <button class="btn btn-danger" (click)="terminarServicio(servicio.SERVICIO_ID)">
+                                    <span class="text"><i class="fas fa-trash"></i>&nbsp;&nbsp;&nbsp;Terminar</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+        </div>
+    </div>
+    <!-- <div class="row justify-content-center">
         <div class="col-sm-12 col-lg-6 contenedor row justify-content-center">
             <div *ngFor="let servicio of servicios_pendientes" class="card shadow mb-3 col-12 col-md-12 col-sm-12 col-lg-9" >
                 <div class="card-header py-3 row text-center">
-                    <h5>{{servicio.TIPO_SERVICIO_NOMBRE}}</h5>
+                    <h5>{{servicio.TIPO_SERVICIO_NOMBRE}} (S/ {{servicio.SERVICIO_PRECIO}})</h5>
                 </div>
                 <div class="card-body text-gray-400">
                     <div class="row color-row-table">
                         <div class="col-4">
-                            <strong>Fecha:</strong> 
+                            <i class="fa fa-calendar" style="width: 1.5rem;"></i><strong>Fecha:</strong> 
                         </div>
                         <div class="col-8">
-                            <i class="fa fa-calendar" style="width: 1.5rem;"></i>{{servicio.SERVICIO_FECHA_HORA | date: 'dd/MM/yyyy'}}
+                            {{servicio.SERVICIO_FECHA_HORA | date: 'dd/MM/yyyy'}}
                         </div>
                     </div>
-                    <br>
                     <div class="row color-row-table">
                         <div class="col-4 ">
-                            <strong>Hora:</strong> 
+                            <i class="fa fa-clock" style="width: 1.5rem;"></i><strong>Hora:</strong> 
                         </div>
                         <div class="col-8">
-                            <i class="fa fa-clock" style="width: 1.5rem;"></i>{{servicio.SERVICIO_FECHA_HORA | date: 'h:mm:ss a'}}
+                            {{servicio.SERVICIO_FECHA_HORA | date: 'h:mm:ss a'}}
+                        </div>
+                    </div>
+                    <div class="row color-row-table">
+                        <div class="col-4 ">
+                            <i class="fas fa-paw" style="width: 1.5rem;"></i><strong>Especie:</strong> 
+                        </div>
+                        <div class="col-8">
+                            {{servicio.MAS_ESPECIE}}
+                        </div>
+                    </div>
+                    <div class="row color-row-table">
+                        <div class="col-4 ">
+                            <i class="fas fa-edit" style="width: 1.5rem;"></i><strong>Nombre:</strong> 
+                        </div>
+                        <div class="col-8">
+                            {{servicio.MAS_NOMBRE}}
+                        </div>
+                    </div>
+                    <div class="row color-row-table">
+                        <div class="col-4 ">
+                            <i class="fas fa-palette" style="width: 1.5rem;"></i><strong>Color:</strong> 
+                        </div>
+                        <div class="col-8">
+                            {{servicio.MAS_COLOR}}
+                        </div>
+                    </div>
+                    <div class="row color-row-table">
+                        <div class="col-4 ">
+                            <i class="fas fa-user" style="width: 1.5rem;"></i><strong>Dueño:</strong> 
+                        </div>
+                        <div class="col-8">
+                            {{servicio.CLIENTE_NOMBRES}}
+                        </div>
+                    </div>
+                    <div class="row color-row-table">
+                        <div class="col-4 ">
+                            <i class="fas fa-money-bill-alt" style="width: 1.5rem;"></i><strong>Adelanto:</strong> 
+                        </div>
+                        <div class="col-8">
+                            {{servicio.SERVICIO_ADELANTO}}
                         </div>
                     </div>
                 </div>
                 <div class="card-footer row text-center justify-content-between">
                     <div class=" col-sm-12 col-md-5 col-lg-5">
-                        <button class="btn btn-warning">
+                        <button class="btn btn-warning" (click)="postergarServicio(servicio)">
                             <span class="text"><i class="fas fa-history"></i>&nbsp;&nbsp;&nbsp;Postergar</span>
                         </button>
                     </div>
                     <div class=" col-sm-12 col-md-5 col-lg-5">
-                        <button class="btn btn-danger" >
+                        <button class="btn btn-danger" (click)="terminarServicio(servicio.SERVICIO_ID)">
                             <span class="text"><i class="fas fa-trash"></i>&nbsp;&nbsp;&nbsp;Terminar</span>
                         </button>
                     </div>
@@ -48,8 +197,51 @@
         <div class="col-sm-12 col-lg-6 row justify-content-center">
 
         </div>
-    </div>
+    </div> -->
     
 
 
 </div>
+
+
+<ng-template #postergarServicioModal>
+    <div class="modal-header justify-content-center">
+        <h4 class="modal-title " >Postergar Servicio</h4>
+    </div>
+    <mat-progress-bar *ngIf="cargando && modalIn" mode="indeterminate" ></mat-progress-bar>
+    <ngb-alert *ngIf="mostrar_alerta && modalIn" [type]="tipo_alerta" (closed)="mostrar_alerta = false" >{{mensaje_alerta}}</ngb-alert>
+    <div class="modal-body">
+        <form [formGroup]="citaForm">
+            <div class="row color-row-table">
+                <div class="col-12 mb-4 ">
+                    <label for="inputFechaCitaServicio">Fecha de Emisión:</label>
+                    <input [min]="getTodayFecha()" [ngClass]="{'textoGris': opacarFecha }" (change)="cambiarDeStyleDate()" type="date" name="inputFechaCitaServicio" formControlName="fecha" class="border-left-primary font-tamanio form-control">
+                    <div *ngIf="fecha.invalid && (fecha.dirty || fecha.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                        <div *ngIf="fecha.errors.required">
+                            * La fecha de emisión es requerida.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 mb-4 ">
+                    <label for="inputHoraServicio">Hora del servicio:</label>
+                    <ngb-timepicker  formControlName="hora"   class="text-center notranslate" [seconds]="seconds" [meridian]="meridian" id="inputHoraServicio"></ngb-timepicker>
+                </div>
+                
+            </div>
+            
+        </form>
+        <div class="row d-flex text-center justify-content-between">
+            <div class=" col-5 col-md-5 col-lg-5">
+                <button [disabled]="citaForm.invalid || cargando" class="btn btn-primary" (click)="guardarReprogramacion()">
+                    <span class="text">Modificar</span>
+                </button>
+            </div>
+            <div class=" col-5 col-md-5 col-lg-5">
+                <button (click)="closeModal()" class="btn btn-warning ">
+                    <span class="text">Cancelar</span>
+                </button>
+            </div>
+        </div>
+          
+    </div>
+</ng-template>

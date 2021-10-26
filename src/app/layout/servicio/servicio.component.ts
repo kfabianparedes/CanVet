@@ -54,6 +54,7 @@ export class ServicioComponent implements OnInit {
       modalidad:['',[Validators.required]],
       descripcion:['',[Validators.maxLength(200),Validators.pattern('^[a-zñáéíóú#°/,. A-ZÑÁÉÍÓÚ  0-9]+$')]],
       precio:['',[Validators.required, Validators.pattern('[0-9]+[.]?[0-9]*')]],
+      adelanto:[0.00,[Validators.pattern('[0-9]+[.]?[0-9]*')]]
     });
   }
 
@@ -69,6 +70,9 @@ export class ServicioComponent implements OnInit {
   }
   get precio(){
     return this.servicioForm.get('precio');
+  }
+  get adelanto(){
+    return this.servicioForm.get('adelanto');
   }
  
   cambiarDeStyleDate() {
@@ -175,6 +179,7 @@ export class ServicioComponent implements OnInit {
     this.servicioInsertar.HORA_SERVICIO = this.HORA_SERVICIO;
     this.servicioInsertar.SERVICIO_FECHA_HORA = this.fecha.value; 
     this.servicioInsertar.SERVICIO_TIPO = +this.modalidad.value; 
+    this.servicioInsertar.SERVICIO_ADELANTO = this.adelanto.value;
     
     console.log(this.servicioInsertar);
     this.servicioService.registrarServicio(this.servicioInsertar).subscribe(

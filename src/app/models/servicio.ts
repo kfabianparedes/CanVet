@@ -9,4 +9,5 @@ export class Servicio {
     SERVICIO_TIPO: number;
     SERVICIO_ESTADO: number; 
     TIPO_SERVICIO_ID: number; 
+    SERVICIO_ADELANTO:number;
 }

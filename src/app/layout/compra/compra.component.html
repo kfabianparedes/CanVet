@@ -243,7 +243,7 @@
         </div>
         <div class="card-footer py-3 row justify-content-center">
             <div class=" col-sm-12 col-md-4 col-xl-3">
-                <button [disabled]="!btnRegistroValido" (click)="registrarCompra()" type="button" class="btn btn-primary"><i class="fas fa-save"></i>&nbsp;&nbsp;&nbsp;&nbsp;Registrar Compra</button>
+                <button [disabled]="!btnRegistroValido || cargando" (click)="registrarCompra()" type="button" class="btn btn-primary"><i class="fas fa-save"></i>&nbsp;&nbsp;&nbsp;&nbsp;Registrar Compra</button>
             </div>
         </div>
     </div>

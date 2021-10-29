@@ -8,6 +8,12 @@ import { convertTypeAcquisitionFromJson } from 'typescript';
   styleUrls: ['./reportes.component.css']
 })
 export class ReportesComponent implements OnInit {
+  //Variables de cargando y error
+  cargando = false;
+  modalIn = false;
+  mensaje_alerta: string;
+  mostrar_alerta: boolean = false;
+  tipo_alerta: string;
 
   view: [number,number] = [650  , 400];
   reporteAnual: any[];
@@ -30,7 +36,7 @@ export class ReportesComponent implements OnInit {
   mostrarReporteSemanalDividido = false; 
   totalSemanalDividido = 0; 
 
-  //controladores de reporte semanal dividido
+  //controladores de reporte Mensual
   flechaReporteMensual:string = 'down';
   mostrarReporteMensual = false; 
   totalMensual = 0; 

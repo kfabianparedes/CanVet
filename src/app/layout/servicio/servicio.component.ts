@@ -50,18 +50,15 @@ export class ServicioComponent implements OnInit {
   servicioForm : FormGroup;
   inicializarServicioFormulario(){
     this.servicioForm = this.formBuilder.group({
-      // mascota:['',[Validators.required]],
       servicio:['',[Validators.required]],
       modalidad:['',[Validators.required]],
-      descripcion:['',[Validators.maxLength(200),Validators.pattern('[a-zñáéíóúA-ZÑÁÉÍÓÚ. ]+$')]],
+      descripcion:['',[Validators.maxLength(200),Validators.pattern('^[a-zñáéíóú#°/,. A-ZÑÁÉÍÓÚ  0-9]+$')]],
       precio:['',[Validators.required, Validators.pattern('[0-9]+[.]?[0-9]*')]],
+      adelanto:[0.00,[Validators.pattern('[0-9]+[.]?[0-9]*')]]
     });
   }
 
   //getters & setters
-  get mascota() {
-    return this.servicioForm.get('mascota');
-  }
   get servicio() {
     return this.servicioForm.get('servicio');
   }
@@ -73,6 +70,9 @@ export class ServicioComponent implements OnInit {
   }
   get precio(){
     return this.servicioForm.get('precio');
+  }
+  get adelanto(){
+    return this.servicioForm.get('adelanto');
   }
  
   cambiarDeStyleDate() {
@@ -87,10 +87,11 @@ export class ServicioComponent implements OnInit {
   mascotas: any[] = [];
 
   listarMascotas(){
+    this.mostrar_alerta = false;
     this.cargando = true;
-    this.modalIn = true;
+    this.modalIn = false;
     this.mascotaService.listarMascotas().subscribe(
-      data=>{
+      (data)=>{
         this.mascotas_iniciales = data['resultado'];
         this.mascotas = this.mascotas_iniciales.slice();
         this.cargando = false;
@@ -117,7 +118,9 @@ export class ServicioComponent implements OnInit {
   /************************** LISTAR TIPO SERVICIOS **********************************/
   tiposServicios: TipoServicio[] = [];
   listarServicios(){
+    this.mostrar_alerta = false;
     this.cargando = true;
+    this.modalIn = false;
     this.tipoServicioService.listarTipoServicio().subscribe(
       (data)=>{
         this.tiposServicios = data['resultado'];
@@ -165,6 +168,9 @@ export class ServicioComponent implements OnInit {
   //variable servicio
   servicioInsertar = new Servicio();
   registrarServicio(){
+    this.mostrar_alerta = false;
+    this.cargando = true;
+    this.modalIn = false;
     this.convertirFormt24AFormat12();
     this.servicioInsertar.MASCOTA_ID = +this.mascota_seleccionada.MAS_ID;
     this.servicioInsertar.TIPO_SERVICIO_ID = +this.servicio.value; 
@@ -173,16 +179,43 @@ export class ServicioComponent implements OnInit {
     this.servicioInsertar.HORA_SERVICIO = this.HORA_SERVICIO;
     this.servicioInsertar.SERVICIO_FECHA_HORA = this.fecha.value; 
     this.servicioInsertar.SERVICIO_TIPO = +this.modalidad.value; 
+    this.servicioInsertar.SERVICIO_ADELANTO = this.adelanto.value;
     
     console.log(this.servicioInsertar);
-    this.servicioService.registrarMascota(this.servicioInsertar).subscribe(
-      data=>{
-      console.log("si funcó :D");
-    },error=>{
-      console.log("no funcó :C");
-    });
-    
-
+    this.servicioService.registrarServicio(this.servicioInsertar).subscribe(
+      (data)=>{
+        console.log(data);
+        this.cargando = false;
+        this.mostrar_alerta = true;
+        this.modalIn = false;
+        this.tipo_alerta='success';
+        this.mensaje_alerta = 'El servicio fue registrado exitosamente';
+      },
+      (error)=>{
+        this.cargando = false;
+        this.mostrar_alerta = true;
+        this.modalIn = false;
+        this.tipo_alerta='danger';
+        if (error.error.error !== undefined) {
+          if (error.error.error === 'error_deBD') {
+            this.mensaje_alerta = 'Hubo un error al intentar ejecutar su solicitud. Problemas con el servidor, vuelva a intentarlo.';
+          } else if(error.error.error === 'error_deCampo'){
+            this.mensaje_alerta = 'Los datos ingresados son invalidos. Por favor, vuelva a intentarlo.';
+          }else if(error.error.error === 'error_ejecucionQuery'){
+            this.mensaje_alerta = 'Hubo un error al registrar el servicio, Por favor, actualice la página o inténtelo más tarde.';
+          }else if(error.error.error === 'error_NoExistenciaDeTipoServicio'){
+            this.mensaje_alerta = 'Hubo un error al identificar el servicio registrado, Por favor, actualice la página o inténtelo más tarde.';
+          }else if(error.error.error === 'error_NoExistenciaDeMascota'){
+            this.mensaje_alerta = 'Hubo un error al identificar a la mascota, Por favor, actualice la página o inténtelo más tarde.';
+          }else if(error.error.error === 'error_conflictoHorarios'){
+            this.mensaje_alerta = 'Hay conflicto de horarios al intentar registrar el servicio.';
+          }
+        }
+        else{
+          this.mensaje_alerta = 'Hubo un error al registrar la información del servicio. Por favor, vuelva a intentarlo.';
+        }
+      }
+    );
   }
 
   /********************** ORDENAMIENTO DE TABLA ARTICULOS ***********************/
@@ -192,7 +225,7 @@ export class ServicioComponent implements OnInit {
     this.limpiar();
   }
   limpiar(){
-
+    
   }
   onSort({column, direction}: any) {
     // resetting other headers
@@ -233,7 +266,7 @@ export class ServicioComponent implements OnInit {
   seconds: boolean = true; // Es para habilitar la casilla de los segundos
   meridian: boolean = true; // Es para activar el boton AM o PM
 
-  convertirFormt24AFormat12(): string {
+  convertirFormt24AFormat12(){
     let AMPM = ' AM';
     let hora =  this.citaForm.get('hora').value.hour;
     let horaF = this.citaForm.get('hora').value.hour;
@@ -258,9 +291,5 @@ export class ServicioComponent implements OnInit {
     segundo = segundo < 10 ? "0" + segundo : segundo;
     
     this.HORA_SERVICIO = horaF + ":" + minuto + ":" + segundo;
-   
-    let format12Hrs = hora + ':' + minuto + ':' + segundo + AMPM;
-    
-    return format12Hrs;
   }
 }

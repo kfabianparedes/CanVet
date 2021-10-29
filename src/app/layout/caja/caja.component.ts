@@ -18,8 +18,8 @@ export class CajaComponent implements OnInit {
   mostrar_alerta: boolean = false;
   tipo_alerta: string;
   //Mostrar 
-  mostrarApertura = false;
-  mostrarCierre = false;
+  mostrarApertura = true;
+  mostrarCierre = true;
   flechaApertura:string = 'down';
   flechaCierre:string = 'down';
 
@@ -42,6 +42,7 @@ export class CajaComponent implements OnInit {
   ngOnInit(): void {
     this.inicializarAperturaFormulario();
     this.inicializarCierreFormulario();
+    this.listarMontoDelDia();
   }
 
   abrirCaja(){
@@ -111,7 +112,7 @@ export class CajaComponent implements OnInit {
   }
   inicializarCierreFormulario(){
     this.cierreCajaForm = this.formBuilder.group({
-      monto_incial :['',[Validators.required, Validators.pattern('[0-9]+[.]?[0-9]*')]],
+      gastos :['',[Validators.required, Validators.pattern('[0-9]+[.]?[0-9]*')]],
     })
   }
   //getters Apertura
@@ -128,5 +129,32 @@ export class CajaComponent implements OnInit {
   getTodayFecha(): string {
     const fechaActual = this.datePipe.transform(new Date().toLocaleString("en-US", {timeZone: "America/Lima"}), "yyyy-MM-dd");
     return fechaActual;
+  }
+
+  /***************************** LISTAR MONTOS *********************/
+  montos:any[] =[];
+  listarMontoDelDia(){
+    this.cargando = true;
+    this.modalIn = false;
+    this.cajaService.listarMontoDiario().subscribe(
+      data=>{
+        this.montos = data['resultado'];
+        this.cargando = false;
+        console.log(data);
+      },
+      (error)=>{
+        this.cargando = false;
+        this.mostrar_alerta = true;
+        this.tipo_alerta='danger';
+        if (error['error']['error'] !== undefined) {
+          if (error['error']['error'] === 'error_deBD') {
+            this.mensaje_alerta = 'Hubo un error al intentar ejecutar su solicitud. Por favor, actualice la página.';
+          }
+        }
+        else{
+          this.mensaje_alerta = 'Hubo un error al mostrar la información de esta página. Por favor, actualice la página.';
+        }
+      }
+    )
   }
 }

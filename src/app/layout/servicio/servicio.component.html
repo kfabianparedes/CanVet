@@ -6,7 +6,7 @@
     <h1 class="h3 mb-2 text-gray-800 col-12 text-center">Solicitar Servicios</h1>
 
     <!-- DataTales Example -->
-    <div class="card shadow mb-3 col-12 col-lg-9" style="height: 100%;">
+    <div class="card shadow mb-3 col-12 col-lg-8" style="height: 100%;">
         <div class="card-header py-3 row ">
             <h5>Servicio</h5>
         </div>
@@ -68,15 +68,42 @@
                     </div>
                 </div>
                 <br>
+                <form [formGroup]="citaForm">
+                    <div class="row color-row-table">
+                        <div class="col-sm-12 col-md-5 mb-4">
+                            <label for="inputFechaCitaServicio">Fecha de atención:</label>
+                            <input [min]="getTodayFecha()" [ngClass]="{'textoGris': opacarFecha }" (change)="cambiarDeStyleDate()" type="date" name="inputFechaCitaServicio" formControlName="fecha" class="border-left-primary font-tamanio form-control">
+                            <div *ngIf="fecha.invalid && (fecha.dirty || fecha.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                                <div *ngIf="fecha.errors.required">
+                                    * La fecha de atención es requerida.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="offset-sm-0 offset-md-2  col-sm-12 col-md-5 ">
+                            <label for="inputHoraServicio">Hora del servicio:</label>
+                            <ngb-timepicker  formControlName="hora"   class="notranslate" [seconds]="seconds" [meridian]="meridian" id="inputHoraServicio"></ngb-timepicker>
+                        </div>
+                    </div>
+                </form>
+                <br>
                 <div class="row color-row-table ">
-                    <div class="col-12 mb-4">
+                    <div class="col-sm-12 col-md-8 mb-4">
                         <label for="inputDescripcionServicio">Descripción:</label>
                         <textarea formControlName="descripcion"  type="text" id="inputDescripcionServicio" class="border-left-primary font-tamanio form-control"></textarea>
                         <div *ngIf="descripcion.invalid && (descripcion.dirty || descripcion.touched)" class="my-1" style="color: rgb(197, 68, 68);">
                             <div *ngIf="descripcion.errors.maxlength">
-                                * Este campo solo acepta 200 caracteres.
+                                * Se requieren máximo 200 caracteres.
                             </div>
                             <div *ngIf="descripcion.errors.pattern">
+                                * El formato es inválido.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="offset-sm-0 offset-md-1  col-sm-12 col-md-3 ">
+                        <label for="inputAdelantoServicio">Adelanto (S/):</label>
+                        <input formControlName="adelanto"  type="text" id="inputAdelantoServicio" class="border-left-primary font-tamanio form-control">
+                        <div *ngIf="adelanto.invalid && (adelanto.dirty || adelanto.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                            <div *ngIf="adelanto.errors.pattern">
                                 * El formato es inválido.
                             </div>
                         </div>
@@ -84,28 +111,11 @@
                     <br>
                 </div>
             </form>
-            <br>
-            <form [formGroup]="citaForm">
-                <div class="row color-row-table">
-                    <div class="col-sm-12 col-md-5 mb-4">
-                        <label for="inputFechaCitaServicio">Fecha de Emisión:</label>
-                        <input [min]="getTodayFecha()" [ngClass]="{'textoGris': opacarFecha }" (change)="cambiarDeStyleDate()" type="date" name="inputFechaCitaServicio" formControlName="fecha" class="border-left-primary font-tamanio form-control">
-                        <div *ngIf="fecha.invalid && (fecha.dirty || fecha.touched)" class="my-1" style="color: rgb(197, 68, 68);">
-                            <div *ngIf="fecha.errors.required">
-                                * La fecha de emisión es requerida.
-                            </div>
-                        </div>
-                    </div>
-                    <div class="offset-sm-0 offset-md-2  col-sm-12 col-md-5 ">
-                        <label for="inputHoraServicio">Hora del servicio:</label>
-                        <ngb-timepicker  formControlName="hora"   class="notranslate" [seconds]="seconds" [meridian]="meridian" id="inputHoraServicio"></ngb-timepicker>
-                    </div>
-                </div>
-            </form>
+            
         </div>
         <div class="card-footer py-3 row justify-content-center">
             <div class="col-sm-12 col-md-4 col-xl-3 ">
-                <button (click)="registrarServicio()" type="button" class="btn btn-primary">Crear Servicio</button>
+                <button [disabled]="servicioForm.invalid || citaForm.invalid || cargando" (click)="registrarServicio()" type="button" class="btn btn-primary">Crear Servicio</button>
             </div>
         </div>
     </div>

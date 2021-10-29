@@ -25,16 +25,43 @@ export class ServicioService {
     })
   };
 
-  registrarMascota(servicio:Servicio):Observable<any>{
+  registrarServicio(servicio:Servicio):Observable<any>{
     const url = environment.domain_url + '/api/servicios/registrar.php';
     const datos = {
-      "SERVICIO_PRECIO": servicio.SERVICIO_PRECIO,
-      "TIPO_SERVICIO_ID": servicio.TIPO_SERVICIO_ID,
-      "SERVICIO_TIPO":servicio.SERVICIO_TIPO,
-      "SERVICIO_FECHA_HORA": servicio.SERVICIO_FECHA_HORA,
-      "HORA_SERVICIO": servicio.HORA_SERVICIO,
-      "MASCOTA_ID": servicio.MASCOTA_ID
+      SERVICIO_PRECIO: servicio.SERVICIO_PRECIO,
+      TIPO_SERVICIO_ID: servicio.TIPO_SERVICIO_ID,
+      SERVICIO_TIPO:servicio.SERVICIO_TIPO,
+      SERVICIO_FECHA_HORA: servicio.SERVICIO_FECHA_HORA,
+      HORA_SERVICIO: servicio.HORA_SERVICIO,
+      MASCOTA_ID: servicio.MASCOTA_ID,
+      SERVICIO_ADELANTO: servicio.SERVICIO_ADELANTO*100
     }
     return this.http.post<any>(url,datos,this.httpHead).pipe(retry(2));
+  }
+
+  listarServiciosPendientes():Observable<any>{
+    const url = environment.domain_url + '/api/servicios/listar.php';
+    return this.http.get<any>(url,this.httpHead).pipe(retry(2));
+  }
+  postergarServicio(servicio:Servicio):Observable<any>{
+    const url = environment.domain_url + '/api/servicios/editar.php';
+    const datos = {
+      SERVICIO_ID : servicio.SERVICIO_ID,
+      SERVICIO_PRECIO: servicio.SERVICIO_PRECIO*100,
+      TIPO_SERVICIO_ID: servicio.TIPO_SERVICIO_ID,
+      SERVICIO_TIPO:servicio.SERVICIO_TIPO,
+      SERVICIO_FECHA_HORA: servicio.SERVICIO_FECHA_HORA,
+      HORA_SERVICIO: servicio.HORA_SERVICIO,
+      MASCOTA_ID: servicio.MASCOTA_ID,
+      SERVICIO_ADELANTO: servicio.SERVICIO_ADELANTO*100
+    }
+    return this.http.put<any>(url,datos,this.httpHead).pipe(retry(2));
+  }
+  culminarServicio(idServicio:number):Observable<any>{
+    const url = environment.domain_url + '/api/servicios/finalizar.php';
+    const datos = {
+      SERVICIO_ID: idServicio
+    }    
+    return this.http.put<any>(url,datos,this.httpHead).pipe(retry(2));
   }
 }

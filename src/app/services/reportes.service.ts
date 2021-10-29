@@ -32,5 +32,9 @@ export class ReportesService {
     const url = environment.domain_url + '/api/ventas/gananciaSemanal.php';
     return this.http.get<any>(url,this.httpHead).pipe(retry(2));
   }
+  reporteMensual(){
+    const url = environment.domain_url + '/api/ventas/gananciasMensuales.php';
+    return this.http.get<any>(url,this.httpHead).pipe(retry(2));
+  }
 
 }

@@ -58,9 +58,66 @@
                 </ngx-charts-bar-vertical>
             </div>
         </div>
-        
+
+        <div class="card shadow mb-4 col-12  col-xl-5" style="height: 100%;">
+            <div class="card-header py-3 row justify-content-between">
+                <h5 class="text-center" style="cursor:pointer" (click)="abrirReporteSemanalDividido()">Reporte Semanal
+                    <span>
+                        <i  class="fas fa-angle-{{flechaReporteSemanalDividido}}"></i>
+                    </span>
+                </h5>
+            </div>
+            <div class="col-sm-12 col-xl-12 table-module"*ngIf="mostrarReporteSemanalDividido" >
+                <ngx-charts-bar-vertical-2d
+                [view]="view"
+                scheme="cool"
+                [results]="reporteSemanalDividido"
+                [gradient]="gradient"
+                [xAxis]="showXAxis"
+                [yAxis]="showYAxis"
+                [legend]="showLegend"
+                [noBarWhenZero]="noBarWhenZero"
+                [showXAxisLabel]="showXAxisLabel"
+                [showYAxisLabel]="showYAxisLabel"
+                [xAxisLabel]="xAxisLabelSemanales"
+                [yAxisLabel]="yAxisLabelSemanalesDivididos"
+                [legendTitle]="legendTitle"
+                (select)="onSelect($event)"
+                (activate)="onActivate($event)"
+                (deactivate)="onDeactivate($event)">
+                </ngx-charts-bar-vertical-2d>
+            </div>
+        </div>
+
+        <div class="card shadow mb-4 col-12  col-xl-5" style="height: 100%;">
+            <div class="card-header py-3 row justify-content-between">
+                <h5 class="text-center" style="cursor:pointer" (click)="abrirReporteMensual()">Reporte Mensual
+                    <span>
+                        <i  class="fas fa-angle-{{flechaReporteSemanalDividido}}"></i>
+                    </span>
+                </h5>
+            </div>
+            <div class="col-sm-12 col-xl-12 table-module"*ngIf="mostrarReporteMensual" >
+                <ngx-charts-bar-vertical-2d
+                [view]="view"
+                scheme="cool"
+                [results]="reporteMensual"
+                [gradient]="gradient"
+                [xAxis]="showXAxis"
+                [yAxis]="showYAxis"
+                [legend]="showLegend"
+                [noBarWhenZero]="noBarWhenZero"
+                [showXAxisLabel]="showXAxisLabel"
+                [showYAxisLabel]="showYAxisLabel"
+                [xAxisLabel]="xAxisLabelSemanales"
+                [yAxisLabel]="yAxisLabelMensuales"
+                [legendTitle]="legendTitle"
+                (select)="onSelect($event)"
+                (activate)="onActivate($event)"
+                (deactivate)="onDeactivate($event)">
+                </ngx-charts-bar-vertical-2d>
+            </div>
+        </div>
     </div>
-    
-    
 </div>
 

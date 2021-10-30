@@ -1,5 +1,6 @@
 
 <mat-progress-bar *ngIf="cargando" mode="indeterminate" class="alert-loading"></mat-progress-bar>
+<ngb-alert *ngIf="mostrar_alerta && !modalIn" [type]="tipo_alerta" (closed)="mostrar_alerta = false" class="alert-loading">{{mensaje_alerta}}</ngb-alert>
 <div class="container-fluid" *ngIf="!cargando">
     <div class="row justify-content-around">
         <h1 class="h3 mb-5 text-gray-800 text-center">Reportes</h1>

@@ -77,6 +77,17 @@ export class ReportesComponent implements OnInit {
       
     },
     error =>{
+      this.cargando = false;
+        this.mostrar_alerta = true;
+        this.tipo_alerta='danger';
+        if (error['error']['error'] !== undefined) {
+          if (error['error']['error'] === 'error_deBD') {
+            this.mensaje_alerta = 'Hubo un error al intentar ejecutar su solicitud. Por favor, actualice la página.';
+          }
+        }
+        else{
+          this.mensaje_alerta = 'Hubo un error al mostrar la información de esta página. Por favor, actualice la página.';
+        }
     });
   }
 
@@ -97,11 +108,24 @@ export class ReportesComponent implements OnInit {
       
     },
     error =>{
+      this.cargando = false;
+        this.mostrar_alerta = true;
+        this.tipo_alerta='danger';
+        if (error['error']['error'] !== undefined) {
+          if (error['error']['error'] === 'error_deBD') {
+            this.mensaje_alerta = 'Hubo un error al intentar ejecutar su solicitud. Por favor, actualice la página.';
+          }
+        }
+        else{
+          this.mensaje_alerta = 'Hubo un error al mostrar la información de esta página. Por favor, actualice la página.';
+        }
     });
   }
 
   //cargar reportes mensuales
   cargarResportesMensuales(){
+    this.cargando = true;
+    this.modalIn = false;
     this.reporteService.reporteMensual().subscribe(data =>{
       this.reporteMensual = data['resultado'];
       this.reporteMensual.forEach(element => {
@@ -110,9 +134,20 @@ export class ReportesComponent implements OnInit {
           
     });
     this.inicializarGraficos();
-    this.cargar  = false;    
+    this.cargando  = false;    
     },
     error =>{
+      this.cargando = false;
+        this.mostrar_alerta = true;
+        this.tipo_alerta='danger';
+        if (error['error']['error'] !== undefined) {
+          if (error['error']['error'] === 'error_deBD') {
+            this.mensaje_alerta = 'Hubo un error al intentar ejecutar su solicitud. Por favor, actualice la página.';
+          }
+        }
+        else{
+          this.mensaje_alerta = 'Hubo un error al mostrar la información de esta página. Por favor, actualice la página.';
+        }
     });
   }
 

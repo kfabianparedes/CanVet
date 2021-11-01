@@ -199,7 +199,7 @@ export class ReportesComponent implements OnInit {
   }
   ngOnInit(): void {
     this.listarReportesCaja();
-    // this.cargarReportes();
+    this.cargarReportes();
   }
 
   inicializarGraficos(){

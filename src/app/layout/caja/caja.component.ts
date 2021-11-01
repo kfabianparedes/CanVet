@@ -18,8 +18,8 @@ export class CajaComponent implements OnInit {
   mostrar_alerta: boolean = false;
   tipo_alerta: string;
   //Mostrar 
-  mostrarApertura = true;
-  mostrarCierre = true;
+  mostrarApertura = false;
+  mostrarCierre = false;
   flechaApertura:string = 'down';
   flechaCierre:string = 'down';
 
@@ -133,12 +133,24 @@ export class CajaComponent implements OnInit {
 
   /***************************** LISTAR MONTOS *********************/
   montos:any[] =[];
+  gananciasServiciosEfectivo:any; 
+  gananciasServiciosTarjeta:any; 
+  gananciasServiciosYape:any; 
+  gananciasVentasEfectivo:any; 
+  gananciasVentasTarjeta:any; 
+  gananciasVentasYape:any; 
   listarMontoDelDia(){
     this.cargando = true;
     this.modalIn = false;
     this.cajaService.listarMontoDiario().subscribe(
       data=>{
         this.montos = data['resultado'];
+        this.gananciasServiciosEfectivo = data['resultado']['gananciasServiciosEfectivo'] ; 
+        this.gananciasServiciosTarjeta = data['resultado']['gananciasServiciosTarjeta'] ; 
+        this.gananciasServiciosYape = data['resultado']['gananciasServiciosYape'] ; 
+        this.gananciasVentasEfectivo = data['resultado']['gananciasVentasEfectivo'] ; 
+        this.gananciasVentasTarjeta = data['resultado']['gananciasVentasTarjeta'] ; 
+        this.gananciasVentasYape = data['resultado']['gananciasVentasYape'] ; 
         this.cargando = false;
         console.log(data);
       },

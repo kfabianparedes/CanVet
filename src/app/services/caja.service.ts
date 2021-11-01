@@ -39,4 +39,21 @@ export class CajaService {
     return this.http.get<any>(url,this.httpHead).pipe(retry(2));
   }
 
+    // cerrarCaja(caja:Caja):Observable<any>{
+    //   const url = environment.domain_url + '/api/cajas/cerrarCaja.php';
+    //   const datos = {
+    //     CAJA_CIERRE:,
+    //     CAJA_MONTO_FINAL:3,
+    //     CAJA_DESCUENTO_GASTOS:1,
+    //     CAJA_MONTO_EFECTIVO_VENTAS:3,
+    //     CAJA_MONTO_TARJETA_VENTAS:1,
+    //     CAJA_MONTO_YAPE_VENTAS:0,
+    //     CAJA_MONTO_EFECTIVO_SERVICIOS:0,
+    //     CAJA_MONTO_TARJETA_SERVICIOS:0,
+    //     CAJA_MONTO_YAPE_SERVICIOS:0,
+    //     CAJA_CODIGO:$2y$10$226v52T4UVmTJxktCV5oHOxHLUL/JXwiOStXc8Mehmez4w0h2qCfG
+    //   }
+    //   return this.http.put<any>(url,datos,this.httpHead).pipe(retry(2));
+    // }
+
 }

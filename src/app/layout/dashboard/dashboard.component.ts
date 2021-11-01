@@ -21,7 +21,7 @@ export class DashboardComponent implements OnInit {
 
   //Paginacion de tabla
   currentPage = 1;
-  itemsPerPage = 5;
+  itemsPerPage = 6;
   constructor(
     private servicioService:ServicioService,
     private modal: NgbModal,

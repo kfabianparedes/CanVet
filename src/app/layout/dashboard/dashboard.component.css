@@ -5,3 +5,14 @@
     margin-top:-1.5rem;
     margin-bottom:1.5rem;
 }
+.leyenda-a{
+    width: 101rem;
+    border-radius: 5rem;
+}
+
+.circulo {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+} 

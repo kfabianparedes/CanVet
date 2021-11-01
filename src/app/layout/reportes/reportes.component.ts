@@ -198,7 +198,8 @@ export class ReportesComponent implements OnInit {
     this.cargarResportesMensuales();
   }
   ngOnInit(): void {
-    this.cargarReportes();
+    this.listarReportesCaja();
+    // this.cargarReportes();
   }
 
   inicializarGraficos(){
@@ -235,5 +236,16 @@ export class ReportesComponent implements OnInit {
   }
   onSelect(event:any) {
     console.log(event);
+  }
+
+  listarReportesCaja(){
+    this.reporteService.reporteCaja().subscribe(
+      data=>{
+        console.log(data);
+      },
+      error=>{
+
+      }
+    );
   }
 }

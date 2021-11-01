@@ -8,6 +8,8 @@ import { MascotaService } from 'src/app/services/mascota.service';
 import { TipoServicioService } from 'src/app/services/tipoServicio.service';
 import { compare, SorteableDirective } from 'src/app/shared/directives/sorteable.directive';
 import { ServicioService } from 'src/app/services/servicio.service';
+import { MetodoPagoService } from 'src/app/services/metodoPago.service';
+import { MetodoPago } from 'src/app/models/metodo-pago';
 
 @Component({
   selector: 'app-servicio',
@@ -34,6 +36,7 @@ export class ServicioComponent implements OnInit {
     private tipoServicioService:TipoServicioService,
     private modal: NgbModal,
     private configModal: NgbModalConfig,
+    private metodoPago:MetodoPagoService,
   ) {
     this.configModal.backdrop = 'static';
     this.configModal.keyboard = false;
@@ -42,6 +45,7 @@ export class ServicioComponent implements OnInit {
   ngOnInit(): void {
     this.listarMascotas();
     this.listarServicios();
+    this.listarMetodoPago();
     this.inicializarServicioFormulario();
     this.inicializarCitaFormulario();
   }
@@ -54,7 +58,8 @@ export class ServicioComponent implements OnInit {
       modalidad:['',[Validators.required]],
       descripcion:['',[Validators.maxLength(200),Validators.pattern('^[a-zñáéíóú#°/,. A-ZÑÁÉÍÓÚ  0-9]+$')]],
       precio:['',[Validators.required, Validators.pattern('[0-9]+[.]?[0-9]*')]],
-      adelanto:[0.00,[Validators.pattern('[0-9]+[.]?[0-9]*')]]
+      adelanto:[0.00,[Validators.pattern('[0-9]+[.]?[0-9]*')]],
+      forma_pago:['',[Validators.required]]
     });
   }
 
@@ -74,7 +79,9 @@ export class ServicioComponent implements OnInit {
   get adelanto(){
     return this.servicioForm.get('adelanto');
   }
- 
+  get forma_pago(){
+    return this.servicioForm.get('forma_pago');
+  }
   cambiarDeStyleDate() {
     this.opacarFecha = false;
   }
@@ -90,7 +97,7 @@ export class ServicioComponent implements OnInit {
     this.mostrar_alerta = false;
     this.cargando = true;
     this.modalIn = false;
-    this.mascotaService.listarMascotas().subscribe(
+    this.mascotaService.listarMascotasActivas().subscribe(
       (data)=>{
         this.mascotas_iniciales = data['resultado'];
         this.mascotas = this.mascotas_iniciales.slice();
@@ -160,7 +167,6 @@ export class ServicioComponent implements OnInit {
   agregarMascota(mascota:any){
     this.mascota_seleccionada = mascota;
     this.nombre_mascota_seleccionada = this.mascota_seleccionada.MAS_NOMBRE;
-    // this.mascota.setValue(mascota.MAS_ID); 
     console.log(mascota.MAS_ID);
     console.log(this.mascota_seleccionada);
   }
@@ -178,9 +184,13 @@ export class ServicioComponent implements OnInit {
     this.servicioInsertar.SERVICIO_PRECIO = (+this.precio.value * 100); 
     this.servicioInsertar.HORA_SERVICIO = this.HORA_SERVICIO;
     this.servicioInsertar.SERVICIO_FECHA_HORA = this.fecha.value; 
-    this.servicioInsertar.SERVICIO_TIPO = +this.modalidad.value; 
-    this.servicioInsertar.SERVICIO_ADELANTO = this.adelanto.value;
-    
+    this.servicioInsertar.SERVICIO_TIPO = +this.modalidad.value;
+    if(this.adelanto.value == 0){
+      this.servicioInsertar.SERVICIO_ADELANTO = this.precio.value;
+    }else{
+      this.servicioInsertar.SERVICIO_ADELANTO = this.adelanto.value;
+    }
+    this.servicioInsertar.MDP_ID = this.forma_pago.value;
     console.log(this.servicioInsertar);
     this.servicioService.registrarServicio(this.servicioInsertar).subscribe(
       (data)=>{
@@ -190,6 +200,8 @@ export class ServicioComponent implements OnInit {
         this.modalIn = false;
         this.tipo_alerta='success';
         this.mensaje_alerta = 'El servicio fue registrado exitosamente';
+        this.limpiar();
+        this.closeModal();
       },
       (error)=>{
         this.cargando = false;
@@ -222,10 +234,13 @@ export class ServicioComponent implements OnInit {
   @ViewChildren(SorteableDirective) headers: QueryList<SorteableDirective>;
   closeModal(): any {
     this.modal.dismissAll();
-    this.limpiar();
   }
   limpiar(){
-    
+    this.servicioForm.reset();
+    this.citaForm.reset();
+    this.adelanto.setValue(0);
+    this.nombre_mascota_seleccionada = '';
+    this.mascota_seleccionada = null;
   }
   onSort({column, direction}: any) {
     // resetting other headers
@@ -291,5 +306,32 @@ export class ServicioComponent implements OnInit {
     segundo = segundo < 10 ? "0" + segundo : segundo;
     
     this.HORA_SERVICIO = horaF + ":" + minuto + ":" + segundo;
+  }
+
+
+  /********************** LISTAR METODOS DE PAGO ***********************/
+  metodos_pago: MetodoPago[]=[];
+  
+  listarMetodoPago(){
+    this.cargando = true;
+    this.modalIn = false;
+    this.metodoPago.listarMetodosDePago().subscribe(
+      (data)=>{
+        this.metodos_pago = data['resultado'];
+        this.cargando = false;
+      },(error)=>{
+        this.cargando = false;
+        this.mostrar_alerta = true;
+        this.tipo_alerta='danger';
+        if (error.error.error !== undefined) {
+          if (error.error.error === 'error_deBD') {
+            this.mensaje_alerta = 'Hubo un error al intentar ejecutar su solicitud. Por favor, actualice la página.';
+          }
+        }
+        else{
+          this.mensaje_alerta = 'Hubo un error al mostrar la información de esta página. Por favor, actualice la página.';
+        }
+      }
+    )
   }
 }

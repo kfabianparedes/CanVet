@@ -37,4 +37,9 @@ export class ReportesService {
     return this.http.get<any>(url,this.httpHead).pipe(retry(2));
   }
 
+  reporteCaja(){
+    const url = environment.domain_url + '/api/cajas/reporte.php';
+    return this.http.get<any>(url,this.httpHead).pipe(retry(2));
+  }
+
 }

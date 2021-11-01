@@ -52,6 +52,7 @@
                                 <th class="color-row-table text-center puntero" scope="col" sortable="MAS_ATENCIONES" (sort)="onSort($event)">Atenciones</th>
                                 <th class="color-row-table text-center puntero" scope="col" sortable="CLIENTE_NOMBRES" (sort)="onSort($event)">Dueño</th>
                                 <th class="color-row-table text-center puntero" scope="col" sortable="CLIENTE_TELEFONO" (sort)="onSort($event)">Télefono</th>
+                                <th class="color-row-table text-center puntero" scope="col" sortable="MAS_ESTADO" (sort)="onSort($event)">Estado</th>
                                 <th class="color-row-table text-center puntero" scope="col">Acciones</th>
                             </tr>
                         </thead>
@@ -65,6 +66,7 @@
                                 <td class="color-row-table">{{mascota.MAS_ATENCIONES}}</td>
                                 <td class="color-row-table">{{mascota.CLIENTE_NOMBRES}}</td>
                                 <td class="color-row-table">{{mascota.CLIENTE_TELEFONO}}</td>
+                                <td class="color-row-table">{{mascota.MAS_ESTADO==0?'Inactivo':'Activo'}}</td>
                                 
                                 <td class="color-row-table">
                                     <div class="row btnes">
@@ -73,11 +75,18 @@
                                                 <i style="color: white;" class="far fa-edit" aria-hidden="true"></i>
                                             </span>
                                         </div>
-                                        <div class="col-1 button-table">
-                                            <span (click)="borrarMascota(mascota.mascota_ID)" class="btn btn-danger btn-circle btn-sm " ngbTooltip="Eliminar">
-                                                <i class="fas fa-trash" aria-hidden="true"></i>
-                                            </span>
+                                        <div class="col-1 button-table" *ngIf="mascota.MAS_ESTADO==0;else habilitar">
+                                            <button [disabled]="cargando" (click)="cambiarEstadoMascota(mascota.MAS_ID,mascota.MAS_ESTADO)" class="btn btn-success btn-circle btn-sm " ngbTooltip="Activar">
+                                                <i class="fas fa-check" aria-hidden="true"></i>
+                                            </button>
                                         </div>
+                                        <ng-template #habilitar>
+                                            <div class="col-1 button-table" >
+                                                <button [disabled]="cargando" (click)="cambiarEstadoMascota(mascota.MAS_ID,mascota.MAS_ESTADO)" class="btn btn-danger btn-circle btn-sm " ngbTooltip="Desactivar">
+                                                    <i class="fas fa-trash" aria-hidden="true"></i>
+                                                </button>
+                                            </div>
+                                        </ng-template>
                                     </div>
                                 </td>
                             </tr>
@@ -98,10 +107,192 @@
     <mat-progress-bar *ngIf="cargando && modalIn" mode="indeterminate" ></mat-progress-bar>
     <ngb-alert *ngIf="mostrar_alerta && modalIn" [type]="tipo_alerta" (closed)="mostrar_alerta = false" >{{mensaje_alerta}}</ngb-alert>
     <div class="modal-body">
+        <div class="row justify-content-center">
+            <div class="card shadow mb-3 col-12 col-lg-8">
+                <div class="card-body">
+                    <form [formGroup]="mascotaForm">
+                        <div class="row color-row-table mt-4 mb-3">
+                            <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
+                                <label for="inputNombreMascota" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Nombre de la mascota: <small class="text-danger" data-toggle="tooltip" data-placement="top" title="*Obligatorio">(*)</small></label>
+                                <input formControlName="nombre" type="text" id="inputNombreMascota" class="border-left-primary font-tamanio form-control">
+                                <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                                    <div *ngIf="nombre.errors.required">
+                                        * El nombre de la mascota es requerido.
+                                    </div>
+                                    <div *ngIf="nombre.errors.pattern">
+                                        * El formato es inválido.
+                                    </div>
+                                    <div *ngIf="nombre.errors.minlength">
+                                        * Se requieren máximo 3 caracteres.
+                                    </div>
+                                    <div *ngIf="nombre.errors.maxlength">
+                                        * Se requieren máximo 45 caracteres.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-lg-6">
+                                <label for="inputEspecieMascota" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Especie: <small class="text-danger" data-toggle="tooltip" data-placement="top" title="*Obligatorio">(*)</small></label>
+                                <input formControlName="especie" type="text" id="inputEspecieMascota" class="border-left-primary font-tamanio form-control">
+                                <div *ngIf="especie.invalid && (especie.dirty || especie.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                                    <div *ngIf="especie.errors.required">
+                                        * La especie de la mascota es requerida.
+                                    </div>
+                                    <div *ngIf="especie.errors.pattern">
+                                        * El formato es inválido.
+                                    </div>
+                                    <div *ngIf="especie.errors.minlength">
+                                        * Se requieren mínimo 3 caracteres.
+                                    </div>
+                                    <div *ngIf="especie.errors.maxlength">
+                                        * Se requieren máximo 20 caracteres.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row color-row-table mb-3">
+                            <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
+                                <label for="inputRazaMascota" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Raza: <small class="text-danger" data-toggle="tooltip" data-placement="top" title="*Obligatorio">(*)</small></label>
+                                <input formControlName="raza" type="text" id="inputRazaMascota" class="border-left-primary font-tamanio form-control">
+                                <div *ngIf="raza.invalid && (raza.dirty || raza.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                                    <div *ngIf="raza.errors.required">
+                                        * El raza de la mascota es requerida.
+                                    </div>
+                                    <div *ngIf="raza.errors.pattern">
+                                        * El formato es inválido.
+                                    </div>
+                                    <div *ngIf="raza.errors.minlength">
+                                        * Se requieren mínimo 3 caracteres.
+                                    </div>
+                                    <div *ngIf="raza.errors.maxlength">
+                                        * Se requieren máximo 20 caracteres.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-lg-6">
+                                <label for="inputColorMascota" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Color: <small class="text-danger" data-toggle="tooltip" data-placement="top" title="*Obligatorio">(*)</small></label>
+                                <input formControlName="color" type="text" id="inputColorMascota" class="border-left-primary font-tamanio form-control">
+                                <div *ngIf="color.invalid && (color.dirty || color.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                                    <div *ngIf="color.errors.required">
+                                        * El color de la mascota es requerido.
+                                    </div>
+                                    <div *ngIf="color.errors.pattern">
+                                        * El formato es inválido.
+                                    </div>
+                                    <div *ngIf="color.errors.minlength">
+                                        * Se requieren mínimo 3 caracteres.
+                                    </div>
+                                    <div *ngIf="color.errors.maxlength">
+                                        * Se requieren máximo 20 caracteres.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row justify-content-center mt-4">
+            <div class="card shadow mb-3 col-12 col-lg-11" >
+                <div class="card-header py-3 row justify-content-between">
+                    <div class="col-sm-12 col-md-12 col-lg-4 mb-4">
+                        <label for="inputBuscarCategoria"><i class="fa fa-search"></i>&nbsp;&nbsp;&nbsp;&nbsp;Dueño:</label>
+                        <div class="row ">
+                            <div class="col-10">
+                                <input id="inputBuscarCategoria" type="text" [(ngModel)]="busquedaCliente" class="border-left-primary font-tamanio form-control" name="busquedaCliente" placeholder="Ingrese Nombre..." >
+                            </div>
+                            <div class="col-1">
+                                <button class="btn btn-success" (click)="filtrarCliente()"><i class="fa fa-search"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-4">
+                        <label for="inputBuscarCategoria"><i class="fa fa-user"></i>&nbsp;&nbsp;&nbsp;&nbsp;Nombre cliente:</label>
+                        <input disabled type="text" value="{{nombreCliente}}" class="border-left-primary font-tamanio form-control" >
+                    </div>
+                </div>
+                <div class="card-body text-gray-400 ">
+                    <div  *ngIf="clientes.length<=0; else clienteModule">
+                        <h3>No hay clientes registrados.</h3>
+                    </div>
+                    <!---------------PAGINACIÓN------------->
+                    <div *ngIf="clientes?.length>0" class="row box-footer clearfix mt-3">     
+                        <div class="col-xl-10 col-lg-9 col-md-7 col-sm-7 col-6">
+                            <ngb-pagination *ngIf="clientes?.length>5" class="d-flex justify-content-start" size="sm" [maxSize]="5" [pageSize]="itemsPerPageModal"  [collectionSize]="clientes?.length" [(page)]="currentPageModal"></ngb-pagination>
+                        </div>
+                        <div class="col-xl-2 col-lg-3 col-md-5 col-sm-5 col-6">
+                            <select class="pull-right" [(ngModel)]="itemsPerPageModal" class="form-control form-control-sm custom-select">
+                                <option value="5"> 5 elementos</option>
+                                <option value="10">10 elementos</option>
+                                <option value="20">20 elementos</option>                    
+                                <option value="50">50 elementos</option>                    
+                                <option value="100">100 elementos</option>                    
+                            </select>  
+                        </div>    
+                    </div>
+                    <ng-template #clienteModule>
+                        <div class="table-module">
+                            <table class="table table-bordered text-gray-400" id="dataTable" cellspacing="1">
+                                <thead>
+                                    <tr>
+                                        <th class="color-row-table puntero">Agregar</th>
+                                        <th class="color-row-table text-center puntero" scope="col" sortable="CLIENTE_ID" (sort)="onSorted($event)">Código</th>
+                                        <th class="color-row-table text-center puntero" scope="col" sortable="CLIENTE_NOMBRES" (sort)="onSorted($event)">Nombres</th>
+                                        <th class="color-row-table text-center puntero" scope="col" sortable="CLIENTE_TELEFONO" (sort)="onSorted($event)">Teléfono</th>
+                                        <th class="color-row-table text-center puntero" scope="col" sortable="CLIENTE_DNI" (sort)="onSorted($event)">DNI</th>
+                                        <th class="color-row-table text-center puntero" scope="col" sortable="CLIENTE_DIRECCION" (sort)="onSorted($event)">Dirección</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let cliente of clientes| filterClienteByName:busquedaCliente |slice:(currentPageModal-1)*itemsPerPageModal:currentPageModal*itemsPerPageModal ; let i = index ">
+                                        <td class="color-row-table text-center">
+                                            <span (click)="agregarCliente(cliente)" class="btn btn-success btn-circle btn-sm" ngbTooltip="Agregar" >
+                                                <i class="fa fa-check" aria-hidden="true"></i>
+                                            </span>
+                                        </td>
+                                        <td [ngStyle]="{'background':cliente.CLIENTE_ID==clienteSeleccionado?'#0d6efd':'white','color':cliente.CLIENTE_ID==clienteSeleccionado?'white':'#6E707E'}" class="color-row-table">{{cliente.CLIENTE_ID}}</td>
+                                        <td [ngStyle]="{'background':cliente.CLIENTE_ID==clienteSeleccionado?'#0d6efd':'white','color':cliente.CLIENTE_ID==clienteSeleccionado?'white':'#6E707E'}" class="color-row-table">{{cliente.CLIENTE_NOMBRES}}</td>
+                                        <td [ngStyle]="{'background':cliente.CLIENTE_ID==clienteSeleccionado?'#0d6efd':'white','color':cliente.CLIENTE_ID==clienteSeleccionado?'white':'#6E707E'}" class="color-row-table">{{cliente.CLIENTE_TELEFONO}}</td>
+                                        <td [ngStyle]="{'background':cliente.CLIENTE_ID==clienteSeleccionado?'#0d6efd':'white','color':cliente.CLIENTE_ID==clienteSeleccionado?'white':'#6E707E'}" class="color-row-table">{{cliente.CLIENTE_DNI}}</td>
+                                        <td [ngStyle]="{'background':cliente.CLIENTE_ID==clienteSeleccionado?'#0d6efd':'white','color':cliente.CLIENTE_ID==clienteSeleccionado?'white':'#6E707E'}" class="color-row-table">{{cliente.CLIENTE_DIRECCION}}</td>
+                                        
+                                    </tr>
+                                </tbody>
+                                
+                            </table>
+                            
+                        </div>
+                    </ng-template>
+                </div>
+            </div>
+        </div>
+        <div class="row d-flex text-center justify-content-center">
+            <div class="my-2 col-sm-12 col-md-12 col-lg-3">
+                <button [disabled]="mascotaForm.invalid || cargando" (click)="registrarMascota()" class="btn btn-primary btn-icon-split">
+                    <span class="text">Registrar&nbsp;<i class="fas fa-save"></i></span>
+                </button>
+            </div>
+            <div class="my-2 col-sm-12 col-md-12 col-lg-3">
+                <button (click)="closeModal()" class="btn btn-warning btn-icon-split">
+                    <span class="text">Volver&nbsp;<i class="fas fa-arrow-circle-left"></i></span>
+                </button>
+            </div>
+        </div>
+          
+    </div>
+</ng-template>
+
+<ng-template #editarMascotaModal>
+    <div class="modal-header justify-content-center">
+        <h4 class="modal-title " >Actualizar Mascota</h4>
+    </div>
+    <mat-progress-bar *ngIf="cargando && modalIn" mode="indeterminate" ></mat-progress-bar>
+    <ngb-alert *ngIf="mostrar_alerta && modalIn" [type]="tipo_alerta" (closed)="mostrar_alerta = false" >{{mensaje_alerta}}</ngb-alert>
+    <div class="modal-body">
         <form [formGroup]="mascotaForm">
             <div class="row color-row-table mt-4 mb-3">
                 <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
-                    <label for="inputNombreMascota">Nombre:</label>
+                    <label for="inputNombreMascota" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Nombre de la mascota: <small class="text-danger" data-toggle="tooltip" data-placement="top" title="*Obligatorio">(*)</small></label>
                     <input formControlName="nombre" type="text" id="inputNombreMascota" class="border-left-primary font-tamanio form-control">
                     <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)" class="my-1" style="color: rgb(197, 68, 68);">
                         <div *ngIf="nombre.errors.required">
@@ -119,7 +310,7 @@
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-6">
-                    <label for="inputEspecieMascota">Especie:</label>
+                    <label for="inputEspecieMascota" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Especie: <small class="text-danger" data-toggle="tooltip" data-placement="top" title="*Obligatorio">(*)</small></label>
                     <input formControlName="especie" type="text" id="inputEspecieMascota" class="border-left-primary font-tamanio form-control">
                     <div *ngIf="especie.invalid && (especie.dirty || especie.touched)" class="my-1" style="color: rgb(197, 68, 68);">
                         <div *ngIf="especie.errors.required">
@@ -139,7 +330,7 @@
             </div>
             <div class="row color-row-table mb-3">
                 <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
-                    <label for="inputRazaMascota">Raza:</label>
+                    <label for="inputRazaMascota" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Raza: <small class="text-danger" data-toggle="tooltip" data-placement="top" title="*Obligatorio">(*)</small></label>
                     <input formControlName="raza" type="text" id="inputRazaMascota" class="border-left-primary font-tamanio form-control">
                     <div *ngIf="raza.invalid && (raza.dirty || raza.touched)" class="my-1" style="color: rgb(197, 68, 68);">
                         <div *ngIf="raza.errors.required">
@@ -157,7 +348,7 @@
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-6">
-                    <label for="inputColorMascota">Especie:</label>
+                    <label for="inputColorMascota" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Color: <small class="text-danger" data-toggle="tooltip" data-placement="top" title="*Obligatorio">(*)</small></label>
                     <input formControlName="color" type="text" id="inputColorMascota" class="border-left-primary font-tamanio form-control">
                     <div *ngIf="color.invalid && (color.dirty || color.touched)" class="my-1" style="color: rgb(197, 68, 68);">
                         <div *ngIf="color.errors.required">
@@ -174,141 +365,20 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row color-row-table mb-3">
-                <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
-                    <label for="inputTipoClienteBusqueda">Tipo de búsqueda:</label>
-                    <select  formControlName="tipo_cliente" id="inputTipoClienteBusqueda" class="border-left-primary form-select">
-                        <option hidden value="" disabled>Escoge una opción</option>
-                        <option [value]="0" >DNI (Cliente Natural)</option>
-                        <option [value]="1" >RUC (Cliente Jurídico)</option>
-                    </select>
-                    <div *ngIf="tipo_cliente.invalid && (tipo_cliente.dirty || tipo_cliente.touched)" class="my-1" style="color: rgb(197, 68, 68);">
-                        <div *ngIf="tipo_cliente.errors.required">
-                            * El tipo de busqueda es requerido.
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-12 col-md-6 col-lg-6">
-                    <label for="inputColorMascota">DNI/RUC:</label>
-                    <input formControlName="color" type="text" id="inputColorMascota" class="border-left-primary font-tamanio form-control">
-                    <div *ngIf="color.invalid && (color.dirty || color.touched)" class="my-1" style="color: rgb(197, 68, 68);">
-                        <div *ngIf="color.errors.required">
-                            * El color de la mascota es requerido.
-                        </div>
-                        <div *ngIf="color.errors.pattern">
-                            * El formato es inválido.
-                        </div>
-                        <div *ngIf="color.errors.minlength">
-                            * Se requieren mínimo 3 caracteres.
-                        </div>
-                        <div *ngIf="color.errors.maxlength">
-                            * Se requieren máximo 20 caracteres.
-                        </div>
-                    </div>
-                </div>
-                <!-- <div class="col-sm-12 col-md-6 col-lg-2 text-center mt-4">
-                    <button (click)="closeModal()" class="btn btn-primary">
-                        <span class="text">&nbsp;<i class="fas fa-search"></i></span>
-                    </button>
-                </div> -->
             </div>
         </form>
-        <!-- <form [formGroup]="clienteForm">
-            <div class="row color-row-table mt-4 mb-3">
-                <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
-                    <label for="inputNombreClienteNatural">Nombre:</label>
-                    <input formControlName="nombres" type="text" id="inputNombreClienteNatural" class="border-left-primary font-tamanio form-control">
-                    <div *ngIf="nombres.invalid && (nombres.dirty || nombres.touched)" class="my-1" style="color: rgb(197, 68, 68);">
-                        <div *ngIf="nombres.errors.required">
-                            * El nombre del cliente es requerido.
-                        </div>
-                        <div *ngIf="nombres.errors.pattern">
-                            * El formato es inválido.
-                        </div>
-                        <div *ngIf="nombres.errors.maxlength">
-                            * Se requieren máximo 100 caracteres.
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-12 col-md-6 col-lg-6">
-                    <label for="inputApellidosClienteNatural">Apellidos:</label>
-                    <input formControlName="apellidos" type="text" id="inputApellidosClienteNatural" class="border-left-primary font-tamanio form-control">
-                    <div *ngIf="apellidos.invalid && (apellidos.dirty || apellidos.touched)" class="my-1" style="color: rgb(197, 68, 68);">
-                        <div *ngIf="apellidos.errors.pattern">
-                            * El formato es inválido.
-                        </div>
-                        <div *ngIf="apellidos.errors.maxlength">
-                            * Se requieren máximo 30 caracteres.
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row color-row-table mb-3">
-                <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
-                    <label for="inputCelularClienteNatural">Celular: <small class="text-danger">&nbsp;(Ejemplo: +51987802338)</small></label>
-                    <input formControlName="celular" type="text" id="inputCelularClienteNatural" class="border-left-primary font-tamanio form-control">
-                    <div *ngIf="celular.invalid && (celular.dirty || celular.touched)" class="my-1" style="color: rgb(197, 68, 68);">
-                        <div *ngIf="celular.errors.required">
-                            * El celular del cliente es requerido.
-                        </div>
-                        <div *ngIf="celular.errors.pattern">
-                            * El formato es inválido.
-                        </div>
-                        <div *ngIf="celular.errors.minlength">
-                            * Se requieren mínimo 12 caracteres.
-                        </div>
-                        <div *ngIf="celular.errors.maxlength">
-                            * Se requieren máximo 12 caracteres.
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-12 col-md-6 col-lg-6">
-                    <label for="inputDNIClienteNatural">DNI:</label>
-                    <input formControlName="dni" type="text" id="inputDNIClienteNatural" class="mt-lg-0 mt-md-4 border-left-primary font-tamanio form-control">
-                    <div *ngIf="dni.invalid && (dni.dirty || dni.touched)" class="my-1" style="color: rgb(197, 68, 68);">
-                        <div *ngIf="dni.errors.required">
-                            * El dni del cliente es requerido.
-                        </div>
-                        <div *ngIf="dni.errors.pattern">
-                            * El formato es inválido.
-                        </div>
-                        <div *ngIf="dni.errors.minlength">
-                            * Se requieren mínimo 8 caracteres.
-                        </div>
-                        <div *ngIf="dni.errors.maxlength">
-                            * Se requieren máximo 8 caracteres.
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row color-row-table justify-content-center mb-3">
-                <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
-                    <label for="inputDireccionClienteNatural">Dirección:</label>
-                    <input formControlName="direccion" type="text" id="inputDireccionClienteNatural" class="border-left-primary font-tamanio form-control">
-                    <div *ngIf="direccion.invalid && (direccion.dirty || direccion.touched)" class="my-1" style="color: rgb(197, 68, 68);">
-                        <div *ngIf="direccion.errors.pattern">
-                            * El formato es inválido.
-                        </div>
-                        <div *ngIf="direccion.errors.maxlength">
-                            * Se requieren maximo 100 caracteres.
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </form> -->
         <div class="row d-flex text-center justify-content-center">
-            <!-- <div class="my-2 col-sm-12 col-md-12 col-lg-3">
-                <button [disabled]="clienteForm.invalid" (click)="registrarClienteNatural()" class="btn btn-primary btn-icon-split">
-                    <span class="text">Registrar&nbsp;<i class="fas fa-save"></i></span>
+            <div class="my-2 col-sm-12 col-md-12 col-lg-3">
+                <button [disabled]="mascotaForm.invalid || cargando" (click)="actualizarMascota()" class="btn btn-primary btn-icon-split">
+                    <span class="text">Actualizar&nbsp;<i class="fas fa-save"></i></span>
                 </button>
-            </div> -->
+            </div>
             <div class="my-2 col-sm-12 col-md-12 col-lg-3">
                 <button (click)="closeModal()" class="btn btn-warning btn-icon-split">
                     <span class="text">Volver&nbsp;<i class="fas fa-arrow-circle-left"></i></span>
                 </button>
             </div>
         </div>
-          
     </div>
+
 </ng-template>

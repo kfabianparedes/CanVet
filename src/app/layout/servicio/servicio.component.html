@@ -6,7 +6,7 @@
     <h1 class="h3 mb-2 text-gray-800 col-12 text-center">Solicitar Servicios</h1>
 
     <!-- DataTales Example -->
-    <div class="card shadow mb-3 col-12 col-lg-8" style="height: 100%;">
+    <div class="card shadow mb-3 col-12 col-lg-10" style="height: 100%;">
         <div class="card-header py-3 row ">
             <h5>Servicio</h5>
         </div>
@@ -14,7 +14,7 @@
             <form [formGroup]="servicioForm">
                 <div class="row color-row-table">
                     <div class="col-sm-12 col-md-5 mb-4">
-                        <label for="inputTiposServicio">Tipo de servicio:</label>
+                        <label for="inputTiposServicio" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Tipo de servicio: <small class="text-danger" data-toggle="tooltip" data-placement="top" title="*Obligatorio">(*)</small></label>
                         <select formControlName="servicio"  id="inputTiposServicio" class="border-left-primary form-select">
                             <option hidden value="" disabled>Escoge una opción</option>
                             <option [value]="tipos.TIPO_SERVICIO_ID" *ngFor="let tipos of tiposServicios">{{tipos.TIPO_SERVICIO_NOMBRE}}</option>
@@ -25,8 +25,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="offset-sm-0 offset-md-2  col-sm-12 col-md-5 ">
-                        <label for="inputPrecioServicio">Precio (S/):</label>
+                    <div class="offset-sm-0 offset-md-2  col-sm-12 col-md-2 mb-4">
+                        <label for="inputPrecioServicio" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Precio (S/): <small class="text-danger" data-toggle="tooltip" data-placement="top" title="*Obligatorio">(*)</small></label>
                         <input type="text" name="inputPrecioServicio" formControlName="precio" class="border-left-primary font-tamanio form-control">
                         <div *ngIf="precio.invalid && (precio.dirty || precio.touched)" class="my-1" style="color: rgb(197, 68, 68);">
                             <div *ngIf="precio.errors.required">
@@ -37,11 +37,23 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-sm-12 col-md-3 ">
+                        <label for="inputFormaDePago" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Forma de pago: <small class="text-danger" data-toggle="tooltip" data-placement="top" title="*Obligatorio">(*)</small></label>
+                        <select  formControlName="forma_pago" id="inputFormaDePago" class="border-left-primary form-select">
+                            <option hidden value="" disabled>Escoge una opción</option>
+                            <option [value]="metodo.MDP_ID" *ngFor="let metodo of metodos_pago">{{metodo.MDP_NOMBRE}}</option>
+                        </select>
+                        <div *ngIf="forma_pago.invalid && (forma_pago.dirty || forma_pago.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                            <div *ngIf="forma_pago.errors.required">
+                                * La forma de pago es requerida.
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <br>
                 <div class="row color-row-table">
                     <div class="col-sm-12 col-md-5 mb-4">
-                        <label for="inputModalidadServicio">Modalidad:</label>
+                        <label for="inputModalidadServicio" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Modalidad: <small class="text-danger" data-toggle="tooltip" data-placement="top" title="*Obligatorio">(*)</small></label>
                         <select  formControlName="modalidad" id="inputModalidadServicio" class="border-left-primary form-select">
                             <option hidden value="" disabled>Escoge una opción</option>
                             <option [value]="0" >Ahora</option>
@@ -57,7 +69,7 @@
                     <div class="offset-sm-0 offset-md-2  col-10 col-md-5">
                         <div class="row">
                             <div class="col-10 col-sm-10 col-md-9 col-lg-9">
-                                <label for="inputMascotaServicio">Mascota:</label>
+                                <label for="inputMascotaServicio" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Mascota: <small class="text-danger" data-toggle="tooltip" data-placement="top" title="*Obligatorio">(*)</small></label>
                                 <input disabled value="{{nombre_mascota_seleccionada}}" type="text" id="inputMascotaServicio" class="border-left-primary font-tamanio form-control">
                             </div>
                             <div class="col-2 col-sm-1 col-md-1 col-lg-1 py-1" style="margin-top: 1.7rem !important;">
@@ -69,9 +81,9 @@
                 </div>
                 <br>
                 <form [formGroup]="citaForm">
-                    <div class="row color-row-table">
-                        <div class="col-sm-12 col-md-5 mb-4">
-                            <label for="inputFechaCitaServicio">Fecha de atención:</label>
+                    <div class="row color-row-table ">
+                        <div class="col-sm-12 col-md-5 mb-4 ">
+                            <label for="inputFechaCitaServicio" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Fecha de atención: <small class="text-danger" data-toggle="tooltip" data-placement="top" title="*Obligatorio">(*)</small></label>
                             <input [min]="getTodayFecha()" [ngClass]="{'textoGris': opacarFecha }" (change)="cambiarDeStyleDate()" type="date" name="inputFechaCitaServicio" formControlName="fecha" class="border-left-primary font-tamanio form-control">
                             <div *ngIf="fecha.invalid && (fecha.dirty || fecha.touched)" class="my-1" style="color: rgb(197, 68, 68);">
                                 <div *ngIf="fecha.errors.required">
@@ -80,14 +92,14 @@
                             </div>
                         </div>
                         <div class="offset-sm-0 offset-md-2  col-sm-12 col-md-5 ">
-                            <label for="inputHoraServicio">Hora del servicio:</label>
+                            <label for="inputHoraServicio" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Hora del servicio: <small class="text-danger" data-toggle="tooltip" data-placement="top" title="*Obligatorio">(*)</small></label>
                             <ngb-timepicker  formControlName="hora"   class="notranslate" [seconds]="seconds" [meridian]="meridian" id="inputHoraServicio"></ngb-timepicker>
                         </div>
                     </div>
                 </form>
                 <br>
                 <div class="row color-row-table ">
-                    <div class="col-sm-12 col-md-8 mb-4">
+                    <div class="col-sm-12 col-md-9 mb-4">
                         <label for="inputDescripcionServicio">Descripción:</label>
                         <textarea formControlName="descripcion"  type="text" id="inputDescripcionServicio" class="border-left-primary font-tamanio form-control"></textarea>
                         <div *ngIf="descripcion.invalid && (descripcion.dirty || descripcion.touched)" class="my-1" style="color: rgb(197, 68, 68);">
@@ -99,7 +111,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="offset-sm-0 offset-md-1  col-sm-12 col-md-3 ">
+                    <div class="offset-sm-0 offset-md-1  col-sm-12 col-md-2 ">
                         <label for="inputAdelantoServicio">Adelanto (S/):</label>
                         <input formControlName="adelanto"  type="text" id="inputAdelantoServicio" class="border-left-primary font-tamanio form-control">
                         <div *ngIf="adelanto.invalid && (adelanto.dirty || adelanto.touched)" class="my-1" style="color: rgb(197, 68, 68);">
@@ -115,7 +127,7 @@
         </div>
         <div class="card-footer py-3 row justify-content-center">
             <div class="col-sm-12 col-md-4 col-xl-3 ">
-                <button [disabled]="servicioForm.invalid || citaForm.invalid || cargando" (click)="registrarServicio()" type="button" class="btn btn-primary">Crear Servicio</button>
+                <button [disabled]="servicioForm.invalid || citaForm.invalid || cargando || !mascota_seleccionada" (click)="registrarServicio()" type="button" class="btn btn-primary">Crear Servicio</button>
             </div>
         </div>
     </div>
@@ -124,7 +136,7 @@
 
 <ng-template #buscarMascotaModal>
     <div class="modal-header justify-content-center">
-        <h4 class="modal-title " >Buscar Artículo</h4>
+        <h4 class="modal-title " >Buscar Mascota</h4>
     </div>
     <mat-progress-bar *ngIf="cargando && modalIn" mode="indeterminate" ></mat-progress-bar>
     <ngb-alert *ngIf="mostrar_alerta && modalIn" [type]="tipo_alerta" (closed)="mostrar_alerta = false" >{{mensaje_alerta}}</ngb-alert>

@@ -100,4 +100,8 @@ export class ClienteService {
     const url = environment.domain_url + '/api/clientes/listar.php';
     return this.http.get<any>(url,this.httpHead).pipe(retry(2));
   }
+  listarClientesTotales():Observable<any>{
+    const url = environment.domain_url + '/api/clientes/listarClientes.php';
+    return this.http.get<any>(url,this.httpHead).pipe(retry(2));
+  }
 }

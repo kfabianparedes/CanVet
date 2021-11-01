@@ -34,7 +34,8 @@ export class ServicioService {
       SERVICIO_FECHA_HORA: servicio.SERVICIO_FECHA_HORA,
       HORA_SERVICIO: servicio.HORA_SERVICIO,
       MASCOTA_ID: servicio.MASCOTA_ID,
-      SERVICIO_ADELANTO: servicio.SERVICIO_ADELANTO*100
+      SERVICIO_ADELANTO: servicio.SERVICIO_ADELANTO*100,
+      MDP_ID: servicio.MDP_ID
     }
     return this.http.post<any>(url,datos,this.httpHead).pipe(retry(2));
   }
@@ -53,7 +54,8 @@ export class ServicioService {
       SERVICIO_FECHA_HORA: servicio.SERVICIO_FECHA_HORA,
       HORA_SERVICIO: servicio.HORA_SERVICIO,
       MASCOTA_ID: servicio.MASCOTA_ID,
-      SERVICIO_ADELANTO: servicio.SERVICIO_ADELANTO*100
+      SERVICIO_ADELANTO: servicio.SERVICIO_ADELANTO*100,
+      MDP_ID:servicio.MDP_ID
     }
     return this.http.put<any>(url,datos,this.httpHead).pipe(retry(2));
   }

@@ -5,5 +5,6 @@ export class Mascota {
     MAS_COLOR :string; 
     MAS_ESPECIE :string; 
     MAS_ATENCIONES :number; 
+    MAS_ESTADO: number;
     CLIENTE_ID :number;
 }

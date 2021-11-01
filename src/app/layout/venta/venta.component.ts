@@ -115,6 +115,9 @@ export class VentaComponent implements OnInit {
   
   closeModal(): any {
     this.modal.dismissAll();
+    this.busquedaPorCategoria = '';
+    this.busquedaPorUnidadDeMedida = '';
+    this.filtrarPorCategoria();
   }
   /******************BUSCAR INFORMACION DE CLIENTE ******************/
   //Variable de clientes
@@ -142,12 +145,12 @@ export class VentaComponent implements OnInit {
       this.mostrar_alerta = true;
       this.tipo_alerta='danger';
       this.modalIn = false;
-      this.mensaje_alerta = 'Debe de seleccionar el tipo de comprobante. Por favor, vuevla a intentarlo.';
+      this.mensaje_alerta = 'Debe de seleccionar el tipo de comprobante. Por favor, vuelva a intentarlo.';
     }else if(documento==''){
       this.mostrar_alerta = true;
       this.tipo_alerta='danger';
       this.modalIn = false;
-      this.mensaje_alerta = 'No ha ingresado el DNI o RUC del cliente. Por favor, vuevla a intentarlo.';
+      this.mensaje_alerta = 'No ha ingresado el DNI o RUC del cliente. Por favor, vuelva a intentarlo.';
     }else if(this.tipo_comprobante.value == 1){
       this.cliente_juridico_buscado = this.clientes_juridicos.find(cliente_jur => cliente_jur.DJ_RUC == documento);
       if(this.cliente_juridico_buscado == undefined || this.cliente_juridico_buscado == null){
@@ -235,6 +238,7 @@ export class VentaComponent implements OnInit {
       }
     )
   }
+
   listarMetodoPago(){
     this.cargando = true;
     this.modalIn = false;
@@ -368,8 +372,8 @@ export class VentaComponent implements OnInit {
     if(this.btnRegistroValido){
       this.venta.VENTA_FECHA_EMISION_COMPROBANTE = this.fecha_emision.value;
       this.venta.VENTA_FECHA_REGISTRO = this.getTodayFecha();
-      this.venta.VENTA_NRO_SERIE = this.serie.value;
-      this.venta.VENTA_NRO_COMPROBANTE = this.nro_comprobante.value;
+      this.venta.VENTA_NRO_SERIE = ''//this.serie.value;
+      this.venta.VENTA_NRO_COMPROBANTE = ''//this.nro_comprobante.value;
       this.venta.VENTA_SUBTOTAL = this.TotalCompra;
       this.venta.VENTA_TOTAL = this.TotalCompra;
       this.venta.USU_ID = +this.storageService.getString('USE_ID');
@@ -452,8 +456,9 @@ export class VentaComponent implements OnInit {
     this.comprobanteForm = this.formBuilder.group({
       documento:['',[Validators.required,Validators.pattern(/^([0-9])*$/),Validators.minLength(8),Validators.minLength(8),Validators.maxLength(11)]],
       tipo_comprobante:['',[Validators.required]],
-      serie:['',[Validators.required, Validators.pattern(/^([0-9])*$/),Validators.minLength(3), Validators.maxLength(5)]],
-      nro_comprobante:['',[Validators.required, Validators.pattern(/^([0-9])*$/),Validators.minLength(7), Validators.maxLength(10)]],
+      //DESHABILITADO POR AHORA SERI Y NRO COMPROBANTE
+      // serie:['',[Validators.pattern(/^([0-9])*$/),Validators.minLength(3), Validators.maxLength(5)]],
+      // nro_comprobante:['',[Validators.pattern(/^([0-9])*$/),Validators.minLength(7), Validators.maxLength(10)]],
       fecha_emision:['',[Validators.required]],
       forma_pago:['',[Validators.required]]
     });
@@ -465,12 +470,12 @@ export class VentaComponent implements OnInit {
   get tipo_comprobante() {
     return this.comprobanteForm.get('tipo_comprobante');
   }
-  get serie() {
-    return this.comprobanteForm.get('serie');
-  }
-  get nro_comprobante() {
-    return this.comprobanteForm.get('nro_comprobante');
-  }
+  // get serie() {
+  //   return this.comprobanteForm.get('serie');
+  // }
+  // get nro_comprobante() {
+  //   return this.comprobanteForm.get('nro_comprobante');
+  // }
   get fecha_emision(){
     return this.comprobanteForm.get('fecha_emision');
   }

@@ -41,13 +41,13 @@ export class DashboardComponent implements OnInit {
   servicios_pendientes: any[] = [];
 
   listarServiciosPendientes(){
-    this.mostrar_alerta = false;
     this.cargando = true;
     this.modalIn = false;
     this.servicioService.listarServiciosPendientes().subscribe(
       (data)=>{
         this.servicios_pendientes = data['resultado'];
         this.cargando = false;
+        console.log(data);
       },
       (error)=>{
         this.cargando = false;
@@ -89,7 +89,7 @@ export class DashboardComponent implements OnInit {
   } 
 
   postergarServicio(servicio:Servicio){
-    this.modal.open(this.postergarServicioModal,{size:'sm'});
+    this.modal.open(this.postergarServicioModal,{size:'md'});
     this.servicioModificado = servicio;
     console.log(this.servicioModificado);
   }
@@ -136,6 +136,7 @@ export class DashboardComponent implements OnInit {
     this.servicioPostergado.HORA_SERVICIO = this.HORA_SERVICIO;
     this.servicioPostergado.MASCOTA_ID = this.servicioModificado.MASCOTA_ID;
     this.servicioPostergado.SERVICIO_ADELANTO = this.servicioModificado.SERVICIO_ADELANTO;
+    this.servicioPostergado.MDP_ID  = this.servicioModificado.MDP_ID ;
     console.log(this.servicioPostergado);
     this.mostrar_alerta = false;
     this.cargando = true;

@@ -32,6 +32,11 @@ export class CajaComponent implements OnInit {
   aperturaCajaForm : FormGroup;
   cierreCajaForm: FormGroup;
 
+  //totales de las sumas de cierre de caja
+  totalYape : number ; 
+  totalTarjeta : number ; 
+  totalEfectivo : number ;
+
   constructor(
     private formBuilder: FormBuilder,
     private storageService:StorageService,
@@ -101,8 +106,75 @@ export class CajaComponent implements OnInit {
       this.mostrarCierre = false;
     }
   }
+  /************************ REGISTRA CIERRE CAJA ***********************/ 
+
+  cajaCierre = new Caja();
+
+  llenarDatosCajaCierre(caja:Caja){
+
+    caja.CAJA_CODIGO = this.storageService.getString('OPEN_CODE');
+    caja.CAJA_MONTO_EFECTIVO_SERVICIOS = this.gananciasServiciosEfectivo * 100 ; 
+    caja.CAJA_MONTO_TARJETA_SERVICIOS = this.gananciasServiciosTarjeta* 100; 
+    caja.CAJA_MONTO_YAPE_SERVICIOS = this.gananciasServiciosYape * 100 ; 
+    caja.CAJA_MONTO_EFECTIVO_VENTAS = this.gananciasVentasEfectivo * 100 ; 
+    caja.CAJA_MONTO_TARJETA_VENTAS = this.gananciasVentasTarjeta * 100 ; 
+    caja.CAJA_MONTO_YAPE_VENTAS = this.gananciasVentasYape * 100 ; 
+    caja.CAJA_DESCUENTO_GASTOS = this.gastos.value * 100 ; 
+    this.totalEfectivo = caja.CAJA_MONTO_EFECTIVO_SERVICIOS + caja.CAJA_MONTO_EFECTIVO_VENTAS;
+    this.totalTarjeta = caja.CAJA_MONTO_TARJETA_SERVICIOS + caja.CAJA_MONTO_TARJETA_VENTAS;
+    this.totalYape = caja.CAJA_MONTO_YAPE_SERVICIOS + caja.CAJA_MONTO_YAPE_VENTAS;
+    caja.CAJA_MONTO_FINAL = (this.totalEfectivo + this.totalTarjeta + this.totalYape) - this.gastos.value ;
+  }
+  
   registrarCierre(){
 
+    this.cargando = true;
+    this.modalIn = false;
+
+    if(this.storageService.hasKey('OPEN_CODE')){
+      this.llenarDatosCajaCierre(this.cajaCierre);
+
+      this.cajaService.cerrarCaja(this.cajaCierre).subscribe(
+        
+        data =>{
+
+          this.cargando = false;
+          this.mostrar_alerta = true;
+          this.tipo_alerta='success';
+          this.mensaje_alerta = 'Caja cerrada con éxito.';
+          this.storageService.remove('OPEN_CODE');
+          this.storageService.remove('OPEN_ID');
+          this.flechaCierre = 'down';
+          this.mostrarCierre = false;
+        },error=>{
+
+          this.cargando = false;
+          this.mostrar_alerta = true;
+          this.tipo_alerta='danger';
+          if (error['error']['error'] !== undefined) {
+            if (error['error']['error'] === 'error_deBD') {
+              this.mensaje_alerta = 'Hubo un error al intentar ejecutar su solicitud. Por favor, actualice la página.';
+            }else if(error.error.error === 'error_deCampo'){
+              this.mensaje_alerta = 'Los datos ingresados son invalidos. Por favor, vuelva a intentarlo.';
+            }else if(error.error.error === 'error_cajaCerrada'){
+              this.mensaje_alerta = 'La caja ya está cerrada.';
+            }else if(error.error.error === 'error_noExistenciaCaja'){
+              this.mensaje_alerta = 'No existe existe ningguna caja abierta en este momento.';
+            }
+          }
+          else{
+            this.mensaje_alerta = 'Hubo un error al mostrar la información de esta página. Por favor, actualice la página.';
+          }
+        }
+
+      );
+    }else{
+      this.cargando = false;
+      this.mostrar_alerta = true;
+      this.tipo_alerta='danger';
+      this.mensaje_alerta = 'No existe una caja abierta en este momento.';
+    }
+    
   }
 
   inicializarAperturaFormulario(){
@@ -139,6 +211,7 @@ export class CajaComponent implements OnInit {
   gananciasVentasEfectivo:any; 
   gananciasVentasTarjeta:any; 
   gananciasVentasYape:any; 
+  
   listarMontoDelDia(){
     this.cargando = true;
     this.modalIn = false;
@@ -169,4 +242,5 @@ export class CajaComponent implements OnInit {
       }
     )
   }
+
 }

@@ -2,6 +2,7 @@ export class Caja {
     CAJA_ID : number;
     CAJA_APERTURA: string;
     CAJA_CIERRE: string;
+    CAJA_CODIGO: string;
     CAJA_MONTO_INICIAL: number;
     CAJA_MONTO_FINAL: number;
     CAJA_MONTO_EFECTIVO_VENTAS: number;

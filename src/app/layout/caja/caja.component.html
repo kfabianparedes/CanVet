@@ -44,12 +44,89 @@
             </h5>
         </div>
         <div *ngIf="mostrarCierre " class="card-body text-gray-400 text-center">
-            <form [formGroup]="cierreCajaForm">
                 <div class="row color-row-table">
+                    <div class="w-100">
+                        <br>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-3 col-lg-3 offset-lg-1 mt-2 mb-2 ">
+                        <label for="inputMontoInicial">Monto ventas efectivo (S/):</label>
+                    </div>
+                    <div class="col-12 col-md-4 col-lg-2 mb-4">
+                        <input value="{{gananciasVentasEfectivo.toFixed(2)}}" disabled type="text" id="inputMontoInicial" class="border-left-primary font-tamanio form-control">
+                    </div>
+
+                    <div class="col-12 col-sm-12 col-md-3 col-lg-3 mt-2 mb-2">
+                        <label for="inputMontoInicial">Monto ventas tarjeta (S/):</label>
+                    </div>
+                    <div class="col-12 col-md-4 col-lg-2 mb-4">
+                        <input value="{{gananciasVentasTarjeta.toFixed(2)}}" disabled type="text" id="inputMontoInicial" class="border-left-primary font-tamanio form-control">
+                    </div>
+
+                    <div class="col-12 col-sm-12 col-md-3 col-lg-3 offset-lg-1 mt-2 mb-2">
+                        <label for="inputMontoInicial">Monto ventas yape (S/):</label>
+                    </div>
+                    <div class="col-12 col-md-4 col-lg-2 mb-4">
+                        <input value="{{gananciasVentasYape.toFixed(2)}}" disabled type="text" id="inputMontoInicial" class="border-left-primary font-tamanio form-control">
+                    </div>
+
+                    <div class="col-12 col-sm-12 col-md-3 col-lg-3 mt-2 mb-2">
+                        <label for="inputMontoInicial">Monto servicios efectivo (S/):</label>
+                    </div>
+                    <div class="col-12 col-md-4 col-lg-2 mb-4">
+                        <input value="{{gananciasServiciosEfectivo.toFixed(2)}}" disabled type="text" id="inputMontoInicial" class="border-left-primary font-tamanio form-control">
+                    </div>
+
+                    <div class="col-12 col-sm-12 col-md-3 col-lg-3 offset-lg-1 mt-2 mb-2">
+                        <label  for="inputMontoInicial">Monto servicios tarjeta (S/):</label>
+                    </div>
+                    <div class="col-12 col-md-4 col-lg-2 mb-4">
+                        <input value="{{gananciasServiciosTarjeta.toFixed(2)}}" disabled type="text" id="inputMontoInicial" class="border-left-primary font-tamanio form-control">
+                    </div>
+
+                    <div class="col-12 col-sm-12 col-md-3 col-lg-3 mt-2 mb-2">
+                        <label  for="inputMontoInicial">Monto servicios yape (S/):</label>
+                    </div>
+                    <div class="col-12 col-md-4 col-lg-2 mb-4">
+                        <input value="{{gananciasServiciosYape.toFixed(2)}}" disabled type="text" id="inputMontoInicial" class="border-left-primary font-tamanio form-control">
+                    </div>
+
+                    <div class="row justify-content-center">
+
+                        <div class="col-12 col-sm-12 col-md-3 col-lg-3 mt-2 mb-2">
+                            <label  for="inputMontoInicial">Monto Total Efectivo (S/):</label>
+                        </div>
+                        <div class="col-12 col-md-4 col-lg-2 mb-4">
+                            <input value="{{(gananciasVentasEfectivo + gananciasServiciosEfectivo).toFixed(2)}}" disabled type="text" id="inputMontoInicial" class="border-left-primary font-tamanio form-control">
+                        </div>
+                        <div class="w-100"></div>
+
+                        <div class="col-12 col-sm-12 col-md-3 col-lg-3 mt-2 mb-2">
+                            <label  for="inputMontoInicial">Monto Total Tarjeta (S/):</label>
+                        </div>
+                        <div class="col-12 col-md-4 col-lg-2 mb-4">
+                            <input value="{{(gananciasVentasTarjeta + gananciasServiciosTarjeta).toFixed(2)}}" disabled type="text" id="inputMontoInicial" class="border-left-primary font-tamanio form-control">
+                        </div>
+                        <div class="w-100"></div>
+
+                        <div class="col-12 col-sm-12 col-md-3 col-lg-3 mt-2 mb-2">
+                            <label  for="inputMontoInicial">Monto Total Yape (S/):</label>
+                        </div>
+                        <div class="col-12 col-md-4 col-lg-2 mb-4">
+                            <input value="{{(gananciasVentasYape + gananciasServiciosYape).toFixed(2)}}" disabled type="text" id="inputMontoInicial" class="border-left-primary font-tamanio form-control">
+                        </div>
+
+
+                    </div>
+                </div>
+        </div>
+        <div *ngIf="mostrarCierre " class="card-footer py-3 row justify-content-center">
+            <form [formGroup]="cierreCajaForm">
+                <div class="row justify-content-center">
                     <div class="col-sm-12 col-md-3 col-lg-3 mt-2 mb-2">
                         <label for="inputMontoInicial">Gastos del día (S/):</label>
                     </div>
-                    <div class="col-6 col-md-4 col-lg-2 mb-4 ">
+    
+                    <div class="col-6 col-md-4 col-lg-3 mb-4 ">
                         <input formControlName="gastos" type="text" id="inputMontoInicial" class="border-left-primary font-tamanio form-control">
                         <div *ngIf="gastos.invalid && (gastos.dirty || gastos.touched)" class="my-1" style="color: rgb(197, 68, 68);">
                             <div *ngIf="gastos.errors.required">
@@ -60,73 +137,12 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="col-sm-12 col-md-3 col-lg-3 mt-2 mb-2">
-                        <label for="inputMontoInicial">Monto ventas efectivo (S/):</label>
-                    </div>
-                    <div class="col-6 col-md-4 col-lg-2 mb-4">
-                        <input value="{{gananciasVentasEfectivo}}" disabled type="text" id="inputMontoInicial" class="border-left-primary font-tamanio form-control">
-                    </div>
-
-                    <div class="col-sm-12 col-md-3 col-lg-3 mt-2 mb-2">
-                        <label for="inputMontoInicial">Monto ventas tarjeta (S/):</label>
-                    </div>
-                    <div class="col-6 col-md-4 col-lg-2 mb-4">
-                        <input value="{{gananciasVentasTarjeta}}" disabled type="text" id="inputMontoInicial" class="border-left-primary font-tamanio form-control">
-                    </div>
-
-                    <div class="col-sm-12 col-md-3 col-lg-3 mt-2 mb-2">
-                        <label for="inputMontoInicial">Monto ventas yape (S/):</label>
-                    </div>
-                    <div class="col-6 col-md-4 col-lg-2 mb-4">
-                        <input value="{{gananciasVentasYape}}" disabled type="text" id="inputMontoInicial" class="border-left-primary font-tamanio form-control">
-                    </div>
-
-                    <div class="col-sm-12 col-md-3 col-lg-3 mt-2 mb-2">
-                        <label for="inputMontoInicial">Monto servicios efectivo (S/):</label>
-                    </div>
-                    <div class="col-6 col-md-4 col-lg-2 mb-4">
-                        <input value="{{gananciasServiciosEfectivo}}" disabled type="text" id="inputMontoInicial" class="border-left-primary font-tamanio form-control">
-                    </div>
-
-                    <div class="col-sm-12 col-md-3 col-lg-3 mt-2 mb-2">
-                        <label  for="inputMontoInicial">Monto servicios tarjeta (S/):</label>
-                    </div>
-                    <div class="col-6 col-md-4 col-lg-2 mb-4">
-                        <input value="{{gananciasServiciosTarjeta}}" disabled type="text" id="inputMontoInicial" class="border-left-primary font-tamanio form-control">
-                    </div>
-
-                    <div class="col-sm-12 col-md-3 col-lg-3 mt-2 mb-2">
-                        <label  for="inputMontoInicial">Monto servicios yape (S/):</label>
-                    </div>
-                    <div class="col-6 col-md-4 col-lg-2 mb-4">
-                        <input value="{{gananciasServiciosYape}}" disabled type="text" id="inputMontoInicial" class="border-left-primary font-tamanio form-control">
-                    </div>
-                    <div class="w-100"></div>
-                    
+    
                     <div class="col-6 col-md-3">
-                        <button [disabled]="cierreCajaForm.invalid || cargando" class="btn btn-primary">Cerrar Caja&nbsp; <i class="fas fa-dollar-sign"></i></button>
+                        <button [disabled]="cierreCajaForm.invalid || cargando" (click)="registrarCierre();" class="btn btn-primary">Cerrar Caja&nbsp; <i class="fas fa-dollar-sign"></i></button>
                     </div>
                 </div>
             </form>
-            <div *ngIf="!cargando">
-                <!-- <div class="row color-row-table">
-                    <div class="col-sm-12 col-md-3 col-lg-3 mt-2 mb-2">
-                        <label for="inputMontoInicial">Gastos del día (S/):</label>
-                    </div>
-                    <div class="col-6 col-md-4 col-lg-5 mb-4">
-                        <input formControlName="gastos" type="text" id="inputMontoInicial" class="border-left-primary font-tamanio form-control">
-                        <div *ngIf="gastos.invalid && (gastos.dirty || gastos.touched)" class="my-1" style="color: rgb(197, 68, 68);">
-                            <div *ngIf="gastos.errors.required">
-                                * El monto de gastos del día es requerido.
-                            </div>
-                            <div *ngIf="gastos.errors.pattern">
-                                * El formato es inválido.
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
-            </div>
         </div>
     </div>
 </div>

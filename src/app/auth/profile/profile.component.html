@@ -2,16 +2,16 @@
     <mat-progress-bar *ngIf="cargando" mode="indeterminate" class="alert-loading"></mat-progress-bar>
     <ngb-alert *ngIf="mostrar_alerta" [type]="tipo_alerta" (closed)="mostrar_alerta = false" class="alert-loading">{{mensaje_alerta}}</ngb-alert>
     <h1 class="row h3 mb-2 text-gray-800 text-center"><span>Mi perfil</span></h1>
-    <div class="mt-4 row">
-        <div class="col-sm-12  col-md-4 info ">
+    <div class="mt-4 row justify-content-center">
+        <!-- <div class="col-sm-12  col-md-4 info ">
             <div class="row justify-content-center">
                 {{USE_USUARIO}}
             </div>
             <div class="row justify-content-center">
                 {{USE_NAMES}}
             </div>
-        </div>
-        <div class="col-sm-12  offset-md-1 col-md-6 info">
+        </div> -->
+        <div class="col-sm-12 col-md-6 info">
             <form [formGroup]="userForm">
                 <div class="row justify-content-center">
                     <div class="form-group row">
@@ -59,7 +59,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="p-0 col-sm-1 col-md-1 col-lg-1 centrar-ojo text-center">
+                        <div class=" col-sm-1 col-md-1 col-lg-1 centrar-ojo text-center">
                             <span (click)="cambiarVistaContrasena()">
                                 <i  class={{PASSWORD_CURRENT_ICON}} aria-hidden="true" ></i>
                             </span>

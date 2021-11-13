@@ -24,6 +24,13 @@ export class VentaService {
 
   registrarVenta(VENTA: any, DETALLES:any):Observable<any>{
     const url = environment.domain_url + '/api/ventas/registrar.php';
+    var CAJA_CODIGO ; 
+    if(this.storageService.hasKey('OPEN_CODE')){
+      CAJA_CODIGO = this.storageService.getString('OPEN_CODE');
+    }else{
+      CAJA_CODIGO = "";
+    }
+
     const datos = {
         VENTA:{
           USU_ID: VENTA.USU_ID ,
@@ -35,7 +42,8 @@ export class VentaService {
           VENTA_SUBTOTAL: VENTA.VENTA_SUBTOTAL*100,
           VENTA_TOTAL: VENTA.VENTA_TOTAL*100,
           METODO_DE_PAGO_ID: VENTA.METODO_DE_PAGO_ID,
-          CLIENTE_ID: VENTA.CLIENTE_ID
+          CLIENTE_ID: VENTA.CLIENTE_ID,
+          CAJA_CODIGO:CAJA_CODIGO
         },
         DETALLE_DE_VENTA:DETALLES
     }

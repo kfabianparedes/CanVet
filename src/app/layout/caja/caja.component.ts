@@ -47,7 +47,6 @@ export class CajaComponent implements OnInit {
   ngOnInit(): void {
     this.inicializarAperturaFormulario();
     this.inicializarCierreFormulario();
-    this.listarMontoDelDia();
   }
 
   abrirCaja(){
@@ -99,6 +98,8 @@ export class CajaComponent implements OnInit {
   }
   cerrarCaja(){
     if (this.flechaCierre === 'down') {
+      this.cargando = true;
+      this.listarMontoDelDia();
       this.mostrarCierre = true;
       this.flechaCierre = 'up';
     } else {

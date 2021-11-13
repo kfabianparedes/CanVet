@@ -35,7 +35,14 @@ export class CajaService {
   }
 
   listarMontoDiario():Observable<any>{
-    const url = environment.domain_url + '/api/ventas/gananciasDiarias.php';
+    var USU_ID = this.storageService.getString('USE_ID');
+    const url = environment.domain_url + '/api/ventas/gananciasDiarias?USU_ID='+ USU_ID;
+    return this.http.get<any>(url,this.httpHead).pipe(retry(2));
+  }
+
+  recuperarCaja():Observable<any>{
+    var USU_ID = this.storageService.getString('USE_ID');
+    const url = environment.domain_url + '/api/cajas/recuperarCaja?USU_ID='+ USU_ID;
     return this.http.get<any>(url,this.httpHead).pipe(retry(2));
   }
 

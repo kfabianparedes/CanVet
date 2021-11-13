@@ -27,6 +27,13 @@ export class ServicioService {
 
   registrarServicio(servicio:Servicio):Observable<any>{
     const url = environment.domain_url + '/api/servicios/registrar.php';
+    var CAJA_CODIGO ; 
+    if(this.storageService.hasKey('OPEN_CODE')){
+      CAJA_CODIGO = this.storageService.getString('OPEN_CODE');
+    }else{
+      CAJA_CODIGO = "";
+    }
+
     const datos = {
       SERVICIO_PRECIO: servicio.SERVICIO_PRECIO,
       TIPO_SERVICIO_ID: servicio.TIPO_SERVICIO_ID,
@@ -35,7 +42,8 @@ export class ServicioService {
       HORA_SERVICIO: servicio.HORA_SERVICIO,
       MASCOTA_ID: servicio.MASCOTA_ID,
       SERVICIO_ADELANTO: servicio.SERVICIO_ADELANTO*100,
-      MDP_ID: servicio.MDP_ID
+      MDP_ID: servicio.MDP_ID,
+      CAJA_CODIGO:CAJA_CODIGO
     }
     return this.http.post<any>(url,datos,this.httpHead).pipe(retry(2));
   }

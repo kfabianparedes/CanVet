@@ -60,6 +60,7 @@ export class UserComponent implements OnInit {
   ngOnInit(): void {
     this.listUsers();
     this.listarRoles();
+    this.inicializarFormulario();
   }
     //reactive form 
   inicializarFormulario(){
@@ -74,7 +75,8 @@ export class UserComponent implements OnInit {
       celular: ['', [Validators.required, Validators.pattern('[+][0-9]+'), Validators.maxLength(20), Validators.minLength(12)]] ,
       dni: ['', [Validators.required, Validators.pattern(/^([0-9])*$/), Validators.minLength(8),  Validators.maxLength(8)]],
       direccion: ['', [Validators.required , Validators.pattern('^[a-zñáéíóú#°/,. A-ZÑÁÉÍÓÚ  0-9]+$'), Validators.maxLength(100)]],
-      rol:['',[Validators.required]]
+      rol:['',[Validators.required]],
+      sexo_:['']
     });
   }
 
@@ -112,13 +114,15 @@ export class UserComponent implements OnInit {
   get rol() {
     return this.userForm.get('rol');
   }
+  get sexo_(){
+    return this.userForm.get('sexo_');
+  }
   obtenerSexo(sexo: string) {
     this.sexo = sexo;
   } 
 
   closeModal(): any {
     this.modal.dismissAll();
-    this.inicializarFormulario();
   }
 
   registerUserModal(){
@@ -189,12 +193,28 @@ export class UserComponent implements OnInit {
       )
     }
   }
-  editUser(user:Usuario){
-    this.userSelected = user;
+  editUser(usuario:any){
+    console.log(usuario);
+    this.user.setValue(usuario.USU_USUARIO);
+    this.email.setValue(usuario.USU_EMAIL);
+    this.nombres.setValue(usuario.USU_NOMBRES);
+    this.contrasena.setValue('');
+    console.log(usuario.USU_FECHA_NACIMIENTO);
+    this.fecha_nacimiento.setValue(usuario.USU_FECHA_NACIMIENTO);
+    this.direccion.setValue(usuario.USU_DIRECCION);
+    this.apellido_paterno.setValue(usuario.USU_APELLIDO_PATERNO);
+    this.apellido_materno.setValue(usuario.USU_APELLIDO_MATERNO);
+    this.celular.setValue(usuario.USU_CELULAR);
+    this.dni.setValue(usuario.USU_DNI);
+    this.rol.setValue(usuario.ROL_ID);
+
+    if(usuario.USU_SEXO == 'M'){
+      this.sexo_.setValue(1);
+    }else if(usuario.USU_SEXO == 'F') this.sexo_.setValue(0);
     this.modal.open(this.editUserModal);
   }
 
-  updateUser(user:Usuario){
+  updateUser(){
     
   }
   disableUser(id:number, state:number){
@@ -279,15 +299,7 @@ export class UserComponent implements OnInit {
   cambiarDeStyleDate() {
     this.opacarDateFechaNacimiento = false;
   }
-  asignarCamposForm(usuario: Usuario){
-    // this.user.setValue(this.usuario.USU_USUARIO);
-    // this.email.setValue(this.usuario.USU_EMAIL);
-    // this.nombres.setValue(this.usuario.USU_NOMBRES);
-    // this.contrasena.setValue('');
-    // this.apellido_paterno.setValue(this.usuario.USU_APELLIDO_PATERNO);
-    // this.apellido_materno.setValue(this.usuario.USU_APELLIDO_MATERNO);
-    // this.sexo.setValue(this.usuario.USU_SEXO);
-  }
+  
 
   /************************************* TABLAS ************************************/
   @ViewChildren(SorteableDirective) headers: QueryList<SorteableDirective>;

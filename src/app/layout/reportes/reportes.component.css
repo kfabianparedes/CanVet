@@ -1,3 +1,10 @@
+.color-row-table{
+    color: #6E707E;
+}
+.puntero{
+    cursor: pointer;
+}
+
 @media screen and (max-width:1670px){
     .table-module{
         overflow-x: scroll;

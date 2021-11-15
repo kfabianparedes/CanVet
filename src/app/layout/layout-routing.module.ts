@@ -14,6 +14,8 @@ import { ClienteComponent } from './cliente/cliente.component';
 import { CajaComponent } from './caja/caja.component';
 import { MascotaComponent } from './mascota/mascota.component';
 import { ReportesComponent } from './reportes/reportes.component';
+import { ReporteCajaComponent } from './reporte-caja/reporte-caja.component';
+import { ReporteVentaComponent } from './reporte-venta/reporte-venta.component';
 
 const routes: Routes = [
   {
@@ -32,7 +34,9 @@ const routes: Routes = [
       {path:'cliente',component:ClienteComponent},
       {path:'caja',component:CajaComponent},
       {path:'mascota',component:MascotaComponent},
-      {path:'reportes',component:ReportesComponent}
+      {path:'reporte-grafico',component:ReportesComponent},
+      {path:'reporte-caja',component:ReporteCajaComponent},
+      {path:'reporte-venta',component:ReporteVentaComponent}
 
     ]
   }

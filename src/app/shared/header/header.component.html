@@ -7,31 +7,32 @@
             <i class="fa fa-bars"></i>
         </button>
         <!-- Dropdown - User Information -->
-        <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+        <ul class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
             aria-labelledby="userDropdown">
             <a class="dropdown-item" [routerLink]="['/dashboard']">
                 <i class="fas fa-fw fa-home fa-lg fa-fw mr-2 text-gray-400"></i>Inicio
             </a>
-            <a class="dropdown-item" href="#">
+            <a class="dropdown-item">
                 <i class="fas fa-shopping-cart fa-lg fa-fw mr-2 text-gray-400"></i>Ventas
             </a>
-            <a class="dropdown-item" href="#">
+            <a class="dropdown-item">
                 <i class="fas fa-tags fa-lg fa-fw mr-2 text-gray-400"></i>Productos
             </a>
-            <a class="dropdown-item" href="#">
+            <a class="dropdown-item" [routerLink]="['/compra']">
                 <i class="fas fa-truck fa-lg fa-fw mr-2 text-gray-400"></i>Compras
             </a>
-            <a class="dropdown-item" href="#">
+            <a class="dropdown-item">
                 <i class="fas fa-chart-bar fa-lg fa-fw mr-2 text-gray-400"></i>Reportes
             </a>
-            <a class="dropdown-item" href="#">
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item">
                 <i class="fas fa-users fa-lg fa-fw mr-2 text-gray-400"></i>Administración 
             </a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#" data-toggle="modal" (click)="cerrarSesion()" data-target="#logoutModal">
+            <a class="dropdown-item" data-toggle="modal" (click)="cerrarSesion()" data-target="#logoutModal">
                 <i class="fas fa-sign-out-alt fa-lg fa-fw mr-2 text-gray-400"></i>Cerrar Sesión
             </a>
-        </div>
+        </ul>
     </li>
 
     <!--Nombre en el navbar-->

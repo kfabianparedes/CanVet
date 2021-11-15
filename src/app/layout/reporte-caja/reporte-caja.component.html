@@ -1,0 +1,118 @@
+<div class="row justify-content-center">
+  <mat-progress-bar *ngIf="cargando && !modalIn" mode="indeterminate" class="alert-loading"></mat-progress-bar>
+  <ngb-alert *ngIf="mostrar_alerta && !modalIn" [type]="tipo_alerta" (closed)="mostrar_alerta = false" class="alert-loading">{{mensaje_alerta}}</ngb-alert>
+
+<!-- Page Heading -->
+<h1 class="h3 mb-2 text-gray-800 col-12 text-center">Reporte General</h1>
+
+<!-- DataTales Example -->
+<div class="card shadow mb-3 col-12 col-lg-9" style="height: 100%;">
+    <div class="card-header py-3 row">
+        <h5 style="cursor:pointer" (click)="abrirReporteMesActual()"><span>CAJA: Mes Actual&nbsp;&nbsp;&nbsp;&nbsp;<i  class="fas fa-angle-{{flechaReporteMesActual}}"></i></span>
+        </h5>
+    </div>
+    <div *ngIf="mostrarReporteMesActual" class="card-body text-gray-400">
+        <div  *ngIf="reporte_mes_actual.length<=0; else reportesCajaMesActualModule">
+            <h3>No hay reportes de caja registrados.</h3>
+        </div>
+        <div *ngIf="reporte_mes_actual?.length>0" class="row box-footer clearfix mt-3">     
+            <div class="col-xl-10 col-lg-9 col-md-7 col-sm-7 col-6">
+                <ngb-pagination *ngIf="reporte_mes_actual?.length>5" class="d-flex justify-content-start" size="sm" [maxSize]="5" [pageSize]="itemsPorPaginaCajaMesActual"  [collectionSize]="reporte_mes_actual?.length" [(page)]="paginaActualCajaMesActual"></ngb-pagination>
+            </div>
+            <div class="col-xl-2 col-lg-3 col-md-5 col-sm-5 col-6">
+                <select class="pull-right" [(ngModel)]="itemsPorPaginaCajaMesActual" class="form-control form-control-sm custom-select">
+                    <option value="5"> 5 elementos</option>
+                    <option value="10">10 elementos</option>
+                    <option value="15">15 elementos</option>
+                    <option value="20">20 elementos</option>                    
+                    <option value="50">50 elementos</option>                    
+                </select>  
+            </div>    
+        </div>
+        <ng-template #reportesCajaMesActualModule>
+            <div class="table-module">
+                <table class="table table-bordered text-gray-400" id="dataTable" cellspacing="1">
+                    <thead>
+                        <tr>
+                            <th class="color-row-table text-center puntero" scope="col" sortable="CAJA_MONTO_EFECTIVO_SERVICIOS" (sort)="onSort($event)"><span>Efectivo Servicios</span></th>
+                            <th class="color-row-table text-center puntero" scope="col" sortable="CAJA_MONTO_EFECTIVO_VENTAS" (sort)="onSort($event)"><span>Efectivo Ventas</span></th>
+                            <th class="color-row-table text-center puntero" scope="col" sortable="CAJA_MONTO_TARJETA_SERVICIOS" (sort)="onSort($event)"><span>Tarjeta Servicios</span></th>
+                            <th class="color-row-table text-center puntero" scope="col" sortable="CAJA_MONTO_TARJETA_VENTAS" (sort)="onSort($event)"><span>Tarjeta Ventas</span></th>
+                            <th class="color-row-table text-center puntero" scope="col" sortable="CAJA_MONTO_YAPE_SERVICIOS" (sort)="onSort($event)"><span>Yape Servicios</span></th>
+                            <th class="color-row-table text-center puntero" scope="col" sortable="CAJA_MONTO_YAPE_VENTAS" (sort)="onSort($event)"><span>Yape Ventas</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let reporte of reporte_mes_actual| slice:(paginaActualCajaMesActual-1)*itemsPorPaginaCajaMesActual:paginaActualCajaMesActual*itemsPorPaginaCajaMesActual ; let i = index ">
+                            <td class="color-row-table">{{reporte.CAJA_MONTO_EFECTIVO_SERVICIOS}}</td>
+                            <td class="color-row-table">{{reporte.CAJA_MONTO_EFECTIVO_VENTAS}}</td>
+                            <td class="color-row-table">{{reporte.CAJA_MONTO_TARJETA_SERVICIOS}}</td>
+                            <td class="color-row-table">{{reporte.CAJA_MONTO_TARJETA_VENTAS}}</td>
+                            <td class="color-row-table">{{reporte.CAJA_MONTO_YAPE_SERVICIOS}}</td>
+                            <td class="color-row-table">{{reporte.CAJA_MONTO_YAPE_VENTAS}}</td>
+                            
+                        </tr>
+                    </tbody>
+                    
+                </table>
+                
+            </div>
+        </ng-template>
+    </div>
+</div>
+
+<div class="card shadow mb-3 col-12 col-lg-9" style="height: 100%;">
+    <div class="card-header py-3 row">
+        <h5 style="cursor:pointer" (click)="abrirReporteMesAnterior()"><span>CAJA: Mes Anterior&nbsp;&nbsp;&nbsp;&nbsp;<i  class="fas fa-angle-{{flechaReporteMesAnterior}}"></i></span>
+        </h5>
+    </div>
+    <div *ngIf="mostrarReporteMesAnterior" class="card-body text-gray-400">
+        <div  *ngIf="reporte_mes_actual.length<=0; else reportesCajaMesActualModule">
+            <h3>No hay reportes de caja registrados.</h3>
+        </div>
+        <div *ngIf="reporte_mes_actual?.length>0" class="row box-footer clearfix mt-3">     
+            <div class="col-xl-10 col-lg-9 col-md-7 col-sm-7 col-6">
+                <ngb-pagination *ngIf="reporte_mes_actual?.length>5" class="d-flex justify-content-start" size="sm" [maxSize]="5" [pageSize]="itemsPorPaginaCajaMesAnterior"  [collectionSize]="reporte_mes_actual?.length" [(page)]="paginaActualCajaMesAnterior"></ngb-pagination>
+            </div>
+            <div class="col-xl-2 col-lg-3 col-md-5 col-sm-5 col-6">
+                <select class="pull-right" [(ngModel)]="itemsPorPaginaCajaMesAnterior" class="form-control form-control-sm custom-select">
+                    <option value="5"> 5 elementos</option>
+                    <option value="10">10 elementos</option>
+                    <option value="15">15 elementos</option>
+                    <option value="20">20 elementos</option>                    
+                    <option value="50">50 elementos</option>                    
+                </select>  
+            </div>    
+        </div>
+        <ng-template #reportesCajaMesActualModule>
+            <div class="table-module">
+                <table class="table table-bordered text-gray-400" id="dataTable" cellspacing="1">
+                    <thead>
+                        <tr>
+                            <th class="color-row-table text-center puntero" scope="col" sortable="CAJA_MONTO_EFECTIVO_SERVICIOS" (sort)="onSorted($event)">Efectivo Servicios</th>
+                            <th class="color-row-table text-center puntero" scope="col" sortable="CAJA_MONTO_EFECTIVO_VENTAS" (sort)="onSorted($event)">Efectivo Ventas</th>
+                            <th class="color-row-table text-center puntero" scope="col" sortable="CAJA_MONTO_TARJETA_SERVICIOS" (sort)="onSorted($event)">Tarjeta Servicios</th>
+                            <th class="color-row-table text-center puntero" scope="col" sortable="CAJA_MONTO_TARJETA_VENTAS" (sort)="onSorted($event)">Tarjeta Ventas</th>
+                            <th class="color-row-table text-center puntero" scope="col" sortable="CAJA_MONTO_YAPE_SERVICIOS" (sort)="onSorted($event)">Yape Servicios</th>
+                            <th class="color-row-table text-center puntero" scope="col" sortable="CAJA_MONTO_YAPE_VENTAS" (sort)="onSorted($event)">Yape Ventas</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let reporte of reporte_mes_anterior| slice:(paginaActualCajaMesAnterior-1)*itemsPorPaginaCajaMesAnterior:paginaActualCajaMesAnterior*itemsPorPaginaCajaMesAnterior ; let i = index ">
+                            <td class="color-row-table">{{reporte.CAJA_MONTO_EFECTIVO_SERVICIOS}}</td>
+                            <td class="color-row-table">{{reporte.CAJA_MONTO_EFECTIVO_VENTAS}}</td>
+                            <td class="color-row-table">{{reporte.CAJA_MONTO_TARJETA_SERVICIOS}}</td>
+                            <td class="color-row-table">{{reporte.CAJA_MONTO_TARJETA_VENTAS}}</td>
+                            <td class="color-row-table">{{reporte.CAJA_MONTO_YAPE_SERVICIOS}}</td>
+                            <td class="color-row-table">{{reporte.CAJA_MONTO_YAPE_VENTAS}}</td>
+                            
+                        </tr>
+                    </tbody>
+                    
+                </table>
+                
+            </div>
+        </ng-template>
+    </div>
+</div>
+</div>

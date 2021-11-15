@@ -42,4 +42,9 @@ export class ReportesService {
     return this.http.get<any>(url,this.httpHead).pipe(retry(2));
   }
 
+  reporteVentas(){
+    const url = environment.domain_url + '/api/ventas/reportesFacturasBoletas.php';
+    return this.http.get<any>(url,this.httpHead).pipe(retry(2));
+  }
+
 }

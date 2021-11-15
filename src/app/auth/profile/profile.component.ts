@@ -79,7 +79,9 @@ export class ProfileComponent implements OnInit {
     this.contrasena.setValue('');
     this.apellido_paterno.setValue(this.usuario.USU_APELLIDO_PATERNO);
     this.apellido_materno.setValue(this.usuario.USU_APELLIDO_MATERNO);
-    this.sexo.setValue(this.usuario.USU_SEXO);
+    if(this.usuario.USU_SEXO == 'M'){
+      this.sexo.setValue(1);
+    }else if(this.usuario.USU_SEXO == 'F') this.sexo.setValue(0);
   }
 
   cambiarVistaContrasena() { // CAMBIA DE ICONO Y DE TIPO EN LA CONSTRASEÑA
@@ -123,7 +125,10 @@ export class ProfileComponent implements OnInit {
     this.usuario.USU_NOMBRES = this.nombres.value;
     this.usuario.USU_APELLIDO_PATERNO = this.apellido_paterno.value;
     this.usuario.USU_APELLIDO_MATERNO = this.apellido_materno.value;
-    this.usuario.USU_SEXO = this.sexo.value;
+    if(this.sexo.value==0)
+      this.usuario.USU_SEXO = 'F';
+    else if(this.sexo.value == 1)
+      this.usuario.USU_SEXO = 'M';
     this.userService.updateProfile(this.usuario).subscribe(
       (data)=>{
         this.updateAuthorization();
@@ -155,7 +160,7 @@ export class ProfileComponent implements OnInit {
           this.mensaje_alerta = 'Hubo un error al mostrar la información de esta página. Por favor, actualice la página o inténtelo más tarde.';
         }
       }
-    )
+    );
   }
 
   updateAuthorization(){ 

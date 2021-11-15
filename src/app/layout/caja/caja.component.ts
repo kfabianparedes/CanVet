@@ -235,7 +235,11 @@ export class CajaComponent implements OnInit {
         if (error['error']['error'] !== undefined) {
           if (error['error']['error'] === 'error_deBD') {
             this.mensaje_alerta = 'Hubo un error al intentar ejecutar su solicitud. Por favor, actualice la página.';
+          }if (error['error']['error'] === 'error_ErrorDeCajaNoAbierta') {
+            this.mensaje_alerta = 'Tiene que abrir una caja.';
+            this.tipo_alerta = 'warning';
           }
+          
         }
         else{
           this.mensaje_alerta = 'Hubo un error al mostrar la información de esta página. Por favor, actualice la página.';

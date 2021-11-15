@@ -35,7 +35,7 @@ export class ServicioService {
     }
 
     const datos = {
-      SERVICIO_PRECIO: servicio.SERVICIO_PRECIO,
+      SERVICIO_PRECIO: servicio.SERVICIO_PRECIO*100,
       TIPO_SERVICIO_ID: servicio.TIPO_SERVICIO_ID,
       SERVICIO_TIPO:servicio.SERVICIO_TIPO,
       SERVICIO_FECHA_HORA: servicio.SERVICIO_FECHA_HORA,
@@ -43,8 +43,11 @@ export class ServicioService {
       MASCOTA_ID: servicio.MASCOTA_ID,
       SERVICIO_ADELANTO: servicio.SERVICIO_ADELANTO*100,
       MDP_ID: servicio.MDP_ID,
+      USU_ID: servicio.USU_ID,
+      COMPROBANTE_ID: servicio.COMPROBANTE_ID,
       CAJA_CODIGO:CAJA_CODIGO
     }
+    
     return this.http.post<any>(url,datos,this.httpHead).pipe(retry(2));
   }
 

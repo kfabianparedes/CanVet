@@ -28,6 +28,8 @@ import { ReportesComponent } from './reportes/reportes.component';
 //gráficos  
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ReporteCajaComponent } from './reporte-caja/reporte-caja.component';
+import { ReporteVentaComponent } from './reporte-venta/reporte-venta.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ServicioComponent, 
     VentaComponent, 
     CompraComponent, 
-    ClienteComponent, CajaComponent, MascotaComponent, ReportesComponent
+    ClienteComponent, 
+    CajaComponent, 
+    MascotaComponent, 
+    ReportesComponent,
+    ReporteCajaComponent,
+    ReporteVentaComponent
   ],
   imports: [
     CommonModule,
@@ -52,8 +59,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     NgbModule,
     PipesModule,
     MatProgressBarModule,
-    DirectivesModule
-    ,BrowserAnimationsModule,NgxChartsModule
+    DirectivesModule,
+    BrowserAnimationsModule,
+    NgxChartsModule
   ],
   exports:[
     DashboardComponent,

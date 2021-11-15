@@ -27,4 +27,7 @@ export class SidebarComponent implements OnInit{
   cerrarSideBar(){
     this.toggled = 'toggled'; 
   }
+  cambiarSideBar($event:any){
+    this.toggled = $event; 
+  }
 }

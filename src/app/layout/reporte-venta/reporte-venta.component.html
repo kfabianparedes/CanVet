@@ -1,0 +1,274 @@
+<div class="row justify-content-center">
+  <mat-progress-bar *ngIf="cargando && !modalIn" mode="indeterminate" class="alert-loading"></mat-progress-bar>
+  <ngb-alert *ngIf="mostrar_alerta && !modalIn" [type]="tipo_alerta" (closed)="mostrar_alerta = false" class="alert-loading">{{mensaje_alerta}}</ngb-alert>
+  
+  <!-- Page Heading -->
+  <h1 class="h3 mb-2 text-gray-800 col-12 text-center">Reporte General</h1>
+
+  <!-- Reporte de ventas factura - MES ACTUAL -->
+  <div class="card shadow mb-3 col-12 col-lg-9" style="height: 100%;">
+      <div class="card-header py-3 row">
+          <h5 style="cursor:pointer" (click)="abrirReporte1()"><span>VENTA (FACTURA): Mes Actual&nbsp;&nbsp;&nbsp;&nbsp;<i  class="fas fa-angle-{{flecha1}}"></i></span>
+          </h5>
+      </div>
+      <div *ngIf="mostrarReporte1" class="card-body text-gray-400">
+          <div  *ngIf="mes_actual_ventas_factura.length<=0; else reportesCajaMesActualModule">
+              <h3>No hay ventas con factura en este mes.</h3>
+          </div>
+          <div *ngIf="mes_actual_ventas_factura?.length>0" class="row box-footer clearfix mt-3">     
+              <div class="col-xl-10 col-lg-9 col-md-7 col-sm-7 col-6">
+                  <ngb-pagination *ngIf="mes_actual_ventas_factura?.length>5" class="d-flex justify-content-start" size="sm" [maxSize]="5" [pageSize]="itemsPorPagina1"  [collectionSize]="mes_actual_ventas_factura?.length" [(page)]="paginaActual1"></ngb-pagination>
+              </div>
+              <div class="col-xl-2 col-lg-3 col-md-5 col-sm-5 col-6">
+                  <select class="pull-right" [(ngModel)]="itemsPorPagina1" class="form-control form-control-sm custom-select">
+                      <option value="5"> 5 elementos</option>
+                      <option value="10">10 elementos</option>
+                      <option value="15">15 elementos</option>
+                      <option value="20">20 elementos</option>                    
+                      <option value="50">50 elementos</option>                    
+                  </select>  
+              </div>    
+          </div>
+          <ng-template #reportesCajaMesActualModule>
+              <div class="table-module">
+                  <table class="table table-bordered text-gray-400" id="dataTable" cellspacing="1">
+                      <thead>
+                          <tr>
+                              <th class="color-row-table text-center puntero" scope="col" (sort)="onSort1($event)"><span>ID</span></th>
+                              <th class="color-row-table text-center puntero" scope="col" sortable="CLIENTE_NOMBRES" (sort)="onSort1($event)"><span>Cliente</span></th>
+                              <th class="color-row-table text-center puntero" scope="col" sortable="DJ_RAZON_SOCIAL" (sort)="onSort1($event)"><span>Razón Social</span></th>
+                              <th class="color-row-table text-center puntero" scope="col" sortable="DJ_RUC" (sort)="onSort1($event)"><span>RUC</span></th>
+                              <th class="color-row-table text-center puntero" scope="col" sortable="VENTA_FECHA_REGISTRO" (sort)="onSort1($event)"><span>Fecha registro</span></th>
+                              <th class="color-row-table text-center puntero" scope="col" sortable="VENTA_TOTAL" (sort)="onSort1($event)"><span>Total</span></th>
+                              <th class="color-row-table text-center puntero" scope="col" sortable="METODO_DE_PAGO_ID" (sort)="onSort1($event)"><span>Método de pago</span></th>
+                              <th class="color-row-table text-center puntero" scope="col" ><span>Acciones</span></th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr *ngFor="let reporte of mes_actual_ventas_factura | slice:(paginaActual1-1)*itemsPorPagina1:paginaActual1*itemsPorPagina1 ; let i = index ">
+                              <td class="color-row-table">{{i+1}}</td>
+                              <td class="color-row-table">{{reporte.CLIENTE_NOMBRES}}</td>
+                              <td class="color-row-table">{{reporte.DJ_RAZON_SOCIAL}}</td>
+                              <td class="color-row-table">{{reporte.DJ_RUC}}</td>
+                              <td class="color-row-table">{{reporte.VENTA_FECHA_REGISTRO | date: 'dd/MM/yyyy h:mm:ss a' }}</td>
+                              <td class="color-row-table">{{reporte.VENTA_TOTAL}}</td>
+                              <td class="color-row-table">{{reporte.METODO_DE_PAGO_ID==1?'EFECTIVO':reporte.METODO_DE_PAGO_ID==2?'TARJETA':reporte.METODO_DE_PAGO_ID==3?'YAPE':'ERROR'}}</td>
+                              <td class="color-row-table">
+                                <div class="row btnes">
+                                    <div class="col-1 button-table btn-edit">
+                                        <button (click)=verDetalles(reporte.VENTA_ID) class="btn btn-primary btn-circle btn-sm" ngbTooltip="Ver Más">
+                                            <i style="color: white;" class="text-center far fa-eye" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                              </td>
+                          </tr>
+                      </tbody>
+                      
+                  </table>
+                  
+              </div>
+          </ng-template>
+      </div>
+  </div>
+  
+  <!-- Reporte de servicios factura - MES ACTUAL -->
+  <div class="card shadow mb-3 col-12 col-lg-9" style="height: 100%;">
+    <div class="card-header py-3 row">
+        <h5 style="cursor:pointer" (click)="abrirReporte2()"><span>SERVICIOS (FACTURA): Mes Actual&nbsp;&nbsp;&nbsp;&nbsp;<i  class="fas fa-angle-{{flecha2}}"></i></span>
+        </h5>
+    </div>
+    <div *ngIf="mostrarReporte2" class="card-body text-gray-400">
+        <div  *ngIf="mes_actual_servicios_factura.length<0; else reportesServicioFacturaActual">
+            <h3>No hay servicios con factura este mes.</h3>
+        </div>
+        <div *ngIf="mes_actual_servicios_factura?.length>0" class="row box-footer clearfix mt-3">     
+            <div class="col-xl-10 col-lg-9 col-md-7 col-sm-7 col-6">
+                <ngb-pagination *ngIf="mes_actual_servicios_factura?.length>5" class="d-flex justify-content-start" size="sm" [maxSize]="5" [pageSize]="itemsPorPagina2"  [collectionSize]="mes_actual_servicios_factura?.length" [(page)]="paginaActual2"></ngb-pagination>
+            </div>
+            <div class="col-xl-2 col-lg-3 col-md-5 col-sm-5 col-6">
+                <select class="pull-right" [(ngModel)]="itemsPorPagina2" class="form-control form-control-sm custom-select">
+                    <option value="5"> 5 elementos</option>
+                    <option value="10">10 elementos</option>
+                    <option value="15">15 elementos</option>
+                    <option value="20">20 elementos</option>                    
+                    <option value="50">50 elementos</option>                    
+                </select>  
+            </div>    
+        </div>
+        <ng-template #reportesServicioFacturaActual>
+            <div class="table-module">
+                <table class="table table-bordered text-gray-400" id="dataTable" cellspacing="1">
+                    <thead>
+                        <tr>
+                            <th class="color-row-table text-center puntero" scope="col" sortable="CLIENTE_NOMBRES" (sort)="onSort2($event)"><span>Cliente</span></th>
+                            <th class="color-row-table text-center puntero" scope="col" sortable="DJ_RAZON_SOCIAL" (sort)="onSort2($event)"><span>Razón Social</span></th>
+                            <th class="color-row-table text-center puntero" scope="col" sortable="DJ_RUC" (sort)="onSort2($event)"><span>RUC</span></th>
+                            <th class="color-row-table text-center puntero" scope="col" sortable="SERVICIO_FECHA_HORA" (sort)="onSort2($event)"><span>Fecha servicio</span></th>
+                            <th class="color-row-table text-center puntero" scope="col" sortable="SERVICIO_PRECIO" (sort)="onSort2($event)"><span>Total</span></th>
+                            <th class="color-row-table text-center puntero" scope="col" sortable="METODO_DE_PAGO_ID" (sort)="onSort2($event)"><span>Método de pago</span></th>
+                            <th class="color-row-table text-center puntero" scope="col" ><span>Acciones</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let reporte of mes_actual_servicios_factura | slice:(paginaActual2-1)*itemsPorPagina2:paginaActual2*itemsPorPagina2 ; let i = index ">
+                            <td class="color-row-table">{{reporte.CLIENTE_NOMBRES}}</td>
+                            <td class="color-row-table">{{reporte.DJ_RAZON_SOCIAL}}</td>
+                            <td class="color-row-table">{{reporte.DJ_RUC}}</td>
+                            <td class="color-row-table">{{reporte.SERVICIO_FECHA_HORA  | date: 'dd/MM/yyyy h:mm:ss a' }}</td>
+                            <td class="color-row-table">{{reporte.SERVICIO_PRECIO}}</td>
+                            <td class="color-row-table">{{reporte.MDP_ID==1?'EFECTIVO':reporte.MDP_ID==2?'TARJETA':reporte.MDP_ID==3?'YAPE':'ERROR'}}</td>
+                            <td class="color-row-table">
+                              <div class="row btnes">
+                                  <div class="col-1 button-table btn-edit">
+                                      <button (click)=verDetallesServicio(reporte) class="btn btn-primary btn-circle btn-sm" ngbTooltip="Ver Más">
+                                          <i style="color: white;" class="text-center far fa-eye" aria-hidden="true"></i>
+                                      </button>
+                                  </div>
+                              </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                    
+                </table>
+                
+            </div>
+        </ng-template>
+    </div>
+  </div>
+
+  <!-- Reporte de ventas boleta - MES ACTUAL -->
+  <div class="card shadow mb-3 col-12 col-lg-9" style="height: 100%;">
+    <div class="card-header py-3 row">
+        <h5 style="cursor:pointer" (click)="abrirReporte3()"><span>VENTA (BOLETA): Mes Actual&nbsp;&nbsp;&nbsp;&nbsp;<i  class="fas fa-angle-{{flecha3}}"></i></span>
+        </h5>
+    </div>
+    <div *ngIf="mostrarReporte3" class="card-body text-gray-400">
+        <div  *ngIf="mes_actual_ventas_boleta.length<=0; else reportesVentasBoletasMesActualModule">
+            <h3>No hay ventas con boleta en este mes.</h3>
+        </div>
+        <div *ngIf="mes_actual_ventas_boleta?.length>0" class="row box-footer clearfix mt-3">     
+            <div class="col-xl-10 col-lg-9 col-md-7 col-sm-7 col-6">
+                <ngb-pagination *ngIf="mes_actual_ventas_boleta?.length>5" class="d-flex justify-content-start" size="sm" [maxSize]="5" [pageSize]="itemsPorPagina3"  [collectionSize]="mes_actual_ventas_boleta?.length" [(page)]="paginaActual3"></ngb-pagination>
+            </div>
+            <div class="col-xl-2 col-lg-3 col-md-5 col-sm-5 col-6">
+                <select class="pull-right" [(ngModel)]="itemsPorPagina3" class="form-control form-control-sm custom-select">
+                    <option value="5"> 5 elementos</option>
+                    <option value="10">10 elementos</option>
+                    <option value="15">15 elementos</option>
+                    <option value="20">20 elementos</option>                    
+                    <option value="50">50 elementos</option>                    
+                </select>  
+            </div>    
+        </div>
+        <ng-template #reportesVentasBoletasMesActualModule>
+            <div class="table-module">
+                <table class="table table-bordered text-gray-400" id="dataTable" cellspacing="1">
+                    <thead>
+                        <tr>
+                            <th class="color-row-table text-center puntero" scope="col" sortable="CLIENTE_NOMBRES" (sort)="onSort3($event)"><span>Cliente</span></th>
+                            <th class="color-row-table text-center puntero" scope="col" sortable="CLIENTE_CORREO" (sort)="onSort3($event)"><span>Email</span></th>
+                            <th class="color-row-table text-center puntero" scope="col" sortable="CLIENTE_TELEFONO" (sort)="onSort3($event)"><span>Teléfono</span></th>
+                            <th class="color-row-table text-center puntero" scope="col" sortable="VENTA_FECHA_REGISTRO" (sort)="onSort3($event)"><span>Fecha registro</span></th>
+                            <th class="color-row-table text-center puntero" scope="col" sortable="VENTA_TOTAL" (sort)="onSort3($event)"><span>Total</span></th>
+                            <th class="color-row-table text-center puntero" scope="col" sortable="METODO_DE_PAGO_ID" (sort)="onSort3($event)"><span>Método de pago</span></th>
+                            <th class="color-row-table text-center puntero" scope="col" ><span>Acciones</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let reporte of mes_actual_ventas_boleta | slice:(paginaActual3-1)*itemsPorPagina3:paginaActual3*itemsPorPagina3 ; let i = index ">
+                            <td class="color-row-table">{{reporte.CLIENTE_NOMBRES}} {{reporte.CLIENTE_APELLIDOS}}</td>
+                            <td class="color-row-table">{{reporte.CLIENTE_CORREO}}</td>
+                            <td class="color-row-table">{{reporte.CLIENTE_TELEFONO}}</td>
+                            <td class="color-row-table">{{reporte.VENTA_FECHA_REGISTRO | date: 'dd/MM/yyyy h:mm:ss a' }}</td>
+                            <td class="color-row-table">{{reporte.VENTA_TOTAL}}</td>
+                            <td class="color-row-table">{{reporte.METODO_DE_PAGO_ID==1?'EFECTIVO':reporte.METODO_DE_PAGO_ID==2?'TARJETA':reporte.METODO_DE_PAGO_ID==3?'YAPE':'ERROR'}}</td>
+                            <td class="color-row-table">
+                              <div class="row btnes">
+                                  <div class="col-1 button-table btn-edit">
+                                      <button (click)=verDetalles(reporte.VENTA_ID) class="btn btn-primary btn-circle btn-sm" ngbTooltip="Ver Más">
+                                          <i style="color: white;" class="text-center far fa-eye" aria-hidden="true"></i>
+                                      </button>
+                                  </div>
+                              </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                    
+                </table>
+                
+            </div>
+        </ng-template>
+    </div>
+  </div>
+
+  <!-- Reporte de servicios boleta - MES ACTUAL -->
+  <div class="card shadow mb-3 col-12 col-lg-9" style="height: 100%;">
+    <div class="card-header py-3 row">
+        <h5 style="cursor:pointer" (click)="abrirReporte4()"><span>SERVICIOS (BOLETA): Mes Actual&nbsp;&nbsp;&nbsp;&nbsp;<i  class="fas fa-angle-{{flecha4}}"></i></span>
+        </h5>
+    </div>
+    <div *ngIf="mostrarReporte4" class="card-body text-gray-400">
+        <div  *ngIf="mes_actual_servicios_boleta.length<0; else reportesServicioFacturaActual">
+            <h3>No hay servicios con factura este mes.</h3>
+        </div>
+        <div *ngIf="mes_actual_servicios_boleta?.length>0" class="row box-footer clearfix mt-3">     
+            <div class="col-xl-10 col-lg-9 col-md-7 col-sm-7 col-6">
+                <ngb-pagination *ngIf="mes_actual_servicios_boleta?.length>5" class="d-flex justify-content-start" size="sm" [maxSize]="5" [pageSize]="itemsPorPagina4"  [collectionSize]="mes_actual_servicios_boleta?.length" [(page)]="paginaActual4"></ngb-pagination>
+            </div>
+            <div class="col-xl-2 col-lg-3 col-md-5 col-sm-5 col-6">
+                <select class="pull-right" [(ngModel)]="itemsPorPagina4" class="form-control form-control-sm custom-select">
+                    <option value="5"> 5 elementos</option>
+                    <option value="10">10 elementos</option>
+                    <option value="15">15 elementos</option>
+                    <option value="20">20 elementos</option>                    
+                    <option value="50">50 elementos</option>                    
+                </select>  
+            </div>    
+        </div>
+        <ng-template #reportesServicioFacturaActual>
+            <div class="table-module">
+                <table class="table table-bordered text-gray-400" id="dataTable" cellspacing="1">
+                    <thead>
+                        <tr>
+                            <th class="color-row-table text-center puntero" scope="col" sortable="CLIENTE_NOMBRES" (sort)="onSort4($event)"><span>Cliente</span></th>
+                            <th class="color-row-table text-center puntero" scope="col" sortable="CLIENTE_CORREO" (sort)="onSort4($event)"><span>Email</span></th>
+                            <th class="color-row-table text-center puntero" scope="col" sortable="DJ_RUC" (sort)="onSort4($event)"><span>RUC</span></th>
+                            <th class="color-row-table text-center puntero" scope="col" sortable="SERVICIO_FECHA_HORA" (sort)="onSort4($event)"><span>Fecha servicio</span></th>
+                            <th class="color-row-table text-center puntero" scope="col" sortable="SERVICIO_PRECIO" (sort)="onSort4($event)"><span>Total</span></th>
+                            <th class="color-row-table text-center puntero" scope="col" sortable="METODO_DE_PAGO_ID" (sort)="onSort4($event)"><span>Método de pago</span></th>
+                            <th class="color-row-table text-center puntero" scope="col" ><span>Acciones</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let reporte of mes_actual_servicios_boleta | slice:(paginaActual4-1)*itemsPorPagina4:paginaActual4*itemsPorPagina4 ; let i = index ">
+                            <td class="color-row-table">{{reporte.CLIENTE_NOMBRES}} {{reporte.CLIENTE_APELLIDOS}}</td>
+                            <td class="color-row-table">{{reporte.CLIENTE_CORREO}}</td>
+                            <td class="color-row-table">{{reporte.DJ_RUC}}</td>
+                            <td class="color-row-table">{{reporte.SERVICIO_FECHA_HORA  | date: 'dd/MM/yyyy h:mm:ss a' }}</td>
+                            <td class="color-row-table">{{reporte.SERVICIO_PRECIO}}</td>
+                            <td class="color-row-table">{{reporte.MDP_ID==1?'EFECTIVO':reporte.MDP_ID==2?'TARJETA':reporte.MDP_ID==3?'YAPE':'ERROR'}}</td>
+                            <td class="color-row-table">
+                              <div class="row btnes">
+                                  <div class="col-1 button-table btn-edit">
+                                      <button (click)=verDetallesServicio(reporte) class="btn btn-primary btn-circle btn-sm" ngbTooltip="Ver Más">
+                                          <i style="color: white;" class="text-center far fa-eye" aria-hidden="true"></i>
+                                      </button>
+                                  </div>
+                              </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                    
+                </table>
+                
+            </div>
+        </ng-template>
+    </div>
+  </div>
+</div>
+
+
+
+
+

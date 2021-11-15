@@ -180,7 +180,7 @@
                 <div class="row color-row-table">
                     <div class="col-sm-12 col-md-5 mb-4">
                         <label for="inputFormaDePago">Forma de pago:</label>
-                        <select  formControlName="forma_pago" id="inputFormaDePago" class="border-left-primary form-select">
+                        <select  formControlName="forma_pago" id="inputFormaDePago" class="border-left-primary form-select" (change)="agregarTarjeta()">
                             <option hidden value="" disabled>Escoge una opción</option>
                             <option [value]="metodo.MDP_ID" *ngFor="let metodo of metodos_pago">{{metodo.MDP_NOMBRE}}</option>
                         </select>
@@ -371,12 +371,12 @@
                                                 <i class="fa fa-plus" aria-hidden="true"   ></i>
                                             </button>
                                         </td>
-                                        <td  class="color-row-table">{{producto.PRO_NOMBRE}}</td>
-                                        <td  class="color-row-table">{{producto.CAT_NOMBRE}}</td>
-                                        <td  class="color-row-table">{{producto.PRO_TAMANIO_TALLA}}</td>
-                                        <td  class="color-row-table">S/{{producto.PRO_PRECIO_VENTA.toFixed(2)}}</td>
-                                        <td  class="color-row-table">S/{{producto.PRO_PRECIO_COMPRA.toFixed(2)}}</td>
-                                        <td [ngStyle]="{'background':producto.PRO_STOCK<=0?'#bb2124':'white','color':producto.PRO_STOCK<=0?'white':'#6E707E'}" class="color-row-table">{{producto.PRO_STOCK}}</td>
+                                        <td [ngStyle]="{'background':producto.PRO_STOCK<=3 && producto.PRO_STOCK > 0?'#ffc107':producto.PRO_STOCK<=0?'#bb2124':'white','color':producto.PRO_STOCK<=3?'white':'#6E707E'}" class="color-row-table">{{producto.PRO_NOMBRE}}</td>
+                                        <td [ngStyle]="{'background':producto.PRO_STOCK<=3 && producto.PRO_STOCK > 0?'#ffc107':producto.PRO_STOCK<=0?'#bb2124':'white','color':producto.PRO_STOCK<=3?'white':'#6E707E'}" class="color-row-table">{{producto.CAT_NOMBRE}}</td>
+                                        <td [ngStyle]="{'background':producto.PRO_STOCK<=3 && producto.PRO_STOCK > 0?'#ffc107':producto.PRO_STOCK<=0?'#bb2124':'white','color':producto.PRO_STOCK<=3?'white':'#6E707E'}" class="color-row-table">{{producto.PRO_TAMANIO_TALLA}}</td>
+                                        <td [ngStyle]="{'background':producto.PRO_STOCK<=3 && producto.PRO_STOCK > 0?'#ffc107':producto.PRO_STOCK<=0?'#bb2124':'white','color':producto.PRO_STOCK<=3?'white':'#6E707E'}" class="color-row-table">S/{{producto.PRO_PRECIO_VENTA.toFixed(2)}}</td>
+                                        <td [ngStyle]="{'background':producto.PRO_STOCK<=3 && producto.PRO_STOCK > 0?'#ffc107':producto.PRO_STOCK<=0?'#bb2124':'white','color':producto.PRO_STOCK<=3?'white':'#6E707E'}" class="color-row-table">S/{{producto.PRO_PRECIO_COMPRA.toFixed(2)}}</td>
+                                        <td [ngStyle]="{'background':producto.PRO_STOCK<=3 && producto.PRO_STOCK > 0?'#ffc107':producto.PRO_STOCK<=0?'#bb2124':'white','color':producto.PRO_STOCK<=3?'white':'#6E707E'}" class="color-row-table">{{producto.PRO_STOCK}}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -475,7 +475,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row color-row-table justify-content-center mb-3">
+                        <div class="row color-row-table mb-3">
                             <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
                                 <label for="inputDireccionClienteNatural">Dirección:</label>
                                 <input formControlName="direccion" type="text" id="inputDireccionClienteNatural" class="border-left-primary font-tamanio form-control">
@@ -488,11 +488,23 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
+                                <label for="inputDireccionClienteNatural">Email:</label>
+                                <input formControlName="correo_" type="text" id="inputcorreo_ClienteNatural" class="border-left-primary font-tamanio form-control">
+                                <div *ngIf="correo_.invalid && (correo_.dirty || correo_.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                                    <div *ngIf="correo_.errors.pattern">
+                                        * El formato es inválido.
+                                    </div>
+                                    <div *ngIf="correo_.errors.maxlength">
+                                        * Se requieren maximo 60 caracteres.
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </form>
                     <div class="row d-flex text-center justify-content-center">
                         <div class="my-2 col-sm-12 col-md-12 col-lg-3">
-                            <button [disabled]="clienteForm.invalid" (click)="registrarClienteNatural()" class="btn btn-primary btn-icon-split">
+                            <button [disabled]="clienteForm.invalid || cargando" (click)="registrarClienteNatural()" class="btn btn-primary btn-icon-split">
                                 <span class="text">Registrar&nbsp;<i class="fas fa-save"></i></span>
                             </button>
                         </div>
@@ -575,8 +587,8 @@
                         </div>
                         <div class="row color-row-table justify-content-center mb-3">
                             <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
-                                <label for="inputDireccionClienteNatural">Dirección:</label>
-                                <input formControlName="direccion_" type="text" id="inputDireccionClienteNatural" class="mt-lg-0 mt-md-4 border-left-primary font-tamanio form-control">
+                                <label for="inputDireccionClienteJuridico">Dirección:</label>
+                                <input formControlName="direccion_" type="text" id="inputDireccionClienteJuridico" class="mt-lg-0 mt-md-4 border-left-primary font-tamanio form-control">
                                 <div *ngIf="direccion_.invalid && (direccion_.dirty || direccion_.touched)" class="my-1" style="color: rgb(197, 68, 68);">
                                     <div *ngIf="direccion_.errors.required">
                                         * La dirección del cliente es requerida.
@@ -608,10 +620,24 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row color-row-table justify-content-center mb-3">
+                            <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
+                                <label for="inputEmailClienteJuridico">Email:</label>
+                                <input formControlName="correo" type="text" id="inputEmailClienteJuridico" class="border-left-primary font-tamanio form-control">
+                                <div *ngIf="correo.invalid && (correo.dirty || correo.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                                    <div *ngIf="correo.errors.pattern">
+                                        * El formato es inválido.
+                                    </div>
+                                    <div *ngIf="correo.errors.maxlength">
+                                        * Se requieren maximo 60 caracteres.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </form>
                     <div class="row d-flex text-center justify-content-center">
                         <div class="my-2 col-sm-12 col-md-12 col-lg-3">
-                            <button [disabled]="clienteJuridicoForm.invalid" (click)="registrarClienteJuridico()" class="btn btn-primary btn-icon-split">
+                            <button [disabled]="clienteJuridicoForm.invalid || cargando" (click)="registrarClienteJuridico()" class="btn btn-primary btn-icon-split">
                                 <span class="text">Registrar&nbsp;<i class="fas fa-save"></i></span>
                             </button>
                         </div>

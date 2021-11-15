@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Caja } from 'src/app/models/caja';
 import { ReportesService } from 'src/app/services/reportes.service';
+import { compare, SorteableDirective } from 'src/app/shared/directives/sorteable.directive';
 import { convertTypeAcquisitionFromJson } from 'typescript';
 
 @Component({
@@ -198,7 +200,6 @@ export class ReportesComponent implements OnInit {
     this.cargarResportesMensuales();
   }
   ngOnInit(): void {
-    this.listarReportesCaja();
     this.cargarReportes();
   }
 
@@ -238,14 +239,6 @@ export class ReportesComponent implements OnInit {
     console.log(event);
   }
 
-  listarReportesCaja(){
-    this.reporteService.reporteCaja().subscribe(
-      data=>{
-        console.log(data);
-      },
-      error=>{
 
-      }
-    );
-  }
+  
 }

@@ -16,7 +16,7 @@
                 </div>
             </div>
             <div class="py-1 col-sm-12 col-md-6 col-lg-6">
-                <small class="text-success"> Servicio instantaneo&nbsp;&nbsp;&nbsp;&nbsp;</small><div class="circulo text-success table-success"></div>
+                <small class="text-success"> Servicio instantáneo&nbsp;&nbsp;&nbsp;&nbsp;</small><div class="circulo text-success table-success"></div>
                 &nbsp;&nbsp;&nbsp;&nbsp;<small class="text-primary"> Servicio cita&nbsp;&nbsp;&nbsp;&nbsp;</small><div class="circulo text-primary table-primary"></div>
             </div>
         </div>
@@ -27,10 +27,10 @@
             <!---------------PAGINACIÓN------------->
             <div *ngIf="servicios_pendientes?.length>0" class="row box-footer clearfix mt-3">     
                 <div class="col-xl-10 col-lg-9 col-md-7 col-sm-7 col-6">
-                    <ngb-pagination *ngIf="servicios_pendientes?.length>5" class="d-flex justify-content-start" size="sm" [maxSize]="5" [pageSize]="itemsPerPage"  [collectionSize]="servicios_pendientes?.length" [(page)]="currentPage"></ngb-pagination>
+                    <ngb-pagination *ngIf="servicios_pendientes?.length>5" class="d-flex justify-content-start" size="sm" [maxSize]="5" [pageSize]="itemsPerPageCard"  [collectionSize]="servicios_pendientes?.length" [(page)]="currentPageCard"></ngb-pagination>
                 </div>
                 <div class="col-xl-2 col-lg-3 col-md-5 col-sm-5 col-6">
-                    <select class="pull-right" [(ngModel)]="itemsPerPage" class="form-control form-control-sm custom-select">
+                    <select class="pull-right" [(ngModel)]="itemsPerPageCard" class="form-control form-control-sm custom-select">
                         <option value="6"> 6 elementos</option>
                         <option value="12">12 elementos</option>
                         <option value="18">18 elementos</option>
@@ -41,9 +41,16 @@
             </div>
             <ng-template #serviciosModule>
                 <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 g-4">
-                    <div class="card shadow h-100 mb-3" *ngFor="let servicio of servicios_pendientes | filterServiceByClientName:busquedaServicio |slice:(currentPage-1)*itemsPerPage:currentPage*itemsPerPage ; let i = index "  >
-                        <div class="card-header py-3 row text-center" [ngStyle]="{'background':servicio.SERVICIO_TIPO==1?'#0d6efd':'#198754','color':servicio.SERVICIO_TIPO==0?'white':'white'}">
-                            <h5>{{servicio.TIPO_SERVICIO_NOMBRE}} (S/ {{servicio.SERVICIO_PRECIO}})</h5>
+                    <div class="card shadow h-100 mb-3" *ngFor="let servicio of servicios_pendientes | filterServiceByClientName:busquedaServicio |slice:(currentPageCard-1)*itemsPerPageCard:currentPageCard*itemsPerPageCard ; let i = index "  >
+                        <div class="card-header py-3 row justify-content-between" [ngStyle]="{'background':servicio.SERVICIO_TIPO==1?'#0d6efd':'#198754','color':servicio.SERVICIO_TIPO==0?'white':'white'}">
+                            <div class="text-center col-12 col-sm-12 col-md-12 col-lg-8 mt-2">
+                                <h5>{{servicio.TIPO_SERVICIO_NOMBRE}} (S/ {{servicio.SERVICIO_PRECIO}})</h5>
+                            </div>
+                            <div *ngIf = "USE_TYPE === '2' " class="col-12 offset-3 offset-lg-0 col-sm-5 col-md-12 col-lg-4">
+                                <button class="btn btn-warning" (click)="editarServicio(servicio)">
+                                    <span>Editar Servicio</span>
+                                </button>
+                            </div>
                         </div>
                         <div class="card-body text-gray-400">
                             <div class="row color-row-table">
@@ -91,7 +98,7 @@
                                     <i class="fas fa-user" style="width: 1.5rem;"></i><strong>Dueño:</strong> 
                                 </div>
                                 <div class="col-7">
-                                    {{servicio.CLIENTE_NOMBRES}}
+                                    {{servicio.CLIENTE_NOMBRES}} {{servicio.CLIENTE_APELLIDOS}}
                                 </div>
                             </div>
                             <div class="row color-row-table">
@@ -113,7 +120,7 @@
                         </div>
                         <div class="card-footer row text-center justify-content-between">
                             <div class=" col-5 col-md-5 col-lg-5">
-                                <button class="btn btn-warning" (click)="postergarServicio(servicio)">
+                                <button class="btn btn-success" (click)="postergarServicio(servicio)">
                                     <span>Postergar</span>
                                 </button>
                             </div>
@@ -143,16 +150,16 @@
                 <div class="row color-row-table">
                     <div class="offset-1 col-10 mb-5">
                         <label for="inputFechaCitaServicio">Fecha de Emisión:</label>
-                        <input [min]="getTodayFecha()" [ngClass]="{'textoGris': opacarFecha }" (change)="cambiarDeStyleDate()" type="date" name="inputFechaCitaServicio" formControlName="fecha" class="border-left-primary font-tamanio form-control">
-                        <div *ngIf="fecha.invalid && (fecha.dirty || fecha.touched)" class="my-1" style="color: rgb(197, 68, 68);">
-                            <div *ngIf="fecha.errors.required">
+                        <input [min]="getTodayFecha()" [ngClass]="{'textoGris': opacarFecha }" (change)="cambiarDeStyleDate()" type="date" name="inputFechaCitaServicio" formControlName="fecha_" class="border-left-primary font-tamanio form-control">
+                        <div *ngIf="fecha_.invalid && (fecha_.dirty || fecha_.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                            <div *ngIf="fecha_.errors.required">
                                 * La fecha de emisión es requerida.
                             </div>
                         </div>
                     </div>
                     <div class="offset-md-2 offset-1 col-10 mb-4">
                         <label for="inputHoraServicio">Hora del servicio:</label>
-                        <ngb-timepicker  formControlName="hora"   class="text-center notranslate" [seconds]="seconds" [meridian]="meridian" id="inputHoraServicio"></ngb-timepicker>
+                        <ngb-timepicker  formControlName="hora_"   class="text-center notranslate" [seconds]="seconds" [meridian]="meridian" id="inputHoraServicio"></ngb-timepicker>
                     </div>
                 </div>
                 
@@ -171,5 +178,248 @@
             </div>
         </div>
           
+    </div>
+</ng-template>
+
+<ng-template #editarServicioModal>
+    <div class="modal-header justify-content-center">
+        <h4 class="modal-title " >Editar Servicio</h4>
+    </div>
+    <mat-progress-bar *ngIf="cargando && modalIn" mode="indeterminate" ></mat-progress-bar>
+    <ngb-alert *ngIf="mostrar_alerta && modalIn" [type]="tipo_alerta" (closed)="mostrar_alerta = false" >{{mensaje_alerta}}</ngb-alert>
+    <div class="modal-body">
+        <div class="row p-2 mb-4 text-gray-400 ">
+                <form [formGroup]="servicioForm">
+                    <div class="row justify-content-between color-row-table">
+                        <div class="col-12 col-md-5 col-lg-5 mb-4">
+                            <div class="row">
+                                <section>   
+                                    <label for="inputTiposServicio" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Tipo de servicio: <small class="text-danger" data-toggle="tooltip" data-placement="top" title="*Obligatorio">(*)</small></label>
+                                    <select formControlName="servicio"  id="inputTiposServicio" class="border-left-primary form-select" >
+                                        <option hidden value="" disabled>Escoge una opción</option>
+                                        <option [value]="tipos.TIPO_SERVICIO_ID" *ngFor="let tipos of tiposServicios">{{tipos.TIPO_SERVICIO_NOMBRE}}</option>
+                                    </select>   
+                                    <div *ngIf="servicio.invalid && (servicio.dirty || servicio.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                                        <div *ngIf="servicio.errors.required">
+                                            * El tipo de servicio es requerido.
+                                        </div>
+                                    </div>
+                                </section>
+                                
+                            </div>
+                            <br>
+                            <div class="row">
+                                <section>
+                                    <label for="inputFormaDePago" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Forma de pago: <small class="text-danger" data-toggle="tooltip" data-placement="top" title="*Obligatorio">(*)</small></label>
+                                    <select  formControlName="forma_pago" id="inputFormaDePago" class="border-left-primary form-select">
+                                        <option hidden value="" disabled>Selecciona una opción</option>
+                                        <option [value]="metodo.MDP_ID" *ngFor="let metodo of metodos_pago">{{metodo.MDP_NOMBRE}}</option>
+                                    </select>
+                                    <div *ngIf="forma_pago.invalid && (forma_pago.dirty || forma_pago.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                                        <div *ngIf="forma_pago.errors.required">
+                                            * La forma de pago es requerida.
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <section>
+                                    <label for="inputPrecioServicio" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Precio (S/): <small class="text-danger" data-toggle="tooltip" data-placement="top" title="*Obligatorio">(*)</small></label>
+                                    <input type="text" name="inputPrecioServicio" formControlName="precio" class="border-left-primary font-tamanio form-control">
+                                    <div *ngIf="precio.invalid && (precio.dirty || precio.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                                        <div *ngIf="precio.errors.required">
+                                            * El precio es requerido.
+                                        </div>
+                                        <div *ngIf="precio.errors.pattern">
+                                            * El formato es inválido.
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-5 col-lg-5">
+                            <div class="row">
+                                <section>   
+                                    <label for="inputModalidadServicio" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Modalidad: <small class="text-danger" data-toggle="tooltip" data-placement="top" title="*Obligatorio">(*)</small></label>
+                                    <select  formControlName="modalidad" id="inputModalidadServicio" class="border-left-primary form-select">
+                                        <option hidden value="" disabled>Selecciona una opción</option>
+                                        <option [value]="0" >INSTANTÁNEA</option>
+                                        <option [value]="1" >CITA</option>
+                                    </select>
+                                    <div *ngIf="modalidad.invalid && (modalidad.dirty || modalidad.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                                        <div *ngIf="modalidad.errors.required">
+                                            * El tipo de modalidad es requerido.
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <section>
+                                    <label for="inputTipoComprobante" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Tipo comprobante: <small class="text-danger" data-toggle="tooltip" data-placement="top" title="*Obligatorio">(*)</small></label>
+                                    <select  formControlName="tipo_comprobante" id="inputTipoComprobante" class="border-left-primary form-select"  (change)="obtenerTipoDocumento()">
+                                        <option hidden value="" disabled>Selecciona una opción</option>
+                                        <option [value]="comprobante.COMPROBANTE_ID" *ngFor="let comprobante of comprobantes">{{comprobante.COMPROBANTE_TIPO}}</option>
+                                    </select>
+                                    <div *ngIf="tipo_comprobante.invalid && (tipo_comprobante.dirty || tipo_comprobante.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                                        <div *ngIf="tipo_comprobante.errors.required">
+                                            * El tipo de comprobante es requerido.
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <section class="col-10 col-sm-10 col-md-9 col-lg-9">
+                                    <label for="inputMascotaServicio" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Mascota: <small class="text-danger" data-toggle="tooltip" data-placement="top" title="*Obligatorio">(*)</small></label>
+                                    <input disabled value="{{nombre_mascota_seleccionada}}" type="text" id="inputMascotaServicio" class="border-left-primary font-tamanio form-control">
+                                </section>
+                                <section class="col-2 col-sm-1 col-md-1 col-lg-1 py-1" style="margin-top: 1.7rem !important;">
+                                    <button [disabled]="!buscarMascota" (click)="abrirBusqueda()" type="button" class="btn btn-primary btn-icon-split" ><i class="fas fa-search"></i></button>
+                                </section>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div class="row justify-content-between color-row-table mt-4">
+                        <div class="col-sm-12 col-md-9 mb-4">
+                            <label for="inputDescripcionServicio">Descripción:</label>
+                            <textarea formControlName="descripcion"  type="text" id="inputDescripcionServicio" class="border-left-primary font-tamanio form-control"></textarea>
+                            <div *ngIf="descripcion.invalid && (descripcion.dirty || descripcion.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                                <div *ngIf="descripcion.errors.maxlength">
+                                    * Se requieren máximo 200 caracteres.
+                                </div>
+                                <div *ngIf="descripcion.errors.pattern">
+                                    * El formato es inválido.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-3 ">
+                            <label for="inputAdelantoServicio">Adelanto (S/):</label>
+                            <input formControlName="adelanto"  type="text" id="inputAdelantoServicio" class="border-left-primary font-tamanio form-control" (keyup)="adelantarDinero(adelanto.value)">
+                            <div *ngIf="adelanto.invalid && (adelanto.dirty || adelanto.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                                <div *ngIf="adelanto.errors.pattern">
+                                    * El formato es inválido.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+        </div>
+        <div class="modal-footer row d-flex text-center justify-content-between">
+            <div class=" col-5 col-md-5 col-lg-5">
+                <button [disabled]="servicioForm.invalid || cargando || !mascota_seleccionada || !buscarMascota || adelantoError" (click)="actualizarServicio()" type="button" class="btn btn-primary">Actualizar</button>
+            </div>
+            <div class=" col-5 col-md-5 col-lg-5">
+                <button (click)="closeModal()" class="btn btn-warning ">
+                    <span class="text">Cancelar</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #buscarMascotaModal>
+    <div class="modal-header justify-content-center">
+        <h4 class="modal-title " >Buscar Mascota</h4>
+    </div>
+    <mat-progress-bar *ngIf="cargando && modalIn" mode="indeterminate" ></mat-progress-bar>
+    <ngb-alert *ngIf="mostrar_alerta && modalIn" [type]="tipo_alerta" (closed)="mostrar_alerta = false" >{{mensaje_alerta}}</ngb-alert>
+    <div class="modal-body">
+        <div class="row">
+            <div class="card shadow mb-3 " style="height: 100%;">
+                <div class="card-header py-3 row justify-content-between">
+                    <div class="py-1 col-sm-12 col-md-5 col-lg-4">
+                        <div class="row">
+                            <div class="col-10">
+                                <input type="text" class="border-left-primary font-tamanio form-control"  [(ngModel)]="busquedaMascota" name="busquedaMascota" placeholder="Nombre de la mascota...">
+                            </div>
+                            <div class="col-1">
+                                <button (click)="filtrarMascotaPorNombre()" class="btn btn-success"><i class="fa fa-search"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="py-1 col-sm-12 col-md-5 col-lg-4">
+                        <div class="row ">
+                            <div class="col-10">
+                                <input id="inputBuscarCategoria" type="text" [(ngModel)]="busquedaCliente" class="border-left-primary font-tamanio form-control" name="busquedaCliente" placeholder="Nombre del dueño..." >
+                            </div>
+                            <div class="col-1">
+                                <button (click)="filtrarMascotaPorCliente()" class="btn btn-success"><i class="fa fa-search"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body text-gray-400 ">
+                    <div  *ngIf="mascotas.length<=0; else mascotaModule">
+                        <h3>No hay mascotas registradas.</h3>
+                    </div>
+                    <!---------------PAGINACIÓN------------->
+                    <div *ngIf="mascotas?.length>0" class="row box-footer clearfix mt-3">     
+                        <div class="col-xl-10 col-lg-9 col-md-7 col-sm-7 col-6">
+                            <ngb-pagination *ngIf="mascotas?.length>5" class="d-flex justify-content-start" size="sm" [maxSize]="5" [pageSize]="itemsPerPage"  [collectionSize]="mascotas?.length" [(page)]="currentPage"></ngb-pagination>
+                        </div>
+                        <div class="col-xl-2 col-lg-3 col-md-5 col-sm-5 col-6">
+                            <select class="pull-right" [(ngModel)]="itemsPerPage" class="form-control form-control-sm custom-select">
+                                <option value="5"> 5 elementos</option>
+                                <option value="10">10 elementos</option>
+                                <option value="15">15 elementos</option>
+                                <option value="20">20 elementos</option>                    
+                            </select>  
+                        </div>    
+                    </div>
+                    <ng-template #mascotaModule>
+                        <h5>*Los botones deshabilitados son por el tipo de comprobante</h5>
+                        <div class="table-module">
+                            <table class="table table-bordered text-gray-400" id="dataTable" cellspacing="1">
+                                <thead>
+                                    <tr>
+                                        <th class="color-row-table puntero">Agregar</th>
+                                        <th class="color-row-table text-center puntero" scope="col" sortable="MAS_ID" (sort)="onSort($event)">Código</th>
+                                        <th class="color-row-table text-center puntero" scope="col" sortable="TIPO_CLIENTE" (sort)="onSort($event)">TIPO CLIENTE</th>
+                                        <th class="color-row-table text-center puntero" scope="col" sortable="MAS_ESPECIE" (sort)="onSort($event)">Especie</th>
+                                        <th class="color-row-table text-center puntero" scope="col" sortable="MAS_NOMBRE" (sort)="onSort($event)">Nombres</th>
+                                        <th class="color-row-table text-center puntero" scope="col" sortable="MAS_RAZA" (sort)="onSort($event)">Raza</th>
+                                        <th class="color-row-table text-center puntero" scope="col" sortable="MAS_COLOR" (sort)="onSort($event)">Color</th>
+                                        <th class="color-row-table text-center puntero" scope="col" sortable="MAS_ATENCIONES" (sort)="onSort($event)">Atenciones</th>
+                                        <th class="color-row-table text-center puntero" scope="col" sortable="CLIENTE_NOMBRES" (sort)="onSort($event)">Dueño</th>
+                                        <th class="color-row-table text-center puntero" scope="col" sortable="CLIENTE_TELEFONO" (sort)="onSort($event)">Télefono</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let mascota of mascotas|slice:(currentPage-1)*itemsPerPage:currentPage*itemsPerPage ; let i = index ">
+                                        <td class="color-row-table text-center">
+                                            <button [disabled]="mascota.TIPO_CLIENTE!=tipo_cliente" (click)="agregarMascota(mascota)" class="btn btn-success btn-circle btn-sm" ngbTooltip="Agregar" >
+                                                <i class="fa fa-check" aria-hidden="true"></i>
+                                            </button>
+                                        </td>
+                                        <td [ngStyle]="{'background':mascota.MAS_ID==mascota_id_seleccionada?'#0d6efd':'white','color':mascota.MAS_ID==mascota_id_seleccionada?'white':'#6E707E'}" class="color-row-table">{{mascota.MAS_ID}}</td>
+                                        <td [ngStyle]="{'background':mascota.MAS_ID==mascota_id_seleccionada?'#0d6efd':'white','color':mascota.MAS_ID==mascota_id_seleccionada?'white':'#6E707E'}" class="color-row-table">{{mascota.TIPO_CLIENTE}}</td>
+                                        <td [ngStyle]="{'background':mascota.MAS_ID==mascota_id_seleccionada?'#0d6efd':'white','color':mascota.MAS_ID==mascota_id_seleccionada?'white':'#6E707E'}" class="color-row-table">{{mascota.MAS_ESPECIE}}</td>
+                                        <td [ngStyle]="{'background':mascota.MAS_ID==mascota_id_seleccionada?'#0d6efd':'white','color':mascota.MAS_ID==mascota_id_seleccionada?'white':'#6E707E'}" class="color-row-table">{{mascota.MAS_NOMBRE}}</td>
+                                        <td [ngStyle]="{'background':mascota.MAS_ID==mascota_id_seleccionada?'#0d6efd':'white','color':mascota.MAS_ID==mascota_id_seleccionada?'white':'#6E707E'}" class="color-row-table">{{mascota.MAS_RAZA}}</td>
+                                        <td [ngStyle]="{'background':mascota.MAS_ID==mascota_id_seleccionada?'#0d6efd':'white','color':mascota.MAS_ID==mascota_id_seleccionada?'white':'#6E707E'}" class="color-row-table">{{mascota.MAS_COLOR}}</td>
+                                        <td [ngStyle]="{'background':mascota.MAS_ID==mascota_id_seleccionada?'#0d6efd':'white','color':mascota.MAS_ID==mascota_id_seleccionada?'white':'#6E707E'}" class="color-row-table">{{mascota.MAS_ATENCIONES}}</td>
+                                        <td [ngStyle]="{'background':mascota.MAS_ID==mascota_id_seleccionada?'#0d6efd':'white','color':mascota.MAS_ID==mascota_id_seleccionada?'white':'#6E707E'}" class="color-row-table">{{mascota.CLIENTE_NOMBRES}}</td>
+                                        <td [ngStyle]="{'background':mascota.MAS_ID==mascota_id_seleccionada?'#0d6efd':'white','color':mascota.MAS_ID==mascota_id_seleccionada?'white':'#6E707E'}" class="color-row-table">{{mascota.CLIENTE_TELEFONO}}</td>
+                                    </tr>
+                                </tbody>
+                                
+                            </table>
+                            
+                        </div>
+                    </ng-template>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row d-flex text-center justify-content-center">
+            <div class="my-2 col-sm-12 col-md-12 col-lg-3">
+                <button (click)="closeModalMascota();" class="btn btn-warning btn-icon-split">
+                    <span class="text">Volver&nbsp;<i class="fas fa-arrow-circle-left"></i></span>
+                </button>
+            </div>
+        </div>
     </div>
 </ng-template>

@@ -10,5 +10,7 @@ export class Servicio {
     SERVICIO_ESTADO: number; 
     TIPO_SERVICIO_ID: number; 
     SERVICIO_ADELANTO:number;
-    MDP_ID:number
+    MDP_ID:number;
+    USU_ID: number;
+    COMPROBANTE_ID:number;
 }

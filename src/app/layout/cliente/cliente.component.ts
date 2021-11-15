@@ -151,6 +151,7 @@ export class ClienteComponent implements OnInit {
     this.dni.setValue(this.clienteSeleccionado.CLIENTE_DNI);
     this.direccion.setValue(this.clienteSeleccionado.CLIENTE_DIRECCION);
     this.celular.setValue(this.clienteSeleccionado.CLIENTE_TELEFONO);
+    this.correo_.setValue(this.clienteSeleccionado.CLIENTE_CORREO);
     this.modal.open(this.editarClienteNaturalModal);
   }
   editarClienteJuridico(cliente_juridico:any){
@@ -162,6 +163,7 @@ export class ClienteComponent implements OnInit {
     this.tipo_empresa.setValue(this.clienteSeleccionado.TIPO_EMPRESA_ID);
     this.celular_.setValue(this.clienteSeleccionado.CLIENTE_TELEFONO);
     this.direccion_.setValue(this.clienteSeleccionado.CLIENTE_DIRECCION);
+    this.correo.setValue(this.clienteSeleccionado.CLIENTE_CORREO);
 
     this.modal.open(this.editarclienteJuridicoModal);
   }
@@ -175,6 +177,7 @@ export class ClienteComponent implements OnInit {
     this.clienteNatural.CLIENTE_TELEFONO = this.celular.value;
     this.clienteNatural.CLIENTE_DNI = this.dni.value;
     this.clienteNatural.CLIENTE_DIRECCION = this.direccion.value;
+    this.clienteNatural.CLIENTE_CORREO = this.correo_.value;
     this.clienteService.actualizarCliente(this.clienteNatural).subscribe(
       (data)=>{
         this.cargando = false;
@@ -219,6 +222,7 @@ export class ClienteComponent implements OnInit {
     this.clienteNatural.CLIENTE_APELLIDOS = this.apellidos.value;
     this.clienteNatural.CLIENTE_TELEFONO = this.celular_.value;
     this.clienteNatural.CLIENTE_DIRECCION = this.direccion_.value;
+    this.clienteNatural.CLIENTE_CORREO = this.correo.value;
 
     this.datosJuridicos.DJ_RAZON_SOCIAL = this.razon_social.value;
     this.datosJuridicos.DJ_RUC = this.ruc.value;
@@ -285,6 +289,7 @@ export class ClienteComponent implements OnInit {
       this.clienteNatural.CLIENTE_TELEFONO = this.celular.value;
       this.clienteNatural.CLIENTE_DNI = this.dni.value;
       this.clienteNatural.CLIENTE_DIRECCION = this.direccion.value;
+      this.clienteNatural.CLIENTE_CORREO = this.correo_.value;
       this.clienteService.registrarCliente(this.clienteNatural).subscribe(
         (data)=>{
           this.cargando = false;
@@ -333,6 +338,7 @@ export class ClienteComponent implements OnInit {
       this.clienteNatural.CLIENTE_APELLIDOS = this.apellidos.value;
       this.clienteNatural.CLIENTE_TELEFONO = this.celular_.value;
       this.clienteNatural.CLIENTE_DIRECCION = this.direccion_.value;
+      this.clienteNatural.CLIENTE_CORREO = this.correo.value;
 
       this.datosJuridicos.DJ_RAZON_SOCIAL = this.razon_social.value;
       this.datosJuridicos.DJ_RUC = this.ruc.value;
@@ -382,6 +388,7 @@ export class ClienteComponent implements OnInit {
       celular: ['', [Validators.required, Validators.pattern('[+][0-9]+'), Validators.maxLength(12), Validators.minLength(12)]] ,
       dni: ['', [Validators.required, Validators.pattern(/^([0-9])*$/), Validators.minLength(8),  Validators.maxLength(8)]],
       direccion: ['', [Validators.pattern('^[a-zñáéíóú#°/,. A-ZÑÁÉÍÓÚ  0-9]+$'), Validators.maxLength(100)]],
+      correo_: ['', [Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/), Validators.maxLength(60)]],
     });
   }
   // getters & setters
@@ -400,6 +407,9 @@ export class ClienteComponent implements OnInit {
   get direccion() {
     return this.clienteForm.get('direccion');
   } 
+  get correo_() {
+    return this.clienteForm.get('correo_');
+  }
   inicializarClienteJuridicoFormulario(){
     this.clienteJuridicoForm = this.formBuilder.group({
       nombres_:['',[Validators.required,Validators.pattern('[a-zñáéíóúA-ZÑÁÉÍÓÚ. ]+$'),Validators.maxLength(100)]],
@@ -408,6 +418,7 @@ export class ClienteComponent implements OnInit {
       tipo_empresa:['',[Validators.required]],
       celular_: ['', [Validators.pattern('[+][0-9]+'), Validators.maxLength(12), Validators.minLength(12)]] ,
       direccion_: ['', [Validators.pattern('^[a-zñáéíóú#°/,. A-ZÑÁÉÍÓÚ  0-9]+$'), Validators.maxLength(100)]],
+      correo: ['', [Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/), Validators.maxLength(60)]],
     });
   }
   // getters & setters
@@ -429,6 +440,9 @@ export class ClienteComponent implements OnInit {
   get tipo_empresa() {
     return this.clienteJuridicoForm.get('tipo_empresa');
   } 
+  get correo() {
+    return this.clienteJuridicoForm.get('correo');
+  }
   
 
   /************************************* TABLAS ************************************/

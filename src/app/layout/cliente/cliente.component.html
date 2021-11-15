@@ -55,6 +55,7 @@
                                 <th class="color-row-table text-center puntero" scope="col" sortable="CLIENTE_NOMBRES" (sort)="onSort($event)"><span>Nombres</span></th>
                                 <th class="color-row-table text-center puntero" scope="col" sortable="CLIENTE_APELLIDOS" (sort)="onSort($event)"><span>Apellidos</span></th>
                                 <th class="color-row-table text-center puntero" scope="col" sortable="CLIENTE_TELEFONO" (sort)="onSort($event)"><span>Celular</span></th>
+                                <th class="color-row-table text-center puntero" scope="col" sortable="CLIENTE_CORREO" (sort)="onSort($event)"><span>Email</span></th>
                                 <th class="color-row-table text-center puntero" scope="col"><span>Acciones</span></th>
                             </tr>
                         </thead>
@@ -65,6 +66,7 @@
                                 <td class="color-row-table">{{cliente.CLIENTE_NOMBRES}}</td>
                                 <td class="color-row-table">{{cliente.CLIENTE_APELLIDOS}}</td>
                                 <td class="color-row-table">{{cliente.CLIENTE_TELEFONO}}</td>
+                                <td class="color-row-table">{{cliente.CLIENTE_CORREO}}</td>
                                 <td class="color-row-table">
                                     <div class="row btnes">
                                         <div class="col-1 button-table btn-edit">
@@ -130,6 +132,7 @@
                                 <th class="color-row-table text-center puntero" scope="col" sortable="CLIENTE_NOMBRES" (sort)="onSorted($event)"><span>Nombre</span></th>
                                 <th class="color-row-table text-center puntero" scope="col" sortable="DJ_RAZON_SOCIAL" (sort)="onSorted($event)"><span>Razón Social</span></th>
                                 <th class="color-row-table text-center puntero" scope="col" sortable="CLIENTE_TELEFONO" (sort)="onSorted($event)"><span>Celular</span></th>
+                                <th class="color-row-table text-center puntero" scope="col" sortable="CLIENTE_CORREO" (sort)="onSorted($event)"><span>Email</span></th>
                                 <th class="color-row-table text-center puntero" scope="col"><span>Acciones</span></th>
                             </tr>
                         </thead>
@@ -140,6 +143,7 @@
                                 <td class="color-row-table">{{cliente_juridico.CLIENTE_NOMBRES}}</td>
                                 <td class="color-row-table">{{cliente_juridico.DJ_RAZON_SOCIAL}}</td>
                                 <td class="color-row-table">{{cliente_juridico.CLIENTE_TELEFONO}}</td>
+                                <td class="color-row-table">{{cliente_juridico.CLIENTE_CORREO}}</td>
                                 <td class="color-row-table">
                                     <div class="row btnes">
                                         <div class="col-1 button-table btn-edit">
@@ -241,7 +245,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row color-row-table justify-content-center mb-3">
+                        <div class="row color-row-table mb-3">
                             <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
                                 <label for="inputDireccionClienteNatural">Dirección:</label>
                                 <input formControlName="direccion" type="text" id="inputDireccionClienteNatural" class="border-left-primary font-tamanio form-control">
@@ -251,6 +255,18 @@
                                     </div>
                                     <div *ngIf="direccion.errors.maxlength">
                                         * Se requieren maximo 100 caracteres.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
+                                <label for="inputDireccionClienteNatural">Email:</label>
+                                <input formControlName="correo_" type="text" id="inputcorreo_ClienteNatural" class="border-left-primary font-tamanio form-control">
+                                <div *ngIf="correo_.invalid && (correo_.dirty || correo_.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                                    <div *ngIf="correo_.errors.pattern">
+                                        * El formato es inválido.
+                                    </div>
+                                    <div *ngIf="correo_.errors.maxlength">
+                                        * Se requieren maximo 60 caracteres.
                                     </div>
                                 </div>
                             </div>
@@ -341,8 +357,8 @@
                         </div>
                         <div class="row color-row-table justify-content-center mb-3">
                             <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
-                                <label for="inputDireccionClienteNatural">Dirección:</label>
-                                <input formControlName="direccion_" type="text" id="inputDireccionClienteNatural" class="mt-lg-0 mt-md-4 border-left-primary font-tamanio form-control">
+                                <label for="inputDireccionClienteJuridico">Dirección:</label>
+                                <input formControlName="direccion_" type="text" id="inputDireccionClienteJuridico" class="mt-lg-0 mt-md-4 border-left-primary font-tamanio form-control">
                                 <div *ngIf="direccion_.invalid && (direccion_.dirty || direccion_.touched)" class="my-1" style="color: rgb(197, 68, 68);">
                                     <div *ngIf="direccion_.errors.required">
                                         * La dirección del cliente es requerida.
@@ -370,6 +386,20 @@
                                     </div>
                                     <div *ngIf="celular_.errors.maxlength">
                                         * Se requieren máximo 12 caracteres.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row color-row-table justify-content-center mb-3">
+                            <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
+                                <label for="inputEmailClienteJuridico">Email:</label>
+                                <input formControlName="correo" type="text" id="inputEmailClienteJuridico" class="border-left-primary font-tamanio form-control">
+                                <div *ngIf="correo.invalid && (correo.dirty || correo.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                                    <div *ngIf="correo.errors.pattern">
+                                        * El formato es inválido.
+                                    </div>
+                                    <div *ngIf="correo.errors.maxlength">
+                                        * Se requieren maximo 60 caracteres.
                                     </div>
                                 </div>
                             </div>
@@ -483,6 +513,18 @@
                         </div>
                         <div *ngIf="direccion.errors.maxlength">
                             * Se requieren maximo 100 caracteres.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
+                    <label for="inputDireccionClienteNatural">Email:</label>
+                    <input formControlName="correo_" type="text" id="inputcorreo_ClienteNatural" class="border-left-primary font-tamanio form-control">
+                    <div *ngIf="correo_.invalid && (correo_.dirty || correo_.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                        <div *ngIf="correo_.errors.pattern">
+                            * El formato es inválido.
+                        </div>
+                        <div *ngIf="correo_.errors.maxlength">
+                            * Se requieren maximo 60 caracteres.
                         </div>
                     </div>
                 </div>

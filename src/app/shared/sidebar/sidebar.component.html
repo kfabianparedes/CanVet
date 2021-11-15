@@ -1,6 +1,5 @@
 <!-- Sidebar -->
-
-<ul class="responsive-tamanio navbar-nav bg-gradient-primary sidebar sidebar-dark accordion {{toggled}}  " id="accordionSidebar">
+<ul  class="responsive-tamanio navbar-nav bg-gradient-primary sidebar sidebar-dark accordion {{toggled}}  " id="accordionSidebar">
 
     <!-- Logo y huella  -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" [routerLink]="['/dashboard']">
@@ -21,6 +20,7 @@
     </li>
     <!-- Divider -->
     <hr class="sidebar-divider">
+
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTransacciones"
             aria-expanded="true" aria-controls="collapseTransacciones">
@@ -57,8 +57,7 @@
     </li>
 
     <hr  *ngIf = "USE_TYPE === '2' " class="sidebar-divider ">
-    <!-- Heading -->
-    <!-- Nav Item - Pages Collapse Menu -->
+    
     <li *ngIf = "USE_TYPE === '2' " class="nav-item">
         <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true"
             aria-controls="collapsePages">
@@ -90,21 +89,55 @@
             </div>
         </div>
     </li>
+
     <hr *ngIf = "USE_TYPE === '2' " class="sidebar-divider ">
+
     <li *ngIf = "USE_TYPE === '2' " class="nav-item">
         <a class="nav-link" [routerLink]="['/compra']">
             <i class="fas fa-fw fa-truck"></i>
             <span>Compras</span></a>
     </li>
+
     <hr *ngIf = "USE_TYPE === '2' " class="sidebar-divider ">
+
     <li *ngIf = "USE_TYPE === '2' " class="nav-item">
-        <a class="nav-link" [routerLink]="['/reportes']">
+        <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapsePagesReportes" aria-expanded="true"
+            aria-controls="collapsePagesReportes">
             <i class="fas fa-chart-bar"></i>
-            <span>Reportes</span></a>
+            <span>Reportes</span>
+        </a>
+        <div id="collapsePagesReportes" class="collapse" aria-labelledby="headingPages"
+            data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Caja:</h6>
+                <a class="collapse-item" [routerLink]="['/reporte-caja']">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>&nbsp; Reportes Caja</span>
+                </a>
+
+                <div class="collapse-divider"></div>
+                
+                <h6 class="collapse-header">Ventas:</h6>
+                <a class="collapse-item" [routerLink]="['/reporte-venta']">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>&nbsp; Reportes Ventas</span>
+                </a>
+
+                <div class="collapse-divider"></div>
+                
+                <h6 class="collapse-header">Gráficos:</h6>
+                <a class="collapse-item" [routerLink]="['/reporte-grafico']">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>&nbsp; Reportes Gráficas</span>
+                </a>
+
+            </div>
+        </div>
     </li>
+
     <!-- Sidebar Toggler (Sidebar) -->
     <div class="text-center  d-md-inline">
-        <button class="rounded-circle border-0" id="sidebarToggle" (click)="clickEvent()"></button>
+        <button (clickBtnSideBar)="cambiarSideBar($event)" class="rounded-circle border-0" id="sidebarToggle" (click)="clickEvent()"></button>
     </div>
 </ul>
 <!-- End of Sidebar -->

@@ -28,6 +28,8 @@ export class ClienteService {
   registrarCliente(cliente:Cliente,datosJuridicos?:DatosJuridicos):Observable<any>{
     const url = environment.domain_url + '/api/clientes/registrar.php';
     let datos;
+    if(!cliente.CLIENTE_CORREO)
+      cliente.CLIENTE_CORREO ='';
     if(datosJuridicos == null){
       datos = {
         DATOS_JURIDICOS:{
@@ -37,7 +39,8 @@ export class ClienteService {
           CLIENTE_TELEFONO: cliente.CLIENTE_TELEFONO,
           CLIENTE_DNI: cliente.CLIENTE_DNI,
           CLIENTE_DIRECCION: cliente.CLIENTE_DIRECCION,
-          CLIENTE_APELLIDOS: cliente.CLIENTE_APELLIDOS
+          CLIENTE_APELLIDOS: cliente.CLIENTE_APELLIDOS,
+          CLIENTE_CORREO:cliente.CLIENTE_CORREO
         }
       }
     }else{
@@ -52,7 +55,8 @@ export class ClienteService {
           CLIENTE_TELEFONO: cliente.CLIENTE_TELEFONO,
           CLIENTE_DNI: '',
           CLIENTE_DIRECCION: cliente.CLIENTE_DIRECCION,
-          CLIENTE_APELLIDOS: ''
+          CLIENTE_APELLIDOS: '',
+          CLIENTE_CORREO:cliente.CLIENTE_CORREO
         }
       }
     }
@@ -62,6 +66,8 @@ export class ClienteService {
   actualizarCliente(cliente:Cliente,datosJuridicos?:DatosJuridicos):Observable<any>{
     const url = environment.domain_url + '/api/clientes/editar.php';
     let datos;
+    if(!cliente.CLIENTE_CORREO)
+      cliente.CLIENTE_CORREO ='';
     if(datosJuridicos == null){
       datos = {
         DATOS_JURIDICOS:{
@@ -72,7 +78,8 @@ export class ClienteService {
             CLIENTE_TELEFONO: cliente.CLIENTE_TELEFONO,
             CLIENTE_DNI: cliente.CLIENTE_DNI,
             CLIENTE_DIRECCION: cliente.CLIENTE_DIRECCION,
-            CLIENTE_APELLIDOS: cliente.CLIENTE_APELLIDOS
+            CLIENTE_APELLIDOS: cliente.CLIENTE_APELLIDOS,
+            CLIENTE_CORREO:cliente.CLIENTE_CORREO
         }
       }
     }else{
@@ -88,7 +95,8 @@ export class ClienteService {
           CLIENTE_TELEFONO: cliente.CLIENTE_TELEFONO,
           CLIENTE_DNI: '',
           CLIENTE_DIRECCION: cliente.CLIENTE_DIRECCION,
-          CLIENTE_APELLIDOS: ''
+          CLIENTE_APELLIDOS: '',
+          CLIENTE_CORREO:cliente.CLIENTE_CORREO
         }
       }
     }

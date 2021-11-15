@@ -1,124 +1,130 @@
-
-<mat-progress-bar *ngIf="cargando" mode="indeterminate" class="alert-loading"></mat-progress-bar>
-<ngb-alert *ngIf="mostrar_alerta && !modalIn" [type]="tipo_alerta" (closed)="mostrar_alerta = false" class="alert-loading">{{mensaje_alerta}}</ngb-alert>
-<div class="container-fluid" *ngIf="!cargando">
-    <div class="row justify-content-around">
-        <h1 class="h3 mb-5 text-gray-800 text-center">Reportes</h1>
-        <div class="card shadow mb-4 col-12 col-xl-5" style="height: 100%;">
-            <div class="card-header py-3 row justify-content-center">
-                <h5 class="text-center" style="cursor:pointer" (click)="abrirReporteAnual()">Reporte anual total 
-                    <span>
-                        <i  class="fas fa-angle-{{flechaReporteAnual}}"></i>
-                    </span>
-                </h5>
+<div class="row justify-content-center">
+    <mat-progress-bar *ngIf="cargando && !modalIn" mode="indeterminate" class="alert-loading"></mat-progress-bar>
+    <ngb-alert *ngIf="mostrar_alerta && !modalIn" [type]="tipo_alerta" (closed)="mostrar_alerta = false" class="alert-loading">{{mensaje_alerta}}</ngb-alert>
+    
+    <!-- Page Heading -->
+    <div class="container-fluid" *ngIf="!cargando">
+        <div class="row justify-content-around">
+            <h1 class="h3 mb-5 text-gray-800 text-center">Reportes</h1>
+            <div class="card shadow mb-4 col-12 col-xl-5" style="height: 100%;">
+                <div class="card-header py-3 row justify-content-center">
+                    <h5 class="text-center" style="cursor:pointer" (click)="abrirReporteAnual()">Reporte anual total 
+                        <span>
+                            <i  class="fas fa-angle-{{flechaReporteAnual}}"></i>
+                        </span>
+                    </h5>
+                </div>
+                <div class="table-module" *ngIf="mostrarReporteAnual">
+                    <ngx-charts-bar-vertical 
+                    [view]="view"
+                    scheme="cool"
+                    [results]="reporteAnual"
+                    [gradient]="gradient"
+                    [xAxis]="showXAxis"
+                    [noBarWhenZero]="noBarWhenZero"
+                    [legendTitle]="legendTitle"
+                    [yAxis]="showYAxis"
+                    [legend]="showLegend"
+                    [showXAxisLabel]="showXAxisLabel"
+                    [showYAxisLabel]="showYAxisLabel"
+                    [xAxisLabel]="xAxisLabel"
+                    [yAxisLabel]="yAxisLabel"
+                    (select)="onSelect($event)">
+                    </ngx-charts-bar-vertical>
+                </div>
             </div>
-            <div class="table-module" *ngIf="mostrarReporteAnual">
-                <ngx-charts-bar-vertical 
-                [view]="view"
-                scheme="cool"
-                [results]="reporteAnual"
-                [gradient]="gradient"
-                [xAxis]="showXAxis"
-                [noBarWhenZero]="noBarWhenZero"
-                [legendTitle]="legendTitle"
-                [yAxis]="showYAxis"
-                [legend]="showLegend"
-                [showXAxisLabel]="showXAxisLabel"
-                [showYAxisLabel]="showYAxisLabel"
-                [xAxisLabel]="xAxisLabel"
-                [yAxisLabel]="yAxisLabel"
-                (select)="onSelect($event)">
-                </ngx-charts-bar-vertical>
+            
+            <div class="card shadow mb-4 col-12  col-xl-5" style="height: 100%;">
+                <div class="card-header py-3 row justify-content-between">
+                    <h5 class="text-center" style="cursor:pointer" (click)="abrirReporteSemanal()">Reporte semanal total 
+                        <span>
+                            <i  class="fas fa-angle-{{flechaReporteSemanal}}"></i>
+                        </span>
+                    </h5>
+                </div>
+                <div class="col-sm-12 col-xl-12 table-module text-center"*ngIf="mostrarReporteSemanal" >
+                    <ngx-charts-bar-vertical 
+                    [view]="view"
+                    scheme="cool"
+                    [results]="reporteSemanal"
+                    [gradient]="gradient"
+                    [xAxis]="showXAxis"
+                    [yAxis]="showYAxis"
+                    [noBarWhenZero]="noBarWhenZero"
+                    [legendTitle]="legendTitle"
+                    [legend]="showLegend"
+                    [showXAxisLabel]="showXAxisLabel"
+                    [showYAxisLabel]="showYAxisLabel"
+                    [xAxisLabel]="xAxisLabelSemanales"
+                    [yAxisLabel]="yAxisLabelSemanales"
+                    (select)="onSelect($event)">
+                    </ngx-charts-bar-vertical>
+                </div>
             </div>
-        </div>
-        
-        <div class="card shadow mb-4 col-12  col-xl-5" style="height: 100%;">
-            <div class="card-header py-3 row justify-content-between">
-                <h5 class="text-center" style="cursor:pointer" (click)="abrirReporteSemanal()">Reporte semanal total 
-                    <span>
-                        <i  class="fas fa-angle-{{flechaReporteSemanal}}"></i>
-                    </span>
-                </h5>
+    
+            <div class="card shadow mb-4 col-12  col-xl-5" style="height: 100%;">
+                <div class="card-header py-3 row justify-content-between">
+                    <h5 class="text-center" style="cursor:pointer" (click)="abrirReporteSemanalDividido()">Reporte semanal dividido
+                        <span>
+                            <i  class="fas fa-angle-{{flechaReporteSemanalDividido}}"></i>
+                        </span>
+                    </h5>
+                </div>
+                <div class="col-sm-12 col-xl-12 table-module"*ngIf="mostrarReporteSemanalDividido" >
+                    <ngx-charts-bar-vertical-2d
+                    [view]="view"
+                    scheme="cool"
+                    [results]="reporteSemanalDividido"
+                    [gradient]="gradient"
+                    [xAxis]="showXAxis"
+                    [yAxis]="showYAxis"
+                    [legend]="showLegend"
+                    [noBarWhenZero]="noBarWhenZero"
+                    [showXAxisLabel]="showXAxisLabel"
+                    [showYAxisLabel]="showYAxisLabel"
+                    [xAxisLabel]="xAxisLabelSemanales"
+                    [yAxisLabel]="yAxisLabelSemanalesDivididos"
+                    [legendTitle]="legendTitle"
+                    (select)="onSelect($event)"
+                    (activate)="onActivate($event)"
+                    (deactivate)="onDeactivate($event)">
+                    </ngx-charts-bar-vertical-2d>
+                </div>
             </div>
-            <div class="col-sm-12 col-xl-12 table-module text-center"*ngIf="mostrarReporteSemanal" >
-                <ngx-charts-bar-vertical 
-                [view]="view"
-                scheme="cool"
-                [results]="reporteSemanal"
-                [gradient]="gradient"
-                [xAxis]="showXAxis"
-                [yAxis]="showYAxis"
-                [noBarWhenZero]="noBarWhenZero"
-                [legendTitle]="legendTitle"
-                [legend]="showLegend"
-                [showXAxisLabel]="showXAxisLabel"
-                [showYAxisLabel]="showYAxisLabel"
-                [xAxisLabel]="xAxisLabelSemanales"
-                [yAxisLabel]="yAxisLabelSemanales"
-                (select)="onSelect($event)">
-                </ngx-charts-bar-vertical>
-            </div>
-        </div>
-
-        <div class="card shadow mb-4 col-12  col-xl-5" style="height: 100%;">
-            <div class="card-header py-3 row justify-content-between">
-                <h5 class="text-center" style="cursor:pointer" (click)="abrirReporteSemanalDividido()">Reporte semanal dividido
-                    <span>
-                        <i  class="fas fa-angle-{{flechaReporteSemanalDividido}}"></i>
-                    </span>
-                </h5>
-            </div>
-            <div class="col-sm-12 col-xl-12 table-module"*ngIf="mostrarReporteSemanalDividido" >
-                <ngx-charts-bar-vertical-2d
-                [view]="view"
-                scheme="cool"
-                [results]="reporteSemanalDividido"
-                [gradient]="gradient"
-                [xAxis]="showXAxis"
-                [yAxis]="showYAxis"
-                [legend]="showLegend"
-                [noBarWhenZero]="noBarWhenZero"
-                [showXAxisLabel]="showXAxisLabel"
-                [showYAxisLabel]="showYAxisLabel"
-                [xAxisLabel]="xAxisLabelSemanales"
-                [yAxisLabel]="yAxisLabelSemanalesDivididos"
-                [legendTitle]="legendTitle"
-                (select)="onSelect($event)"
-                (activate)="onActivate($event)"
-                (deactivate)="onDeactivate($event)">
-                </ngx-charts-bar-vertical-2d>
-            </div>
-        </div>
-
-        <div class="card shadow mb-4 col-12  col-xl-5" style="height: 100%;">
-            <div class="card-header py-3 row justify-content-between">
-                <h5 class="text-center" style="cursor:pointer" (click)="abrirReporteMensual()">Reporte mensual dividido
-                    <span>
-                        <i  class="fas fa-angle-{{flechaReporteSemanalDividido}}"></i>
-                    </span>
-                </h5>
-            </div>
-            <div class="col-sm-12 col-xl-12 table-module"*ngIf="mostrarReporteMensual" >
-                <ngx-charts-bar-vertical-2d
-                [view]="view"
-                scheme="cool"
-                [results]="reporteMensual"
-                [gradient]="gradient"
-                [xAxis]="showXAxis"
-                [yAxis]="showYAxis"
-                [legend]="showLegend"
-                [noBarWhenZero]="noBarWhenZero"
-                [showXAxisLabel]="showXAxisLabel"
-                [showYAxisLabel]="showYAxisLabel"
-                [xAxisLabel]="xAxisLabelSemanales"
-                [yAxisLabel]="yAxisLabelMensuales"
-                [legendTitle]="legendTitle"
-                (select)="onSelect($event)"
-                (activate)="onActivate($event)"
-                (deactivate)="onDeactivate($event)">
-                </ngx-charts-bar-vertical-2d>
+    
+            <div class="card shadow mb-4 col-12  col-xl-5" style="height: 100%;">
+                <div class="card-header py-3 row justify-content-between">
+                    <h5 class="text-center" style="cursor:pointer" (click)="abrirReporteMensual()">Reporte mensual dividido
+                        <span>
+                            <i  class="fas fa-angle-{{flechaReporteSemanalDividido}}"></i>
+                        </span>
+                    </h5>
+                </div>
+                <div class="col-sm-12 col-xl-12 table-module"*ngIf="mostrarReporteMensual" >
+                    <ngx-charts-bar-vertical-2d
+                    [view]="view"
+                    scheme="cool"
+                    [results]="reporteMensual"
+                    [gradient]="gradient"
+                    [xAxis]="showXAxis"
+                    [yAxis]="showYAxis"
+                    [legend]="showLegend"
+                    [noBarWhenZero]="noBarWhenZero"
+                    [showXAxisLabel]="showXAxisLabel"
+                    [showYAxisLabel]="showYAxisLabel"
+                    [xAxisLabel]="xAxisLabelSemanales"
+                    [yAxisLabel]="yAxisLabelMensuales"
+                    [legendTitle]="legendTitle"
+                    (select)="onSelect($event)"
+                    (activate)="onActivate($event)"
+                    (deactivate)="onDeactivate($event)">
+                    </ngx-charts-bar-vertical-2d>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+
+
 

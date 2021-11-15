@@ -130,6 +130,9 @@ export class VentaComponent implements OnInit {
   mostrar_juridico: boolean = false;
   busquedaCliente: boolean = false;
 
+  active:number = 1;
+
+  
   obtenerTipoDocumento(){
     if(this.tipo_comprobante.value==1){
       this.dni_ruc = 'RUC';
@@ -269,8 +272,8 @@ export class VentaComponent implements OnInit {
       this.cargando = true;
       this.productoService.listarProductos().subscribe(
         data=>{
-          this.productos = data.resultado; 
-          this.productos_iniciales = [...this.productos];
+          this.productos_iniciales = data.resultado; 
+          this.productos = this.productos_iniciales.slice();
           this.cargando = false;
           this.listarProductoTabla = false;
         },error=>{
@@ -332,6 +335,7 @@ export class VentaComponent implements OnInit {
   /*********************BUSQUEDA DE PRODUCTOS **************************/
   busquedaPorCategoria ='';
   busquedaPorUnidadDeMedida = '';
+  primeraBusqueda: boolean = true;
 
   diferenciaDeArreglos = (arr1: any[] , arr2: any[]) => {
     return arr1.filter(elemento => arr2.indexOf(elemento) == -1);
@@ -339,30 +343,43 @@ export class VentaComponent implements OnInit {
   filtrarPorCategoria(){
     this.currentPageModal = 1;
     this.productos = this.diferenciaDeArreglos(this.productos_iniciales,this.productos_detalle);
-    if(this.busquedaPorCategoria == ''){
-      if(this.busquedaPorUnidadDeMedida == ''){
-        this.productos = this.productos = this.diferenciaDeArreglos(this.productos_iniciales,this.productos_detalle);//this.productos_iniciales.filter(producto=>{return producto});  
-      }else{
-        this.filtrarPorUnidadMedida();
-      }
-    }else{
-      this.productos = this.productos = this.diferenciaDeArreglos(this.productos_iniciales,this.productos_detalle);
+    if(this.busquedaPorUnidadDeMedida.length == 0){
+      this.productos = this.diferenciaDeArreglos(this.productos_iniciales,this.productos_detalle);//this.productos_iniciales.filter(producto=>{return producto});  
       this.productos = this.productos.filter(producto =>producto.CAT_NOMBRE.toLowerCase().indexOf(this.busquedaPorCategoria.toLowerCase()) > -1);
+    }else if(this.busquedaPorUnidadDeMedida.length > 0){
+      if(this.busquedaPorCategoria.length == 0){
+        this.filtrarPorUnidadMedida(); 
+      }else if(this.busquedaPorCategoria.length > 0){
+        this.productos = this.diferenciaDeArreglos(this.productos_iniciales,this.productos_detalle);//this.productos_iniciales.filter(producto=>{return producto});  
+        this.productos = this.productos.filter(producto =>producto.CAT_NOMBRE.toLowerCase().indexOf(this.busquedaPorCategoria.toLowerCase()) > -1);
+        this.productos = this.productos.filter(producto =>producto.PRO_TAMANIO_TALLA.toLowerCase().indexOf(this.busquedaPorUnidadDeMedida.toLowerCase()) > -1);
+      }
     }
   }
   filtrarPorUnidadMedida(){
     this.currentPageModal = 1;
-    if(this.busquedaPorUnidadDeMedida == ''){
-      this.filtrarPorCategoria();
-      //this.productos = [...this.productos_iniciales];//this.productos_iniciales.filter(producto=>{return producto});  
-    }else{
-      if(this.busquedaPorCategoria == ''){
-        this.productos = this.diferenciaDeArreglos(this.productos_iniciales,this.productos_detalle);
-        this.productos = this.productos.filter(producto =>producto.PRO_TAMANIO_TALLA.toLowerCase().indexOf(this.busquedaPorUnidadDeMedida.toLowerCase()) > -1);
+    if(this.primeraBusqueda){
+      this.primeraBusqueda = false;
+      if(this.busquedaPorUnidadDeMedida.length == 0){
+        this.filtrarPorCategoria();
       }else{
+        if(this.busquedaPorCategoria.length == 0){
+          this.productos = this.diferenciaDeArreglos(this.productos_iniciales,this.productos_detalle);
+          this.productos = this.productos.filter(producto =>producto.PRO_TAMANIO_TALLA.toLowerCase().indexOf(this.busquedaPorUnidadDeMedida.toLowerCase()) > -1);
+        }else{
+          this.productos = this.productos.filter(producto =>producto.PRO_TAMANIO_TALLA.toLowerCase().indexOf(this.busquedaPorUnidadDeMedida.toLowerCase()) > -1);
+        }
+      }
+    }else if(!this.primeraBusqueda){
+      if(this.busquedaPorUnidadDeMedida.length==0){
+        this.filtrarPorCategoria();
+      }else{
+        this.productos = this.diferenciaDeArreglos(this.productos_iniciales,this.productos_detalle);//this.productos_iniciales.filter(producto=>{return producto});  
+        this.productos = this.productos.filter(producto =>producto.CAT_NOMBRE.toLowerCase().indexOf(this.busquedaPorCategoria.toLowerCase()) > -1);
         this.productos = this.productos.filter(producto =>producto.PRO_TAMANIO_TALLA.toLowerCase().indexOf(this.busquedaPorUnidadDeMedida.toLowerCase()) > -1);
       }
     }
+    
   }
   /********************** REGISTRAR VENTA ********************/
   registrarVenta(){
@@ -398,50 +415,62 @@ export class VentaComponent implements OnInit {
       }
       console.log(this.venta);
       console.log(this.detallesProducto);
-
-      this.ventaService.registrarVenta(this.venta, this.detallesProducto).subscribe(
-        (data)=>{
-          console.log(data);
-          this.cargando = false;
-          this.modalIn = false;
-          this.mostrar_alerta = true;
-          this.mensaje_alerta = 'El registro de la venta se realizó correctamente.';
-          this.tipo_alerta = 'success';
-          this.limpiar();
-          this.comprobanteForm.reset();
-        },
-        (error)=>{
-          this.limpiar();
-          this.cargando = false;
-          this.mostrar_alerta = true;
-          this.modalIn = false;
-          this.tipo_alerta='danger';
-          if (error.error.error !== undefined) {
-            if (error.error.error === 'error_deBD') {
-              this.mensaje_alerta = 'Hubo un error al intentar ejecutar su solicitud. Problemas con el servidor, vuelva a intentarlo.';
-            } else if(error.error.error === 'error_deCampo'){
-              this.mensaje_alerta = 'Los datos ingresados son invalidos. Por favor, vuelva a intentarlo.';
-            }else if(error.error.error === 'error_ejecucionQuery'){
-              this.mensaje_alerta = 'Hubo un error al registrar la venta, Por favor, actualice la página o inténtelo más tarde.';
-            }else if(error.error.error === 'error_NoExistenciaComprobanteId'){
-              this.mensaje_alerta = 'Hubo un error al intentar ejecutar su solicitud. El tipo de comprobante no es válido.';
-            }else if(error.error.error === 'error_NoExistenciaUsuarioId'){
-              this.mensaje_alerta = 'Hubo un error al intentar ejecutar su solicitud. El usuario no ha podido ser reconocido.';
-            }else if(error.error.error === 'error_NoExistenciaMétodoDePagoId'){
-              this.mensaje_alerta = 'Hubo un error al intentar ejecutar su solicitud. El método de pago no es válido.';
-            }else if(error.error.error === 'error_NoExistenciaClienteId'){
-              this.mensaje_alerta = 'Hubo un error al intentar ejecutar su solicitud. El cliente no ha podido ser reconocido.';
-            }else if(error.error.error === 'error_existenciaNroComprobante'){
-              this.mensaje_alerta = 'Hubo un error al intentar ejecutar su solicitud. El número de comprobante de la factura o boleta ya está registrado.';
+      if(this.storageService.hasKey('OPEN_CODE') && this.storageService.hasKey('OPEN_ID')){
+        this.ventaService.registrarVenta(this.venta, this.detallesProducto).subscribe(
+          (data)=>{
+            console.log(data);
+            this.cargando = false;
+            this.modalIn = false;
+            this.mostrar_alerta = true;
+            this.mensaje_alerta = 'El registro de la venta se realizó correctamente.';
+            this.tipo_alerta = 'success';
+            this.limpiar();
+            this.comprobanteForm.reset();
+          },
+          (error)=>{
+            this.limpiar();
+            this.cargando = false;
+            this.mostrar_alerta = true;
+            this.modalIn = false;
+            this.tipo_alerta='danger';
+            if (error.error.error !== undefined) {
+              if (error.error.error === 'error_deBD') {
+                this.mensaje_alerta = 'Hubo un error al intentar ejecutar su solicitud. Problemas con el servidor, vuelva a intentarlo.';
+              } else if(error.error.error === 'error_deCampo'){
+                this.mensaje_alerta = 'Los datos ingresados son invalidos. Por favor, vuelva a intentarlo.';
+              }else if(error.error.error === 'error_ejecucionQuery'){
+                this.mensaje_alerta = 'Hubo un error al registrar la venta, Por favor, actualice la página o inténtelo más tarde.';
+              }else if(error.error.error === 'error_NoExistenciaComprobanteId'){
+                this.mensaje_alerta = 'Hubo un error al intentar ejecutar su solicitud. El tipo de comprobante no es válido.';
+              }else if(error.error.error === 'error_NoExistenciaUsuarioId'){
+                this.mensaje_alerta = 'Hubo un error al intentar ejecutar su solicitud. El usuario no ha podido ser reconocido.';
+              }else if(error.error.error === 'error_NoExistenciaMétodoDePagoId'){
+                this.mensaje_alerta = 'Hubo un error al intentar ejecutar su solicitud. El método de pago no es válido.';
+              }else if(error.error.error === 'error_NoExistenciaClienteId'){
+                this.mensaje_alerta = 'Hubo un error al intentar ejecutar su solicitud. El cliente no ha podido ser reconocido.';
+              }else if(error.error.error === 'error_existenciaNroComprobante'){
+                this.mensaje_alerta = 'Hubo un error al intentar ejecutar su solicitud. El número de comprobante de la factura o boleta ya está registrado.';
+              }else if(error.error.error === 'error_NoCajaAbierta'){
+                this.mensaje_alerta = 'Hubo un error al intentar ejecutar su solicitud. Tiene que abrir la caja para poder realizar una venta.';
+              }
+  
+              
             }
+            else{
+              this.mensaje_alerta = 'Hubo un error al mostrar la información de esta página. Por favor, actualice la página.';
+            }
+          }
+        );
+      }else{
+        this.limpiar();
+        this.cargando = false;
+        this.mostrar_alerta = true;
+        this.modalIn = false;
+        this.tipo_alerta='warning';
+        this.mensaje_alerta = 'Tiene que abrir una caja para poder realizar una venta.';
 
-            
-          }
-          else{
-            this.mensaje_alerta = 'Hubo un error al mostrar la información de esta página. Por favor, actualice la página.';
-          }
-        }
-      );
+      }
+      
 
     }
 
@@ -449,7 +478,6 @@ export class VentaComponent implements OnInit {
 
     
   }
-  
 
  
   inicializarFormulario(){
@@ -589,6 +617,7 @@ export class VentaComponent implements OnInit {
       this.clienteNatural.CLIENTE_TELEFONO = this.celular.value;
       this.clienteNatural.CLIENTE_DNI = this.dni.value;
       this.clienteNatural.CLIENTE_DIRECCION = this.direccion.value;
+      this.clienteNatural.CLIENTE_CORREO = this.correo_.value;
       this.clienteService.registrarCliente(this.clienteNatural).subscribe(
         (data)=>{
           this.cargando = false;
@@ -597,7 +626,7 @@ export class VentaComponent implements OnInit {
           this.mensaje_alerta = 'El registro del cliente se realizó correctamente.';
           this.tipo_alerta = 'success';
           this.modal.dismissAll();  
-          this.limpiarClientes();
+          this.limpiar();
           this.listarClientes();
         },
         (error)=>{
@@ -623,6 +652,7 @@ export class VentaComponent implements OnInit {
       );
     }
   }
+
   registrarClienteJuridico(){
     if(this.clienteJuridicoForm.invalid){
       this.mensaje_alerta = 'No ha ingresado datos válidos. Vuelva a intentarlo de nuevo.';
@@ -637,6 +667,7 @@ export class VentaComponent implements OnInit {
       this.clienteNatural.CLIENTE_APELLIDOS = this.apellidos.value;
       this.clienteNatural.CLIENTE_TELEFONO = this.celular_.value;
       this.clienteNatural.CLIENTE_DIRECCION = this.direccion_.value;
+      this.clienteNatural.CLIENTE_CORREO = this.correo.value;
 
       this.datosJuridicos.DJ_RAZON_SOCIAL = this.razon_social.value;
       this.datosJuridicos.DJ_RUC = this.ruc.value;
@@ -650,7 +681,7 @@ export class VentaComponent implements OnInit {
           this.tipo_alerta = 'success';
           this.modal.dismissAll();  
           this.listarClientes();
-          this.limpiarClientes();
+          this.limpiar();
         },
         (error)=>{
           this.cargando = false;
@@ -682,15 +713,14 @@ export class VentaComponent implements OnInit {
 
   inicializarClienteNaturalFormulario(){
     this.clienteForm = this.formBuilder.group({
-      nombres:['',[Validators.required,Validators.pattern('[a-zñáéíóúA-ZÑÁÉÍÓÚ ]+'),Validators.maxLength(100)]],
+      nombres:['',[Validators.required,Validators.pattern('[a-zñáéíóúA-ZÑÁÉÍÓÚ. ]+$'),Validators.maxLength(100)]],
       apellidos: ['', [Validators.pattern('[a-zñáéíóúA-ZÑÁÉÍÓÚ ]+'),Validators.maxLength(30)]],
       celular: ['', [Validators.required, Validators.pattern('[+][0-9]+'), Validators.maxLength(12), Validators.minLength(12)]] ,
       dni: ['', [Validators.required, Validators.pattern(/^([0-9])*$/), Validators.minLength(8),  Validators.maxLength(8)]],
       direccion: ['', [Validators.pattern('^[a-zñáéíóú#°/,. A-ZÑÁÉÍÓÚ  0-9]+$'), Validators.maxLength(100)]],
+      correo_: ['', [Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/), Validators.maxLength(60)]],
     });
   }
-
-  active:number = 1;
   // getters & setters
   get nombres() {
     return this.clienteForm.get('nombres');
@@ -707,6 +737,10 @@ export class VentaComponent implements OnInit {
   get direccion() {
     return this.clienteForm.get('direccion');
   } 
+  get correo_() {
+    return this.clienteForm.get('correo_');
+  }
+
 
   inicializarClienteJuridicoFormulario(){
     this.clienteJuridicoForm = this.formBuilder.group({
@@ -716,6 +750,7 @@ export class VentaComponent implements OnInit {
       tipo_empresa:['',[Validators.required]],
       celular_: ['', [Validators.pattern('[+][0-9]+'), Validators.maxLength(12), Validators.minLength(12)]] ,
       direccion_: ['', [Validators.pattern('^[a-zñáéíóú#°/,. A-ZÑÁÉÍÓÚ  0-9]+$'), Validators.maxLength(100)]],
+      correo: ['', [Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/), Validators.maxLength(60)]],
     });
   }
   // getters & setters
@@ -737,6 +772,9 @@ export class VentaComponent implements OnInit {
   get tipo_empresa() {
     return this.clienteJuridicoForm.get('tipo_empresa');
   } 
+  get correo() {
+    return this.clienteJuridicoForm.get('correo');
+  }
 
 
   /********************** ORDENAMIENTO DE TABLA ARTICULOS ***********************/
@@ -760,4 +798,11 @@ export class VentaComponent implements OnInit {
     }
   }
 
+  agregarTarjeta(){
+    if(this.forma_pago.value==2){
+      this.TotalCompra += 0.05 * this.TotalCompra;
+    }else{
+      this.TotalCompra = this.importes.reduce((a, b) => a + b, 0);
+    }
+  }
 }

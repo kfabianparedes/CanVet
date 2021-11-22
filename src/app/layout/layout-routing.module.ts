@@ -16,6 +16,7 @@ import { MascotaComponent } from './mascota/mascota.component';
 import { ReportesComponent } from './reportes/reportes.component';
 import { ReporteCajaComponent } from './reporte-caja/reporte-caja.component';
 import { ReporteVentaComponent } from './reporte-venta/reporte-venta.component';
+import { ReporteVentaDiarioComponent } from './reporte-venta-diario/reporte-venta-diario.component';
 
 const routes: Routes = [
   {
@@ -36,7 +37,8 @@ const routes: Routes = [
       {path:'mascota',component:MascotaComponent},
       {path:'reporte-grafico',component:ReportesComponent},
       {path:'reporte-caja',component:ReporteCajaComponent},
-      {path:'reporte-venta',component:ReporteVentaComponent}
+      {path:'reporte-venta',component:ReporteVentaComponent},
+      {path:'reporte-venta-diario',component:ReporteVentaDiarioComponent}
 
     ]
   }

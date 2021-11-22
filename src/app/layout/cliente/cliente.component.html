@@ -654,6 +654,20 @@
                     </div>
                 </div>
             </div>
+            <div class="row color-row-table justify-content-center mb-3">
+                <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
+                    <label for="inputEmailClienteJuridico">Email:</label>
+                    <input formControlName="correo" type="text" id="inputEmailClienteJuridico" class="border-left-primary font-tamanio form-control">
+                    <div *ngIf="correo.invalid && (correo.dirty || correo.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                        <div *ngIf="correo.errors.pattern">
+                            * El formato es inválido.
+                        </div>
+                        <div *ngIf="correo.errors.maxlength">
+                            * Se requieren maximo 60 caracteres.
+                        </div>
+                    </div>
+                </div>
+            </div>
         </form>
         <div class="row d-flex text-center justify-content-center">
             <div class="my-2 col-sm-12 col-md-12 col-lg-3">

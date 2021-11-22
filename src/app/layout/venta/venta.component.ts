@@ -799,10 +799,6 @@ export class VentaComponent implements OnInit {
   }
 
   agregarTarjeta(){
-    if(this.forma_pago.value==2){
-      this.TotalCompra += 0.05 * this.TotalCompra;
-    }else{
-      this.TotalCompra = this.importes.reduce((a, b) => a + b, 0);
-    }
+    
   }
 }

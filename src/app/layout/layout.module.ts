@@ -30,6 +30,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReporteCajaComponent } from './reporte-caja/reporte-caja.component';
 import { ReporteVentaComponent } from './reporte-venta/reporte-venta.component';
+import { ReporteVentaDiarioComponent } from './reporte-venta-diario/reporte-venta-diario.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { ReporteVentaComponent } from './reporte-venta/reporte-venta.component';
     MascotaComponent, 
     ReportesComponent,
     ReporteCajaComponent,
-    ReporteVentaComponent
+    ReporteVentaComponent,
+    ReporteVentaDiarioComponent
   ],
   imports: [
     CommonModule,

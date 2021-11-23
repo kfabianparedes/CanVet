@@ -86,7 +86,7 @@
             <form [formGroup]="comprobanteForm">
                 <div class="row color-row-table">
                     <div class="col-sm-12 col-md-5">
-                        <label for="inputFechaComprobante">Fecha de Emisión:</label>
+                        <label for="inputFechaComprobante">Fecha de Registro:</label>
                         <input [max]="getTodayFecha()" [ngClass]="{'textoGris': opacarFecha }" (change)="cambiarDeStyleDate()" type="date" name="inputFechaComprobante" formControlName="fecha_emision" class="border-left-primary font-tamanio form-control">
                         <div *ngIf="fecha_emision.invalid && (fecha_emision.dirty || fecha_emision.touched)" class="my-1" style="color: rgb(197, 68, 68);">
                             <div *ngIf="fecha_emision.errors.required">

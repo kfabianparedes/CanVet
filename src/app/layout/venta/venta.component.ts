@@ -487,7 +487,7 @@ export class VentaComponent implements OnInit {
       //DESHABILITADO POR AHORA SERI Y NRO COMPROBANTE
       // serie:['',[Validators.pattern(/^([0-9])*$/),Validators.minLength(3), Validators.maxLength(5)]],
       // nro_comprobante:['',[Validators.pattern(/^([0-9])*$/),Validators.minLength(7), Validators.maxLength(10)]],
-      fecha_emision:['',[Validators.required]],
+      fecha_emision:[this.getTodayFecha(),[Validators.required]],
       forma_pago:['',[Validators.required]]
     });
   }
@@ -798,7 +798,14 @@ export class VentaComponent implements OnInit {
     }
   }
 
+  /******* PORCENTAJE POR TARJETA *******/
+  pago_tarjeta : boolean = false;
   agregarTarjeta(){
-    
+    console.log(this.forma_pago);
+    if(this.forma_pago.value == 2){
+      this.pago_tarjeta = true;
+    }else{
+      this.pago_tarjeta = false;
+    }
   }
 }

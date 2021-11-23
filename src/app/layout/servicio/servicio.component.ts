@@ -13,6 +13,12 @@ import { MetodoPago } from 'src/app/models/metodo-pago';
 import { StorageService } from 'src/app/services/storage.service';
 import { ComprobanteService } from 'src/app/services/comprobante.service';
 import { Comprobante } from 'src/app/models/comprobante.model';
+import { Empresa } from 'src/app/models/empresa';
+import { DatosJuridicos } from 'src/app/models/datos-juridicos';
+import { EmpresaService } from 'src/app/services/empresa.service';
+import { ClienteService } from 'src/app/services/cliente.service';
+import { Cliente } from 'src/app/models/cliente';
+import { Mascota } from 'src/app/models/mascota';
 
 @Component({
   selector: 'app-servicio',
@@ -42,6 +48,8 @@ export class ServicioComponent implements OnInit {
     private storageService:StorageService,
     private comprobanteService:ComprobanteService,
     private metodoPago:MetodoPagoService,
+    private empresaService:EmpresaService,
+    private clienteService:ClienteService,
   ) {
     this.configModal.backdrop = 'static';
     this.configModal.keyboard = false;
@@ -52,7 +60,9 @@ export class ServicioComponent implements OnInit {
     this.listarServicios();
     this.listarMetodoPago();
     this.listarComprobantes();
+    this.listarEmpresas();
     this.inicializarServicioFormulario();
+    this.inicializarMascotaFormulario();
   }
 
   //******************INGRESAR DATOS REGISTRO SERVICIO ********************/
@@ -503,7 +513,389 @@ export class ServicioComponent implements OnInit {
       this.mostrar_alerta = false;
       this.adelantoError = false;
     }
+  }
+  /******************* LISTAR TIPOS DE EMPRESA *******************/
+  listarEmpresas(){
+    this.modalIn = false;
+    this.cargando = true;
+    this.empresaService.listasTipodeEmpresas().subscribe(
+      (data)=>{
+        this.empresas = data['resultado'];
+        this.cargando = false;
+      },
+      (error)=>{
+        this.cargando = false;
+        this.mostrar_alerta = true;
+        this.tipo_alerta='danger';
+        if (error['error']['error'] !== undefined) {
+          if (error['error']['error'] === 'error_deBD') {
+            this.mensaje_alerta = 'Hubo un error al intentar ejecutar su solicitud. Por favor, actualice la página.';
+          }
+        }
+        else{
+          this.mensaje_alerta = 'Hubo un error al mostrar la información de esta página. Por favor, actualice la página.';
+        }
+      }
+    )
+  }
+
+  /********************REGISTRAR CLIENTE  ***********************/
+  nuevoCliente(){
+    this.modal.open(this.clienteModal,{size: 'lg'});
+    this.mostrar_alerta = false;
+    this.modalIn = false;
+    this.inicializarClienteNaturalFormulario();
+    this.inicializarClienteJuridicoFormulario();
+  }
+
+  active:number = 1;
+  //Variable de registro de cliente
+  clienteForm : FormGroup;
+  clienteJuridicoForm : FormGroup;
+  empresas: Empresa[] = [];
+  @ViewChild('clienteModal') clienteModal: ElementRef;
+  clienteNatural: Cliente = new Cliente();
+  clienteJuridico: Cliente = new Cliente();
+  datosJuridicos: DatosJuridicos = new DatosJuridicos();
+
+  registrarClienteNatural(){
+    if(this.clienteForm.invalid){
+      this.mensaje_alerta = 'No ha ingresado datos válidos. Vuelva a intentarlo de nuevo.';
+      this.tipo_alerta = 'danger';
+      this.mostrar_alerta = true;
+      this.modalIn = true;
+    }else{
+      this.mostrar_alerta = false;
+      this.modalIn = true;
+      this.cargando = true;
+      this.clienteNatural.CLIENTE_NOMBRES = this.nombres.value;
+      this.clienteNatural.CLIENTE_APELLIDOS = this.apellidos.value;
+      this.clienteNatural.CLIENTE_TELEFONO = this.celular.value;
+      this.clienteNatural.CLIENTE_DNI = this.dni.value;
+      this.clienteNatural.CLIENTE_DIRECCION = this.direccion.value;
+      this.clienteNatural.CLIENTE_CORREO = this.correo_.value;
+      this.clienteService.registrarCliente(this.clienteNatural).subscribe(
+        (data)=>{
+          this.cargando = false;
+          this.modalIn = false;
+          this.mostrar_alerta = true;
+          this.mensaje_alerta = 'El registro del cliente se realizó correctamente.';
+          this.tipo_alerta = 'success';
+          this.modal.dismissAll();  
+          this.limpiar();
+        },
+        (error)=>{
+          this.cargando = false;
+          this.mostrar_alerta = true;
+          this.modalIn = true;
+          this.tipo_alerta='danger';
+          if (error.error.error !== undefined) {
+            if (error.error.error === 'error_deBD') {
+              this.mensaje_alerta = 'Hubo un error al intentar ejecutar su solicitud. Problemas con el servidor, vuelva a intentarlo.';
+            } else if(error.error.error === 'error_deCampo'){
+              this.mensaje_alerta = 'Los datos ingresados son invalidos. Por favor, vuelva a intentarlo.';
+            }else if(error.error.error === 'error_ejecucionQuery'){
+              this.mensaje_alerta = 'Hubo un error al registrar la orden de compra, Por favor, actualice la página o inténtelo más tarde.';
+            }else if(error.error.error === 'error_existenciaDNI'){
+              this.mensaje_alerta = 'El DNI ingresado ya le pertenece a un cliente. Por favor, vuelva a intentarlo.';
+            }
+          }
+          else{
+            this.mensaje_alerta = 'Hubo un error al mostrar la información de esta página. Por favor, actualice la página.';
+          }
+        }
+      );
+    }
+  }
+  registrarClienteJuridico(){
+    if(this.clienteJuridicoForm.invalid){
+      this.mensaje_alerta = 'No ha ingresado datos válidos. Vuelva a intentarlo de nuevo.';
+      this.tipo_alerta = 'danger';
+      this.mostrar_alerta = true;
+      this.modalIn = true;
+    }else{
+      this.mostrar_alerta = false;
+      this.modalIn = true;
+      this.cargando = true;
+      this.clienteNatural.CLIENTE_NOMBRES = this.nombres_.value;
+      this.clienteNatural.CLIENTE_APELLIDOS = this.apellidos.value;
+      this.clienteNatural.CLIENTE_TELEFONO = this.celular_.value;
+      this.clienteNatural.CLIENTE_DIRECCION = this.direccion_.value;
+      this.clienteNatural.CLIENTE_CORREO = this.correo.value;
+
+      this.datosJuridicos.DJ_RAZON_SOCIAL = this.razon_social.value;
+      this.datosJuridicos.DJ_RUC = this.ruc.value;
+      this.datosJuridicos.TIPO_EMPRESA_ID = this.tipo_empresa.value;
+      this.clienteService.registrarCliente(this.clienteNatural,this.datosJuridicos).subscribe(
+        (data)=>{
+          this.cargando = false;
+          this.modalIn = false;
+          this.mostrar_alerta = true;
+          this.mensaje_alerta = 'El registro del cliente se realizó correctamente.';
+          this.tipo_alerta = 'success';
+          this.modal.dismissAll();  
+          this.limpiar();
+        },
+        (error)=>{
+          this.cargando = false;
+          this.mostrar_alerta = true;
+          this.modalIn = true;
+          this.tipo_alerta='danger';
+          if (error.error.error !== undefined) {
+            if (error.error.error === 'error_deBD') {
+              this.mensaje_alerta = 'Hubo un error al intentar ejecutar su solicitud. Problemas con el servidor, vuelva a intentarlo.';
+            } else if(error.error.error === 'error_deCampo'){
+              this.mensaje_alerta = 'Los datos ingresados son invalidos. Por favor, vuelva a intentarlo.';
+            }else if(error.error.error === 'error_ejecucionQuery'){
+              this.mensaje_alerta = 'Hubo un error al registrar la orden de compra, Por favor, actualice la página o inténtelo más tarde.';
+            }else if(error.error.error === 'error_existenciaRUC'){
+              this.mensaje_alerta = 'El RUC ingresado ya le pertenece a un usuario. Por favor, vuelva a intentarlo.';
+            }else if(error.error.error === 'error_noExistenciaTipoEmpresa'){
+              this.mensaje_alerta = 'Hubo un error identificando el tipo de empresa. Por favor, vuelva a intentarlo.';
+            }else if(error.error.error === 'error_ExistenciaRazonSocial'){
+              this.mensaje_alerta = 'La razón social le pertenece a otro cliente. Por favor, vuelva a intentarlo.';
+            }
+          }
+          else{
+            this.mensaje_alerta = 'Hubo un error al mostrar la información de esta página. Por favor, actualice la página.';
+          }
+        }
+      );
+    }
+  }
+  inicializarClienteNaturalFormulario(){
+    this.clienteForm = this.formBuilder.group({
+      nombres:['',[Validators.required,Validators.pattern('[a-zñáéíóúA-ZÑÁÉÍÓÚ. ]+$'),Validators.maxLength(100)]],
+      apellidos: ['', [Validators.pattern('[a-zñáéíóúA-ZÑÁÉÍÓÚ ]+'),Validators.maxLength(30)]],
+      celular: ['', [Validators.required, Validators.pattern('[+][0-9]+'), Validators.maxLength(12), Validators.minLength(12)]] ,
+      dni: ['', [Validators.required, Validators.pattern(/^([0-9])*$/), Validators.minLength(8),  Validators.maxLength(8)]],
+      direccion: ['', [Validators.pattern('^[a-zñáéíóú#°/,. A-ZÑÁÉÍÓÚ  0-9]+$'), Validators.maxLength(100)]],
+      correo_: ['', [Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/), Validators.maxLength(60)]],
+    });
+  }
+  // getters & setters
+  get nombres() {
+    return this.clienteForm.get('nombres');
+  } 
+  get apellidos() {
+    return this.clienteForm.get('apellidos');
+  } 
+  get celular() {
+    return this.clienteForm.get('celular');
+  } 
+  get dni() {
+    return this.clienteForm.get('dni');
+  } 
+  get direccion() {
+    return this.clienteForm.get('direccion');
+  } 
+  get correo_() {
+    return this.clienteForm.get('correo_');
+  }
+  inicializarClienteJuridicoFormulario(){
+    this.clienteJuridicoForm = this.formBuilder.group({
+      nombres_:['',[Validators.required,Validators.pattern('[a-zñáéíóúA-ZÑÁÉÍÓÚ. ]+$'),Validators.maxLength(100)]],
+      razon_social: ['', [Validators.required,Validators.pattern('^[a-zñáéíóúA-ZÑÁÉÍÓÚ. ]+$'), Validators.maxLength(100)]],
+      ruc: ['', [Validators.required, Validators.pattern(/^([0-9])*$/), Validators.minLength(11),  Validators.maxLength(11)]],
+      tipo_empresa:['',[Validators.required]],
+      celular_: ['', [Validators.pattern('[+][0-9]+'), Validators.maxLength(12), Validators.minLength(12)]] ,
+      direccion_: ['', [Validators.pattern('^[a-zñáéíóú#°/,. A-ZÑÁÉÍÓÚ  0-9]+$'), Validators.maxLength(100)]],
+      correo: ['', [Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/), Validators.maxLength(60)]],
+    });
+  }
+  // getters & setters
+  get nombres_() {
+    return this.clienteJuridicoForm.get('nombres_');
+  } 
+  get celular_() {
+    return this.clienteJuridicoForm.get('celular_');
+  } 
+  get direccion_() {
+    return this.clienteJuridicoForm.get('direccion_');
+  } 
+  get razon_social() {
+    return this.clienteJuridicoForm.get('razon_social');
+  } 
+  get ruc() {
+    return this.clienteJuridicoForm.get('ruc');
+  } 
+  get tipo_empresa() {
+    return this.clienteJuridicoForm.get('tipo_empresa');
+  } 
+  get correo() {
+    return this.clienteJuridicoForm.get('correo');
+  }
+
+
+
+
+
+  /*****************REGISTRAR MASCOTA  *****************/
+  @ViewChild('crearMascotaModal') crearMascotaModal: ElementRef;
+  /******************** REGISTRAR MASCOTA *************************/
+  crearMascota(){
+    this.modal.open(this.crearMascotaModal,{size:'xl'});
+    this.listarClientes();
+  }
+
+  mascotaNueva: Mascota = new Mascota();
+  registrarMascota(){
     
+    if(this.clienteSeleccionado == 0){
+      this.mostrar_alerta = true;
+      this.modalIn = true;
+      this.cargando = false;
+      this.tipo_alerta = 'danger';
+      this.mensaje_alerta = 'No ha seleccionado un cliente para registrar la mascota';
+    }else{
+      this.cargando = true;
+      this.modalIn = true;
+      this.mascotaNueva.CLIENTE_ID = this.clienteSeleccionado;
+      this.mascotaNueva.MAS_ATENCIONES = 0;
+      this.mascotaNueva.MAS_COLOR = this.color.value;
+      this.mascotaNueva.MAS_ESPECIE = this.especie.value;
+      this.mascotaNueva.MAS_NOMBRE = this.nombre.value;
+      this.mascotaNueva.MAS_RAZA = this.raza.value;
+      this.mascotaNueva.MAS_ESTADO = 1;
+      console.log(this.mascotaNueva);
+      this.mascotaService.registrarMascota(this.mascotaNueva).subscribe(
+        (data)=>{
+          this.mostrar_alerta = true;
+          this.modalIn = false;
+          this.cargando = false;
+          this.tipo_alerta = 'success';
+          this.mensaje_alerta = 'Mascota registrada correctamente';
+          this.limpiar();
+          this.closeModal();
+          this.listarMascotas();
+        },
+        (error)=>{
+          this.cargando = false;
+          this.mostrar_alerta = true;
+          this.modalIn = true;
+          this.tipo_alerta='danger';
+          if (error.error.error !== undefined) {
+            if (error.error.error === 'error_deBD') {
+              this.mensaje_alerta = 'Hubo un error al intentar ejecutar su solicitud. Problemas con el servidor, vuelva a intentarlo.';
+            } else if(error.error.error === 'error_deCampo'){
+              this.mensaje_alerta = 'Los datos ingresados son invalidos. Por favor, vuelva a intentarlo.';
+            }else if(error.error.error === 'error_ejecucionQuery'){
+              this.mensaje_alerta = 'Hubo un error al registrar la mascota, Por favor, actualice la página o inténtelo más tarde.';
+            }else if(error.error.error === 'error_noExistenciaIdCliente'){
+              this.mensaje_alerta = 'Hubo un error indentificando al cliente. Por favor, vuelva a intentarlo o actualice la página.';
+            }
+          }
+          else{
+            this.mensaje_alerta = 'Hubo un error al mostrar la información de esta página. Por favor, actualice la página.';
+          }
+        }
+      );
+
+    }
     
+  }
+  /**************************** FORMULARIO MASCOTA ********************************/
+  mascotaForm : FormGroup;
+  inicializarMascotaFormulario(){
+    this.mascotaForm = this.formBuilder.group({
+      nombre:['',[Validators.required,Validators.pattern('[a-zñáéíóúA-ZÑÁÉÍÓÚ. ]+$'),Validators.minLength(3),Validators.maxLength(45)]],
+      raza:['',[Validators.required,Validators.pattern('[a-zñáéíóúA-ZÑÁÉÍÓÚ. ]+$'),Validators.minLength(3),Validators.maxLength(30)]],
+      especie:['',[Validators.required,Validators.pattern('[a-zñáéíóúA-ZÑÁÉÍÓÚ. ]+$'),Validators.minLength(3),Validators.maxLength(20)]],
+      color:['',[Validators.required,Validators.pattern('[a-zñáéíóúA-ZÑÁÉÍÓÚ. ]+$'),Validators.minLength(3),Validators.maxLength(45)]],
+    });
+  }
+  get nombre() {
+    return this.mascotaForm.get('nombre');
+  } 
+  get raza() {
+    return this.mascotaForm.get('raza');
+  } 
+  get especie() {
+    return this.mascotaForm.get('especie');
+  } 
+  get color() {
+    return this.mascotaForm.get('color');
+  } 
+
+
+  /******************** LISTAR CLIENTES *******************/
+  clientes: Cliente[] = [];
+  clientes_iniciales: any[]=[];
+  listarClientes(){
+    this.cargando = true;
+    this.modalIn = true;
+    this.clienteService.listarClientesTotales().subscribe(
+      (data)=>{
+        
+        this.clientes_iniciales = data['resultado'];
+        this.clientes = this.clientes_iniciales.slice();
+        this.cargando = false;
+        console.log(data);
+        console.log(this.clientes_iniciales);
+        console.log(this.clientes);
+      },
+      (error)=>{
+        this.modalIn = true;
+        this.cargando = false;
+        this.mostrar_alerta = true;
+        this.tipo_alerta='danger';
+        if (error['error']['error'] !== undefined) {
+          if (error['error']['error'] === 'error_deBD') {
+            this.mensaje_alerta = 'Hubo un error al intentar ejecutar su solicitud. Por favor, actualice la página.';
+          }
+        }
+        else{
+          this.mensaje_alerta = 'Hubo un error al mostrar la información de esta página. Por favor, actualice la página.';
+        }
+      }
+    )
+    
+  }
+
+  /********************** ORDENAMIENTO DE TABLA CLIENTES ***********************/
+  
+  onSorted({column, direction}: any) {
+    // resetting other headers
+    this.headers.forEach(header => {
+      if (header.sortable !== column) {
+        header.direction = '';
+      }
+    });
+    // sorting countries
+    if (direction === '' || column === '') {
+      this.clientes = this.clientes_iniciales.slice();
+    } else {
+      this.clientes = [...this.clientes_iniciales].sort((a, b) => {
+        const res = compare(a[column], b[column]);
+        return direction === 'asc' ? res : -res;
+      });
+    }
+  }
+
+  /*********************** AGREGAR CLIENTE (DUEÑO DE MASCOTA) ****************************/
+  clienteSeleccionado:number = 0;
+  nombreCliente:string = 'Cliente';
+  agregarCliente(cliente:Cliente){
+    console.log(cliente);
+    this.clientes.forEach(client=>{
+      if(client == cliente){
+        this.clienteSeleccionado = client.CLIENTE_ID;
+        this.nombreCliente = client.CLIENTE_NOMBRES;
+      }
+    })
+    console.log(this.clienteSeleccionado);
+  }
+  /********************* FILTRAR CLIENTE***********************/
+  currentPageModal = 1;
+  itemsPerPageModal = 5;
+  filtrarCliente(){
+    this.currentPageModal = 1;
+    this.clientes = this.clientes_iniciales.slice(); 
+    if(this.busquedaCliente == ''){
+      this.clientes = this.clientes = this.clientes_iniciales.slice();   
+    }else{
+      this.clientes = this.clientes = this.clientes_iniciales.slice(); 
+      this.clientes = this.clientes.filter(cliente =>cliente.CLIENTE_NOMBRES.toLowerCase().indexOf(this.busquedaCliente.toLowerCase()) > -1);
+    }
   }
 }

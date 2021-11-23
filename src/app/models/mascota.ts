@@ -6,5 +6,6 @@ export class Mascota {
     MAS_ESPECIE :string; 
     MAS_ATENCIONES :number; 
     MAS_ESTADO: number;
+    MAS_FECHA_REGISTRO:string;
     CLIENTE_ID :number;
 }

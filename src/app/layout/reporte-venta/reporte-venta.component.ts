@@ -103,7 +103,7 @@ export class ReporteVentaComponent implements OnInit {
   }
 
 
-  /************* REPORTES DE CAJA **********************/
+  /************* PAGINACION TABLA **********************/
   itemsPorPagina1: number = 5;
   paginaActual1: number = 1;
 
@@ -252,6 +252,7 @@ export class ReporteVentaComponent implements OnInit {
   CLIENTE_CORREO: string = '';
   VENTA_ID: number = 0;
   detallesVenta: DetallesVenta[] = [];
+  detallesVentaInicial: any[] = [];
 
 
 
@@ -272,7 +273,8 @@ export class ReporteVentaComponent implements OnInit {
     this.detalleVentaService.listasDetallesDeVenta(VENTA_ID).subscribe(
       (data)=>{
         this.cargando = false;
-        this.detallesVenta = data['resultado'];
+        this.detallesVentaInicial = data['resultado'];
+        this.detallesVenta = this.detallesVentaInicial.slice();
         console.log(data);
         console.log(this.detallesVenta);
       },
@@ -295,9 +297,9 @@ export class ReporteVentaComponent implements OnInit {
     });
     // sorting countries
     if (direction === '' || column === '') {
-      this.mes_actual_servicio = this.mes_actual_servicio_inicial.slice();
+      this.detallesVenta = this.detallesVentaInicial.slice();
     } else {
-      this.mes_actual_servicio = [...this.mes_actual_servicio_inicial].sort((a, b) => {
+      this.detallesVenta = [...this.detallesVentaInicial].sort((a, b) => {
         const res = compare(a[column], b[column]);
         return direction === 'asc' ? res : -res;
       });
@@ -316,7 +318,7 @@ export class ReporteVentaComponent implements OnInit {
     this.CLIENTE_DNI = reporte.CLIENTE_DNI;
     this.CLIENTE_CORREO = reporte.CLIENTE_CORREO;
     this.DJ_RUC = reporte.DJ_RUC;
-    this.modal.open(this.detallesServicioModal,{size:'md'});
+    this.modal.open(this.detallesServicioModal,{size:'lg'});
   }
 
   

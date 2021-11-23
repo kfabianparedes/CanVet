@@ -50,6 +50,7 @@
                                 <th class="color-row-table text-center puntero" scope="col" sortable="MAS_RAZA" (sort)="onSort($event)">Raza</th>
                                 <th class="color-row-table text-center puntero" scope="col" sortable="MAS_COLOR" (sort)="onSort($event)">Color</th>
                                 <th class="color-row-table text-center puntero" scope="col" sortable="MAS_ATENCIONES" (sort)="onSort($event)">Atenciones</th>
+                                <th class="color-row-table text-center puntero" scope="col" sortable="MAS_FECHA_REGISTRO" (sort)="onSort($event)">Fecha registro</th>
                                 <th class="color-row-table text-center puntero" scope="col" sortable="CLIENTE_NOMBRES" (sort)="onSort($event)">Dueño</th>
                                 <th class="color-row-table text-center puntero" scope="col" sortable="CLIENTE_TELEFONO" (sort)="onSort($event)">Télefono</th>
                                 <th class="color-row-table text-center puntero" scope="col" sortable="MAS_ESTADO" (sort)="onSort($event)">Estado</th>
@@ -64,6 +65,7 @@
                                 <td class="color-row-table">{{mascota.MAS_RAZA}}</td>
                                 <td class="color-row-table">{{mascota.MAS_COLOR}}</td>
                                 <td class="color-row-table">{{mascota.MAS_ATENCIONES}}</td>
+                                <td class="color-row-table">{{mascota.MAS_FECHA_REGISTRO}}</td>
                                 <td class="color-row-table">{{mascota.CLIENTE_NOMBRES}}</td>
                                 <td class="color-row-table">{{mascota.CLIENTE_TELEFONO}}</td>
                                 <td class="color-row-table">{{mascota.MAS_ESTADO==0?'Inactivo':'Activo'}}</td>

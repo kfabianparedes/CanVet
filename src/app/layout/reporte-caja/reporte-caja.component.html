@@ -40,6 +40,7 @@
                             <th class="color-row-table text-center puntero" scope="col" sortable="CAJA_MONTO_TARJETA_VENTAS" (sort)="onSort($event)"><span>Tarjeta Ventas</span></th>
                             <th class="color-row-table text-center puntero" scope="col" sortable="CAJA_MONTO_YAPE_SERVICIOS" (sort)="onSort($event)"><span>Yape Servicios</span></th>
                             <th class="color-row-table text-center puntero" scope="col" sortable="CAJA_MONTO_YAPE_VENTAS" (sort)="onSort($event)"><span>Yape Ventas</span></th>
+                            <th class="color-row-table text-center puntero" scope="col" sortable="CAJA_FECHA" (sort)="onSort($event)">Fecha</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -50,6 +51,7 @@
                             <td class="color-row-table">{{reporte.CAJA_MONTO_TARJETA_VENTAS}}</td>
                             <td class="color-row-table">{{reporte.CAJA_MONTO_YAPE_SERVICIOS}}</td>
                             <td class="color-row-table">{{reporte.CAJA_MONTO_YAPE_VENTAS}}</td>
+                            <td class="color-row-table">{{reporte.CAJA_FECHA | date: 'dd/MM/yyyy'}}</td>
                             
                         </tr>
                     </tbody>
@@ -95,6 +97,7 @@
                             <th class="color-row-table text-center puntero" scope="col" sortable="CAJA_MONTO_TARJETA_VENTAS" (sort)="onSorted($event)">Tarjeta Ventas</th>
                             <th class="color-row-table text-center puntero" scope="col" sortable="CAJA_MONTO_YAPE_SERVICIOS" (sort)="onSorted($event)">Yape Servicios</th>
                             <th class="color-row-table text-center puntero" scope="col" sortable="CAJA_MONTO_YAPE_VENTAS" (sort)="onSorted($event)">Yape Ventas</th>
+                            <th class="color-row-table text-center puntero" scope="col" sortable="CAJA_FECHA" (sort)="onSorted($event)">Fecha</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -105,7 +108,7 @@
                             <td class="color-row-table">{{reporte.CAJA_MONTO_TARJETA_VENTAS}}</td>
                             <td class="color-row-table">{{reporte.CAJA_MONTO_YAPE_SERVICIOS}}</td>
                             <td class="color-row-table">{{reporte.CAJA_MONTO_YAPE_VENTAS}}</td>
-                            
+                            <td class="color-row-table">{{reporte.CAJA_FECHA | date: 'dd/MM/yyyy'}}</td>
                         </tr>
                     </tbody>
                     

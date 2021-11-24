@@ -114,6 +114,7 @@ export class CajaComponent implements OnInit {
   llenarDatosCajaCierre(caja:Caja){
 
     caja.CAJA_CODIGO = this.storageService.getString('OPEN_CODE');
+    caja.CAJA_MONTO_INICIAL = this.CAJA_MONTO_INICIAL;
     caja.CAJA_MONTO_EFECTIVO_SERVICIOS = this.gananciasServiciosEfectivo * 100 ; 
     caja.CAJA_MONTO_TARJETA_SERVICIOS = this.gananciasServiciosTarjeta* 100; 
     caja.CAJA_MONTO_YAPE_SERVICIOS = this.gananciasServiciosYape * 100 ; 
@@ -212,7 +213,7 @@ export class CajaComponent implements OnInit {
   gananciasVentasEfectivo:any; 
   gananciasVentasTarjeta:any; 
   gananciasVentasYape:any; 
-  
+  CAJA_MONTO_INICIAL:any;
   listarMontoDelDia(){
     this.cargando = true;
     this.modalIn = false;
@@ -225,6 +226,7 @@ export class CajaComponent implements OnInit {
         this.gananciasVentasEfectivo = data['resultado']['gananciasVentasEfectivo'] ; 
         this.gananciasVentasTarjeta = data['resultado']['gananciasVentasTarjeta'] ; 
         this.gananciasVentasYape = data['resultado']['gananciasVentasYape'] ; 
+        this.CAJA_MONTO_INICIAL= data['resultado']['montoInicial'];
         this.cargando = false;
         console.log(data);
       },

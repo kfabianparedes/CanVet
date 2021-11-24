@@ -16,3 +16,20 @@
     height: 15px;
     border-radius: 50%;
 } 
+
+
+@media screen and (max-width:1359px){
+    .table-module{
+        overflow-x: scroll;
+    }
+}
+@media screen and (max-width:1280px){
+    .table-module{
+        overflow-x: scroll;
+    }
+}
+@media screen and (max-width:1120px){
+    .table-module{
+        overflow-x: scroll;
+    }
+}

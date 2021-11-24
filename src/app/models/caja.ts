@@ -13,4 +13,5 @@ export class Caja {
     CAJA_MONTO_YAPE_SERVICIOS: number;
     CAJA_DESCUENTO_GASTOS: number;
     USU_ID: number;
+    CAJA_FECHA?: string;
 }

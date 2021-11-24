@@ -114,7 +114,7 @@
                                     <i class="fas fa-money-bill" style="width: 1.5rem;"></i><strong>Pago pendiente:</strong> 
                                 </div>
                                 <div class="col-7">
-                                    {{(servicio.SERVICIO_PRECIO-servicio.SERVICIO_ADELANTO).toFixed(2)}}
+                                    {{(servicio.SERVICIO_PRECIO-servicio.SERVICIO_ADELANTO==0?'PAGADO':servicio.SERVICIO_PRECIO-servicio.SERVICIO_ADELANTO)}}
                                 </div>
                             </div>
                         </div>
@@ -258,7 +258,7 @@
                             <div class="row">
                                 <section>
                                     <label for="inputTipoComprobante" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Tipo comprobante: <small class="text-danger" data-toggle="tooltip" data-placement="top" title="*Obligatorio">(*)</small></label>
-                                    <select  formControlName="tipo_comprobante" id="inputTipoComprobante" class="border-left-primary form-select"  (change)="obtenerTipoDocumento()">
+                                    <select  formControlName="tipo_comprobante" id="inputTipoComprobante" class="border-left-primary form-select">
                                         <option hidden value="" disabled>Selecciona una opción</option>
                                         <option [value]="comprobante.COMPROBANTE_ID" *ngFor="let comprobante of comprobantes">{{comprobante.COMPROBANTE_TIPO}}</option>
                                     </select>
@@ -276,7 +276,7 @@
                                     <input disabled value="{{nombre_mascota_seleccionada}}" type="text" id="inputMascotaServicio" class="border-left-primary font-tamanio form-control">
                                 </section>
                                 <section class="col-2 col-sm-1 col-md-1 col-lg-1 py-1" style="margin-top: 1.7rem !important;">
-                                    <button [disabled]="!buscarMascota" (click)="abrirBusqueda()" type="button" class="btn btn-primary btn-icon-split" ><i class="fas fa-search"></i></button>
+                                    <button (click)="abrirBusqueda()" type="button" class="btn btn-primary btn-icon-split" ><i class="fas fa-search"></i></button>
                                 </section>
                             </div>
                             
@@ -309,7 +309,7 @@
         </div>
         <div class="modal-footer row d-flex text-center justify-content-between">
             <div class=" col-5 col-md-5 col-lg-5">
-                <button [disabled]="servicioForm.invalid || cargando || !mascota_seleccionada || !buscarMascota || adelantoError" (click)="actualizarServicio()" type="button" class="btn btn-primary">Actualizar</button>
+                <button [disabled]="servicioForm.invalid || cargando || !mascota_seleccionada || adelantoError" (click)="actualizarServicio()" type="button" class="btn btn-primary">Actualizar</button>
             </div>
             <div class=" col-5 col-md-5 col-lg-5">
                 <button (click)="closeModal()" class="btn btn-warning ">
@@ -320,7 +320,7 @@
     </div>
 </ng-template>
 
-<ng-template #buscarMascotaModal>
+<ng-template #buscarMascotaModal let-modal>
     <div class="modal-header justify-content-center">
         <h4 class="modal-title " >Buscar Mascota</h4>
     </div>
@@ -330,7 +330,7 @@
         <div class="row">
             <div class="card shadow mb-3 " style="height: 100%;">
                 <div class="card-header py-3 row justify-content-between">
-                    <div class="py-1 col-sm-12 col-md-5 col-lg-4">
+                    <div class="py-1 col-sm-12 col-md-12 col-lg-4">
                         <div class="row">
                             <div class="col-10">
                                 <input type="text" class="border-left-primary font-tamanio form-control"  [(ngModel)]="busquedaMascota" name="busquedaMascota" placeholder="Nombre de la mascota...">
@@ -340,7 +340,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="py-1 col-sm-12 col-md-5 col-lg-4">
+                    <div class="py-1 col-sm-12 col-md-12 col-lg-4">
                         <div class="row ">
                             <div class="col-10">
                                 <input id="inputBuscarCategoria" type="text" [(ngModel)]="busquedaCliente" class="border-left-primary font-tamanio form-control" name="busquedaCliente" placeholder="Nombre del dueño..." >
@@ -416,7 +416,7 @@
         
         <div class="row d-flex text-center justify-content-center">
             <div class="my-2 col-sm-12 col-md-12 col-lg-3">
-                <button (click)="closeModalMascota();" class="btn btn-warning btn-icon-split">
+                <button (click)="modal.dismiss('Cross click')" class="btn btn-warning btn-icon-split">
                     <span class="text">Volver&nbsp;<i class="fas fa-arrow-circle-left"></i></span>
                 </button>
             </div>

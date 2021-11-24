@@ -260,6 +260,7 @@ export class DashboardComponent implements OnInit {
   @ViewChild('editarServicioModal') editarServicioModal: ElementRef;
   editarServicio(servicio:any){
     console.log(servicio);
+    //  servicio.MASCOTA_ID;
     this.servicio.setValue(servicio.TIPO_SERVICIO_ID);
     this.forma_pago.setValue(servicio.MDP_ID);
     this.precio.setValue(servicio.SERVICIO_PRECIO);
@@ -315,17 +316,6 @@ export class DashboardComponent implements OnInit {
   }
   get fecha() {
     return this.servicioForm.get('fecha');
-  }
-
-  /********** ACTIVAR BTN */
-  buscarMascota: boolean = false;
-  obtenerTipoDocumento(){
-    console.log(this.tipo_comprobante.value);
-    if(this.tipo_comprobante.value==1){
-      this.buscarMascota = true;
-    }else if(this.tipo_comprobante.value == 2){
-      this.buscarMascota = true;
-    }
   }
 
 
@@ -421,7 +411,6 @@ export class DashboardComponent implements OnInit {
 
   tipo_cliente : number = -1;
   abrirBusqueda(){
-    this.mascota_seleccionada = null;
     this.nombre_mascota_seleccionada = '';
 
     if(this.tipo_comprobante.value!=1 && this.tipo_comprobante.value!=2){
@@ -453,27 +442,25 @@ export class DashboardComponent implements OnInit {
       this.mensaje_alerta = 'El cliente no puede emitir ese tipo de comprobante.'
       this.mostrar_alerta = true;
       this.tipo_alerta = 'danger';
-      this.modalIn = false;
+      this.modalIn = true;
     }
   }
   /***************** ADELANTAR SERVICIO **********/
-  adelantoError: boolean = false;
+  adelantoError: boolean = true;
   monto_adelantado: number = 0; 
   adelantarDinero(adelanto:any){
     console.log(adelanto);
+    this.modalIn = true;
     this.monto_adelantado = +adelanto;
     if(+adelanto>+this.precio.value){
       this.mensaje_alerta = 'El adelanto no puede ser mayor que el precio del servicio';
       this.tipo_alerta = 'danger';
       this.mostrar_alerta = true;
-      this.modalIn = false;
       this.adelantoError = true;
     }else{
       this.mostrar_alerta = false;
       this.adelantoError = false;
     }
-    
-    
   }
 
 
@@ -557,17 +544,11 @@ export class DashboardComponent implements OnInit {
   /********************** ORDENAMIENTO DE TABLA MASCOTAS ***********************/
   @ViewChildren(SorteableDirective) headers: QueryList<SorteableDirective>;
   closeModalMascota(): any {
-    this.modal.dismissAll(this.buscarMascotaModal);
     this.busquedaMascota = '';
     this.busquedaCliente = '';
     this.mascotas = this.mascotas_iniciales.slice(); 
   }
-  limpiar(){
-    this.servicioForm.reset();
-    this.adelanto.setValue(0);
-    this.nombre_mascota_seleccionada = '';
-    this.mascota_seleccionada = null;
-  }
+  
   onSort({column, direction}: any) {
     // resetting other headers
     this.headers.forEach(header => {
@@ -588,6 +569,6 @@ export class DashboardComponent implements OnInit {
 
   /******************** ACTUALIZAR SERVICIO ********************/
   actualizarServicio(){
-
+    
   }
 }

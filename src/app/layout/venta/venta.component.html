@@ -14,9 +14,14 @@
             <div  *ngIf="productos_detalle.length<=0; else detalleModule">
                 <h1 class="h3 mb-2 text-gray-800 col-12 text-center">No hay artículos seleccionados.</h1>
             </div>
-            <div *ngIf="productos_detalle.length>0" class="row h3 text-dark mt-3">
-                <div class="offset-md-9 offset-sm-0  col-sm-12 col-md-3">
-                    Total: <span type="text" class="border-left-primary form-control">S/{{TotalCompra.toFixed(2)}}</span>
+            <div *ngIf="productos_detalle.length>0" class="row h4 text-dark mt-3">
+                <div *ngIf="TotalVentaTarjeta<=0" class="col-sm-12 col-md-2">
+                </div>
+                <div class="offset-md-8 offset-sm-0  col-sm-12 col-md-2">
+                    <span>Total: </span><p type="text" class="border-left-primary form-control">S/{{TotalVenta.toFixed(2)}}</p>
+                </div>
+                <div *ngIf="TotalVentaTarjeta>0" class="col-sm-12 col-md-2">
+                    <span>Tarjeta (+5%): </span><p type="text" class="border-left-primary form-control">S/{{TotalVentaTarjeta.toFixed(2)}}</p>
                 </div>
             </div>
             <span *ngIf="mostrar_alerta_tabla && !modalIn" class="row justify-content-center text-danger" >{{mensaje_tabla}}</span>

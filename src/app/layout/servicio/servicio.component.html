@@ -230,7 +230,7 @@
                                     <tr>
                                         <th class="color-row-table puntero">Agregar</th>
                                         <th class="color-row-table text-center puntero" scope="col" sortable="MAS_ID" (sort)="onSort($event)">Código</th>
-                                        <th class="color-row-table text-center puntero" scope="col" sortable="TIPO_CLIENTE" (sort)="onSort($event)">TIPO CLIENTE</th>
+                                        <th class="color-row-table text-center puntero" scope="col" sortable="TIPO_CLIENTE" (sort)="onSort($event)">Tipo Cliente</th>
                                         <th class="color-row-table text-center puntero" scope="col" sortable="MAS_ESPECIE" (sort)="onSort($event)">Especie</th>
                                         <th class="color-row-table text-center puntero" scope="col" sortable="MAS_NOMBRE" (sort)="onSort($event)">Nombres</th>
                                         <th class="color-row-table text-center puntero" scope="col" sortable="MAS_RAZA" (sort)="onSort($event)">Raza</th>
@@ -248,7 +248,7 @@
                                             </button>
                                         </td>
                                         <td [ngStyle]="{'background':mascota.MAS_ID==mascota_id_seleccionada?'#0d6efd':'white','color':mascota.MAS_ID==mascota_id_seleccionada?'white':'#6E707E'}" class="color-row-table">{{mascota.MAS_ID}}</td>
-                                        <td [ngStyle]="{'background':mascota.MAS_ID==mascota_id_seleccionada?'#0d6efd':'white','color':mascota.MAS_ID==mascota_id_seleccionada?'white':'#6E707E'}" class="color-row-table">{{mascota.TIPO_CLIENTE}}</td>
+                                        <td [ngStyle]="{'background':mascota.MAS_ID==mascota_id_seleccionada?'#0d6efd':'white','color':mascota.MAS_ID==mascota_id_seleccionada?'white':'#6E707E'}" class="color-row-table">{{mascota.TIPO_CLIENTE==0?'NATURAL':(mascota.TIPO_CLIENTE==1)?'JURÍDICO':'ERROR'}}</td>
                                         <td [ngStyle]="{'background':mascota.MAS_ID==mascota_id_seleccionada?'#0d6efd':'white','color':mascota.MAS_ID==mascota_id_seleccionada?'white':'#6E707E'}" class="color-row-table">{{mascota.MAS_ESPECIE}}</td>
                                         <td [ngStyle]="{'background':mascota.MAS_ID==mascota_id_seleccionada?'#0d6efd':'white','color':mascota.MAS_ID==mascota_id_seleccionada?'white':'#6E707E'}" class="color-row-table">{{mascota.MAS_NOMBRE}}</td>
                                         <td [ngStyle]="{'background':mascota.MAS_ID==mascota_id_seleccionada?'#0d6efd':'white','color':mascota.MAS_ID==mascota_id_seleccionada?'white':'#6E707E'}" class="color-row-table">{{mascota.MAS_RAZA}}</td>

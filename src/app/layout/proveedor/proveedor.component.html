@@ -1,22 +1,28 @@
 
-<!-- *ngIf = "!carga" -->
+<!-- *ngIf = "!cargando" -->
 <div  class="row justify-content-center">
-    <mat-progress-bar *ngIf="carga && !modalIn" mode="indeterminate" class="alert-loading"></mat-progress-bar>
+    <mat-progress-bar *ngIf="cargando && !modalIn" mode="indeterminate" class="alert-loading"></mat-progress-bar>
     <ngb-alert *ngIf="mostrarAlerta && !modalIn" [type]="tipoAlerta" class="alert-loading" (closed)="mostrarAlerta = false" >{{mensajeAlerta}}</ngb-alert>
     <!-- Page Heading -->
     <h1 class="h3 mb-2 text-gray-800 col-12 text-center">Proveedores</h1>
     <br><br>
     <!-- DataTales Example -->  
-    <div class="card shadow mb-4 col-12 col-lg-11" style="height: 100%;">
+    <div class="card shadow mb-4 col-12 col-lg-8" style="height: 100%;">
         <div class="card-header py-3 row justify-content-between">
-            <div class="col-sm-12 col-lg-5">
-                <input type="text" class="border-left-primary font-tamanio form-control" placeholder="Buscar">
+            <div class="py-1 col-sm-12 col-md-7 col-lg-7">
+                <div class="row">
+                    <div class="col-9 col-lg-7">
+                        <input type="text" class="border-left-primary font-tamanio form-control" name="busquedaProveedor" placeholder="Buscar..." [(ngModel)]="busquedaProveedor">
+                    </div>
+                    <div class="col-3 col-lg-2  py-1">
+                        <button (click)="filtrarProveedor()" [disabled]="cargando" style="float:right" style="width: 100%;" type="button" class="btn btn-primary"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
             </div>
-            <div class="col-12 col-lg-1"> <br></div>
-            <div class="col-sm-12 col-lg-3" >
-                <!-- (click)="abrirCrearCategoria()" falta añadir funcion que abra el modal para crear un producto -->
-                <button   (click)="abrirCrearProveedor();" style="float:right" style="width: 100%;" type="button" class="btn btn-primary">Crear Proveedor</button>
+            <div class="py-1 col-sm-12 col-md-4 col-lg-3" >
+                <button  [disabled]="cargando" (click)="abrirCrearProveedor();" style="float:right" type="button" class="btn btn-primary">Crear Proveedor</button>
             </div>
+            
         </div>
         <div class="card-body text-gray-400 ">
             <div class="row" *ngIf="proveedores.length<=0; else proveedores_tabla">
@@ -54,25 +60,25 @@
                                 <td class="color-row-table">{{pro.PROV_EMPRESA_PROVEEDORA}}</td>
                                 <td class="color-row-table">{{pro.PROV_RUC}}</td>
                                 <td class="color-row-table">{{pro.PROV_NUMERO_CONTACTO}}</td>
-                                <td class="color-row-table">{{pro.PROV_ESTADO==1?'Activo':'Inactivo'}}</td>
+                                <td class="color-row-table">{{pro.PROV_ESTADO==1?'Activo':pro.PROV_ESTADO==0?'Inactivo':'ERROR'}}</td>
                                 <td class="color-row-table">
                                     <div class="row btnes">
                                         <div class="col-1 button-table" *ngIf="pro.PROV_ESTADO != 1; else Habilitar" >
-                                            <span (click)="habilitarInhabilitarProveedor(pro.PROV_ID,pro.PROV_ESTADO)" class="btn btn-success btn-circle btn-sm " ngbTooltip="Habilitar">
+                                            <button [disabled]="cargando" (click)="habilitarInhabilitarProveedor(pro.PROV_ID,pro.PROV_ESTADO)" class="btn btn-success btn-circle btn-sm " ngbTooltip="Habilitar">
                                                 <i class="fas fa-check" aria-hidden="true"></i>
-                                            </span>
+                                            </button>
                                         </div>
                                         <ng-template #Habilitar>
                                             <div class="col-1 button-table">
-                                                <span  (click)="habilitarInhabilitarProveedor(pro.PROV_ID,pro.PROV_ESTADO)"  class="btn btn-danger btn-circle btn-sm "ngbTooltip="Deshabilitar">
+                                                <button [disabled]="cargando" (click)="habilitarInhabilitarProveedor(pro.PROV_ID,pro.PROV_ESTADO)"  class="btn btn-danger btn-circle btn-sm "ngbTooltip="Deshabilitar">
                                                     <i class="fa fa-times" aria-hidden="true"></i>
-                                                </span>
+                                                </button>
                                             </div>
                                         </ng-template>
                                         <div class="col-1 button-table">
-                                            <span (click)="abrirEditarProveedor(pro)" class="btn btn-warning btn-circle btn-sm" ngbTooltip="Editar" >
+                                            <button [disabled]="cargando" (click)="abrirEditarProveedor(pro)" class="btn btn-warning btn-circle btn-sm" ngbTooltip="Editar" >
                                                 <i style="color: white;" class="far fa-edit" aria-hidden="true"></i>
-                                            </span>
+                                            </button>
                                         </div>
                                     </div>
                                 </td>
@@ -94,7 +100,7 @@
         <!-- {{categoriaSeleccionada.CAT_NOMBRE}} FALTA -->
         <h4 class="modal-title" id="exampleModalLongTitle">Proveedor: {{proveedorSeleccionado.PROV_EMPRESA_PROVEEDORA}}</h4>
     </div>
-    <mat-progress-bar *ngIf="cargaModal && modalIn" mode="indeterminate"></mat-progress-bar>
+    <mat-progress-bar *ngIf="cargando && modalIn" mode="indeterminate"></mat-progress-bar>
     <ngb-alert *ngIf="mostrarAlerta && modalIn" [type]="tipoAlerta" (closed)="mostrarAlerta = false" >{{mensajeAlerta}}</ngb-alert>
 
     <div class="modal-body">
@@ -172,14 +178,14 @@
         <br>
         <div class="row justify-content-center ">
             <div class="my-1 col-sm-3 col-md-4 col-lg-4">
-                <button [disabled]="proveedorForm.invalid" (click)="actualizarProveedor();" class="btn btn-primary btn-icon-split" >
-                    <span class="text">Registrar&nbsp;<i class="fas fa-save"></i></span>
+                <button [disabled]="proveedorForm.invalid || cargando" (click)="actualizarProveedor();" class="btn btn-primary btn-icon-split" >
+                    <span class="text">Actualizar&nbsp;<i class="fas fa-save"></i></span>
                 </button>
             </div>
             <div class="my-1 col-sm-3 col-md-4 col-lg-4">
-                <a (click) = "d('Cross click')" class="btn btn-warning btn-icon-split">
+                <button [disabled]="cargando" (click) = "d('Cross click')" class="btn btn-warning btn-icon-split">
                     <span class="text">Cancelar&nbsp;<i class="fas fa-arrow-circle-left"></i></span>
-                </a>
+                </button>
             </div>
             
         </div>
@@ -189,7 +195,7 @@
     <div class="modal-header">
         <h4 class="modal-title" id="exampleModalLongTitle">Crear Proveedor</h4>
     </div>
-    <mat-progress-bar *ngIf="cargaModal && modalIn" mode="indeterminate"></mat-progress-bar>
+    <mat-progress-bar *ngIf="cargando && modalIn" mode="indeterminate"></mat-progress-bar>
     <ngb-alert *ngIf="mostrarAlerta && modalIn" [type]="tipoAlerta" (closed)="mostrarAlerta = false" >{{mensajeAlerta}}</ngb-alert>
     <div class="modal-body">
         <br>
@@ -266,14 +272,14 @@
         <br>
         <div class="row justify-content-center ">
             <div class="my-1 col-sm-3 col-md-4 col-lg-4">
-                <button  [disabled]="proveedorForm.invalid" (click)="insertarProveedor();" class="btn btn-primary btn-icon-split" >
+                <button  [disabled]="proveedorForm.invalid || cargando" (click)="insertarProveedor();" class="btn btn-primary btn-icon-split" >
                     <span class="text">Registrar&nbsp;<i class="fas fa-save"></i></span>
                 </button>
             </div>
             <div class="my-1 col-sm-3 col-md-4 col-lg-4">
-                <a (click) = "d('Cross click')" class="btn btn-warning btn-icon-split">
+                <button [disabled]="cargando" (click)="d('Cross click')" class="btn btn-warning btn-icon-split">
                     <span class="text">Cancelar&nbsp;<i class="fas fa-arrow-circle-left"></i></span>
-                </a>
+                </button>
             </div>
             
         </div>

@@ -5,6 +5,9 @@
     display: flex;
     justify-content: center;
 }
+.puntero{
+    cursor: pointer;
+}
 .alert-loading{
     margin-top:-1.5rem;
     margin-bottom:1.5rem;

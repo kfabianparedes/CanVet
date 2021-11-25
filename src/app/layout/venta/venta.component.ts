@@ -57,7 +57,8 @@ export class VentaComponent implements OnInit {
   //variables de tabla
   importe_detalle:number = 0;
   cantidad_detalles:number[]= [];
-  TotalCompra:number = 0;
+  TotalVenta:number = 0;
+  TotalVentaTarjeta:number = 0;
 
   // Paginación
   currentPage = 1;
@@ -306,7 +307,7 @@ export class VentaComponent implements OnInit {
     const regexp = new RegExp(/^([0-9])*$/);
     if(Number.isInteger(+this.cantidad_detalles[indice]) && regexp.test(this.cantidad_detalles[indice].toString()) && this.cantidad_detalles[indice]!==null){
       this.importes[indice] = +(this.cantidad_detalles[indice] * precio); 
-      this.TotalCompra = this.importes.reduce((a, b) => a + b, 0);
+      this.TotalVenta = this.importes.reduce((a, b) => a + b, 0);
       this.mostrar_alerta_tabla = false;
       this.btnRegistroValido = true;
     }else{
@@ -329,7 +330,7 @@ export class VentaComponent implements OnInit {
     });
     this.importes.splice(indice,1);
     this.cantidad_detalles.splice(indice,1);
-    this.TotalCompra = this.importes.reduce((a, b) => a + b, 0);
+    this.TotalVenta = this.importes.reduce((a, b) => a + b, 0);
   }
 
   /*********************BUSQUEDA DE PRODUCTOS **************************/
@@ -391,8 +392,7 @@ export class VentaComponent implements OnInit {
       this.venta.VENTA_FECHA_REGISTRO = this.getTodayFecha();
       this.venta.VENTA_NRO_SERIE = ''//this.serie.value;
       this.venta.VENTA_NRO_COMPROBANTE = ''//this.nro_comprobante.value;
-      this.venta.VENTA_SUBTOTAL = this.TotalCompra;
-      this.venta.VENTA_TOTAL = this.TotalCompra;
+      
       this.venta.USU_ID = +this.storageService.getString('USE_ID');
 
       if(this.tipo_comprobante.value == 1){
@@ -400,8 +400,13 @@ export class VentaComponent implements OnInit {
       }else if(this.tipo_comprobante.value == 2){
         this.venta.CLIENTE_ID = this.cliente_natural_buscado.CLIENTE_ID;
       }
-
       this.venta.METODO_DE_PAGO_ID = this.forma_pago.value;
+      this.venta.VENTA_SUBTOTAL = this.TotalVenta;
+      if(this.venta.METODO_DE_PAGO_ID == 2){
+        this.venta.VENTA_TOTAL = this.TotalVentaTarjeta;
+      }else{  
+        this.venta.VENTA_TOTAL = this.TotalVenta;
+      }
       this.venta.COMPROBANTE_ID = this.tipo_comprobante.value;
 
       if(this.productos_detalle.length === this.cantidad_detalles.length && this.cantidad_detalles.length === this.importes.length){
@@ -541,7 +546,8 @@ export class VentaComponent implements OnInit {
     this.detallesProducto.splice(0,this.detallesProducto.length);
     this.cantidad_detalles.splice(0,this.cantidad_detalles.length);
     this.importes.splice(0,this.importes.length);
-    this.TotalCompra = 0;
+    this.TotalVenta = 0;
+    this.TotalVentaTarjeta = 0;
     this.busquedaCliente = false;
   }
   limpiarClientes(){
@@ -799,13 +805,12 @@ export class VentaComponent implements OnInit {
   }
 
   /******* PORCENTAJE POR TARJETA *******/
-  pago_tarjeta : boolean = false;
   agregarTarjeta(){
-    console.log(this.forma_pago);
+    console.log(this.forma_pago.value);
     if(this.forma_pago.value == 2){
-      this.pago_tarjeta = true;
+      this.TotalVentaTarjeta = this.TotalVenta + (0.05*this.TotalVenta);
     }else{
-      this.pago_tarjeta = false;
+      this.TotalVentaTarjeta = this.TotalVenta;
     }
   }
 }

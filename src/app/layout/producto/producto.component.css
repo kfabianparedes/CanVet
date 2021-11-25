@@ -9,7 +9,9 @@
     margin-top:-1.5rem;
     margin-bottom:1.5rem;
 }
-
+.puntero{
+    cursor: pointer;
+}
 .color-row-table{
     color: #6E707E;
 }

@@ -1,8 +1,9 @@
-import { Component,  ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component,  ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import {Categoria} from '../categoria/categoria.model';
 import {CategoriaService} from '../categoria/categoria.service';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { compare, SorteableDirective } from 'src/app/shared/directives/sorteable.directive';
 
 @Component({
   selector: 'app-categoria',
@@ -13,6 +14,7 @@ export class CategoriaComponent implements OnInit {
 
 
   categorias: Categoria[] = [];
+  categorias_iniciales: any;
     constructor(private categoriaService:CategoriaService,
                 private formBuilder: FormBuilder,
                 public modal: NgbModal,
@@ -130,7 +132,8 @@ export class CategoriaComponent implements OnInit {
     this.mostrarAlerta = false; 
     this.categoriaService.listarCategorias().subscribe(data=>{
       
-      this.categorias = data['resultado']; 
+      this.categorias_iniciales = data['resultado']; 
+      this.categorias = this.categorias_iniciales.slice();
       console.log(this.categorias);
       this.carga = false;
     },error =>{
@@ -208,6 +211,39 @@ export class CategoriaComponent implements OnInit {
     this.mostrarAlerta = false; 
     this.inicializarFormulario();
     this.modal.open(this.crearCat);
+  }
+
+  filtrarCategoria(){
+    this.currentPage = 1;
+    this.categorias = this.categorias_iniciales.slice(); 
+    if(this.filtroTexto == ''){
+      this.categorias = this.categorias = this.categorias_iniciales.slice();   
+    }else{
+      this.categorias = this.categorias = this.categorias_iniciales.slice(); 
+      this.categorias = this.categorias.filter(categoria =>categoria.CAT_NOMBRE.toLowerCase().indexOf(this.filtroTexto.toLowerCase()) > -1);
+    }
+  }
+
+
+   /*********************** ORDENAMIENTO EN TABLA **********************/
+  @ViewChildren(SorteableDirective) headers: QueryList<SorteableDirective>;
+
+  onSort({column, direction}: any) {
+    // resetting other headers
+    this.headers.forEach(header => {
+      if (header.sortable !== column) {
+        header.direction = '';
+      }
+    });
+    // sorting countries
+    if (direction === '' || column === '') {
+      this.categorias = this.categorias_iniciales.slice();
+    } else {
+      this.categorias = [...this.categorias_iniciales].sort((a, b) => {
+        const res = compare(a[column], b[column]);
+        return direction === 'asc' ? res : -res;
+      });
+    }
   }
 
 }

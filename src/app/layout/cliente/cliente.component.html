@@ -18,7 +18,7 @@
                 </div>
             </div>
             <div class="py-1 col-sm-12 col-md-3 col-lg-3">
-                <button  (click)="registrarCliente()" style="float:right" type="button" class="boton btn btn-primary">Registrar cliente</button>
+                <button [disabled]="cargando" (click)="registrarCliente()" style="float:right" type="button" class="boton btn btn-primary">Registrar cliente</button>
             </div>
             <h5 class="text-center" style="cursor:pointer" (click)="abrirTablaNatural()">Clientes Naturales 
                 <span>
@@ -70,9 +70,9 @@
                                 <td class="color-row-table">
                                     <div class="row btnes">
                                         <div class="col-1 button-table btn-edit">
-                                            <span (click)="editarClienteNatural(cliente)" class="btn btn-warning btn-circle btn-sm" ngbTooltip="Editar" >
+                                            <button [disabled]="cargando" (click)="editarClienteNatural(cliente)" class="btn btn-warning btn-circle btn-sm" ngbTooltip="Editar" >
                                                 <i style="color: white;" class="far fa-edit" aria-hidden="true"></i>
-                                            </span>
+                                            </button>
                                         </div>
                                     </div>
                                 </td>
@@ -147,9 +147,9 @@
                                 <td class="color-row-table">
                                     <div class="row btnes">
                                         <div class="col-1 button-table btn-edit">
-                                            <span (click)="editarClienteJuridico(cliente_juridico)" class="btn btn-warning btn-circle btn-sm" ngbTooltip="Editar" >
+                                            <button [disabled]="cargando" (click)="editarClienteJuridico(cliente_juridico)" class="btn btn-warning btn-circle btn-sm" ngbTooltip="Editar" >
                                                 <i style="color: white;" class="far fa-edit" aria-hidden="true"></i>
-                                            </span>
+                                            </button>
                                         </div>
                                     </div>
                                 </td>
@@ -279,7 +279,7 @@
                             </button>
                         </div>
                         <div class="my-2 col-sm-12 col-md-12 col-lg-3">
-                            <button (click)="closeModal()" class="btn btn-warning btn-icon-split">
+                            <button [disabled]="cargando" (click)="closeModal()" class="btn btn-warning btn-icon-split">
                                 <span class="text">Volver&nbsp;<i class="fas fa-arrow-circle-left"></i></span>
                             </button>
                         </div>
@@ -412,7 +412,7 @@
                             </button>
                         </div>
                         <div class="my-2 col-sm-12 col-md-12 col-lg-3">
-                            <button (click)="closeModal()" class="btn btn-warning btn-icon-split">
+                            <button [disabled]="cargando" (click)="closeModal()" class="btn btn-warning btn-icon-split">
                                 <span class="text">Volver&nbsp;<i class="fas fa-arrow-circle-left"></i></span>
                             </button>
                         </div>
@@ -537,7 +537,7 @@
                 </button>
             </div>
             <div class="my-2 col-sm-12 col-md-12 col-lg-3">
-                <button (click)="closeModal()" class="btn btn-warning btn-icon-split">
+                <button [disabled]="cargando" (click)="closeModal()" class="btn btn-warning btn-icon-split">
                     <span class="text">Volver&nbsp;<i class="fas fa-arrow-circle-left"></i></span>
                 </button>
             </div>
@@ -676,7 +676,7 @@
                 </button>
             </div>
             <div class="my-2 col-sm-12 col-md-12 col-lg-3">
-                <button (click)="closeModal()" class="btn btn-warning btn-icon-split">
+                <button [disabled]="cargando" (click)="closeModal()" class="btn btn-warning btn-icon-split">
                     <span class="text">Volver&nbsp;<i class="fas fa-arrow-circle-left"></i></span>
                 </button>
             </div>

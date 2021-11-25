@@ -56,7 +56,7 @@ export class ServicioService {
     return this.http.get<any>(url,this.httpHead).pipe(retry(2));
   }
   postergarServicio(servicio:Servicio):Observable<any>{
-    const url = environment.domain_url + '/api/servicios/editar.php';
+    const url = environment.domain_url + '/api/servicios/editarServicioEmpleado.php';
     const datos = {
       SERVICIO_ID : servicio.SERVICIO_ID,
       SERVICIO_PRECIO: servicio.SERVICIO_PRECIO*100,
@@ -77,4 +77,20 @@ export class ServicioService {
     }    
     return this.http.put<any>(url,datos,this.httpHead).pipe(retry(2));
   }
+
+  actualizarServicioAdmin(servicio:Servicio):Observable<any>{
+    const url = environment.domain_url + '/api/servicios/editar.php';
+    const datos = {
+      MASCOTA_ID: servicio.MASCOTA_ID,
+      MDP_ID: servicio.MDP_ID,
+      SERVICIO_ADELANTO: servicio.SERVICIO_ADELANTO*100,
+      SERVICIO_ID: servicio.SERVICIO_ID,
+      SERVICIO_PRECIO: servicio.SERVICIO_PRECIO*100,
+      SERVICIO_TIPO:servicio.SERVICIO_TIPO,
+      TIPO_SERVICIO_ID: servicio.TIPO_SERVICIO_ID,
+      COMPROBANTE_ID: servicio.COMPROBANTE_ID
+    }
+    return this.http.post<any>(url,datos,this.httpHead).pipe(retry(2));
+  }
+
 }

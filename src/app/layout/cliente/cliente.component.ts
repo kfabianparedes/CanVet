@@ -110,6 +110,10 @@ export class ClienteComponent implements OnInit {
     )
   }
   listarClientes(){
+    this.mostrarTablaJuridica = false;
+    this.mostrarTablaNatural = false;
+    this.flechaNatural = 'down';
+    this.flechaJuridica = 'down';
     this.cargando = true;
     this.modalIn = false;
     this.clienteService.listarClientes().subscribe(
@@ -119,6 +123,10 @@ export class ClienteComponent implements OnInit {
         this.clientes = this.sortClientesNatural.slice();
         this.clientes_juridicos = this.sortClientesJuridico.slice();
         this.cargando = false;
+        this.mostrarTablaJuridica = true;
+        this.mostrarTablaNatural = true;
+        this.flechaNatural = 'up';
+        this.flechaJuridica = 'up';
         console.log(data);
         console.log(this.clientes);
         console.log(this.clientes_juridicos);

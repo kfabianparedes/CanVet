@@ -23,15 +23,14 @@ export class ProveedorComponent implements OnInit {
   proveedorSeleccionado:Proveedor;
 
   ngOnInit(): void {
-    this.carga = true; 
+    this.cargando = true; 
     this.listarProveedores();
   }
   currentPage = 1;
   itemsPerPage = 10;
   
-  carga = false; 
+  cargando = false; 
   modalIn = false;
-  cargaModal = false; 
   proveedorForm: FormGroup;
 
   tipoAlerta = "";
@@ -47,9 +46,9 @@ export class ProveedorComponent implements OnInit {
     this.proveedorService.listarProveedores().subscribe(
       data=>{
         this.proveedores = data['resultado'];
-        this.carga = false;
+        this.cargando = false;
       },error=>{  
-        this.carga = false;
+        this.cargando = false;
         this.mostrarAlerta = true;
         this.tipoAlerta='danger';
         this.modalIn = false;
@@ -73,7 +72,7 @@ export class ProveedorComponent implements OnInit {
     });
   }
   insertarProveedor(){
-    this.cargaModal = true;this.modalIn = true;
+    this.cargando = true;this.modalIn = true;
     this.proveedorInsertar.PROV_EMPRESA_PROVEEDORA = this.nombreEmpresa.value;
     this.proveedorInsertar.PROV_RUC = this.ruc.value;
     this.proveedorInsertar.PROV_NUMERO_CONTACTO = this.numeroContacto.value;
@@ -82,7 +81,7 @@ export class ProveedorComponent implements OnInit {
       this.proveedorService.insertarProveedor(this.proveedorInsertar).subscribe(
         data=>{
           this.proveedores.length = 0 ;
-          this.cargaModal = false;
+          this.cargando = false;
           this.modal.dismissAll();
           this.listarProveedores();
           this.tipoAlerta='success';
@@ -90,7 +89,7 @@ export class ProveedorComponent implements OnInit {
           this.mostrarAlerta = true; 
           this.mensajeAlerta = 'Solicitud realizada con éxito';
         },error=>{
-          this.cargaModal = false;
+          this.cargando = false;
           this.resetearFormulario();  
           this.modalIn = true;
           this.mostrarAlerta = true;
@@ -122,7 +121,7 @@ export class ProveedorComponent implements OnInit {
 
   actualizarProveedor(){
     
-    this.cargaModal = true;
+    this.cargando = true;
     this.modalIn = true;
     this.proveedorInsertar.PROV_EMPRESA_PROVEEDORA = this.nombreEmpresa.value;
     this.proveedorInsertar.PROV_RUC = this.ruc.value;
@@ -139,7 +138,7 @@ export class ProveedorComponent implements OnInit {
         this.tipoAlerta='success';
         this.mensajeAlerta = 'Solicitud realizada con éxito';
       },error=>{
-          this.cargaModal = false; 
+          this.cargando = false; 
           this.mostrarAlerta = true;
           this.tipoAlerta='danger';
           if (error['error']['error'] !== undefined) {
@@ -166,7 +165,7 @@ export class ProveedorComponent implements OnInit {
   
   }
   habilitarInhabilitarProveedor(PROV_ID:number,PROV_ESTADO:number){
-    this.carga = true;
+    this.cargando = true;
     
     this.modalIn = false;
     if(PROV_ESTADO == 0){
@@ -184,7 +183,7 @@ export class ProveedorComponent implements OnInit {
         this.tipoAlerta = 'success';
         this.mostrarAlerta = true; 
       },error=>{
-        this.carga = false;
+        this.cargando = false;
         this.mostrarAlerta = true;
         this.tipoAlerta='danger';
         if (error['error']['error'] !== undefined) {
@@ -228,5 +227,9 @@ export class ProveedorComponent implements OnInit {
   }
   get numeroContacto() {
     return this.proveedorForm.get('numeroContacto');
+  }
+  busquedaProveedor:any='';
+  filtrarProveedor(){
+
   }
 }

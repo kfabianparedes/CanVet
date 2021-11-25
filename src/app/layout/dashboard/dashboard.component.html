@@ -106,7 +106,7 @@
                                     <i class="fas fa-money-bill-alt" style="width: 1.5rem;"></i><strong>Pago adelantado:</strong> 
                                 </div>
                                 <div class="col-7">
-                                    {{servicio.SERVICIO_ADELANTO}}
+                                    {{servicio.SERVICIO_ADELANTO==servicio.SERVICIO_PRECIO?'PAGADO':servicio.SERVICIO_ADELANTO}}
                                 </div>
                             </div>
                             <div class="row color-row-table">
@@ -114,7 +114,7 @@
                                     <i class="fas fa-money-bill" style="width: 1.5rem;"></i><strong>Pago pendiente:</strong> 
                                 </div>
                                 <div class="col-7">
-                                    {{(servicio.SERVICIO_PRECIO-servicio.SERVICIO_ADELANTO==0?'PAGADO':servicio.SERVICIO_PRECIO-servicio.SERVICIO_ADELANTO)}}
+                                    {{servicio.SERVICIO_PRECIO-servicio.SERVICIO_ADELANTO==0?'PAGADO':(servicio.SERVICIO_PRECIO-servicio.SERVICIO_ADELANTO).toFixed(2)}}
                                 </div>
                             </div>
                         </div>
@@ -193,17 +193,18 @@
                     <div class="row justify-content-between color-row-table">
                         <div class="col-12 col-md-5 col-lg-5 mb-4">
                             <div class="row">
-                                <section>   
-                                    <label for="inputTiposServicio" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Tipo de servicio: <small class="text-danger" data-toggle="tooltip" data-placement="top" title="*Obligatorio">(*)</small></label>
-                                    <select formControlName="servicio"  id="inputTiposServicio" class="border-left-primary form-select" >
-                                        <option hidden value="" disabled>Escoge una opción</option>
-                                        <option [value]="tipos.TIPO_SERVICIO_ID" *ngFor="let tipos of tiposServicios">{{tipos.TIPO_SERVICIO_NOMBRE}}</option>
-                                    </select>   
-                                    <div *ngIf="servicio.invalid && (servicio.dirty || servicio.touched)" class="my-1" style="color: rgb(197, 68, 68);">
-                                        <div *ngIf="servicio.errors.required">
-                                            * El tipo de servicio es requerido.
+                                <section> 
+                                    <label for="inputPrecioServicio" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Precio (S/): <small class="text-danger" data-toggle="tooltip" data-placement="top" title="*Obligatorio">(*)</small></label>
+                                    <input type="text" name="inputPrecioServicio" formControlName="precio" class="border-left-primary font-tamanio form-control">
+                                    <div *ngIf="precio.invalid && (precio.dirty || precio.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                                        <div *ngIf="precio.errors.required">
+                                            * El precio es requerido.
                                         </div>
-                                    </div>
+                                        <div *ngIf="precio.errors.pattern">
+                                            * El formato es inválido.
+                                        </div>
+                                    </div>  
+                                    
                                 </section>
                                 
                             </div>
@@ -225,14 +226,14 @@
                             <br>
                             <div class="row">
                                 <section>
-                                    <label for="inputPrecioServicio" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Precio (S/): <small class="text-danger" data-toggle="tooltip" data-placement="top" title="*Obligatorio">(*)</small></label>
-                                    <input type="text" name="inputPrecioServicio" formControlName="precio" class="border-left-primary font-tamanio form-control">
-                                    <div *ngIf="precio.invalid && (precio.dirty || precio.touched)" class="my-1" style="color: rgb(197, 68, 68);">
-                                        <div *ngIf="precio.errors.required">
-                                            * El precio es requerido.
-                                        </div>
-                                        <div *ngIf="precio.errors.pattern">
-                                            * El formato es inválido.
+                                    <label for="inputTiposServicio" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Tipo de servicio: <small class="text-danger" data-toggle="tooltip" data-placement="top" title="*Obligatorio">(*)</small></label>
+                                    <select formControlName="servicio"  id="inputTiposServicio" class="border-left-primary form-select" >
+                                        <option hidden value="" disabled>Escoge una opción</option>
+                                        <option [value]="tipos.TIPO_SERVICIO_ID" *ngFor="let tipos of tiposServicios">{{tipos.TIPO_SERVICIO_NOMBRE}}</option>
+                                    </select>   
+                                    <div *ngIf="servicio.invalid && (servicio.dirty || servicio.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                                        <div *ngIf="servicio.errors.required">
+                                            * El tipo de servicio es requerido.
                                         </div>
                                     </div>
                                 </section>
@@ -241,7 +242,14 @@
                         <div class="col-12 col-md-5 col-lg-5">
                             <div class="row">
                                 <section>   
-                                    <label for="inputModalidadServicio" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Modalidad: <small class="text-danger" data-toggle="tooltip" data-placement="top" title="*Obligatorio">(*)</small></label>
+                                    <label for="inputAdelantoServicio">Adelanto (S/):</label>
+                                    <input formControlName="adelanto"  type="text" id="inputAdelantoServicio" class="border-left-primary font-tamanio form-control" (keyup)="adelantarDinero(adelanto.value)">
+                                    <div *ngIf="adelanto.invalid && (adelanto.dirty || adelanto.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                                        <div *ngIf="adelanto.errors.pattern">
+                                            * El formato es inválido.
+                                        </div>
+                                    </div>
+                                    <!-- <label for="inputModalidadServicio" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Modalidad: <small class="text-danger" data-toggle="tooltip" data-placement="top" title="*Obligatorio">(*)</small></label>
                                     <select  formControlName="modalidad" id="inputModalidadServicio" class="border-left-primary form-select">
                                         <option hidden value="" disabled>Selecciona una opción</option>
                                         <option [value]="0" >INSTANTÁNEA</option>
@@ -251,7 +259,7 @@
                                         <div *ngIf="modalidad.errors.required">
                                             * El tipo de modalidad es requerido.
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </section>
                             </div>
                             <br>
@@ -283,7 +291,7 @@
                         </div>
                     </div>
                     <div class="row justify-content-between color-row-table mt-4">
-                        <div class="col-sm-12 col-md-9 mb-4">
+                        <div class="col-sm-12 col-md-12 mb-4">
                             <label for="inputDescripcionServicio">Descripción:</label>
                             <textarea formControlName="descripcion"  type="text" id="inputDescripcionServicio" class="border-left-primary font-tamanio form-control"></textarea>
                             <div *ngIf="descripcion.invalid && (descripcion.dirty || descripcion.touched)" class="my-1" style="color: rgb(197, 68, 68);">
@@ -291,15 +299,6 @@
                                     * Se requieren máximo 200 caracteres.
                                 </div>
                                 <div *ngIf="descripcion.errors.pattern">
-                                    * El formato es inválido.
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-md-3 ">
-                            <label for="inputAdelantoServicio">Adelanto (S/):</label>
-                            <input formControlName="adelanto"  type="text" id="inputAdelantoServicio" class="border-left-primary font-tamanio form-control" (keyup)="adelantarDinero(adelanto.value)">
-                            <div *ngIf="adelanto.invalid && (adelanto.dirty || adelanto.touched)" class="my-1" style="color: rgb(197, 68, 68);">
-                                <div *ngIf="adelanto.errors.pattern">
                                     * El formato es inválido.
                                 </div>
                             </div>

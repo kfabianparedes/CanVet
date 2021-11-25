@@ -119,10 +119,10 @@ export class DashboardComponent implements OnInit {
 
   convertirFormt24AFormat12(){
     let AMPM = ' AM';
-    let hora =  this.hora.value.hour;
-    let horaF = this.hora.value.hour;
-    let minuto = this.hora.value.minute; 
-    let segundo = this.hora.value.second;
+    let hora =  this.hora_.value.hour;
+    let horaF = this.hora_.value.hour;
+    let minuto = this.hora_.value.minute; 
+    let segundo = this.hora_.value.second;
 
     
     if (hora >= 13) {
@@ -152,7 +152,7 @@ export class DashboardComponent implements OnInit {
     this.servicioPostergado.SERVICIO_PRECIO = this.servicioModificado.SERVICIO_PRECIO;
     this.servicioPostergado.TIPO_SERVICIO_ID = this.servicioModificado.TIPO_SERVICIO_ID;
     this.servicioPostergado.SERVICIO_TIPO =this.servicioModificado.SERVICIO_TIPO;
-    this.servicioPostergado.SERVICIO_FECHA_HORA = this.fecha.value;
+    this.servicioPostergado.SERVICIO_FECHA_HORA = this.fecha_.value;
     this.servicioPostergado.HORA_SERVICIO = this.HORA_SERVICIO;
     this.servicioPostergado.MASCOTA_ID = this.servicioModificado.MASCOTA_ID;
     this.servicioPostergado.SERVICIO_ADELANTO = this.servicioModificado.SERVICIO_ADELANTO;
@@ -257,10 +257,15 @@ export class DashboardComponent implements OnInit {
   busquedaServicio:string = '';
 
   /************** EDITAR SERVICIO  ************************/
+  SERVICIO_ID: number;
   @ViewChild('editarServicioModal') editarServicioModal: ElementRef;
   editarServicio(servicio:any){
     console.log(servicio);
     //  servicio.MASCOTA_ID;
+    this.mascota_seleccionada= {
+      MASCOTA_ID: servicio.MAS_ID
+    };
+    this.SERVICIO_ID = servicio.SERVICIO_ID;
     this.servicio.setValue(servicio.TIPO_SERVICIO_ID);
     this.forma_pago.setValue(servicio.MDP_ID);
     this.precio.setValue(servicio.SERVICIO_PRECIO);
@@ -403,7 +408,8 @@ export class DashboardComponent implements OnInit {
   @ViewChild('buscarMascotaModal') buscarMascotaModal: ElementRef;
   //Variables de cliente
   mascotas_iniciales: any[] = [];
-  mascota_seleccionada: any;
+  mascota_seleccionada :any
+
   nombre_mascota_seleccionada:string = '';
   //Paginacion de tabla
   currentPage = 1;
@@ -446,7 +452,7 @@ export class DashboardComponent implements OnInit {
     }
   }
   /***************** ADELANTAR SERVICIO **********/
-  adelantoError: boolean = true;
+  adelantoError: boolean = false;
   monto_adelantado: number = 0; 
   adelantarDinero(adelanto:any){
     console.log(adelanto);
@@ -470,7 +476,7 @@ export class DashboardComponent implements OnInit {
   listarMascotas(){
     this.mostrar_alerta = false;
     this.cargando = true;
-    this.modalIn = false;
+    this.modalIn = true;
     this.mascotaService.listarMascotasActivas().subscribe(
       (data)=>{
         this.mascotas_iniciales = data['resultado'];
@@ -568,7 +574,59 @@ export class DashboardComponent implements OnInit {
   }
 
   /******************** ACTUALIZAR SERVICIO ********************/
+  servicioActualizar = new Servicio();
   actualizarServicio(){
+    this.cargando = true;
+    this.modalIn = true;
+    this.servicioActualizar.MASCOTA_ID = +this.mascota_id_seleccionada;
+    this.servicioActualizar.MDP_ID = this.forma_pago.value;
+    if(this.adelanto.value == 0 || this.adelanto.value == undefined || this.adelanto.value == null){
+      this.servicioActualizar.SERVICIO_ADELANTO = 0;
+    }else{
+      this.servicioActualizar.SERVICIO_ADELANTO = this.adelanto.value;
+    }
+    this.servicioActualizar.SERVICIO_ID = this.SERVICIO_ID;
+    this.servicioActualizar.SERVICIO_PRECIO = this.precio.value; 
+    this.servicioActualizar.SERVICIO_TIPO = +this.modalidad.value;
+    this.servicioActualizar.TIPO_SERVICIO_ID = +this.servicio.value; 
+    this.servicioActualizar.COMPROBANTE_ID = +this.tipo_comprobante.value;
+    console.log(this.servicioActualizar);
+    this.servicioService.actualizarServicioAdmin(this.servicioActualizar).subscribe(
+      (data)=>{
+        console.log(data);
+        this.cargando = false;
+        this.modalIn = false;
+        this.tipo_alerta = 'success';
+        this.mensaje_alerta = 'Servicio modificado con éxito.';
+        this.listarServiciosPendientes();
+        this.closeModal();
+      },(error)=>{
+        this.cargando = false;
+        this.mostrar_alerta = true;
+        this.modalIn = true;
+        this.tipo_alerta='danger';
+        if (error.error.error !== undefined) {
+          if (error.error.error === 'error_deBD') {
+            this.mensaje_alerta = 'Hubo un error al intentar ejecutar su solicitud. Problemas con el servidor, vuelva a intentarlo.';
+          } else if(error.error.error === 'error_deCampo'){
+            this.mensaje_alerta = 'Los datos ingresados son invalidos. Por favor, vuelva a intentarlo.';
+          }else if(error.error.error === 'error_ejecucionQuery'){
+            this.mensaje_alerta = 'Hubo un error al registrar el servicio, Por favor, actualice la página o inténtelo más tarde.';
+          }else if(error.error.error === 'error_NoExistenciaDeTipoServicio'){
+            this.mensaje_alerta = 'Hubo un error al identificar el servicio a postergar, Por favor, actualice la página o inténtelo más tarde.';
+          }else if(error.error.error === 'error_NoExistenciaDeMascota'){
+            this.mensaje_alerta = 'Hubo un error al identificar a la mascota, Por favor, actualice la página o inténtelo más tarde.';
+          }else if(error.error.error === 'error_NoExistenciaDeComprobante'){
+            this.mensaje_alerta = 'Hubo un error al identificar el tipo de comprobante, Por favor, actualice la página o inténtelo más tarde.';
+          }else if(error.error.error === 'error_NoExistenciaServicio '){
+            this.mensaje_alerta = 'Hubo un error al identificar el servicio que se quiere postergar, Por favor, actualice la página o inténtelo más tarde.';
+          }  
+        }
+        else{
+          this.mensaje_alerta = 'Hubo un error al registrar la información del servicio. Por favor, vuelva a intentarlo.';
+        }
+      }
+    );
     
   }
 }

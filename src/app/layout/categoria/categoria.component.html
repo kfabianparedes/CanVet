@@ -14,13 +14,14 @@
                         <input type="text" class="border-left-primary font-tamanio form-control" name="filtroTexto" placeholder="Buscar..." [(ngModel)]="filtroTexto">
                     </div>
                     <div class="col-3 col-lg-2  py-1">
-                        <button  [disabled]="categorias.length<=0" style="float:right" style="width: 100%;" type="button" class="btn btn-primary"><i class="fas fa-search"></i></button>
+                        <button (click)="filtrarCategoria()" [disabled]="carga" style="float:right" style="width: 100%;" type="button" class="btn btn-primary"><i class="fas fa-search"></i></button>
                     </div>
                 </div>
             </div>
             <div class="py-1 col-sm-12 col-md-4 col-lg-3" >
-                <button   (click)="abrirCrearCategoria()"  style="float:right" style="width: 100%;" type="button" class="btn btn-primary">Crear Categoría</button>
+                <button [disabled]="carga" style="float:right" (click)="abrirCrearCategoria()" type="button" class="btn btn-primary">Crear Categoría</button>
             </div>
+            
         </div>
         <div class="card-body text-gray-400 ">
             <div  *ngIf="categorias.length<=0; else categoriaModule">
@@ -45,36 +46,36 @@
                     <table class="table table-bordered text-gray-400" id="dataTable" width="100%"  cellspacing="0">
                         <thead>
                             <tr>
-                                <th > <span class="color-row-table">Código</span></th>
-                                <th ><span class="color-row-table">Nombre</span></th>
-                                <th ><span class="color-row-table">Estado</span></th>
-                                <th ><span class="color-row-table">Acciones</span></th>
+                                <th class="color-row-table puntero" scope="col" sortable="CAT_ID" (sort)="onSort($event)">Código</th>
+                                <th class="color-row-table puntero" scope="col" sortable="CAT_NOMBRE" (sort)="onSort($event)">Nombre</th>
+                                <th class="color-row-table puntero" scope="col" sortable="CAT_ESTADO" (sort)="onSort($event)">Estado</th>
+                                <th class="color-row-table puntero" scope="col">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let cat of categorias | slice:(currentPage-1)*itemsPerPage:currentPage*itemsPerPage ; let i = index  ">
+                            <tr *ngFor="let cat of categorias | filterCategoryByName:filtroTexto | slice:(currentPage-1)*itemsPerPage:currentPage*itemsPerPage ; let i = index  ">
                                 <td class="color-row-table">{{cat.CAT_ID}}</td>
                                 <td class="color-row-table">{{cat.CAT_NOMBRE}}</td>
                                 <td class="color-row-table">{{cat.CAT_ESTADO==1?'Activo':'Inactivo'}}</td>
                                 <td class="color-row-table">
                                     <div class="row btnes">
-                                        <span class="col-1 button-table"  *ngIf="cat.CAT_ESTADO != 1; else Habilitar">
-                                            <a (click)="habilitarInhabilitarCategoria(cat.CAT_ID,cat.CAT_ESTADO)" class="btn btn-success btn-circle btn-sm " ngbTooltip="Habilitar">
+                                        <div class="col-1 button-table"  *ngIf="cat.CAT_ESTADO != 1; else Habilitar">
+                                            <button [disabled]="carga" (click)="habilitarInhabilitarCategoria(cat.CAT_ID,cat.CAT_ESTADO)" class="btn btn-success btn-circle btn-sm " ngbTooltip="Habilitar">
                                                 <i class="fas fa-check" aria-hidden="true"></i>
-                                            </a>
-                                        </span>
+                                            </button>
+                                        </div>
                                         <ng-template #Habilitar>
-                                            <span class="col-1 button-table">
-                                                <a (click)="habilitarInhabilitarCategoria(cat.CAT_ID,cat.CAT_ESTADO)"  class="btn btn-danger btn-circle btn-sm "ngbTooltip="Deshabilitar">
+                                            <div class="col-1 button-table">
+                                                <button [disabled]="carga" (click)="habilitarInhabilitarCategoria(cat.CAT_ID,cat.CAT_ESTADO)"  class="btn btn-danger btn-circle btn-sm "ngbTooltip="Deshabilitar">
                                                     <i class="fa fa-times" aria-hidden="true"></i>
-                                                </a>
-                                            </span>
+                                                </button>
+                                            </div>
                                         </ng-template>
-                                        <span class="col-1 button-table btn-edit">
-                                            <a (click)="abrirEditarCategoria(cat)" class="btn btn-warning btn-circle btn-sm" ngbTooltip="Editar" >
+                                        <div class="col-1 button-table btn-edit">
+                                            <button [disabled]="carga" (click)="abrirEditarCategoria(cat)" class="btn btn-warning btn-circle btn-sm" ngbTooltip="Editar" >
                                                 <i style="color: white;" class="far fa-edit" aria-hidden="true"   ></i>
-                                            </a>
-                                        </span>
+                                            </button>
+                                        </div>
                                     </div>
                                 </td>
                             </tr>
@@ -117,14 +118,14 @@
         <br>
         <div class="row justify-content-center ">
             <div class="my-1 col-sm-3 col-md-4 col-lg-4">
-                <a  (click)="catUpdate(categoriaSeleccionada)" class="btn btn-primary btn-icon-split" >
+                <button [disabled]="categoriaForm.invalid || cargaModal" (click)="catUpdate(categoriaSeleccionada)" class="btn btn-primary btn-icon-split" >
                     <span class="text">Actualizar&nbsp;<i class="fas fa-save"></i></span>
-                </a>
+                </button>
             </div>
             <div class="my-1 col-sm-3 col-md-4 col-lg-4">
-                <a (click) = "d('Cross click')" class="btn btn-warning btn-icon-split">
+                <button [disabled]="cargaModal" (click) = "d('Cross click')" class="btn btn-warning btn-icon-split">
                     <span class="text">Cancelar&nbsp;<i class="fas fa-arrow-circle-left"></i></span>
-                </a>
+                </button>
             </div>
             
         </div>
@@ -162,14 +163,14 @@
         </form>
         <br><div class="row justify-content-center ">
             <div class="my-1 col-sm-3 col-md-4 col-lg-4">
-                <a  (click)="insertarCategoria()" class="btn btn-primary btn-icon-split" >
+                <button [disabled]="categoriaForm.invalid || cargaModal"  (click)="insertarCategoria()" class="btn btn-primary btn-icon-split" >
                     <span class="text">Registrar&nbsp;<i class="fas fa-save"></i></span>
-                </a>
+                </button>
             </div>
             <div class="my-1 col-sm-3 col-md-4 col-lg-4">
-                <a (click) = "d('Cross click')" class="btn btn-warning btn-icon-split">
+                <button [disabled]="cargaModal" (click) = "d('Cross click')" class="btn btn-warning btn-icon-split">
                     <span class="text">Cancelar&nbsp;<i class="fas fa-arrow-circle-left"></i></span>
-                </a>
+                </button>
             </div>
             
         </div>

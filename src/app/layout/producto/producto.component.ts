@@ -1,4 +1,4 @@
-import { Component,  ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component,  ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import {Categoria} from '../categoria/categoria.model';
 import {Producto} from '../producto/producto.models';
 import {CategoriaService} from '../categoria/categoria.service';
@@ -7,6 +7,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {ProductoService} from '../../services/producto.service';
 import {ProveedorService} from '../../services/proveedor.service';
 import { Proveedor } from '../proveedor/proveedor.models';
+import { compare, SorteableDirective } from 'src/app/shared/directives/sorteable.directive';
 
 @Component({
   selector: 'app-producto',
@@ -19,6 +20,7 @@ export class ProductoComponent implements OnInit {
   categorias: Categoria[] = [];
   proveedores: Proveedor[] = [];
   productos:any[]=[];
+  productos_iniciales: any[] = [];
   productoSeleccionado:Producto;
   constructor(private categoriaService:CategoriaService,
     private formBuilder: FormBuilder,
@@ -92,6 +94,7 @@ export class ProductoComponent implements OnInit {
     );
   }
   abrirVerMasProducto(producto:any){
+    this.mostrar_alerta = false;
     this.productoSeleccionado = producto;
     this.nombreCategoria = producto.CAT_NOMBRE;
     this.nombreProveedor = producto.PROV_EMPRESA_PROVEEDORA;
@@ -101,6 +104,7 @@ export class ProductoComponent implements OnInit {
     this.modal.open(this.verMasPro, {size: 'lg'});
   }
   abrirEditarProducto(producto:Producto) {
+    this.mostrar_alerta = false;
     this.listarProveedores();
     this.listarCategorias();
     this.inicializarFormulario();
@@ -159,6 +163,9 @@ export class ProductoComponent implements OnInit {
 
   editarProductoFunc(){
     this.cargando = true;
+    this.modalIn = true;
+    this.mostrar_alerta = false;
+    
     this.productoInsertar = new Producto();
     this.productoInsertar.PRO_ID = this.productoSeleccionado.PRO_ID;
     this.productoInsertar.PRO_CODIGO = "";
@@ -214,8 +221,9 @@ export class ProductoComponent implements OnInit {
     this.modalIn = false;
     this.productoService.listarProductos().subscribe(
       (data)=>{
-        this.productos = data['resultado']; 
-        this.cargando = false; 
+        this.productos_iniciales = data['resultado']; 
+        this.productos = this.productos_iniciales.slice();
+        this.cargando = false;
       },
       (error) =>{
         this.cargando = false;
@@ -236,6 +244,7 @@ export class ProductoComponent implements OnInit {
   listarCategorias(){
     this.cargando = true;
     this.modalIn = true;
+    this.mostrar_alerta = false;
     this.categoriaService.listarCategorias().subscribe(
       (data)=>{
         this.categorias = data['resultado']; 
@@ -267,6 +276,7 @@ export class ProductoComponent implements OnInit {
   insertarProducto(producto:any){
     this.cargando = true;
     this.modalIn = true;
+    this.mostrar_alerta = false;
     this.productoInsertar.PRO_STOCK = 0; 
     this.productoInsertar.PRO_TAMANIO_TALLA =  producto.tamnioTallaProducto;
     this.productoInsertar.PRO_NOMBRE = producto.nombreProducto;
@@ -278,6 +288,7 @@ export class ProductoComponent implements OnInit {
   }
 
   habilitarInhabilitarProducto(PRO_ID:number,PRO_ESTADO:number){
+    this.mostrar_alerta = false;
     this.cargando = true;
     this.modalIn = false;
     if(PRO_ESTADO == 1){
@@ -288,11 +299,14 @@ export class ProductoComponent implements OnInit {
       this.mensaje_alerta = 'Se ha habilitado el proveedor satisfactoriamente.'
     }
     this.productoService.habilitarDeshabilitarProducto(PRO_ID,PRO_ESTADO).subscribe(
-      (data)=>{
+      ()=>{
         this.tipo_alerta = 'success';
-        this.mostrar_alerta = true; 
+        this.mostrar_alerta = true;
+        this.modalIn = false;
+        this.mensaje_alerta = 'Solicitud ejectuda con éxito.'; 
         this.listarProductos(); 
       },(error)=>{
+        this.modalIn = false;
         this.cargando = false;
         this.mostrar_alerta = true;
         this.tipo_alerta='danger';
@@ -315,8 +329,9 @@ export class ProductoComponent implements OnInit {
   crearNuevoProducto(){
     this.cargando = true;
     this.modalIn = true;
+    this.mostrar_alerta = false;
     this.productoService.insertarProducto(this.productoInsertar).subscribe(
-      data=>{
+      ()=>{
         this.mensaje_alerta = 'Producto creado de forma exitosa.';
         this.mostrar_alerta = true;
         this.tipo_alerta = 'success';
@@ -357,6 +372,78 @@ export class ProductoComponent implements OnInit {
     this.listarCategorias();
     this.inicializarFormulario();
     this.modal.open(this.crearPro, {size: 'lg'});
+  }
+  
+  buscarProducto(){
+
+  }
+
+
+  /*************************** FILTRAR TABLA**************************************/
+  busquedaProducto: string = '';
+  busquedaCategoria: string = '';
+  primeraBusqueda: boolean = true;
+
+  filtrarProductoPorNombre(){
+    this.currentPage = 1;
+    this.productos = this.productos_iniciales.slice(); 
+    if(this.busquedaCategoria.length == 0){
+      this.productos = this.productos_iniciales.slice(); 
+      this.productos = this.productos.filter(producto =>producto.PRO_NOMBRE.toLowerCase().indexOf(this.busquedaProducto.toLowerCase()) > -1);
+    }else if(this.busquedaCategoria.length > 0){
+      if(this.busquedaProducto.length == 0){
+        this.filtrarProductoPorCategoria(); 
+      }else if(this.busquedaProducto.length > 0){
+        this.productos = this.productos.filter(producto =>producto.PRO_NOMBRE.toLowerCase().indexOf(this.busquedaProducto.toLowerCase()) > -1);
+        this.productos = this.productos.filter(producto =>producto.CAT_NOMBRE.toLowerCase().indexOf(this.busquedaCategoria.toLowerCase()) > -1);
+      }
+    }
+  }
+  filtrarProductoPorCategoria(){
+    this.currentPage = 1;
+    if(this.primeraBusqueda){
+      this.primeraBusqueda = false;
+      if(this.busquedaCategoria.length == 0){
+        this.filtrarProductoPorNombre();
+      }else{
+        if(this.busquedaProducto.length == 0){
+          this.productos = this.productos_iniciales.slice(); 
+          this.productos = this.productos.filter(producto =>producto.CAT_NOMBRE.toLowerCase().indexOf(this.busquedaCategoria.toLowerCase()) > -1);
+        }else{
+          this.productos = this.productos.filter(producto =>producto.CAT_NOMBRE.toLowerCase().indexOf(this.busquedaCategoria.toLowerCase()) > -1);
+        }
+      }
+    }else if(!this.primeraBusqueda){
+      if(this.busquedaCategoria.length==0){
+        this.filtrarProductoPorNombre();
+      }else{
+        this.productos = this.productos_iniciales.slice(); 
+        this.productos = this.productos.filter(producto =>producto.PRO_NOMBRE.toLowerCase().indexOf(this.busquedaProducto.toLowerCase()) > -1);
+        this.productos = this.productos.filter(producto =>producto.CAT_NOMBRE.toLowerCase().indexOf(this.busquedaCategoria.toLowerCase()) > -1);
+      }
+    }
+    
+  }
+
+   /*********************** ORDENAMIENTO EN TABLA **********************/
+  @ViewChildren(SorteableDirective) headers: QueryList<SorteableDirective>;
+
+  onSort({column, direction}: any) {
+    // resetting other headers
+    this.headers.forEach(header => {
+      if (header.sortable !== column) {
+        header.direction = '';
+      }
+    });
+    // sorting countries
+    if (direction === '' || column === '') {
+      this.productos = this.productos_iniciales.slice();
+    } else {
+      this.productos = [...this.productos_iniciales].sort((a, b) => {
+        const res = compare(a[column], b[column]);
+        return direction === 'asc' ? res : -res;
+      });
+    }
   }
 
 }

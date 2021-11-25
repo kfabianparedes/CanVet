@@ -121,7 +121,6 @@ export class ServicioComponent implements OnInit {
   mascotas: any[] = [];
 
   listarMascotas(){
-    this.mostrar_alerta = false;
     this.cargando = true;
     this.modalIn = false;
     this.mascotaService.listarMascotasActivas().subscribe(
@@ -296,6 +295,7 @@ export class ServicioComponent implements OnInit {
   }
   limpiar(){
     this.servicioForm.reset();
+    this.mascotaForm.reset();
     this.adelanto.setValue(0);
     this.nombre_mascota_seleccionada = '';
     this.mascota_seleccionada = null;
@@ -481,7 +481,7 @@ export class ServicioComponent implements OnInit {
     this.servicioInsertar.SERVICIO_TIPO = +this.modalidad.value;
     this.servicioInsertar.COMPROBANTE_ID = +this.tipo_comprobante.value;
     if(this.adelanto.value == 0 || this.adelanto.value == undefined || this.adelanto.value == null){
-      this.servicioInsertar.SERVICIO_ADELANTO = this.precio.value;
+      this.servicioInsertar.SERVICIO_ADELANTO = 0;
     }else{
       this.servicioInsertar.SERVICIO_ADELANTO = this.adelanto.value;
     }

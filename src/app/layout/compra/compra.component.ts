@@ -103,7 +103,7 @@ export class CompraComponent implements OnInit {
   listarProveedores(){
     this.cargando = true;
     this.modalIn = false;
-    this.proveedorService.listarProveedores().subscribe(
+    this.proveedorService.listarProveedoresActivos().subscribe(
       (data)=>{
         this.proveedores = data['resultado'];
         this.cargando = false;

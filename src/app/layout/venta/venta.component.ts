@@ -805,11 +805,14 @@ export class VentaComponent implements OnInit {
   }
 
   /******* PORCENTAJE POR TARJETA *******/
+  mostrar_porcentaje_total: boolean = false;
   agregarTarjeta(){
     console.log(this.forma_pago.value);
     if(this.forma_pago.value == 2){
+      this.mostrar_porcentaje_total = true;
       this.TotalVentaTarjeta = this.TotalVenta + (0.05*this.TotalVenta);
     }else{
+      this.mostrar_porcentaje_total = false;
       this.TotalVentaTarjeta = this.TotalVenta;
     }
   }

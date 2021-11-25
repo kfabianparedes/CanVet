@@ -170,10 +170,10 @@ export class ProveedorComponent implements OnInit {
     this.modalIn = false;
     if(PROV_ESTADO == 0){
       PROV_ESTADO = +1; 
-      this.mensajeAlerta = 'Se ha inhabilitado el distribuidor satisfactoriamente.';
+      this.mensajeAlerta = 'Se habilitó el distribuidor satisfactoriamente.';
     }else{
       PROV_ESTADO = +0; 
-      this.mensajeAlerta = 'Se ha habilitado el distribuidor satisfactoriamente.'
+      this.mensajeAlerta = 'Se inhabilitó el distribuidor satisfactoriamente.'
 
     }
     

@@ -200,7 +200,8 @@ export class UserComponent implements OnInit {
     this.nombres.setValue(usuario.USU_NOMBRES);
     this.contrasena.setValue('');
     console.log(usuario.USU_FECHA_NACIMIENTO);
-    this.fecha_nacimiento.setValue(usuario.USU_FECHA_NACIMIENTO);
+    this.fecha_nacimiento.setValue(this.datePipe.transform(usuario.USU_FECHA_NACIMIENTO, 'yyyy-MM-dd'));
+    console.log(this.fecha_nacimiento.value);
     this.direccion.setValue(usuario.USU_DIRECCION);
     this.apellido_paterno.setValue(usuario.USU_APELLIDO_PATERNO);
     this.apellido_materno.setValue(usuario.USU_APELLIDO_MATERNO);

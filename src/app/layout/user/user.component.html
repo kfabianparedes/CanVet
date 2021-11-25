@@ -127,7 +127,7 @@
                             </div>
                         </div>
                         <div class="my-2 col-sm-12 col-md-12 col-lg-6">
-                            <label for="inputSexo" data-toggle="tooltip" data-placement="top" title="*Obligatorio"><strong>Sexo: </strong><small class="text-danger" data-toggle="tooltip" data-placement="top" title="*Obligatorio">(*)</small></label>
+                            <label for="inputSexo" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Sexo: <small class="text-danger" data-toggle="tooltip" data-placement="top" title="*Obligatorio">(*)</small></label>
                             <select  formControlName="sexo_" id="inputSexo" class="border-left-primary form-select">
                                 <option hidden value="" disabled>Selecciona una opción</option>
                                 <option [value]="1" >MASCULINO</option>
@@ -320,7 +320,7 @@
         <div class="row d-flex text-center justify-content-center">
             <div class="my-2 col-sm-12 col-md-12 col-lg-3 ">
                 <button  (click)="updateUser();" [disabled]="userForm.invalid || cargando" class="btn btn-primary btn-icon-split" >
-                    <span class="text">Registrar&nbsp;<i class="fas fa-save"></i></span>
+                    <span class="text">Actualizar&nbsp;<i class="fas fa-save"></i></span>
                 </button>
             </div>
             <div class="my-2 col-sm-12 col-md-12 col-lg-3">
@@ -556,7 +556,7 @@
                 </button>
             </div>
             <div class="my-2 col-sm-12 col-md-12 col-lg-3">
-                <button (click)="d('Cross click')" class="btn btn-warning btn-icon-split">
+                <button [disabled]="cargando" (click)="d('Cross click')" class="btn btn-warning btn-icon-split">
                     <span class="text">Cancelar&nbsp;<i class="fas fa-arrow-circle-left"></i></span>
                 </button>
             </div>

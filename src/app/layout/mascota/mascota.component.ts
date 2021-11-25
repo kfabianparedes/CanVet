@@ -222,7 +222,8 @@ export class MascotaComponent implements OnInit {
         this.mostrar_alerta = true;
         this.mensaje_alerta = 'Se cambio el estado de la mascota correctamente.';
         this.tipo_alerta = 'success';
-        this.modal.dismissAll();  
+        this.modal.dismissAll();
+        this.mascotaForm.reset(); 
         this.listarMascotas();
       },
       (error)=>{

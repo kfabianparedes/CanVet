@@ -15,12 +15,12 @@
                 <h1 class="h3 mb-2 text-gray-800 col-12 text-center">No hay artículos seleccionados.</h1>
             </div>
             <div *ngIf="productos_detalle.length>0" class="row h4 text-dark mt-3">
-                <div *ngIf="TotalVentaTarjeta<=0" class="col-sm-12 col-md-2">
+                <div *ngIf="TotalVentaTarjeta<=0  || !mostrar_porcentaje_total" class="col-sm-12 col-md-2">
                 </div>
                 <div class="offset-md-8 offset-sm-0  col-sm-12 col-md-2">
                     <span>Total: </span><p type="text" class="border-left-primary form-control">S/{{TotalVenta.toFixed(2)}}</p>
                 </div>
-                <div *ngIf="TotalVentaTarjeta>0" class="col-sm-12 col-md-2">
+                <div *ngIf="TotalVentaTarjeta>0 && mostrar_porcentaje_total" class="col-sm-12 col-md-2">
                     <span>Tarjeta (+5%): </span><p type="text" class="border-left-primary form-control">S/{{TotalVentaTarjeta.toFixed(2)}}</p>
                 </div>
             </div>
@@ -227,7 +227,7 @@
         </div>
         <div class="card-footer py-3 row justify-content-center">
             <div class=" col-sm-12 col-md-4 col-xl-3">
-                <button [disabled]="!btnRegistroValido || comprobanteForm.invalid || !busquedaCliente" (click)="registrarVenta()" type="button" class="btn btn-primary"><i class="fas fa-save"></i>&nbsp;&nbsp;&nbsp;&nbsp;Registrar Compra</button>
+                <button [disabled]="!btnRegistroValido || comprobanteForm.invalid || !busquedaCliente" (click)="registrarVenta()" type="button" class="btn btn-primary"><i class="fas fa-save"></i>&nbsp;&nbsp;&nbsp;&nbsp;Registrar Venta</button>
             </div>
         </div>
     </div>

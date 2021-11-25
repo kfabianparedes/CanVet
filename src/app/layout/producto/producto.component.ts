@@ -104,7 +104,9 @@ export class ProductoComponent implements OnInit {
     this.listarProveedores();
     this.listarCategorias();
     this.inicializarFormulario();
+    console.log(producto);
     this.productoSeleccionado = producto;
+    console.log( this.productoSeleccionado);
     this.nombreProducto.setValue(this.productoSeleccionado.PRO_NOMBRE);
     this.pVentaProducto.setValue(this.productoSeleccionado.PRO_PRECIO_VENTA);
     this.pCompraProducto.setValue(this.productoSeleccionado.PRO_PRECIO_COMPRA);
@@ -170,8 +172,6 @@ export class ProductoComponent implements OnInit {
 
     this.productoService.editarProductoSeleccionado(this.productoInsertar).subscribe(
       (data)=>{
-        this.productoInsertar = null;
-        this.productoSeleccionado= null;
         this.productos.length = 0;
         this.cargando = false;
         this.modalIn = false;
@@ -260,7 +260,6 @@ export class ProductoComponent implements OnInit {
   }
 
   closeModal(): any {
-    this.productoInsertar = null; 
     this.productoSeleccionado = null;
     this.productoForm.reset();
     this.modal.dismissAll();
@@ -268,14 +267,13 @@ export class ProductoComponent implements OnInit {
   insertarProducto(producto:any){
     this.cargando = true;
     this.modalIn = true;
-    this.productoInsertar.PRO_CODIGO = "";
-    this.productoInsertar.PRO_STOCK = +"0"; 
-    this.productoInsertar.PRO_TAMANIO_TALLA =  this.tamnioTallaProducto.value;
-    this.productoInsertar.PRO_NOMBRE = this.nombreProducto.value;
-    this.productoInsertar.PRO_PRECIO_VENTA = (+this.pVentaProducto.value * 1.00);
-    this.productoInsertar.PRO_PRECIO_COMPRA = (+this.pCompraProducto.value * 1.00);
-    this.productoInsertar.CAT_ID = +this.categoria.value;
-    this.productoInsertar.PROV_ID = +this.proveedor.value;
+    this.productoInsertar.PRO_STOCK = 0; 
+    this.productoInsertar.PRO_TAMANIO_TALLA =  producto.tamnioTallaProducto;
+    this.productoInsertar.PRO_NOMBRE = producto.nombreProducto;
+    this.productoInsertar.PRO_PRECIO_VENTA = (+producto.pVentaProducto * 1.00);
+    this.productoInsertar.PRO_PRECIO_COMPRA = (+producto.pCompraProducto * 1.00);
+    this.productoInsertar.CAT_ID = +producto.categoria;
+    this.productoInsertar.PROV_ID = +producto.proveedor;
     this.crearNuevoProducto();
   }
 

@@ -36,7 +36,7 @@ export class ProductoService {
     const url = environment.domain_url + '/api/productos/insertar';
     const datos = {
       PRO_NOMBRE: pro.PRO_NOMBRE,
-      PRO_CODIGO: pro.PRO_CODIGO,
+      PRO_CODIGO: "",
       PRO_PRECIO_VENTA: pro.PRO_PRECIO_VENTA,
       PRO_PRECIO_COMPRA: pro.PRO_PRECIO_COMPRA,
       PRO_STOCK: pro.PRO_STOCK,

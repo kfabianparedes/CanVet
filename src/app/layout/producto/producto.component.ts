@@ -157,6 +157,7 @@ export class ProductoComponent implements OnInit {
 
   editarProductoFunc(){
     this.cargando = true;
+    this.productoInsertar = new Producto();
     this.productoInsertar.PRO_ID = this.productoSeleccionado.PRO_ID;
     this.productoInsertar.PRO_CODIGO = "";
     this.productoInsertar.PRO_STOCK = +"0"; 

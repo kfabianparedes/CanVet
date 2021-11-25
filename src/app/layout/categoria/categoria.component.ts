@@ -57,6 +57,7 @@ export class CategoriaComponent implements OnInit {
   insertarCategoria(){
     this.cargaModal = true;
     this.modalIn = true;
+    this.mostrarAlerta = false; 
     this.categoriaService.crearCategoria(this.nombreCategoria.value).subscribe(data => {
       
       this.categoriaForm.reset();
@@ -89,7 +90,8 @@ export class CategoriaComponent implements OnInit {
 
   catUpdate(cat:Categoria){
     this.cargaModal = true;
-   
+    this.modalIn = true;
+    this.mostrarAlerta = false; 
     this.categoriaService.editarCategoria(cat,this.nombreCategoria.value).subscribe(data => {
       this.categoriaForm.reset();
       this.modalIn = false;
@@ -125,6 +127,7 @@ export class CategoriaComponent implements OnInit {
   listarCategorias(){
     
     this.modalIn = false;
+    this.mostrarAlerta = false; 
     this.categoriaService.listarCategorias().subscribe(data=>{
       
       this.categorias = data['resultado']; 
@@ -153,6 +156,7 @@ export class CategoriaComponent implements OnInit {
   habilitarInhabilitarCategoria(CAT_ID:number,CAT_ESTADO:number){
     this.carga = true;
     this.modalIn = false;
+    this.mostrarAlerta = false; 
     
     if(CAT_ESTADO == 1){
       CAT_ESTADO = 2; 
@@ -195,11 +199,13 @@ export class CategoriaComponent implements OnInit {
   
   abrirEditarCategoria(categoria:Categoria) {
     this.inicializarFormulario();
+    this.mostrarAlerta = false; 
     this.categoriaSeleccionada = categoria;
     this.modal.open(this.editarCat);
   }
 
   abrirCrearCategoria() {
+    this.mostrarAlerta = false; 
     this.inicializarFormulario();
     this.modal.open(this.crearCat);
   }

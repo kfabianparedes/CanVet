@@ -8,12 +8,16 @@
     <!-- DataTales Example -->  
     <div class="card shadow mb-4 col-12 col-lg-11" style="height: 100%;">
         <div class="card-header py-3 row justify-content-between">
-            <div class="col-sm-12 col-lg-5">
-                <input type="text" class="border-left-primary font-tamanio form-control" placeholder="Buscar">
+            <div class="py-1 col-sm-12 col-md-5 col-lg-4">
+                <div class="row">
+                    <div class="col-md-9 col-sm-12">
+                        <input type="text" class="border-left-primary font-tamanio form-control" placeholder="Buscar">
+                    </div>
+                </div>
             </div>
-            <div class="col-12 col-lg-1"> <br></div>
-            <div class="col-sm-12 col-lg-3" >
-                <button   style="float:right" (click)="abrirCrearProducto()" style="width: 100%;" type="button" class="btn btn-primary">Crear Producto</button>
+            
+            <div class="py-1 col-sm-12 col-md-4 col-lg-3" >
+                <button   style="float:right" (click)="abrirCrearProducto()" type="button" class="btn btn-primary">Crear Producto</button>
             </div>
         </div>
         <div class="card-body text-gray-400 ">
@@ -258,16 +262,16 @@
                     </div>
                 </div>
             </div><br>
-            <div class="row justify-content-center ">
-                <div class="my-1 col-sm-3 col-md-3 col-lg-3">
-                    <button [disabled]="productoForm.invalid"  (click)="editarProductoFunc()" class="btn btn-primary btn-icon-split" >
-                        <span class="text">Registrar&nbsp;<i class="fas fa-save"></i></span>
+            <div class="row d-flex text-center justify-content-center">
+                <div class="my-2 col-sm-12 col-md-12 col-lg-3">
+                    <button [disabled]="productoForm.invalid || cargando"  (click)="editarProductoFunc()" class="btn btn-primary btn-icon-split" >
+                        <span class="text">Editar&nbsp;<i class="fas fa-save"></i></span>
                     </button>
                 </div>
-                <div class="my-1 col-sm-3 col-md-3 col-lg-3">
-                    <a (click) = "d('Cross click')" class="btn btn-warning btn-icon-split">
+                <div class="my-2 col-sm-12 col-md-12 col-lg-3">
+                    <button (click) = "d('Cross click')" [disabled]="cargando" class="btn btn-warning btn-icon-split">
                         <span class="text">Cancelar&nbsp;<i class="fas fa-arrow-circle-left"></i></span>
-                    </a>
+                    </button>
                 </div>
                 
             </div>
@@ -357,16 +361,16 @@
                     </div>
                 </div>
             </div><br>
-            <div class="row justify-content-center ">
-                <div class="my-1 col-sm-3 col-md-3 col-lg-3">
-                    <button [disabled]="productoForm.invalid" (click)="insertarProducto(productoForm.value)" class="btn btn-primary btn-icon-split" >
+            <div class="row d-flex text-center justify-content-center">
+                <div class="my-2 col-sm-12 col-md-12 col-lg-3">
+                    <button [disabled]="productoForm.invalid || cargando" (click)="insertarProducto(productoForm.value)" class="btn btn-primary btn-icon-split" >
                         <span class="text">Registrar&nbsp;<i class="fas fa-save"></i></span>
                     </button>
                 </div>
-                <div class="my-1 col-sm-3 col-md-3 col-lg-3">
-                    <a (click) = "d('Cross click')" class="btn btn-warning btn-icon-split">
+                <div class="my-2 col-sm-12 col-md-12 col-lg-3">
+                    <button (click) = "d('Cross click')" [disabled]="cargando" class="btn btn-warning btn-icon-split">
                         <span class="text">Cancelar&nbsp;<i class="fas fa-arrow-circle-left"></i></span>
-                    </a>
+                    </button>
                 </div>
                 
             </div>

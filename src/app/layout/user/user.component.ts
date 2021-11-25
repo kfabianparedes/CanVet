@@ -126,6 +126,7 @@ export class UserComponent implements OnInit {
   }
 
   registerUserModal(){
+    this.mostrar_alerta = false;
     this.inicializarFormulario();
     this.modal.open(this.createUserModal);
   }
@@ -195,6 +196,8 @@ export class UserComponent implements OnInit {
   }
   editUser(usuario:any){
     console.log(usuario);
+    
+    this.mostrar_alerta = false;
     this.user.setValue(usuario.USU_USUARIO);
     this.email.setValue(usuario.USU_EMAIL);
     this.nombres.setValue(usuario.USU_NOMBRES);
@@ -218,11 +221,10 @@ export class UserComponent implements OnInit {
   updateUser(){
     
   }
-  disableUser(id:number, state:number){
-
-  }
+  
   listUsers(){
     this.cargando = true;
+    this.mostrar_alerta = false;
     this.userService.listUsers().subscribe(
       data=>{
 
@@ -277,6 +279,7 @@ export class UserComponent implements OnInit {
   }
   seeMore(user:Usuario){
     this.userSelected = user;
+    this.mostrar_alerta = false;
     this.modal.open(this.seeMoreModal);
   }
   cambiarVistaContrasena() { // CAMBIA DE ICONO Y DE TIPO EN LA CONSTRASEÑA
@@ -301,6 +304,43 @@ export class UserComponent implements OnInit {
     this.opacarDateFechaNacimiento = false;
   }
   
+
+  habilitarInhabilitarUsuario(USU_ID:number,USU_ESTADO:number){
+    this.cargando = true;
+    
+    this.modalIn = false;
+    if(USU_ESTADO == 0){
+      USU_ESTADO = +1; 
+      this.mensaje_alerta = 'Se habilitó el usuario satisfactoriamente.';
+    }else{
+      USU_ESTADO = +0; 
+      this.mensaje_alerta = 'Se inhabilitó el usuario satisfactoriamente.'
+
+    }
+    
+    this.userService.habilitarInhabilitarUsuarios(USU_ID,USU_ESTADO).subscribe(data=>
+      {
+        this.listUsers();
+        this.tipo_alerta = 'success';
+        this.mostrar_alerta = true; 
+      },error=>{
+        this.cargando = false;
+        this.mostrar_alerta = true;
+        this.tipo_alerta='danger';
+        if (error['error']['error'] !== undefined) {
+          if (error['error']['error'] === 'error_deBD') {
+            this.mensaje_alerta = 'Hubo un error al intentar ejecutar su solicitud. Por favor, actualice la página.';
+          }else if(error.error.error === 'error_deCampo'){
+            this.mensaje_alerta = 'Los datos ingresados son invalidos. Por favor, vuelva a intentarlo.';
+          }else if (error['error']['error'] === 'error_exitenciaId') {
+            this.mensaje_alerta = 'El usuario seleccionado no existe.';
+          }
+        }
+        else{
+          this.mensaje_alerta = 'Hubo un error al mostrar la información de esta página. Por favor, actualice la página.';
+        }
+      });
+  }
 
   /************************************* TABLAS ************************************/
   @ViewChildren(SorteableDirective) headers: QueryList<SorteableDirective>;

@@ -65,13 +65,13 @@
                                 <td class="color-row-table" >
                                     <div class="row btnes">
                                         <div class="col-1 button-table"  *ngIf="user.USU_ESTADO != 1 && user.USU_ESTADO !=2; else Habilitar">
-                                            <span (click)="disableUser(user.USU_ID,user.USU_ESTADO)" class="btn btn-success btn-circle btn-sm " ngbTooltip="Habilitar">
+                                            <span (click)="habilitarInhabilitarUsuario(user.USU_ID,user.USU_ESTADO)" class="btn btn-success btn-circle btn-sm " ngbTooltip="Habilitar">
                                                 <i class="fas fa-check" aria-hidden="true"></i>
                                             </span>
                                         </div>
                                         <ng-template #Habilitar>
                                             <div class="col-1 button-table">
-                                                <span (click)="disableUser(user.USU_ID,user.USU_ESTADO)"  class="btn btn-danger btn-circle btn-sm "ngbTooltip="Deshabilitar">
+                                                <span (click)="habilitarInhabilitarUsuario(user.USU_ID,user.USU_ESTADO)"  class="btn btn-danger btn-circle btn-sm "ngbTooltip="Deshabilitar">
                                                     <i class="fa fa-times" aria-hidden="true"></i>
                                                 </span>
                                             </div>

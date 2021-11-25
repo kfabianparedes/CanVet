@@ -89,6 +89,15 @@ export class UserService {
     return this.http.put<any>(url,datos,this.httpHead).pipe(retry(2));
   }
 
+  habilitarInhabilitarUsuarios(USU_ID:number,numeroEstado:number):Observable<any>{
+    const url = environment.domain_url + '/api/usuarios/habilitarInhabilitarUsuario';
+    const datos = {
+      USU_ID: USU_ID,
+      USU_ESTADO: numeroEstado
+    }
+    return this.http.put<any>(url,datos,this.httpHead).pipe( retry(2) );
+  }
+
   updateProfile(usuario:Usuario):Observable<any>{
     const url = environment.domain_url + '/api/usuarios/actualizarPerfil.php';
     const datos = {

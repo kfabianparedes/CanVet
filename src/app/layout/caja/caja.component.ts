@@ -1,4 +1,5 @@
 import { DatePipe } from '@angular/common';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Caja } from 'src/app/models/caja';
@@ -37,6 +38,9 @@ export class CajaComponent implements OnInit {
   totalTarjeta : number ; 
   totalEfectivo : number ;
 
+  //Variable bandera que controle si es que hay una caja abierta o no 
+  cajaAbiertaFlag = false; 
+
   constructor(
     private formBuilder: FormBuilder,
     private storageService:StorageService,
@@ -45,8 +49,11 @@ export class CajaComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
+    if(this.storageService.hasKey('OPEN_CODE'))
+      this.cajaAbiertaFlag = true ;
     this.inicializarAperturaFormulario();
     this.inicializarCierreFormulario();
+     
   }
 
   abrirCaja(){
@@ -71,6 +78,9 @@ export class CajaComponent implements OnInit {
         this.cargando = false;
         this.tipo_alerta = 'success';
         this.mensaje_alerta = 'La caja ha sido aperturada correctamente, ahora puedes realizar ventas.';
+        this.aperturaCajaForm.reset();
+        this.mostrarApertura = false; 
+        this.cajaAbiertaFlag = true ; 
         this.storageService.storeString('OPEN_CODE', data.codigo_caja);
         this.storageService.storeString('OPEN_ID', data.id_caja);
       },
@@ -181,7 +191,7 @@ export class CajaComponent implements OnInit {
 
   inicializarAperturaFormulario(){
     this.aperturaCajaForm = this.formBuilder.group({
-      monto_incial :['',[Validators.required, Validators.pattern('[0-9]+[.]?[0-9]*')]],
+      monto_incial :[{value: '',disabled: this.cajaAbiertaFlag},[Validators.required, Validators.pattern('[0-9]+[.]?[0-9]*')]],
     })
   }
   inicializarCierreFormulario(){

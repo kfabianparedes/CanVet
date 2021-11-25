@@ -29,7 +29,7 @@
                         </div>
                     </div>
                     <div class="col-6 col-md-3">
-                        <button (click)=registrarApertura() [disabled]="aperturaCajaForm.invalid || cargando" class="btn btn-primary">Abrir Caja&nbsp; <i class="fas fa-dollar-sign"></i></button>
+                        <button (click)=registrarApertura() [disabled]="aperturaCajaForm.invalid || cargando || cajaAbiertaFlag" class="btn btn-primary">Abrir Caja&nbsp; <i class="fas fa-dollar-sign"></i></button>
                     </div>
                 </div>
             </form>

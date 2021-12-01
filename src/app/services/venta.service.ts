@@ -50,4 +50,14 @@ export class VentaService {
     console.log(datos);
     return this.http.post<any>(url,datos,this.httpHead).pipe(retry(2));
   }
+
+  deshabilitarVentas(VENTA_ID:number):Observable<any>{
+    
+    const url = environment.domain_url + '/api/ventas/deshabilitarVenta.php';
+    const datos = { 
+      "VENTA_ID" : VENTA_ID
+    }
+    return this.http.put<any>(url,datos,this.httpHead).pipe(retry(2));
+
+  }
 }

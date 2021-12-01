@@ -4,6 +4,7 @@ import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { DetallesVenta } from 'src/app/models/detalle-venta';
 import { DetalleVentaService } from 'src/app/services/detalle-venta.service';
 import { ReportesService } from 'src/app/services/reportes.service';
+import { VentaService } from 'src/app/services/venta.service';
 import { compare, SorteableDirective } from 'src/app/shared/directives/sorteable.directive';
 
 @Component({
@@ -25,7 +26,8 @@ export class ReporteVentaComponent implements OnInit {
     private modal: NgbModal,
     private configModal: NgbModalConfig,
     private datePipe: DatePipe,
-    private detalleVentaService:DetalleVentaService
+    private detalleVentaService:DetalleVentaService,
+    private ventaService: VentaService
   ){ 
     this.configModal.backdrop = 'static';
     this.configModal.keyboard = false;
@@ -101,7 +103,23 @@ export class ReporteVentaComponent implements OnInit {
       }
     )
   }
+  /************** DESHABILITAR VENTA ******************/
 
+  deshabilitarVenta(VENTA_ID:number){
+
+    console.log(VENTA_ID);
+    this.cargando = true;
+    this.modalIn = false;
+    this.mostrar_alerta = false;
+    this.ventaService.deshabilitarVentas(VENTA_ID).subscribe(
+      data=>{
+        this.listarReporteVentas();
+      },error =>{
+
+          
+      }
+    );
+  }
 
   /************* PAGINACION TABLA **********************/
   itemsPorPagina1: number = 5;

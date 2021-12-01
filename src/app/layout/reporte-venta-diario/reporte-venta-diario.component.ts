@@ -4,6 +4,7 @@ import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { DetallesVenta } from 'src/app/models/detalle-venta';
 import { DetalleVentaService } from 'src/app/services/detalle-venta.service';
 import { ReportesService } from 'src/app/services/reportes.service';
+import { VentaService } from 'src/app/services/venta.service';
 import { compare, SorteableDirective } from 'src/app/shared/directives/sorteable.directive';
 
 @Component({
@@ -24,7 +25,8 @@ export class ReporteVentaDiarioComponent implements OnInit {
     private modal: NgbModal,
     private configModal: NgbModalConfig,
     private datePipe: DatePipe,
-    private detalleVentaService:DetalleVentaService
+    private detalleVentaService:DetalleVentaService,
+    private ventaService: VentaService
   ){ 
     this.configModal.backdrop = 'static';
     this.configModal.keyboard = false;
@@ -66,6 +68,38 @@ export class ReporteVentaDiarioComponent implements OnInit {
       this.flecha2 = 'down';
       this.mostrarReporte2 = false;
     }
+  }
+
+  /*************** DESHABILITAR VENTA ******************/
+  deshabilitarVenta(VENTA_ID:number){
+
+    this.cargando = true;
+    this.modalIn = false;
+    this.mostrar_alerta = false;
+    this.ventaService.deshabilitarVentas(VENTA_ID).subscribe(
+      data=>{
+        this.listaDiaria();
+      },error =>{
+
+        this.cargando = false;
+        this.mostrar_alerta = true;
+        this.tipo_alerta='danger';
+        this.modalIn = false;
+        if (error['error']['error'] !== undefined) {
+          if (error['error']['error'] === 'error_deBD') {
+            this.mensaje_alerta = 'Hubo un error al intentar ejecutar su solicitud. Por favor, actualice la página.';
+          }else if (error['error']['error'] === 'error_existenciaId') {
+            this.mensaje_alerta = 'Hubo un error al identificar la venta. Por favor, vuelva a intentarlo.';
+          }else if(error.error.error === 'error_deCampo'){
+            this.mensaje_alerta = 'Los datos ingresados son invalidos. Por favor, vuelva a intentarlo.';
+          }
+        }
+        else{
+          this.mensaje_alerta = 'Hubo un error al mostrar la información de esta página. Por favor, actualice la página.';
+        }
+
+      }
+    );
   }
 
   /************* LISTAR VENTAS DIARIAS ******************/

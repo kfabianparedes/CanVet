@@ -60,6 +60,11 @@
                                                 <i style="color: white;" class="text-center far fa-eye" aria-hidden="true"></i>
                                             </button>
                                         </div>
+                                        <div class="col-1 button-table btn-edit">
+                                            <button [disabled]="cargando" (click)=deshabilitarVenta(reporte.VENTA_ID) class="btn btn-danger btn-circle btn-sm" ngbTooltip="Deshabilitar">
+                                                <i style="color: white;" class="text-center fa fa-times" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
                                     </div>
                                 </td>
                             </tr>

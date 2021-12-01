@@ -107,7 +107,6 @@ export class ReporteVentaComponent implements OnInit {
 
   deshabilitarVenta(VENTA_ID:number){
 
-    console.log(VENTA_ID);
     this.cargando = true;
     this.modalIn = false;
     this.mostrar_alerta = false;
@@ -116,7 +115,23 @@ export class ReporteVentaComponent implements OnInit {
         this.listarReporteVentas();
       },error =>{
 
-          
+        this.cargando = false;
+        this.mostrar_alerta = true;
+        this.tipo_alerta='danger';
+        this.modalIn = false;
+        if (error['error']['error'] !== undefined) {
+          if (error['error']['error'] === 'error_deBD') {
+            this.mensaje_alerta = 'Hubo un error al intentar ejecutar su solicitud. Por favor, actualice la página.';
+          }else if (error['error']['error'] === 'error_existenciaId') {
+            this.mensaje_alerta = 'Hubo un error al identificar la venta. Por favor, vuelva a intentarlo.';
+          }else if(error.error.error === 'error_deCampo'){
+            this.mensaje_alerta = 'Los datos ingresados son invalidos. Por favor, vuelva a intentarlo.';
+          }
+        }
+        else{
+          this.mensaje_alerta = 'Hubo un error al mostrar la información de esta página. Por favor, actualice la página.';
+        }
+
       }
     );
   }

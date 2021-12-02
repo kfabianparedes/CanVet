@@ -95,6 +95,7 @@ export class LoginComponent implements OnInit {
             if (respuesta.estado === 0) {     // Si estado es "inactivo" (0), entonces muestra un mensaje de error
               this.cargando = false;
               this.mostrar_alerta = true;
+              this.color_alerta = 'danger';
               this.mensaje_alerta = 'Su cuenta se encuentra inactiva, comuníquese con el administrador.';
               localStorage.clear();
             } else if (respuesta.estado === 1) {    // Si estado es "activo" (1), entonces lo redirecciona a la página principal

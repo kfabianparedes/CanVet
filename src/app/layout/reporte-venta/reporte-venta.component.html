@@ -56,12 +56,12 @@
                                 <td class="color-row-table">
                                     <div class="row btnes">
                                         <div class="col-1 button-table btn-edit">
-                                            <button (click)=verDetalles(reporte) class="btn btn-primary btn-circle btn-sm" ngbTooltip="Ver Más">
+                                            <button [disabled]="cargando" (click)=verDetalles(reporte) class="btn btn-primary btn-circle btn-sm" ngbTooltip="Ver Más">
                                                 <i style="color: white;" class="text-center far fa-eye" aria-hidden="true"></i>
                                             </button>
                                         </div>
 
-                                        <div class="col-1 button-table btn-edit">
+                                        <div *ngIf = "USE_TYPE === '2' " class="col-1 button-table btn-edit">
                                             <button [disabled]="cargando" (click)=deshabilitarVenta(reporte.VENTA_ID) class="btn btn-danger btn-circle btn-sm" ngbTooltip="Deshabilitar">
                                                 <i style="color: white;" class="text-center fa fa-times" aria-hidden="true"></i>
                                             </button>
@@ -78,7 +78,7 @@
         </div>
     </div>
 
-    <div class="card shadow mb-3 col-12 col-lg-11" style="height: 100%;">
+    <div *ngIf = "USE_TYPE === '2' " class="card shadow mb-3 col-12 col-lg-11" style="height: 100%;">
         <div class="card-header py-3 row">
             <h5 style="cursor:pointer" (click)="abrirReporte2()"><span>VENTAS: Mes Pasado&nbsp;&nbsp;&nbsp;&nbsp;<i  class="fas fa-angle-{{flecha2}}"></i></span>
             </h5>
@@ -215,7 +215,7 @@
         </div>
     </div>
 
-    <div class="card shadow mb-3 col-12 col-lg-11" style="height: 100%;">
+    <div *ngIf = "USE_TYPE === '2' " class="card shadow mb-3 col-12 col-lg-11" style="height: 100%;">
         <div class="card-header py-3 row">
             <h5 style="cursor:pointer" (click)="abrirReporte4()"><span>SERVICIOS: Mes Anterior&nbsp;&nbsp;&nbsp;&nbsp;<i  class="fas fa-angle-{{flecha4}}"></i></span>
             </h5>
@@ -389,7 +389,7 @@
             </div>
             <div class="row justify-content-center">
                 <div class="col-12 col-lg-6 mb-4">
-                    <label for="inputNombres">Vendido por:</label>
+                    <label for="inputNombres">Atendido por:</label>
                     <input id="inputNombres"  type="text" disabled value="{{USU_NOMBRE}}" class="border-left-primary form-control">
                 </div>
             </div>            

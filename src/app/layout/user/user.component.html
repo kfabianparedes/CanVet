@@ -14,7 +14,7 @@
             <div class="py-1 col-sm-12 col-md-5 col-lg-4">
                 <div class="row">
                     <div class="col-md-9 col-sm-12">
-                        <input type="text" class="border-left-primary font-tamanio form-control" name="filtroTexto" placeholder="Buscar..." >
+                        <input type="text" class="border-left-primary font-tamanio form-control" [(ngModel)]="filtroTexto"  name="filtroTexto" placeholder="Buscar..." >
                     </div>
                 </div>
             </div>
@@ -55,14 +55,14 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let user of usuarios | slice:(currentPage-1)*itemsPerPage:currentPage*itemsPerPage ; let i = index  ">
-                                <td class="color-row-table" >{{user.USU_ID}}</td>
-                                <td class="color-row-table" >{{user.USU_NOMBRES}}</td>
-                                <td class="color-row-table" >{{user.USU_APELLIDO_PATERNO}}&nbsp;{{user.USU_APELLIDO_MATERNO}}</td>
-                                <td class="color-row-table" >{{user.USU_CELULAR}}</td>
-                                <td class="color-row-table" >{{user.ROL_ID==1?'Empleado':'Administrador'}}</td>
-                                <td class="color-row-table" >{{user.USU_ESTADO==1?'Activo':'Inactivo'}}</td>
-                                <td class="color-row-table" >
+                            <tr *ngFor="let user of usuarios | filterUserByName:filtroTexto | slice:(currentPage-1)*itemsPerPage:currentPage*itemsPerPage ; let i = index  ">
+                                <td *ngIf="user.USU_ID != USU_ID" class="color-row-table" >{{user.USU_ID}}</td>
+                                <td *ngIf="user.USU_ID != USU_ID" class="color-row-table" >{{user.USU_NOMBRES}}</td>
+                                <td *ngIf="user.USU_ID != USU_ID" class="color-row-table" >{{user.USU_APELLIDO_PATERNO}}&nbsp;{{user.USU_APELLIDO_MATERNO}}</td>
+                                <td *ngIf="user.USU_ID != USU_ID" class="color-row-table" >{{user.USU_CELULAR}}</td>
+                                <td *ngIf="user.USU_ID != USU_ID" class="color-row-table" >{{user.ROL_ID==1?'Empleado':'Administrador'}}</td>
+                                <td *ngIf="user.USU_ID != USU_ID" class="color-row-table" >{{user.USU_ESTADO==1?'Activo':'Inactivo'}}</td>
+                                <td *ngIf="user.USU_ID != USU_ID" class="color-row-table" >
                                     <div class="row btnes">
                                         <div class="col-1 button-table"  *ngIf="user.USU_ESTADO != 1 && user.USU_ESTADO !=2; else Habilitar">
                                             <span (click)="habilitarInhabilitarUsuario(user.USU_ID,user.USU_ESTADO)" class="btn btn-success btn-circle btn-sm " ngbTooltip="Habilitar">

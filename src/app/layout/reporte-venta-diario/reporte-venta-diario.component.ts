@@ -4,6 +4,7 @@ import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { DetallesVenta } from 'src/app/models/detalle-venta';
 import { DetalleVentaService } from 'src/app/services/detalle-venta.service';
 import { ReportesService } from 'src/app/services/reportes.service';
+import { StorageService } from 'src/app/services/storage.service';
 import { VentaService } from 'src/app/services/venta.service';
 import { compare, SorteableDirective } from 'src/app/shared/directives/sorteable.directive';
 
@@ -26,14 +27,17 @@ export class ReporteVentaDiarioComponent implements OnInit {
     private configModal: NgbModalConfig,
     private datePipe: DatePipe,
     private detalleVentaService:DetalleVentaService,
-    private ventaService: VentaService
+    private ventaService: VentaService,
+    private storageService: StorageService
   ){ 
     this.configModal.backdrop = 'static';
     this.configModal.keyboard = false;
   }
-
+  USE_TYPE : string = '';
   ngOnInit() {
     this.listaDiaria();
+    this.USE_TYPE = this.storageService.getString('USE_TYPE');
+
   }
 
   /************* PAGINACION TABLA **********************/

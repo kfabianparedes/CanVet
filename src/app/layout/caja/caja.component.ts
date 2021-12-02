@@ -124,7 +124,7 @@ export class CajaComponent implements OnInit {
   llenarDatosCajaCierre(caja:Caja){
 
     caja.CAJA_CODIGO = this.storageService.getString('OPEN_CODE');
-    caja.CAJA_MONTO_INICIAL = this.CAJA_MONTO_INICIAL;
+    caja.CAJA_MONTO_INICIAL = +this.CAJA_MONTO_INICIAL*100;
     caja.CAJA_MONTO_EFECTIVO_SERVICIOS = this.gananciasServiciosEfectivo * 100 ; 
     caja.CAJA_MONTO_TARJETA_SERVICIOS = this.gananciasServiciosTarjeta* 100; 
     caja.CAJA_MONTO_YAPE_SERVICIOS = this.gananciasServiciosYape * 100 ; 
@@ -132,10 +132,11 @@ export class CajaComponent implements OnInit {
     caja.CAJA_MONTO_TARJETA_VENTAS = this.gananciasVentasTarjeta * 100 ; 
     caja.CAJA_MONTO_YAPE_VENTAS = this.gananciasVentasYape * 100 ; 
     caja.CAJA_DESCUENTO_GASTOS = this.gastos.value * 100 ; 
+    caja.CAJA_DESCRIPCION = this.descripcion.value;
     this.totalEfectivo = caja.CAJA_MONTO_EFECTIVO_SERVICIOS + caja.CAJA_MONTO_EFECTIVO_VENTAS;
     this.totalTarjeta = caja.CAJA_MONTO_TARJETA_SERVICIOS + caja.CAJA_MONTO_TARJETA_VENTAS;
     this.totalYape = caja.CAJA_MONTO_YAPE_SERVICIOS + caja.CAJA_MONTO_YAPE_VENTAS;
-    caja.CAJA_MONTO_FINAL = (this.totalEfectivo + this.totalTarjeta + this.totalYape) - this.gastos.value ;
+    caja.CAJA_MONTO_FINAL = (this.totalEfectivo + this.totalTarjeta + this.totalYape + caja.CAJA_MONTO_INICIAL) - caja.CAJA_DESCUENTO_GASTOS ;
   }
   
   registrarCierre(){
@@ -148,7 +149,7 @@ export class CajaComponent implements OnInit {
 
       this.cajaService.cerrarCaja(this.cajaCierre).subscribe(
         
-        data =>{
+        ()=>{
 
           this.cargando = false;
           this.mostrar_alerta = true;
@@ -158,7 +159,16 @@ export class CajaComponent implements OnInit {
           this.storageService.remove('OPEN_ID');
           this.flechaCierre = 'down';
           this.mostrarCierre = false;
-        },error=>{
+          this.cierreCajaForm.reset();
+          this.montos = [];
+          this.gananciasServiciosEfectivo = 0; 
+          this.gananciasServiciosTarjeta = 0; 
+          this.gananciasServiciosYape = 0; 
+          this.gananciasVentasEfectivo = 0; 
+          this.gananciasVentasTarjeta = 0; 
+          this.gananciasVentasYape = 0; 
+          this.CAJA_MONTO_INICIAL = 0;
+        },(error)=>{
 
           this.cargando = false;
           this.mostrar_alerta = true;
@@ -197,6 +207,7 @@ export class CajaComponent implements OnInit {
   inicializarCierreFormulario(){
     this.cierreCajaForm = this.formBuilder.group({
       gastos :['',[Validators.required, Validators.pattern('[0-9]+[.]?[0-9]*')]],
+      descripcion:['',[Validators.maxLength(500),]],
     })
   }
   //getters Apertura
@@ -206,6 +217,9 @@ export class CajaComponent implements OnInit {
   //getters Cierre
   get gastos() {
     return this.cierreCajaForm.get('gastos');
+  }
+  get descripcion(){
+    return this.cierreCajaForm.get('descripcion');
   }
   cambiarDeStyleDate() {
     this.opacarFecha = false;
@@ -217,13 +231,13 @@ export class CajaComponent implements OnInit {
 
   /***************************** LISTAR MONTOS *********************/
   montos:any[] =[];
-  gananciasServiciosEfectivo:any; 
-  gananciasServiciosTarjeta:any; 
-  gananciasServiciosYape:any; 
-  gananciasVentasEfectivo:any; 
-  gananciasVentasTarjeta:any; 
-  gananciasVentasYape:any; 
-  CAJA_MONTO_INICIAL:any;
+  gananciasServiciosEfectivo = 0; 
+  gananciasServiciosTarjeta = 0; 
+  gananciasServiciosYape = 0; 
+  gananciasVentasEfectivo = 0; 
+  gananciasVentasTarjeta = 0; 
+  gananciasVentasYape = 0; 
+  CAJA_MONTO_INICIAL = 0;
   listarMontoDelDia(){
     this.cargando = true;
     this.modalIn = false;

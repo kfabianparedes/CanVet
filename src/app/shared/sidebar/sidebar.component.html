@@ -98,9 +98,9 @@
             <span>Compras</span></a>
     </li>
 
-    <hr *ngIf = "USE_TYPE === '2' " class="sidebar-divider ">
+    <hr class="sidebar-divider ">
 
-    <li *ngIf = "USE_TYPE === '2' " class="nav-item">
+    <li class="nav-item">
         <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapsePagesReportes" aria-expanded="true"
             aria-controls="collapsePagesReportes">
             <i class="fas fa-chart-bar"></i>
@@ -109,13 +109,13 @@
         <div id="collapsePagesReportes" class="collapse" aria-labelledby="headingPages"
             data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Caja (Tabla):</h6>
-                <a class="collapse-item" [routerLink]="['/reporte-caja']">
+                <h6 *ngIf = "USE_TYPE === '2' "  class="collapse-header">Caja (Tabla):</h6>
+                <a *ngIf = "USE_TYPE === '2' "  class="collapse-item" [routerLink]="['/reporte-caja']">
                     <i class="fas fa-chart-bar"></i>
                     <span>&nbsp; Mensual</span>
                 </a>
 
-                <div class="collapse-divider"></div>
+                <div *ngIf = "USE_TYPE === '2' "  class="collapse-divider"></div>
                 
                 <h6 class="collapse-header">Ventas y Servicio (Tabla):</h6>
                 <a class="collapse-item" [routerLink]="['/reporte-venta']">
@@ -126,10 +126,10 @@
                     <i class="fas fa-chart-bar"></i>
                     <span>&nbsp; Diarios</span>
                 </a>
-                <div class="collapse-divider"></div>
+                <div *ngIf = "USE_TYPE === '2' "  class="collapse-divider"></div>
                 
-                <h6 class="collapse-header">Ventas y Servicio (Gráfica):</h6>
-                <a class="collapse-item" [routerLink]="['/reporte-grafico']">
+                <h6 *ngIf = "USE_TYPE === '2' "  class="collapse-header">Ventas y Servicio (Gráfica):</h6>
+                <a *ngIf = "USE_TYPE === '2' "  class="collapse-item" [routerLink]="['/reporte-grafico']">
                     <i class="fas fa-chart-bar"></i>
                     <span>&nbsp; Semanal-Mensual</span>
                 </a>

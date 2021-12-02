@@ -14,4 +14,5 @@ export class Caja {
     CAJA_DESCUENTO_GASTOS: number;
     USU_ID: number;
     CAJA_FECHA?: string;
+    CAJA_DESCRIPCION: string;
 }

@@ -52,6 +52,10 @@ export class ReporteCajaComponent implements OnInit {
   reporte_mes_actual_inicial: any[] = [];
   reporte_mes_anterior_inicial: any[] = [];
   listarReportesCaja(){
+    this.flechaReporteMesActual = 'down';
+    this.mostrarReporteMesActual = false;
+    this.flechaReporteMesAnterior = 'down';
+    this.mostrarReporteMesAnterior = false;
     this.cargando = true;
     this.modalIn = false;
     this.reporteService.reporteCaja().subscribe(
@@ -62,6 +66,10 @@ export class ReporteCajaComponent implements OnInit {
         this.reporte_mes_anterior_inicial = data['resultado']['mes_anterior'];
         this.reporte_mes_anterior = this.reporte_mes_anterior_inicial.slice();
         this.cargando = false;
+        this.flechaReporteMesActual = 'up';
+        this.mostrarReporteMesActual = true;
+        this.flechaReporteMesAnterior = 'up';
+        this.mostrarReporteMesAnterior = true;
       },
       (error) =>{
         this.cargando = false;

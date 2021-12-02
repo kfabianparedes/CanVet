@@ -11,9 +11,10 @@ import { FilterClienteByNamePipe } from './filterClienteByName.pipe';
 import { FilterServiceByClientNamePipe } from './filterServiceByClientName.pipe';
 import { FilterPetByClientNamePipe } from './filterPetByClientName.pipe';
 import { FilterCategoryByNamePipe } from './filterCategoryByName.pipe';
+import { FilterUserByNamePipe } from './filterUserByName.pipe';
 
 @NgModule({
-  declarations: [									
+  declarations: [										
     FilterPipe,
     FilterProductByNamePipe,
     FilterProductByCategoryPipe,
@@ -24,7 +25,8 @@ import { FilterCategoryByNamePipe } from './filterCategoryByName.pipe';
     FilterClienteByNamePipe,
     FilterServiceByClientNamePipe,
     FilterPetByClientNamePipe,
-    FilterCategoryByNamePipe
+    FilterCategoryByNamePipe,
+    FilterUserByNamePipe
   ],
   imports: [
     CommonModule
@@ -40,7 +42,8 @@ import { FilterCategoryByNamePipe } from './filterCategoryByName.pipe';
     FilterClienteByNamePipe,
     FilterServiceByClientNamePipe,
     FilterPetByClientNamePipe,
-    FilterCategoryByNamePipe
+    FilterCategoryByNamePipe,
+    FilterUserByNamePipe
   ]
 })
 export class PipesModule { }

@@ -59,7 +59,8 @@ export class CajaService {
         CAJA_MONTO_TARJETA_SERVICIOS:caja.CAJA_MONTO_TARJETA_SERVICIOS,
         CAJA_MONTO_YAPE_SERVICIOS:caja.CAJA_MONTO_YAPE_SERVICIOS,
         CAJA_CODIGO:caja.CAJA_CODIGO,
-        CAJA_MONTO_INICIAL: caja.CAJA_MONTO_INICIAL
+        CAJA_MONTO_INICIAL: caja.CAJA_MONTO_INICIAL,
+        CAJA_DESCRIPCION: caja.CAJA_DESCRIPCION
       }
       return this.http.put<any>(url,datos,this.httpHead).pipe(retry(2));
     }

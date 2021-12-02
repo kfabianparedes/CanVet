@@ -365,8 +365,10 @@
                                         <th class="color-row-table puntero" scope="col" sortable="CAT_NOMBRE" (sort)="onSort($event)" >Categoría</th>
                                         <th class="color-row-table puntero" scope="col" sortable="PRO_TAMANIO_TALLA" (sort)="onSort($event)" >Tamaño/Talla/Peso</th>
                                         <th class="color-row-table puntero" scope="col" sortable="PRO_PRECIO_VENTA" (sort)="onSort($event)" >P. Venta</th>
-                                        <th class="color-row-table puntero" scope="col" sortable="PRO_PRECIO_COMPRA" (sort)="onSort($event)" >P. Compra</th>
+                                        <th class="color-row-table puntero" scope="col" sortable="PROV_EMPRESA_PROVEEDORA" (sort)="onSort($event)" >P. Proveedor</th>
                                         <th class="color-row-table puntero" scope="col" sortable="PRO_STOCK" (sort)="onSort($event)" >Stock</th>
+                                        <th class="color-row-table puntero" scope="col" sortable="PRO_PRECIO_COMPRA" (sort)="onSort($event)" >P. Compra</th>
+                                        
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -380,8 +382,10 @@
                                         <td [ngStyle]="{'background':producto.PRO_STOCK<=3 && producto.PRO_STOCK > 0?'#ffc107':producto.PRO_STOCK<=0?'#bb2124':'white','color':producto.PRO_STOCK<=3?'white':'#6E707E'}" class="color-row-table">{{producto.CAT_NOMBRE}}</td>
                                         <td [ngStyle]="{'background':producto.PRO_STOCK<=3 && producto.PRO_STOCK > 0?'#ffc107':producto.PRO_STOCK<=0?'#bb2124':'white','color':producto.PRO_STOCK<=3?'white':'#6E707E'}" class="color-row-table">{{producto.PRO_TAMANIO_TALLA}}</td>
                                         <td [ngStyle]="{'background':producto.PRO_STOCK<=3 && producto.PRO_STOCK > 0?'#ffc107':producto.PRO_STOCK<=0?'#bb2124':'white','color':producto.PRO_STOCK<=3?'white':'#6E707E'}" class="color-row-table">S/{{producto.PRO_PRECIO_VENTA.toFixed(2)}}</td>
-                                        <td [ngStyle]="{'background':producto.PRO_STOCK<=3 && producto.PRO_STOCK > 0?'#ffc107':producto.PRO_STOCK<=0?'#bb2124':'white','color':producto.PRO_STOCK<=3?'white':'#6E707E'}" class="color-row-table">S/{{producto.PRO_PRECIO_COMPRA.toFixed(2)}}</td>
+                                        <td [ngStyle]="{'background':producto.PRO_STOCK<=3 && producto.PRO_STOCK > 0?'#ffc107':producto.PRO_STOCK<=0?'#bb2124':'white','color':producto.PRO_STOCK<=3?'white':'#6E707E'}" class="color-row-table">{{producto.PROV_EMPRESA_PROVEEDORA}}</td>
                                         <td [ngStyle]="{'background':producto.PRO_STOCK<=3 && producto.PRO_STOCK > 0?'#ffc107':producto.PRO_STOCK<=0?'#bb2124':'white','color':producto.PRO_STOCK<=3?'white':'#6E707E'}" class="color-row-table">{{producto.PRO_STOCK}}</td>
+                                        <td [ngStyle]="{'background':producto.PRO_STOCK<=3 && producto.PRO_STOCK > 0?'#ffc107':producto.PRO_STOCK<=0?'#bb2124':'white','color':producto.PRO_STOCK<=3?'white':'#6E707E'}" class="color-row-table">S/{{producto.PRO_PRECIO_COMPRA.toFixed(2)}}</td>
+                                        
                                     </tr>
                                 </tbody>
                             </table>

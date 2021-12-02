@@ -6,6 +6,7 @@ import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Rol } from 'src/app/models/rol.model';
 import { Usuario } from 'src/app/models/usuario.model';
 import { RolService } from 'src/app/services/rol.service';
+import { StorageService } from 'src/app/services/storage.service';
 import { UserService } from 'src/app/services/user.service';
 import { compare, SorteableDirective } from 'src/app/shared/directives/sorteable.directive';
 
@@ -26,6 +27,7 @@ export class UserComponent implements OnInit {
               public configModal: NgbModalConfig,
               private userService: UserService,
               private datePipe: DatePipe,
+              private storageService:StorageService,
               private rolService: RolService) 
               { 
                 configModal.backdrop = 'static';
@@ -33,7 +35,7 @@ export class UserComponent implements OnInit {
                 configModal.size = 'lg'
               }
 
-  filtroTexto:string;
+  filtroTexto:string = '';
   userSelected = new Usuario(); 
   newUser = new Usuario();
   currentPage = 1;
@@ -50,6 +52,8 @@ export class UserComponent implements OnInit {
   PASSWORD_CURRENT_ICON = 'fa fa-eye-slash';
   PASSWORD_CURRENT_TYPE = 'password';
 
+  USU_ID: string = '';
+
   //modal para editar un usuario
   @ViewChild('editUserModal') editUserModal: ElementRef;
   //modal para crear un usuario
@@ -61,6 +65,7 @@ export class UserComponent implements OnInit {
     this.listUsers();
     this.listarRoles();
     this.inicializarFormulario();
+    this.USU_ID = this.storageService.getString('USE_ID');
   }
     //reactive form 
   inicializarFormulario(){
@@ -194,9 +199,10 @@ export class UserComponent implements OnInit {
       )
     }
   }
+  usuar_editar : Usuario = new Usuario();
   editUser(usuario:any){
-    console.log(usuario);
-    
+    this.usuar_editar = usuario;
+    console.log(this.usuar_editar);
     this.mostrar_alerta = false;
     this.user.setValue(usuario.USU_USUARIO);
     this.email.setValue(usuario.USU_EMAIL);
@@ -219,7 +225,20 @@ export class UserComponent implements OnInit {
   }
 
   updateUser(){
-    
+    this.usuar_editar.USU_NOMBRES = this.nombres.value;
+    this.usuar_editar.USU_APELLIDO_PATERNO = this.apellido_paterno.value;
+    this.usuar_editar.USU_APELLIDO_MATERNO = this.apellido_materno.value;
+    this.usuar_editar.USU_USUARIO = this.user.value;
+    this.usuar_editar.USU_EMAIL = this.email.value;
+    this.usuar_editar.USU_SEXO = this.sexo;
+    this.usuar_editar.USU_CELULAR = this.celular.value;
+    this.usuar_editar.USU_DIRECCION = this.direccion.value;
+    this.usuar_editar.USU_FECHA_NACIMIENTO = this.fecha_nacimiento.value;
+    this.usuar_editar.USU_CONTRASENIA = this.contrasena.value;
+    this.usuar_editar.USU_DNI = this.dni.value;
+    this.usuar_editar.USU_ESTADO = 1; //Habilitado(1) / Deshabilitado(0) / Cambio de contraseña (2) 
+    this.usuar_editar.ROL_ID = this.rol.value;
+    console.log(this.usuar_editar);
   }
   
   listUsers(){

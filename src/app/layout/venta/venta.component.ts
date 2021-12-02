@@ -277,6 +277,7 @@ export class VentaComponent implements OnInit {
           this.productos = this.productos_iniciales.slice();
           this.cargando = false;
           this.listarProductoTabla = false;
+          console.log(data);
         },error=>{
           this.cargando = false;
           this.mostrar_alerta = true;
@@ -402,11 +403,7 @@ export class VentaComponent implements OnInit {
       }
       this.venta.METODO_DE_PAGO_ID = this.forma_pago.value;
       this.venta.VENTA_SUBTOTAL = this.TotalVenta;
-      if(this.venta.METODO_DE_PAGO_ID == 2){
-        this.venta.VENTA_TOTAL = this.TotalVentaTarjeta;
-      }else{  
-        this.venta.VENTA_TOTAL = this.TotalVenta;
-      }
+      this.venta.VENTA_TOTAL = this.TotalVenta;
       this.venta.COMPROBANTE_ID = this.tipo_comprobante.value;
 
       if(this.productos_detalle.length === this.cantidad_detalles.length && this.cantidad_detalles.length === this.importes.length){
@@ -547,6 +544,7 @@ export class VentaComponent implements OnInit {
     this.cantidad_detalles.splice(0,this.cantidad_detalles.length);
     this.importes.splice(0,this.importes.length);
     this.TotalVenta = 0;
+    this.inicializarFormulario();
     this.TotalVentaTarjeta = 0;
     this.busquedaCliente = false;
   }

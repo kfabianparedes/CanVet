@@ -121,12 +121,9 @@
         </div>
         <div *ngIf="mostrarCierre " class="card-footer py-3 row justify-content-center">
             <form [formGroup]="cierreCajaForm">
-                <div class="row justify-content-center">
-                    <div class="col-sm-12 col-md-3 col-lg-3 mt-2 mb-2">
+                <div class="row">
+                    <div class="col-12 col-md-4 col-lg-3 mb-4 ">
                         <label for="inputMontoInicial">Gastos del día (S/):</label>
-                    </div>
-    
-                    <div class="col-6 col-md-4 col-lg-3 mb-4 ">
                         <input formControlName="gastos" type="text" id="inputMontoInicial" class="border-left-primary font-tamanio form-control">
                         <div *ngIf="gastos.invalid && (gastos.dirty || gastos.touched)" class="my-1" style="color: rgb(197, 68, 68);">
                             <div *ngIf="gastos.errors.required">
@@ -137,7 +134,19 @@
                             </div>
                         </div>
                     </div>
-    
+                    <div class="col-12 col-md-4 col-lg-9 mb-4 ">
+                        <label for="inputDetallesGastos">Detalles:</label>
+                        <textarea formControlName="descripcion" type="text" id="inputDetallesGastos" class="border-left-primary font-tamanio form-control">
+                        </textarea>
+                        <div *ngIf="descripcion.invalid && (descripcion.dirty || descripcion.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                            <div *ngIf="descripcion.errors.maxlength">
+                                * La cantidad máxima de caracteres es 500.
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="row justify-content-center">
                     <div class="col-6 col-md-3">
                         <button [disabled]="cierreCajaForm.invalid || cargando" (click)="registrarCierre();" class="btn btn-primary">Cerrar Caja&nbsp; <i class="fas fa-dollar-sign"></i></button>
                     </div>

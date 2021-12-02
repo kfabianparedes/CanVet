@@ -123,65 +123,47 @@
     <mat-progress-bar *ngIf="cargando && modalIn" mode="indeterminate" ></mat-progress-bar>
     <ngb-alert *ngIf="mostrar_alerta && modalIn" [type]="tipo_alerta" (closed)="mostrar_alerta = false" >{{mensaje_alerta}}</ngb-alert>
     <div class="modal-body">
-        <div class="form-group row">
-                
-            <div class="col-12 col-lg-6" >
-                <label for="" style="margin-top: 2rem;">
-                    Nombre del producto
-                </label>
-                <input type="text" disabled value="{{productoSeleccionado.PRO_NOMBRE}}" class="border-left-primary font-tamanio form-control" >
-                
+        <section class="form-group row">
+            <div class="col-12 col-lg-6 mb-4" >
+                <label for="inputNombreProductoVer">Nombre del producto</label>
+                <input id="inputNombreProductoVer" type="text" disabled value="{{productoSeleccionado.PRO_NOMBRE}}" class="border-left-primary font-tamanio form-control" >
             </div>
-            <div class="col-12 col-lg-6">
-                <label for="" style="margin-top: 2rem;">
-                    tamaño/talla del producto
-                </label>
-                <input type="text"  disabled value="{{productoSeleccionado.PRO_TAMANIO_TALLA}}" class="border-left-primary font-tamanio form-control" >
+            <div class="col-12 col-lg-6 mb-4">
+                <label for="inputUnidadDeMedidaVer">Tamaño/talla del producto</label>
+                <input id="inputUnidadDeMedidaVer" type="text" disabled value="{{productoSeleccionado.PRO_TAMANIO_TALLA}}" class="border-left-primary font-tamanio form-control" >
             </div>
-            <div class="col-12 col-lg-6">
-                <label for="" style="margin-top: 2rem;">
-                    Precio de venta
-                </label>
-                <input type="text" disabled value="{{productoSeleccionado.PRO_PRECIO_VENTA.toFixed(2)}}" class="border-left-primary font-tamanio form-control" >
+            <div class="col-12 col-lg-6 mb-4">
+                <label for="inputPrecioVentaVer">Precio de venta</label>
+                <input id="inputPrecioVentaVer" type="text" disabled value="{{productoSeleccionado.PRO_PRECIO_VENTA.toFixed(2)}}" class="border-left-primary font-tamanio form-control" >
             </div>
-            <div class="col-12 col-lg-6">
-                <label for="" style="margin-top: 2rem">
-                    Precio de compra
-                </label>
-                <input type="text" disabled value="{{productoSeleccionado.PRO_PRECIO_COMPRA.toFixed(2)}}" class="border-left-primary font-tamanio form-control" >
+            <div class="col-12 col-lg-6 mb-4">
+                <label for="inputPrecioDeCompraVer">Precio de compra</label>
+                <input id="inputPrecioDeCompraVer" type="text" disabled value="{{productoSeleccionado.PRO_PRECIO_COMPRA.toFixed(2)}}" class="border-left-primary font-tamanio form-control" >
             </div>
-            <div class="col-12 col-lg-6">
-                <label for="" style="margin-top: 2rem">
-                    Categoría
-                </label>
-                <input type="text" disabled value="{{nombreCategoria}}" class="border-left-primary font-tamsanio form-control">
+            <div class="col-12 col-lg-6 mb-4">
+                <label for="inputCategoriaVer">Categoría</label>
+                <input id="inputCategoriaVer" type="text" disabled value="{{nombreCategoria}}" class="border-left-primary font-tamsanio form-control">
             </div>    
-            <div class="col-12 col-lg-6">
-                <label for="" style="margin-top: 2rem">
-                    Distribuidor
-                </label>
-                <input type="text" disabled value="{{nombreProveedor}}" class="border-left-primary font-tamanio form-control" >
+            <div class="col-12 col-lg-6 mb-4">
+                <label for="inputDistribuidorVer">Distribuidor</label>
+                <input id="inputDistribuidorVer" type="text" disabled value="{{nombreProveedor}}" class="border-left-primary font-tamanio form-control" >
             </div>
-            <div *ngIf="precioAnterior != null" class="col-12 col-lg-6">
-                <label for="" style="margin-top: 2rem">
-                    Precio de compra anterior
-                </label>
-                <input type="text" disabled value="{{precioAnterior.toFixed(2)}}" class="border-left-primary font-tamanio form-control" >
+            <div *ngIf="precioAnterior != null" class="col-12 col-lg-6 mb-4">
+                <label for="inputPrecioAnteriorCompraVer">Precio de compra anterior</label>
+                <input input="inputPrecioAnteriorCompraVer" type="text" disabled value="{{precioAnterior.toFixed(2)}}" class="border-left-primary font-tamanio form-control" >
             </div>
-            <div *ngIf="fechaAnterior != null"  class="col-12 col-lg-6">
-                <label for="" style="margin-top: 2rem">
-                    fecha de cambio de precio
-                </label>
-                <input type="text" disabled value="{{fechaAnterior | date: 'dd/MM/yyyy'}}" class="border-left-primary font-tamanio form-control" >
+            <div *ngIf="fechaAnterior != null"  class="col-12 col-lg-6 mb-4">
+                <label for="FechaCambioPrecioCompra">Fecha de cambio de precio</label>
+                <input input="FechaCambioPrecioCompra" type="text" disabled value="{{fechaAnterior | date: 'dd/MM/yyyy'}}" class="border-left-primary font-tamanio form-control" >
             </div>
-        </div>
-        <div class="row justify-content-center ">
+        </section>
+        <section class="row justify-content-center ">
             <div class="my-1 col-sm-3 col-md-3 col-lg-3">
-                <a (click) = "d('Cross click')" class="btn btn-warning btn-icon-split">
+                <button (click) = "d('Cross click')" class="btn btn-warning btn-icon-split">
                     <span class="text">Salir&nbsp;<i class="fas fa-arrow-circle-left"></i></span>
-                </a>
+                </button>
             </div>
-        </div>
+        </section>
     </div>
 </ng-template>
 
@@ -194,9 +176,9 @@
     
     <div class="modal-body">
         <form [formGroup]="productoForm">
-            <div class="form-group row">
-                <div class="col-12 col-lg-6" >
-                    <label for="inputNombreProducto" style="margin-top: 2rem;">
+            <section class="row">
+                <div class="col-12 col-lg-6 mb-4" >
+                    <label for="inputNombreProducto" >
                         Nombre del producto
                     </label>
                     <input  id="inputNombreProducto" type="text" formControlName="nombreProducto" class="border-left-primary font-tamanio form-control" placeholder="Ingrese el nombre">
@@ -209,9 +191,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-lg-6">
-                    <label for="inputTallaProducto" style="margin-top: 2rem;">
-                        tamaño/talla del producto
+                <div class="col-12 col-lg-6 mb-4">
+                    <label for="inputTallaProducto">
+                        Tamaño/talla del producto
                     </label>
                     <input id="inputTallaProducto" type="text" formControlName="tamnioTallaProducto" class="border-left-primary font-tamanio form-control" placeholder="Ingrese tamaño/talla">
                     <div *ngIf="tamnioTallaProducto.invalid && (tamnioTallaProducto.dirty || tamnioTallaProducto.touched)" class="my-1" style="color: rgb(197, 68, 68);">
@@ -223,11 +205,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-lg-6">
-                    <label for="inputPventaProducto" style="margin-top: 2rem;">
+            </section>
+            <section class="row">
+                <div class="col-12 col-lg-6 mb-4">
+                    <label for="inputPventaProducto">
                         Precio de venta
                     </label>
-                    <input input="inputPventaProducto" type="text" formControlName="pVentaProducto" class="border-left-primary font-tamanio form-control" placeholder="Ingrese precio de venta">
+                    <input id="inputPventaProducto" type="text" formControlName="pVentaProducto" class="border-left-primary font-tamanio form-control" placeholder="Ingrese precio de venta">
                     <div *ngIf="pVentaProducto.invalid && (pVentaProducto.dirty || pVentaProducto.touched)" class="my-1" style="color: rgb(197, 68, 68);">
                         <div *ngIf="tamnioTallaProducto.errors.required">
                         * El pVentaProducto/Talla del producto es requerido.
@@ -237,8 +221,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-lg-6">
-                    <label for="inputPcompraProducto" style="margin-top: 2rem">
+                <div class="col-12 col-lg-6 mb-4">
+                    <label for="inputPcompraProducto">
                         Precio de compra
                     </label>
                     <input id="inputPcompraProducto" type="text" formControlName="pCompraProducto" class="border-left-primary font-tamanio form-control" placeholder="Ingrese precio de compra">
@@ -251,8 +235,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-lg-6">
-                    <label style="margin-top: 2rem;" class="mr-sm-2" for="inlineFormCustomSelect">Categoría</label>
+            </section>
+            <section class="row">
+                <div class="col-12 col-lg-6 mb-4">
+                    <label for="inlineFormCustomSelect">Categoría</label>
                     <select formControlName="categoria" class="border-left-primary custom-select mr-sm-2 " id="inlineFormCustomSelect">
                         <option hidden value="" disabled selected>Escoge una opción</option>
                         <option [value]="cat.CAT_ID" *ngFor="let cat of categorias">{{cat.CAT_NOMBRE}}</option>
@@ -263,8 +249,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-lg-6">
-                    <label style="margin-top: 2rem;" class="mr-sm-2" for="inlineFormCustomSelect">Distribuidor</label>
+                <div class="col-12 col-lg-6 mb-4">
+                    <label for="inlineFormCustomSelect">Distribuidor</label>
                     <select formControlName="proveedor" class="border-left-primary custom-select mr-sm-2 " id="inlineFormCustomSelect">
                         <option hidden value="" disabled selected>Escoge una opción</option>
                         <option [value]="pro.PROV_ID" *ngFor="let pro of proveedores">{{pro.PROV_EMPRESA_PROVEEDORA}}</option>
@@ -275,8 +261,19 @@
                         </div>
                     </div>
                 </div>
-            </div><br>
-            <div class="row d-flex text-center justify-content-center">
+            </section>
+            <section class="mb-4 row justify-content-center">
+                <div class="col-12 col-lg-6">
+                    <label for="inputStock">Stock</label>
+                    <input type="text" formControlName="stock" class="border-left-primary form-control" id="inputStock">
+                    <div *ngIf="stock.invalid && (stock.dirty || stock.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                        <div *ngIf="stock.errors.pattern">
+                            * Formato incorrecto.
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="row d-flex text-center justify-content-center">
                 <div class="my-2 col-sm-12 col-md-12 col-lg-3">
                     <button [disabled]="productoForm.invalid || cargando"  (click)="editarProductoFunc()" class="btn btn-primary btn-icon-split" >
                         <span class="text">Actualizar&nbsp;<i class="fas fa-save"></i></span>
@@ -287,8 +284,7 @@
                         <span class="text">Cancelar&nbsp;<i class="fas fa-arrow-circle-left"></i></span>
                     </button>
                 </div>
-                
-            </div>
+            </section>
         </form>
     </div>
 </ng-template>
@@ -303,7 +299,7 @@
         <form [formGroup]="productoForm">
             <div class="form-group row">
                 <div class="col-12 col-lg-6" >
-                    <label for="inputNombreProducto" style="margin-top: 2rem;">Nombre del producto</label>
+                    <label for="inputNombreProducto">Nombre del producto</label>
                     <input id="inputNombreProducto" type="text" formControlName="nombreProducto" class="border-left-primary font-tamanio form-control" placeholder="Ingrese el nombre">
                     <div *ngIf="nombreProducto.invalid && (nombreProducto.dirty || nombreProducto.touched)" class="my-1" style="color: rgb(197, 68, 68);">
                         <div *ngIf="nombreProducto.errors.required">
@@ -315,8 +311,8 @@
                     </div>
                 </div>
                 <div class="col-12 col-lg-6">
-                    <label for="inputInputUnidadMedida" style="margin-top: 2rem;">Unidad de Medida (Tamaño/Talla/Peso)</label>
-                    <input input="inputInputUnidadMedida" type="text" formControlName="tamnioTallaProducto" class="border-left-primary font-tamanio form-control" placeholder="Ingrese tamaño/talla/peso">
+                    <label for="inputInputUnidadMedida">Unidad de Medida (Tamaño/Talla/Peso)</label>
+                    <input id="inputInputUnidadMedida" type="text" formControlName="tamnioTallaProducto" class="border-left-primary font-tamanio form-control" placeholder="Ingrese tamaño/talla/peso">
                     <div *ngIf="tamnioTallaProducto.invalid && (tamnioTallaProducto.dirty || tamnioTallaProducto.touched)" class="my-1" style="color: rgb(197, 68, 68);">
                         <div *ngIf="tamnioTallaProducto.errors.required">
                         * La unidad de medida es requerida (Talla/Tamaño/Peso).
@@ -327,8 +323,8 @@
                     </div>
                 </div>
                 <div class="col-12 col-lg-6">
-                    <label for="inputPrecioVenta" style="margin-top: 2rem;">Precio de venta</label>
-                    <input input="inputPrecioVenta" type="text" formControlName="pVentaProducto" class="border-left-primary font-tamanio form-control" placeholder="Ingrese precio de venta">
+                    <label for="inputPrecioVenta">Precio de venta</label>
+                    <input id="inputPrecioVenta" type="text" formControlName="pVentaProducto" class="border-left-primary font-tamanio form-control" placeholder="Ingrese precio de venta">
                     <div *ngIf="pVentaProducto.invalid && (pVentaProducto.dirty || pVentaProducto.touched)" class="my-1" style="color: rgb(197, 68, 68);">
                         <div *ngIf="pVentaProducto.errors.required">
                         * El precio de venta es requerido.
@@ -340,7 +336,7 @@
                 </div>
                 <div class="col-12 col-lg-6">
                     <label for="inputPrecioCompra" style="margin-top: 2rem">Precio de compra</label>
-                    <input input="inputPrecioCompra" type="text" formControlName="pCompraProducto" class="border-left-primary font-tamanio form-control" placeholder="Ingrese precio de compra">
+                    <input id="inputPrecioCompra" type="text" formControlName="pCompraProducto" class="border-left-primary font-tamanio form-control" placeholder="Ingrese precio de compra">
                     <div *ngIf="pCompraProducto.invalid && (pCompraProducto.dirty || pCompraProducto.touched)" class="my-1" style="color: rgb(197, 68, 68);">
                         <div *ngIf="pCompraProducto.errors.required">
                         * El precio de compra es requerido.
@@ -351,7 +347,7 @@
                     </div>
                 </div>
                 <div class="col-12 col-lg-6">
-                    <label style="margin-top: 2rem;" class="mr-sm-2" for="inputSeleccionarCategoria">Categoría</label>
+                    <label for="inputSeleccionarCategoria">Categoría</label>
                     <select formControlName="categoria" class="border-left-primary custom-select mr-sm-2 " id="inputSeleccionarCategoria">
                         <option hidden value="" disabled selected>Escoge una opción</option>
                         <option [value]="cat.CAT_ID" *ngFor="let cat of categorias">{{cat.CAT_NOMBRE}}</option>
@@ -363,7 +359,7 @@
                     </div>
                 </div>
                 <div class="col-12 col-lg-6">
-                    <label style="margin-top: 2rem;" class="mr-sm-2" for="inputSeleccionarProveedor">Disitribuidor</label>
+                    <label for="inputSeleccionarProveedor">Disitribuidor</label>
                     <select formControlName="proveedor" class="border-left-primary custom-select mr-sm-2 " id="inputSeleccionarProveedor">
                         <option hidden value="" disabled selected>Escoge una opción</option>
                         <option [value]="pro.PROV_ID" *ngFor="let pro of proveedores">{{pro.PROV_EMPRESA_PROVEEDORA}}</option>

@@ -115,6 +115,7 @@ export class ProductoComponent implements OnInit {
     this.pVentaProducto.setValue(this.productoSeleccionado.PRO_PRECIO_VENTA);
     this.pCompraProducto.setValue(this.productoSeleccionado.PRO_PRECIO_COMPRA);
     this.tamnioTallaProducto.setValue(this.productoSeleccionado.PRO_TAMANIO_TALLA);
+    this.stock.setValue(this.productoSeleccionado.PRO_STOCK);
     this.categoria.setValue(this.productoSeleccionado.CAT_ID);
     this.proveedor.setValue(this.productoSeleccionado.PROV_ID);
     this.modal.open(this.editarPro, {size: 'lg'});
@@ -129,6 +130,7 @@ export class ProductoComponent implements OnInit {
       tamnioTallaProducto:['',[Validators.required, Validators.maxLength(60)]],
       categoria:['',[Validators.required]],
       proveedor:['',[Validators.required]],
+      stock:['',[Validators.pattern('[0-9]*')]],
     });
 
   }
@@ -156,7 +158,10 @@ export class ProductoComponent implements OnInit {
   get nombreProducto() {
     return this.productoForm.get('nombreProducto');
   }
-
+  get stock() {
+    return this.productoForm.get('stock');
+  }
+  
   resetForm(){
     this.productoForm.reset();
   }
@@ -169,14 +174,13 @@ export class ProductoComponent implements OnInit {
     this.productoInsertar = new Producto();
     this.productoInsertar.PRO_ID = this.productoSeleccionado.PRO_ID;
     this.productoInsertar.PRO_CODIGO = "";
-    this.productoInsertar.PRO_STOCK = +"0"; 
+    this.productoInsertar.PRO_STOCK = this.productoSeleccionado.PRO_STOCK; 
     this.productoInsertar.PRO_TAMANIO_TALLA =  this.tamnioTallaProducto.value;
     this.productoInsertar.PRO_NOMBRE = this.nombreProducto.value;
     this.productoInsertar.PRO_PRECIO_VENTA = (+this.pVentaProducto.value * 1.00);
     this.productoInsertar.PRO_PRECIO_COMPRA = (+this.pCompraProducto.value * 1.00);
     this.productoInsertar.CAT_ID = +this.categoria.value;
     this.productoInsertar.PROV_ID = +this.proveedor.value;
-
     this.productoService.editarProductoSeleccionado(this.productoInsertar).subscribe(
       (data)=>{
         this.productos.length = 0;

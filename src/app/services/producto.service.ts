@@ -39,7 +39,7 @@ export class ProductoService {
       PRO_CODIGO: "",
       PRO_PRECIO_VENTA: pro.PRO_PRECIO_VENTA,
       PRO_PRECIO_COMPRA: pro.PRO_PRECIO_COMPRA,
-      PRO_STOCK: pro.PRO_STOCK,
+      PRO_STOCK: 0,
       PRO_TAMANIO_TALLA: pro.PRO_TAMANIO_TALLA,
       CAT_ID: pro.CAT_ID,
       PROV_ID: pro.PROV_ID,

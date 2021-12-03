@@ -174,7 +174,7 @@ export class ProductoComponent implements OnInit {
     this.productoInsertar = new Producto();
     this.productoInsertar.PRO_ID = this.productoSeleccionado.PRO_ID;
     this.productoInsertar.PRO_CODIGO = "";
-    this.productoInsertar.PRO_STOCK = this.productoSeleccionado.PRO_STOCK; 
+    this.productoInsertar.PRO_STOCK = this.stock.value; 
     this.productoInsertar.PRO_TAMANIO_TALLA =  this.tamnioTallaProducto.value;
     this.productoInsertar.PRO_NOMBRE = this.nombreProducto.value;
     this.productoInsertar.PRO_PRECIO_VENTA = (+this.pVentaProducto.value * 1.00);

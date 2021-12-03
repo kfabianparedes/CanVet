@@ -176,7 +176,7 @@
                 <div class="table-module">
                     <table class="table table-bordered text-gray-400" id="dataTable" cellspacing="1">
                         <thead>
-                            <tr>
+                            <tr> <th class="color-row-table text-center puntero" scope="col" sortable="SERVICIO_ID" (sort)="onSortMesActualServicio($event)"><span>N° SERVICIO</span></th>
                                 <th class="color-row-table text-center puntero" scope="col" sortable="CLIENTE_NOMBRES" (sort)="onSortMesActualServicio($event)"><span>Nombre/Razón Social</span></th>
                                 <th class="color-row-table text-center puntero" scope="col" sortable="TIPO_SERVICIO_NOMBRE" (sort)="onSortMesActualServicio($event)"><span>Servicio</span></th>
                                 <th class="color-row-table text-center puntero" scope="col" sortable="SERVICIO_PRECIO" (sort)="onSortMesActualServicio($event)"><span>Precio</span></th>
@@ -189,6 +189,7 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let servicio of mes_actual_servicio | slice:(paginaActual3-1)*itemsPorPagina3:paginaActual3*itemsPorPagina3 ; let i = index ">
+                                <td class="color-row-table">{{servicio.SERVICIO_ID}}</td>
                                 <td class="color-row-table">{{servicio.CLIENTE_NOMBRE}}<span class="text-primary">{{servicio?.DJ_RAZON_SOCIAL==null?'':'['}}{{servicio?.DJ_RAZON_SOCIAL}}{{servicio?.DJ_RAZON_SOCIAL==null?'':']'}}</span></td>
                                 <td class="color-row-table">{{servicio.TIPO_SERVICIO_NOMBRE}}</td>
                                 <td class="color-row-table">{{servicio.SERVICIO_PRECIO}}</td>
@@ -243,6 +244,7 @@
                     <table class="table table-bordered text-gray-400" id="dataTable" cellspacing="1">
                         <thead>
                             <tr>
+                                <tr> <th class="color-row-table text-center puntero" scope="col" sortable="SERVICIO_ID" (sort)="onSortMesActualServicio($event)"><span>N° SERVICIO</span></th>
                                 <th class="color-row-table text-center puntero" scope="col" sortable="CLIENTE_NOMBRES" (sort)="onSortMesActualServicio($event)"><span>Nombre/Razón Social</span></th>
                                 <th class="color-row-table text-center puntero" scope="col" sortable="TIPO_SERVICIO_NOMBRE" (sort)="onSortMesActualServicio($event)"><span>Servicio</span></th>
                                 <th class="color-row-table text-center puntero" scope="col" sortable="SERVICIO_PRECIO" (sort)="onSortMesActualServicio($event)"><span>Precio</span></th>
@@ -255,6 +257,7 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let servicio of mes_anterior_servicio | slice:(paginaActual4-1)*itemsPorPagina4:paginaActual4*itemsPorPagina4 ; let i = index ">
+                                <td class="color-row-table">{{servicio.SERVICIO_ID}}</td>
                                 <td class="color-row-table">{{servicio.CLIENTE_NOMBRE}}<span class="text-primary">{{servicio?.DJ_RAZON_SOCIAL==null?'':'['}}{{servicio?.DJ_RAZON_SOCIAL}}{{servicio?.DJ_RAZON_SOCIAL==null?'':']'}}</span></td>
                                 <td class="color-row-table">{{servicio.TIPO_SERVICIO_NOMBRE}}</td>
                                 <td class="color-row-table">{{servicio.SERVICIO_PRECIO}}</td>

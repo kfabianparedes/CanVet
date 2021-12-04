@@ -313,26 +313,33 @@
     <div class="modal-body">
         <div class="row">
             <div class="card">
-                <div class="card-header py-3 row ">
-                    <div class="col-sm-12 col-md-12 col-lg-4 mb-4">
-                        <label for="inputBuscarCategoria"><i class="fa fa-search"></i>&nbsp;&nbsp;&nbsp;&nbsp;Categoría:</label>
+                <div class="card-header py-3 row justify-content-around">
+                    <div class="col-12 col-lg-3">
+                        <label for="inputBuscarCategoria">Tipo de búsqueda:</label>
+                        <select class="pull-right" [(ngModel)]="tipoDeBusqueda" class="border-left-primary form-control form-control-sm custom-select">
+                            <option value="0">POR NOMBRE</option>
+                            <option value="1">POR CÓDIGO</option>                 
+                        </select>  
+                    </div>
+                    <div class="col-12 col-lg-4 mb-4">
+                        <label for="inputBuscarCategoria">Producto/Código:</label>
                         <div class="row ">
                             <div class="col-10">
-                                <input id="inputBuscarCategoria" type="text" [(ngModel)]="busquedaPorCategoria" class="border-left-primary font-tamanio form-control" name="busquedaPorCategoria" placeholder="Buscar..." >
+                                <input id="inputBuscarCategoria" type="text" [(ngModel)]="busquedaProducto" class="border-left-primary font-tamanio form-control" name="busquedaProducto" placeholder="Producto..." >
                             </div>
                             <div class="col-1">
-                                <button class="btn btn-success" (click)="filtrarPorCategoria()"><i class="fa fa-search"></i></button>
+                                <button class="btn btn-success" (click)="filtrarProductoPorNombre()"><i class="fa fa-search"></i></button>
                             </div>
                         </div>
                     </div>
-                    <div class="offset-0 offset-md-0 offset-lg-3 offset-xl-4 col-sm-12 col-md-12 col-lg-4 mb-4">
-                        <label for="inputBuscarUnidadMedida"><i class="fa fa-search"></i>&nbsp;&nbsp;&nbsp;&nbsp;Unidad de medida:</label>
+                    <div class="col-12 col-lg-4 mb-4">
+                        <label for="inputBuscarUnidadMedida">Categoría:</label>
                         <div class="row">
                             <div class="col-10">
-                                <input id="inputBuscarUnidadMedida" type="text" [(ngModel)]="busquedaPorUnidadDeMedida" class="border-left-primary font-tamanio form-control" name="busquedaPorUnidadDeMedida" placeholder="Buscar..." >
+                                <input id="inputBuscarUnidadMedida" type="text" [(ngModel)]="busquedaCategoria" class="border-left-primary font-tamanio form-control" name="busquedaCategoria" placeholder="Categoría..." >
                             </div>
                             <div class="col-1">
-                                <button class="btn btn-success" (click)="filtrarPorUnidadMedida()"><i class="fa fa-search"></i></button>
+                                <button class="btn btn-success" (click)="filtrarProductoPorCategoria()"><i class="fa fa-search"></i></button>
                             </div>
                         </div>
                     </div>
@@ -361,6 +368,7 @@
                                 <thead>
                                     <tr>
                                         <th class="color-row-table puntero">Agregar</th>
+                                        <th class="color-row-table puntero" scope="col" sortable="PRO_CODIGO" (sort)="onSort($event)" >Código</th>
                                         <th class="color-row-table puntero" scope="col" sortable="PRO_NOMBRE" (sort)="onSort($event)" >Producto</th>
                                         <th class="color-row-table puntero" scope="col" sortable="CAT_NOMBRE" (sort)="onSort($event)" >Categoría</th>
                                         <th class="color-row-table puntero" scope="col" sortable="PRO_TAMANIO_TALLA" (sort)="onSort($event)" >Tamaño/Talla/Peso</th>
@@ -378,6 +386,7 @@
                                                 <i class="fa fa-plus" aria-hidden="true"   ></i>
                                             </button>
                                         </td>
+                                        <td [ngStyle]="{'background':producto.PRO_STOCK<=3 && producto.PRO_STOCK > 0?'#ffc107':producto.PRO_STOCK<=0?'#bb2124':'white','color':producto.PRO_STOCK<=3?'white':'#6E707E'}" class="color-row-table">{{producto.PRO_CODIGO}}</td>
                                         <td [ngStyle]="{'background':producto.PRO_STOCK<=3 && producto.PRO_STOCK > 0?'#ffc107':producto.PRO_STOCK<=0?'#bb2124':'white','color':producto.PRO_STOCK<=3?'white':'#6E707E'}" class="color-row-table">{{producto.PRO_NOMBRE}}</td>
                                         <td [ngStyle]="{'background':producto.PRO_STOCK<=3 && producto.PRO_STOCK > 0?'#ffc107':producto.PRO_STOCK<=0?'#bb2124':'white','color':producto.PRO_STOCK<=3?'white':'#6E707E'}" class="color-row-table">{{producto.CAT_NOMBRE}}</td>
                                         <td [ngStyle]="{'background':producto.PRO_STOCK<=3 && producto.PRO_STOCK > 0?'#ffc107':producto.PRO_STOCK<=0?'#bb2124':'white','color':producto.PRO_STOCK<=3?'white':'#6E707E'}" class="color-row-table">{{producto.PRO_TAMANIO_TALLA}}</td>

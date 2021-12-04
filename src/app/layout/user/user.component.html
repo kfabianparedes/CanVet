@@ -7,8 +7,6 @@
     <h1 class="h3 mb-2 text-gray-800 col-12 text-center">Usuarios</h1>
 
     <!-- DataTales Example -->
-    
-    
     <div class="card shadow mb-4 col-12 col-lg-11" style="height: 100%;">
         <div class="card-header py-3 row justify-content-between">
             <div class="py-1 col-sm-12 col-md-5 col-lg-4">
@@ -105,6 +103,8 @@
     <div class="modal-header justify-content-center">
         <h4 class="modal-title">Actualizar Usuario</h4>
     </div>
+    <mat-progress-bar *ngIf="cargando && modalIn" mode="indeterminate" ></mat-progress-bar>
+    <ngb-alert *ngIf="mostrar_alerta && modalIn" [type]="tipo_alerta" (closed)="mostrar_alerta = false" >{{mensaje_alerta}}</ngb-alert>
     <div class="modal-body">
         <form [formGroup]="userForm">
             <div class="form-group">
@@ -183,7 +183,7 @@
                                 <input type="text" id="inputUser" formControlName="user" class="border-left-primary font-tamanio form-control" placeholder="Ingrese Alias de usuario">
                                 <div *ngIf="user.invalid && (user.dirty || user.touched)" class="my-1" style="color: rgb(197, 68, 68);">
                                     <div *ngIf="user.errors.required">
-                                    * El nombre de la categoría es requerido.
+                                    * El alias de usuario es requerido.
                                     </div>
                                     <div *ngIf="user.errors.maxlength">
                                     * Se requieren máximo 60 caracteres.
@@ -200,9 +200,6 @@
                                 </button>
                             </div>
                             <div *ngIf="contrasena.invalid && (contrasena.dirty || contrasena.touched)" class="my-1" style="color: rgb(197, 68, 68);">
-                                <div *ngIf="contrasena.errors.required">
-                                * La contraseña es requerida.
-                                </div>
                                 <div *ngIf="contrasena.errors.maxlength">
                                 * Se requieren máximo 20 caracteres.
                                 </div>

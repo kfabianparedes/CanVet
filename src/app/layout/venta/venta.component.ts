@@ -116,9 +116,9 @@ export class VentaComponent implements OnInit {
   
   closeModal(): any {
     this.modal.dismissAll();
-    this.busquedaPorCategoria = '';
-    this.busquedaPorUnidadDeMedida = '';
-    this.filtrarPorCategoria();
+    this.busquedaProducto = '';
+    this.busquedaCategoria = '';
+    this.filtrarProductoPorNombre();
   }
   /******************BUSCAR INFORMACION DE CLIENTE ******************/
   //Variable de clientes
@@ -334,55 +334,56 @@ export class VentaComponent implements OnInit {
     this.TotalVenta = this.importes.reduce((a, b) => a + b, 0);
   }
 
-  /*********************BUSQUEDA DE PRODUCTOS **************************/
-  busquedaPorCategoria ='';
-  busquedaPorUnidadDeMedida = '';
+  /*************************** FILTRAR TABLA**************************************/
+  tipoDeBusqueda: number = 0;
+  parametroDeBusqueda: string = 'PRO_NOMBRE';
+  busquedaProducto: string = '';
+  busquedaCategoria: string = '';
   primeraBusqueda: boolean = true;
 
-  diferenciaDeArreglos = (arr1: any[] , arr2: any[]) => {
-    return arr1.filter(elemento => arr2.indexOf(elemento) == -1);
-  }
-  filtrarPorCategoria(){
-    this.currentPageModal = 1;
+  filtrarProductoPorNombre(){
+    this.currentPageModal = 1
     this.productos = this.diferenciaDeArreglos(this.productos_iniciales,this.productos_detalle);
-    if(this.busquedaPorUnidadDeMedida.length == 0){
-      this.productos = this.diferenciaDeArreglos(this.productos_iniciales,this.productos_detalle);//this.productos_iniciales.filter(producto=>{return producto});  
-      this.productos = this.productos.filter(producto =>producto.CAT_NOMBRE.toLowerCase().indexOf(this.busquedaPorCategoria.toLowerCase()) > -1);
-    }else if(this.busquedaPorUnidadDeMedida.length > 0){
-      if(this.busquedaPorCategoria.length == 0){
-        this.filtrarPorUnidadMedida(); 
-      }else if(this.busquedaPorCategoria.length > 0){
+    if(this.busquedaCategoria.length == 0){
+      this.productos = this.diferenciaDeArreglos(this.productos_iniciales,this.productos_detalle);
+      this.productos = this.productos.filter(producto =>( this.tipoDeBusqueda == 0?producto.PRO_NOMBRE.toLowerCase():producto.PRO_CODIGO.toLowerCase() ).indexOf(this.busquedaProducto.toLowerCase()) > -1);
+    }else if(this.busquedaCategoria.length > 0){
+      if(this.busquedaProducto.length == 0){
+        this.filtrarProductoPorCategoria(); 
+      }else if(this.busquedaProducto.length > 0){
         this.productos = this.diferenciaDeArreglos(this.productos_iniciales,this.productos_detalle);//this.productos_iniciales.filter(producto=>{return producto});  
-        this.productos = this.productos.filter(producto =>producto.CAT_NOMBRE.toLowerCase().indexOf(this.busquedaPorCategoria.toLowerCase()) > -1);
-        this.productos = this.productos.filter(producto =>producto.PRO_TAMANIO_TALLA.toLowerCase().indexOf(this.busquedaPorUnidadDeMedida.toLowerCase()) > -1);
+        this.productos = this.productos.filter(producto =>( this.tipoDeBusqueda == 0?producto.PRO_NOMBRE.toLowerCase():producto.PRO_CODIGO.toLowerCase() ).indexOf(this.busquedaProducto.toLowerCase()) > -1);
+        this.productos = this.productos.filter(producto =>producto.CAT_NOMBRE.toLowerCase().indexOf(this.busquedaCategoria.toLowerCase()) > -1);
       }
     }
   }
-  filtrarPorUnidadMedida(){
+  filtrarProductoPorCategoria(){
     this.currentPageModal = 1;
     if(this.primeraBusqueda){
       this.primeraBusqueda = false;
-      if(this.busquedaPorUnidadDeMedida.length == 0){
-        this.filtrarPorCategoria();
+      if(this.busquedaCategoria.length == 0){
+        this.filtrarProductoPorNombre();
       }else{
-        if(this.busquedaPorCategoria.length == 0){
+        if(this.busquedaProducto.length == 0){
           this.productos = this.diferenciaDeArreglos(this.productos_iniciales,this.productos_detalle);
-          this.productos = this.productos.filter(producto =>producto.PRO_TAMANIO_TALLA.toLowerCase().indexOf(this.busquedaPorUnidadDeMedida.toLowerCase()) > -1);
+          this.productos = this.productos.filter(producto =>producto.CAT_NOMBRE.toLowerCase().indexOf(this.busquedaCategoria.toLowerCase()) > -1);
         }else{
-          this.productos = this.productos.filter(producto =>producto.PRO_TAMANIO_TALLA.toLowerCase().indexOf(this.busquedaPorUnidadDeMedida.toLowerCase()) > -1);
+          this.productos = this.productos.filter(producto =>producto.CAT_NOMBRE.toLowerCase().indexOf(this.busquedaCategoria.toLowerCase()) > -1);
         }
       }
     }else if(!this.primeraBusqueda){
-      if(this.busquedaPorUnidadDeMedida.length==0){
-        this.filtrarPorCategoria();
+      if(this.busquedaCategoria.length==0){
+        this.filtrarProductoPorNombre();
       }else{
         this.productos = this.diferenciaDeArreglos(this.productos_iniciales,this.productos_detalle);//this.productos_iniciales.filter(producto=>{return producto});  
-        this.productos = this.productos.filter(producto =>producto.CAT_NOMBRE.toLowerCase().indexOf(this.busquedaPorCategoria.toLowerCase()) > -1);
-        this.productos = this.productos.filter(producto =>producto.PRO_TAMANIO_TALLA.toLowerCase().indexOf(this.busquedaPorUnidadDeMedida.toLowerCase()) > -1);
+        this.productos = this.productos.filter(producto =>( this.tipoDeBusqueda == 0?producto.PRO_NOMBRE.toLowerCase():producto.PRO_CODIGO.toLowerCase() ).indexOf(this.busquedaProducto.toLowerCase()) > -1);
+        this.productos = this.productos.filter(producto =>producto.CAT_NOMBRE.toLowerCase().indexOf(this.busquedaCategoria.toLowerCase()) > -1);
       }
     }
-    
   }
+
+  diferenciaDeArreglos = (arr1: any[] , arr2: any[]) => arr1.filter(elemento => arr2.indexOf(elemento) == -1);
+
   /********************** REGISTRAR VENTA ********************/
   registrarVenta(){
     this.mostrar_alerta = false;

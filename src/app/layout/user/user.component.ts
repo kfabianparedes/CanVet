@@ -72,10 +72,10 @@ export class UserComponent implements OnInit {
     this.userForm = this.formBuilder.group({
       user:['',[Validators.required, Validators.maxLength(60)]],
       email: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/), Validators.maxLength(60)]],
-      contrasena: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20)]],
+      contrasena: ['', [Validators.minLength(8), Validators.maxLength(20)]],
       nombres: ['', [Validators.required, Validators.pattern('[a-zñáéíóú A-ZÑÁÉÍÓÚ ]+'), Validators.maxLength(50)]],
-      apellido_paterno: ['', [Validators.required, Validators.pattern('[a-zñáéíóúA-ZÑÁÉÍÓÚ]+'), Validators.maxLength(30)]],
-      apellido_materno: ['', [Validators.required, Validators.pattern('[a-zñáéíóúA-ZÑÁÉÍÓÚ]+'), Validators.maxLength(30)]],
+      apellido_paterno: ['', [Validators.required, Validators.pattern('^[a-zñáéíóúA-ZÑÁÉÍÓÚ ]+$'), Validators.maxLength(30)]],
+      apellido_materno: ['', [Validators.required, Validators.pattern('^[a-zñáéíóúA-ZÑÁÉÍÓÚ ]+$'), Validators.maxLength(30)]],
       fecha_nacimiento: ['', [Validators.required ]],
       celular: ['', [Validators.required, Validators.pattern('[+][0-9]+'), Validators.maxLength(20), Validators.minLength(12)]] ,
       dni: ['', [Validators.required, Validators.pattern(/^([0-9])*$/), Validators.minLength(8),  Validators.maxLength(8)]],
@@ -225,6 +225,9 @@ export class UserComponent implements OnInit {
   }
 
   updateUser(){
+    this.mostrar_alerta = false;
+    this.cargando = true;
+    this.modalIn = true;
     this.usuar_editar.USU_NOMBRES = this.nombres.value;
     this.usuar_editar.USU_APELLIDO_PATERNO = this.apellido_paterno.value;
     this.usuar_editar.USU_APELLIDO_MATERNO = this.apellido_materno.value;
@@ -236,9 +239,45 @@ export class UserComponent implements OnInit {
     this.usuar_editar.USU_FECHA_NACIMIENTO = this.fecha_nacimiento.value;
     this.usuar_editar.USU_CONTRASENIA = this.contrasena.value;
     this.usuar_editar.USU_DNI = this.dni.value;
-    this.usuar_editar.USU_ESTADO = 1; //Habilitado(1) / Deshabilitado(0) / Cambio de contraseña (2) 
     this.usuar_editar.ROL_ID = this.rol.value;
-    console.log(this.usuar_editar);
+    this.userService.updateUser(this.usuar_editar).subscribe(
+      (data)=>{
+        this.cargando = false;
+        this.modalIn = false;
+        this.closeModal();
+        this.mensaje_alerta = 'Usuario actualizado con éxito.';
+        this.tipo_alerta = 'success';
+        this.mostrar_alerta = true;
+        this.listUsers();
+        console.log(data);
+      },
+      (error)=>{
+        this.cargando = false;
+        this.modalIn = true;
+        this.mostrar_alerta = true;
+        this.tipo_alerta='danger';
+        if (error['error']['error'] !== undefined) {
+          if (error['error']['error'] === 'error_deBD') {
+            this.mensaje_alerta = 'Hubo un error al intentar ejecutar su solicitud. Por favor, actualice la página o inténtelo más tarde.';
+          } else if (error.error.error === 'error_emailExistente'){
+            this.mensaje_alerta = 'El correo electrónico ya le pertenece a una cuenta. Por favor, ingrese uno diferente.';
+          } else if (error.error.error === 'error_nombreUsuarioExistente'){
+            this.mensaje_alerta = 'El nombre de usuario ya le pertenece a una cuenta, Por favor, ingrese uno diferente.';
+          } else if (error.error.error === 'error_dniExistente'){
+            this.mensaje_alerta = 'El DNI ya le pertenece a una cuenta, Por favor, ingrese uno diferente.';
+          } else if (error.error.error === 'error_celularExistente'){
+            this.mensaje_alerta = 'El número de celular ya le pertenece a una cuenta, Por favor, ingrese uno diferente.';
+          } else if (error.error.error === 'error_ejecucionQuery'){
+            this.mensaje_alerta = 'Hubo un error al registrar el usuario, Por favor, actualice la página o inténtelo más tarde.';
+          } else if (error.error.error === 'error_deCampo'){
+            this.mensaje_alerta = 'Hubo un error al intentar ejecutar su solicitud. Por favor, revise los campos ingresados.';
+          }
+        }
+        else{
+          this.mensaje_alerta = 'Hubo un error al mostrar la información de esta página. Por favor, actualice la página o inténtelo más tarde.';
+        }
+      }
+    )
   }
   
   listUsers(){

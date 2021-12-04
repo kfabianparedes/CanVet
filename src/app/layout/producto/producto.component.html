@@ -8,9 +8,15 @@
     <!-- DataTales Example -->  
     <div class="card shadow mb-4 col-12 col-lg-11" style="height: 100%;">
         <div class="card-header py-3 row justify-content-between">
-            <div class="py-1 col-sm-12 col-md-7 col-lg-8">
+            <div class="py-1 col-sm-12 col-md-7 col-lg-10">
                 <div class="row">
-                    <div class="col-12 col-lg-6">
+                    <div class="col-12 col-lg-3">
+                        <select class="pull-right" [(ngModel)]="tipoDeBusqueda" class="border-left-primary form-control form-control-sm custom-select" (change)="obtenerTipoDeBusqueda()">
+                            <option value="0">POR NOMBRE</option>
+                            <option value="1">POR CÓDIGO</option>                 
+                        </select>  
+                    </div>
+                    <div class="offset-0 offset-lg-1 col-12 col-lg-4">
                         <div class="row">
                             <div class="col-9 col-lg-7">
                                 <input type="text" class="border-left-primary font-tamanio form-control" name="busquedaProducto" placeholder="Producto..." [(ngModel)]="busquedaProducto">
@@ -20,7 +26,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-lg-6">
+                    <div class="col-12 col-lg-4">
                         <div class="row">
                             <div class="col-9 col-lg-7">
                                 <input type="text" class="border-left-primary font-tamanio form-control" name="busquedaCategoria" placeholder="Categoría..." [(ngModel)]="busquedaCategoria">
@@ -32,7 +38,7 @@
                     </div>
                 </div>
             </div>
-            <div class="py-1 col-sm-12 col-md-4 col-lg-3" >
+            <div class="py-1 col-sm-12 col-md-4 col-lg-2" >
                 <button [disabled]="cargando" style="float:right" (click)="abrirCrearProducto()" type="button" class="btn btn-primary">Crear Producto</button>
             </div>
         </div>
@@ -58,8 +64,8 @@
                     <table class="table table-bordered text-gray-400" id="dataTable" cellspacing="0">
                         <thead>
                             <tr>
-                                <th class="color-row-table puntero" scope="col" sortable="PRO_ID" (sort)="onSort($event)">Código</th>
-                                <th class="color-row-table puntero" scope="col" sortable="PRO_NOMBRE" (sort)="onSort($event)">Producto</th>
+                                <th class="color-row-table puntero" scope="col" sortable="PRO_NOMBRE" (sort)="onSort($event)">Código</th>
+                                <th class="color-row-table puntero" scope="col" sortable="PRO_CODIGO" (sort)="onSort($event)">Producto</th>
                                 <th class="color-row-table puntero" scope="col" sortable="CAT_NOMBRE" (sort)="onSort($event)">Categoría</th>
                                 <th class="color-row-table puntero" scope="col" sortable="PRO_TAMANIO_TALLA" (sort)="onSort($event)">Tamaño/Talla</th>
                                 <th class="color-row-table puntero" scope="col" sortable="PRO_PRECIO_VENTA" (sort)="onSort($event)">P. Venta</th>
@@ -71,7 +77,7 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let pro of productos | slice:(currentPage-1)*itemsPerPage:currentPage*itemsPerPage ; let i = index">
-                                <td class="color-row-table">{{pro.PRO_ID}}</td>
+                                <td class="color-row-table">{{pro.PRO_CODIGO}}</td>
                                 <td class="color-row-table">{{pro.PRO_NOMBRE}}</td>
                                 <td class="color-row-table">{{pro.CAT_NOMBRE}}</td>
                                 <td class="color-row-table">{{pro.PRO_TAMANIO_TALLA}}</td>
@@ -178,9 +184,7 @@
         <form [formGroup]="productoForm">
             <section class="row">
                 <div class="col-12 col-lg-6 mb-4" >
-                    <label for="inputNombreProducto" >
-                        Nombre del producto
-                    </label>
+                    <label for="inputNombreProducto">Nombre del producto</label>
                     <input  id="inputNombreProducto" type="text" formControlName="nombreProducto" class="border-left-primary font-tamanio form-control" placeholder="Ingrese el nombre">
                     <div *ngIf="nombreProducto.invalid && (nombreProducto.dirty || nombreProducto.touched)" class="my-1" style="color: rgb(197, 68, 68);">
                         <div *ngIf="nombreProducto.errors.required">
@@ -192,9 +196,7 @@
                     </div>
                 </div>
                 <div class="col-12 col-lg-6 mb-4">
-                    <label for="inputTallaProducto">
-                        Tamaño/talla del producto
-                    </label>
+                    <label for="inputTallaProducto">Tamaño/talla del producto</label>
                     <input id="inputTallaProducto" type="text" formControlName="tamnioTallaProducto" class="border-left-primary font-tamanio form-control" placeholder="Ingrese tamaño/talla">
                     <div *ngIf="tamnioTallaProducto.invalid && (tamnioTallaProducto.dirty || tamnioTallaProducto.touched)" class="my-1" style="color: rgb(197, 68, 68);">
                         <div *ngIf="tamnioTallaProducto.errors.required">
@@ -206,35 +208,26 @@
                     </div>
                 </div>
             </section>
-            <section class="row">
-                <div class="col-12 col-lg-6 mb-4">
-                    <label for="inputPventaProducto">
-                        Precio de venta
-                    </label>
-                    <input id="inputPventaProducto" type="text" formControlName="pVentaProducto" class="border-left-primary font-tamanio form-control" placeholder="Ingrese precio de venta">
-                    <div *ngIf="pVentaProducto.invalid && (pVentaProducto.dirty || pVentaProducto.touched)" class="my-1" style="color: rgb(197, 68, 68);">
-                        <div *ngIf="tamnioTallaProducto.errors.required">
-                        * El pVentaProducto/Talla del producto es requerido.
-                        </div>
-                        <div *ngIf="tamnioTallaProducto.errors.pattern">
-                        * Este campo no tiene el formato correcto.
+            <section class="mb-4 row justify-content-center">
+                <div class="col-12 col-lg-6">
+                    <label for="inputCodigoNombre">Código producto</label>
+                    <input id="inputCodigoNombre" type="text" formControlName="codigo" class="border-left-primary font-tamanio form-control" placeholder="Ingrese código">
+                    <div *ngIf="codigo.invalid && (codigo.dirty || codigo.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                        <div *ngIf="codigo.errors.maxlength">
+                        * Se requieren máximo 60 caracteres.
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-lg-6 mb-4">
-                    <label for="inputPcompraProducto">
-                        Precio de compra
-                    </label>
-                    <input id="inputPcompraProducto" type="text" formControlName="pCompraProducto" class="border-left-primary font-tamanio form-control" placeholder="Ingrese precio de compra">
-                    <div *ngIf="pCompraProducto.invalid && (pCompraProducto.dirty || pCompraProducto.touched)" class="my-1" style="color: rgb(197, 68, 68);">
-                        <div *ngIf="tamnioTallaProducto.errors.required">
-                        * El pCompraProducto/Talla del producto es requerido.
-                        </div>
-                        <div *ngIf="pCompraProducto.errors.pattern">
-                        * Este campo no tiene el formato correcto.
+                <div class="col-12 col-lg-6">
+                    <label for="inputStock ">Stock</label>
+                    <input type="text" formControlName="stock" class="border-left-primary form-control" id="inputStock">
+                    <div *ngIf="stock.invalid && (stock.dirty || stock.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                        <div *ngIf="stock.errors.pattern">
+                            * Formato incorrecto.
                         </div>
                     </div>
                 </div>
+                
             </section>
             <section class="row">
                 <div class="col-12 col-lg-6 mb-4">
@@ -262,17 +255,33 @@
                     </div>
                 </div>
             </section>
-            <section class="mb-4 row justify-content-center">
-                <div class="col-12 col-lg-6">
-                    <label for="inputStock">Stock</label>
-                    <input type="text" formControlName="stock" class="border-left-primary form-control" id="inputStock">
-                    <div *ngIf="stock.invalid && (stock.dirty || stock.touched)" class="my-1" style="color: rgb(197, 68, 68);">
-                        <div *ngIf="stock.errors.pattern">
-                            * Formato incorrecto.
+            <section class="row">
+                <div class="col-12 col-lg-6 mb-4">
+                    <label for="inputPventaProducto">Precio de venta</label>
+                    <input id="inputPventaProducto" type="text" formControlName="pVentaProducto" class="border-left-primary font-tamanio form-control" placeholder="Ingrese precio de venta">
+                    <div *ngIf="pVentaProducto.invalid && (pVentaProducto.dirty || pVentaProducto.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                        <div *ngIf="tamnioTallaProducto.errors.required">
+                        * El pVentaProducto/Talla del producto es requerido.
+                        </div>
+                        <div *ngIf="tamnioTallaProducto.errors.pattern">
+                        * Este campo no tiene el formato correcto.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 mb-4">
+                    <label for="inputPcompraProducto">Precio de compra</label>
+                    <input id="inputPcompraProducto" type="text" formControlName="pCompraProducto" class="border-left-primary font-tamanio form-control" placeholder="Ingrese precio de compra">
+                    <div *ngIf="pCompraProducto.invalid && (pCompraProducto.dirty || pCompraProducto.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                        <div *ngIf="tamnioTallaProducto.errors.required">
+                        * El pCompraProducto/Talla del producto es requerido.
+                        </div>
+                        <div *ngIf="pCompraProducto.errors.pattern">
+                        * Este campo no tiene el formato correcto.
                         </div>
                     </div>
                 </div>
             </section>
+            
             <section class="row d-flex text-center justify-content-center">
                 <div class="my-2 col-sm-12 col-md-12 col-lg-3">
                     <button [disabled]="productoForm.invalid || cargando"  (click)="editarProductoFunc()" class="btn btn-primary btn-icon-split" >
@@ -298,7 +307,7 @@
     <div class="modal-body">
         <form [formGroup]="productoForm">
             <div class="form-group row">
-                <div class="col-12 col-lg-6" >
+                <section class="mb-4 col-12 col-lg-6" >
                     <label for="inputNombreProducto">Nombre del producto</label>
                     <input id="inputNombreProducto" type="text" formControlName="nombreProducto" class="border-left-primary font-tamanio form-control" placeholder="Ingrese el nombre">
                     <div *ngIf="nombreProducto.invalid && (nombreProducto.dirty || nombreProducto.touched)" class="my-1" style="color: rgb(197, 68, 68);">
@@ -309,8 +318,8 @@
                         * Se requieren máximo 60 caracteres.
                         </div>
                     </div>
-                </div>
-                <div class="col-12 col-lg-6">
+                </section>
+                <section class="mb-4 col-12 col-lg-6">
                     <label for="inputInputUnidadMedida">Unidad de Medida (Tamaño/Talla/Peso)</label>
                     <input id="inputInputUnidadMedida" type="text" formControlName="tamnioTallaProducto" class="border-left-primary font-tamanio form-control" placeholder="Ingrese tamaño/talla/peso">
                     <div *ngIf="tamnioTallaProducto.invalid && (tamnioTallaProducto.dirty || tamnioTallaProducto.touched)" class="my-1" style="color: rgb(197, 68, 68);">
@@ -321,8 +330,8 @@
                         * Se requieren máximo 60 caracteres.
                         </div>
                     </div>
-                </div>
-                <div class="col-12 col-lg-6">
+                </section>
+                <section class="mb-4 col-12 col-lg-6">
                     <label for="inputPrecioVenta">Precio de venta</label>
                     <input id="inputPrecioVenta" type="text" formControlName="pVentaProducto" class="border-left-primary font-tamanio form-control" placeholder="Ingrese precio de venta">
                     <div *ngIf="pVentaProducto.invalid && (pVentaProducto.dirty || pVentaProducto.touched)" class="my-1" style="color: rgb(197, 68, 68);">
@@ -333,9 +342,9 @@
                         * Este campo no tiene el formato correcto.
                         </div>
                     </div>
-                </div>
-                <div class="col-12 col-lg-6">
-                    <label for="inputPrecioCompra" style="margin-top: 2rem">Precio de compra</label>
+                </section>
+                <section class="mb-4 col-12 col-lg-6">
+                    <label for="inputPrecioCompra">Precio de compra</label>
                     <input id="inputPrecioCompra" type="text" formControlName="pCompraProducto" class="border-left-primary font-tamanio form-control" placeholder="Ingrese precio de compra">
                     <div *ngIf="pCompraProducto.invalid && (pCompraProducto.dirty || pCompraProducto.touched)" class="my-1" style="color: rgb(197, 68, 68);">
                         <div *ngIf="pCompraProducto.errors.required">
@@ -345,8 +354,8 @@
                         * Este campo no tiene el formato correcto.
                         </div>
                     </div>
-                </div>
-                <div class="col-12 col-lg-6">
+                </section>
+                <section class="mb-4 col-12 col-lg-6">
                     <label for="inputSeleccionarCategoria">Categoría</label>
                     <select formControlName="categoria" class="border-left-primary custom-select mr-sm-2 " id="inputSeleccionarCategoria">
                         <option hidden value="" disabled selected>Escoge una opción</option>
@@ -357,8 +366,8 @@
                             * La categoría es requerida.
                         </div>
                     </div>
-                </div>
-                <div class="col-12 col-lg-6">
+                </section>
+                <section class="mb-4 col-12 col-lg-6">
                     <label for="inputSeleccionarProveedor">Disitribuidor</label>
                     <select formControlName="proveedor" class="border-left-primary custom-select mr-sm-2 " id="inputSeleccionarProveedor">
                         <option hidden value="" disabled selected>Escoge una opción</option>
@@ -369,8 +378,17 @@
                             * La proveedor es requerido.
                         </div>
                     </div>
-                </div>
-            </div><br>
+                </section>
+                <section class="mb-4 col-12 offset-3 col-lg-6">
+                    <label for="inputCodigoNombre">Código producto</label>
+                    <input id="inputCodigoNombre" type="text" formControlName="codigo" class="border-left-primary font-tamanio form-control" placeholder="Ingrese código">
+                    <div *ngIf="codigo.invalid && (codigo.dirty || codigo.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                        <div *ngIf="codigo.errors.maxlength">
+                        * Se requieren máximo 60 caracteres.
+                        </div>
+                    </div>
+                </section>
+            </div>
             <div class="row d-flex text-center justify-content-center">
                 <div class="my-2 col-sm-12 col-md-12 col-lg-3">
                     <button [disabled]="productoForm.invalid || cargando" (click)="insertarProducto(productoForm.value)" class="btn btn-primary btn-icon-split" >

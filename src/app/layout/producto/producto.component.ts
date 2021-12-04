@@ -116,6 +116,7 @@ export class ProductoComponent implements OnInit {
     this.pCompraProducto.setValue(this.productoSeleccionado.PRO_PRECIO_COMPRA);
     this.tamnioTallaProducto.setValue(this.productoSeleccionado.PRO_TAMANIO_TALLA);
     this.stock.setValue(this.productoSeleccionado.PRO_STOCK);
+    this.codigo.setValue(this.productoSeleccionado.PRO_CODIGO);
     this.categoria.setValue(this.productoSeleccionado.CAT_ID);
     this.proveedor.setValue(this.productoSeleccionado.PROV_ID);
     this.modal.open(this.editarPro, {size: 'lg'});
@@ -131,6 +132,7 @@ export class ProductoComponent implements OnInit {
       categoria:['',[Validators.required]],
       proveedor:['',[Validators.required]],
       stock:['',[Validators.pattern('[0-9]*')]],
+      codigo:['',[Validators.maxLength(60)]],
     });
 
   }
@@ -161,7 +163,9 @@ export class ProductoComponent implements OnInit {
   get stock() {
     return this.productoForm.get('stock');
   }
-  
+  get codigo() {
+    return this.productoForm.get('codigo');
+  }
   resetForm(){
     this.productoForm.reset();
   }
@@ -173,7 +177,10 @@ export class ProductoComponent implements OnInit {
     
     this.productoInsertar = new Producto();
     this.productoInsertar.PRO_ID = this.productoSeleccionado.PRO_ID;
-    this.productoInsertar.PRO_CODIGO = "";
+    this.codigo.value.length<=0 || this.codigo.value ==  null || this.codigo.value == undefined?
+    this.productoInsertar.PRO_CODIGO = ' ':
+    this.productoInsertar.PRO_CODIGO = this.codigo.value;
+    
     this.productoInsertar.PRO_STOCK = this.stock.value; 
     this.productoInsertar.PRO_TAMANIO_TALLA =  this.tamnioTallaProducto.value;
     this.productoInsertar.PRO_NOMBRE = this.nombreProducto.value;
@@ -181,6 +188,7 @@ export class ProductoComponent implements OnInit {
     this.productoInsertar.PRO_PRECIO_COMPRA = (+this.pCompraProducto.value * 1.00);
     this.productoInsertar.CAT_ID = +this.categoria.value;
     this.productoInsertar.PROV_ID = +this.proveedor.value;
+
     this.productoService.editarProductoSeleccionado(this.productoInsertar).subscribe(
       (data)=>{
         this.productos.length = 0;
@@ -288,6 +296,9 @@ export class ProductoComponent implements OnInit {
     this.productoInsertar.PRO_PRECIO_COMPRA = (+producto.pCompraProducto * 1.00);
     this.productoInsertar.CAT_ID = +producto.categoria;
     this.productoInsertar.PROV_ID = +producto.proveedor;
+    producto.codigo.length<=0 || this.codigo.value ==  null || this.codigo.value == undefined?
+    this.productoInsertar.PRO_CODIGO = ' ':
+    this.productoInsertar.PRO_CODIGO = producto.codigo;
     this.crearNuevoProducto();
   }
 
@@ -384,6 +395,11 @@ export class ProductoComponent implements OnInit {
 
 
   /*************************** FILTRAR TABLA**************************************/
+  tipoDeBusqueda: number = 0;
+  obtenerTipoDeBusqueda(){
+
+  }
+
   busquedaProducto: string = '';
   busquedaCategoria: string = '';
   primeraBusqueda: boolean = true;
@@ -393,12 +409,12 @@ export class ProductoComponent implements OnInit {
     this.productos = this.productos_iniciales.slice(); 
     if(this.busquedaCategoria.length == 0){
       this.productos = this.productos_iniciales.slice(); 
-      this.productos = this.productos.filter(producto =>producto.PRO_NOMBRE.toLowerCase().indexOf(this.busquedaProducto.toLowerCase()) > -1);
+      this.productos = this.productos.filter(producto =>( this.tipoDeBusqueda == 0?producto.PRO_NOMBRE.toLowerCase():producto.PRO_CODIGO.toLowerCase() ).indexOf(this.busquedaProducto.toLowerCase()) > -1);
     }else if(this.busquedaCategoria.length > 0){
       if(this.busquedaProducto.length == 0){
         this.filtrarProductoPorCategoria(); 
       }else if(this.busquedaProducto.length > 0){
-        this.productos = this.productos.filter(producto =>producto.PRO_NOMBRE.toLowerCase().indexOf(this.busquedaProducto.toLowerCase()) > -1);
+        this.productos = this.productos.filter(producto =>( this.tipoDeBusqueda == 0?producto.PRO_NOMBRE.toLowerCase():producto.PRO_CODIGO.toLowerCase() ).indexOf(this.busquedaProducto.toLowerCase()) > -1);
         this.productos = this.productos.filter(producto =>producto.CAT_NOMBRE.toLowerCase().indexOf(this.busquedaCategoria.toLowerCase()) > -1);
       }
     }
@@ -422,7 +438,7 @@ export class ProductoComponent implements OnInit {
         this.filtrarProductoPorNombre();
       }else{
         this.productos = this.productos_iniciales.slice(); 
-        this.productos = this.productos.filter(producto =>producto.PRO_NOMBRE.toLowerCase().indexOf(this.busquedaProducto.toLowerCase()) > -1);
+        this.productos = this.productos.filter(producto =>( this.tipoDeBusqueda == 0?producto.PRO_NOMBRE.toLowerCase():producto.PRO_CODIGO.toLowerCase() ).indexOf(this.busquedaProducto.toLowerCase()) > -1);
         this.productos = this.productos.filter(producto =>producto.CAT_NOMBRE.toLowerCase().indexOf(this.busquedaCategoria.toLowerCase()) > -1);
       }
     }

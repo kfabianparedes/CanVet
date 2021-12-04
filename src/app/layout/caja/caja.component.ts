@@ -136,7 +136,7 @@ export class CajaComponent implements OnInit {
     this.totalEfectivo = caja.CAJA_MONTO_EFECTIVO_SERVICIOS + caja.CAJA_MONTO_EFECTIVO_VENTAS;
     this.totalTarjeta = caja.CAJA_MONTO_TARJETA_SERVICIOS + caja.CAJA_MONTO_TARJETA_VENTAS;
     this.totalYape = caja.CAJA_MONTO_YAPE_SERVICIOS + caja.CAJA_MONTO_YAPE_VENTAS;
-    caja.CAJA_MONTO_FINAL = (this.totalEfectivo + this.totalTarjeta + this.totalYape + caja.CAJA_MONTO_INICIAL) - caja.CAJA_DESCUENTO_GASTOS ;
+    caja.CAJA_MONTO_FINAL = (this.totalEfectivo + this.totalTarjeta + this.totalYape) - caja.CAJA_DESCUENTO_GASTOS ;
   }
   
   registrarCierre(){
@@ -238,6 +238,7 @@ export class CajaComponent implements OnInit {
   gananciasVentasTarjeta = 0; 
   gananciasVentasYape = 0; 
   CAJA_MONTO_INICIAL = 0;
+  MontoTotalDeTotales :number = 0;
   listarMontoDelDia(){
     this.cargando = true;
     this.modalIn = false;
@@ -251,6 +252,15 @@ export class CajaComponent implements OnInit {
         this.gananciasVentasTarjeta = data['resultado']['gananciasVentasTarjeta'] ; 
         this.gananciasVentasYape = data['resultado']['gananciasVentasYape'] ; 
         this.CAJA_MONTO_INICIAL= data['resultado']['montoInicial'];
+        
+        this.MontoTotalDeTotales = (
+          this.gananciasServiciosEfectivo +
+          this.gananciasServiciosTarjeta  + 
+          this.gananciasServiciosYape     +
+          this.gananciasVentasEfectivo    + 
+          this.gananciasVentasTarjeta     +
+          this.gananciasVentasYape
+        );
         this.cargando = false;
         console.log(data);
       },

@@ -91,30 +91,38 @@
                     </div>
 
                     <div class="row justify-content-center">
+                        <hr>
 
                         <div class="col-12 col-sm-12 col-md-3 col-lg-3 mt-2 mb-2">
-                            <label  for="inputMontoInicial">Monto Total Efectivo (S/):</label>
+                            <label  for="inputMontoTotalEfectivoVer">Monto Total Efectivo (S/):</label>
                         </div>
                         <div class="col-12 col-md-4 col-lg-2 mb-4">
-                            <input value="{{(gananciasVentasEfectivo + gananciasServiciosEfectivo).toFixed(2)}}" disabled type="text" id="inputMontoInicial" class="border-left-primary font-tamanio form-control">
+                            <input value="{{(gananciasVentasEfectivo + gananciasServiciosEfectivo).toFixed(2)}}" disabled type="text" id="inputMontoTotalEfectivoVer" class="border-left-primary font-tamanio form-control">
                         </div>
                         <div class="w-100"></div>
 
                         <div class="col-12 col-sm-12 col-md-3 col-lg-3 mt-2 mb-2">
-                            <label  for="inputMontoInicial">Monto Total Tarjeta (S/):</label>
+                            <label  for="inputMontoTotalTarjetaVer">Monto Total Tarjeta (S/):</label>
                         </div>
                         <div class="col-12 col-md-4 col-lg-2 mb-4">
-                            <input value="{{(gananciasVentasTarjeta + gananciasServiciosTarjeta).toFixed(2)}}" disabled type="text" id="inputMontoInicial" class="border-left-primary font-tamanio form-control">
+                            <input value="{{(gananciasVentasTarjeta + gananciasServiciosTarjeta).toFixed(2)}}" disabled type="text" id="inputMontoTotalTarjetaVer" class="border-left-primary font-tamanio form-control">
                         </div>
                         <div class="w-100"></div>
 
                         <div class="col-12 col-sm-12 col-md-3 col-lg-3 mt-2 mb-2">
-                            <label  for="inputMontoInicial">Monto Total Yape (S/):</label>
+                            <label  for="inputMontoTotalYapeVer">Monto Total Yape (S/):</label>
                         </div>
                         <div class="col-12 col-md-4 col-lg-2 mb-4">
-                            <input value="{{(gananciasVentasYape + gananciasServiciosYape).toFixed(2)}}" disabled type="text" id="inputMontoInicial" class="border-left-primary font-tamanio form-control">
+                            <input value="{{(gananciasVentasYape + gananciasServiciosYape).toFixed(2)}}" disabled type="text" id="inputMontoTotalYapeVer" class="border-left-primary font-tamanio form-control">
                         </div>
+                        <hr>
 
+                        <div class="col-12 col-sm-12 col-md-3 col-lg-3 mt-2 mb-2">
+                            <label  for="inputMontoTotalVer">Monto Total (S/):</label>
+                        </div>
+                        <div class="col-12 col-md-4 col-lg-2 mb-4">
+                            <input value="{{(MontoTotalDeTotales).toFixed(2)}}" disabled type="text" id="inputMontoTotalVer" class="border-left-primary font-tamanio form-control">
+                        </div>
 
                     </div>
                 </div>

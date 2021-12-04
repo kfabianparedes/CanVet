@@ -286,6 +286,7 @@ export class ReporteVentaComponent implements OnInit {
   currentPageModal: number = 1;
   //variables faltantes venta
   USU_NOMBRE : string = '';
+
   CLIENTE_CORREO: string = '';
   VENTA_ID: number = 0;
   detallesVenta: DetallesVenta[] = [];
@@ -295,10 +296,12 @@ export class ReporteVentaComponent implements OnInit {
 
   verDetalles(reporte:any){
     console.log(reporte);
+
     this.cargando = true;
     this.modalIn = true;
     this.USU_NOMBRE = reporte.USU_NOMBRE;
     this.CLIENTE_CORREO = reporte.CLIENTE_CORREO;
+    
     this.VENTA_ID = reporte.VENTA_ID;
     console.log(this.VENTA_ID);
     console.log(this.CLIENTE_CORREO);
@@ -347,6 +350,8 @@ export class ReporteVentaComponent implements OnInit {
   @ViewChild('detallesServicioModal') detallesServicioModal: ElementRef;
   DJ_RUC: string = '';
   CLIENTE_DNI: string = '';
+  MAS_ATENCIONES :number = 0;
+  MAS_NOMBRE : string = '';
   verDetallesServicio(reporte:any){
     console.log(reporte);
     console.log(reporte.USU_NOMBRE);
@@ -354,6 +359,8 @@ export class ReporteVentaComponent implements OnInit {
     this.USU_NOMBRE = reporte.USU_NOMBRE;
     this.CLIENTE_DNI = reporte.CLIENTE_DNI;
     this.CLIENTE_CORREO = reporte.CLIENTE_CORREO;
+    this.MAS_ATENCIONES = reporte.MAS_ATENCIONES;
+    this.MAS_NOMBRE = reporte.MAS_NOMBRE;
     this.DJ_RUC = reporte.DJ_RUC;
     this.modal.open(this.detallesServicioModal,{size:'lg'});
   }

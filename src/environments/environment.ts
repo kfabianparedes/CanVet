@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   domain_url: 'http://localhost/CanVetAPI',
-  captcha : '6LfsrAkcAAAAAFQruh-XZdBhRXAOHGJwvs8EQpb4'
+  //captcha : '6Lc1mlwdAAAAAG90Hl9PIaez1hrbN-0wQ41XSmvD'
+  captcha : '6LfsrAkcAAAAAFQruh-XZdBhRXAOHGJwvs8EQpb4' // localhost
 };
 
 /*

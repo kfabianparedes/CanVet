@@ -21,6 +21,12 @@ export class HeaderComponent implements OnInit{
   USU_ID:string;
   OPEN_CODE: string;
   hash:string;
+  USE_TYPE: string;
+
+  //Ver más:
+  VerTransacciones: boolean = false;
+  VerAdministracion: boolean = false;
+  VerReportes: boolean = false;
   constructor(private router:Router ,private storageService:StorageService){
 
   }
@@ -29,6 +35,8 @@ export class HeaderComponent implements OnInit{
     this.USE_USUARIO = this.storageService.getString('USE_NAMES');
     this.USU_ID = this.storageService.getString('USE_ID');
     this.OPEN_CODE = this.storageService.getString('OPEN_CODE');
+    this.USE_TYPE = this.storageService.getString('USE_TYPE');
+
   }
   clickEvent(){
     this.status = !this.status; 

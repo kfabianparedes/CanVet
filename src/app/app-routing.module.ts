@@ -10,7 +10,7 @@ const routes: Routes = [
   //path: '/auth' AuthRouting
   //path: '/dashboard' LayoutRouting
   {path:'',redirectTo:'',pathMatch:'full'},
-  {path:'**',redirectTo:'/not-found',pathMatch:'full'},
+  {path:'**',redirectTo:'/not-found'},
   {path:'not-found',component:NotfoundComponent}
 ];
 

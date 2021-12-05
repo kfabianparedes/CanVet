@@ -9,29 +9,96 @@
         <!-- Dropdown - User Information -->
         <ul class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
             aria-labelledby="userDropdown">
-            <a class="dropdown-item" [routerLink]="['/dashboard']">
-                <i class="fas fa-fw fa-home fa-lg fa-fw mr-2 text-gray-400"></i>Inicio
-            </a>
-            <a class="dropdown-item">
-                <i class="fas fa-shopping-cart fa-lg fa-fw mr-2 text-gray-400"></i>Ventas
-            </a>
-            <a class="dropdown-item">
-                <i class="fas fa-tags fa-lg fa-fw mr-2 text-gray-400"></i>Productos
-            </a>
-            <a class="dropdown-item" [routerLink]="['/compra']">
-                <i class="fas fa-truck fa-lg fa-fw mr-2 text-gray-400"></i>Compras
-            </a>
-            <a class="dropdown-item">
-                <i class="fas fa-chart-bar fa-lg fa-fw mr-2 text-gray-400"></i>Reportes
-            </a>
+            <button [routerLink]="['/dashboard']" class="btn-header ml-3 mb-1">
+                <i class="text-primary fas fa-fw fa-home fa-lg fa-fw mr-2"></i>Inicio
+            </button>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item">
-                <i class="fas fa-users fa-lg fa-fw mr-2 text-gray-400"></i>Administración 
-            </a>
+            <button (click)="VerTransacciones = !VerTransacciones" class="btn-header ml-3 mb-1">
+                <i class="text-primary fas fa-shopping-cart fa-lg fa-fw mr-2 "></i>Transacciones:
+            </button>
+                <section *ngIf="VerTransacciones" class="p-2">
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item pl-4 d-flex text-gray-400" [routerLink]="['caja']">            
+                        <i class="fas fa-cash-register"></i><span>&nbsp; Caja</span>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item pl-4 d-flex text-gray-400" [routerLink]="['venta']">            
+                        <i class="fas fa-shopping-cart"></i><span>&nbsp; Ventas</span>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item pl-4 d-flex text-gray-400" [routerLink]="['servicio']">            
+                        <i class="fas fa-clock"></i><span>&nbsp; Servicios</span>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item pl-4 d-flex text-gray-400" [routerLink]="['cliente']">            
+                        <i class="fas fa-users"></i><span>&nbsp; Clientes</span>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item pl-4 d-flex text-gray-400" [routerLink]="['mascota']">            
+                        <i class="fas fa-cat"></i><span>&nbsp; Mascotas&nbsp;</span>
+                    </a>
+                </section>
+            <div *ngIf = "USE_TYPE === '2' " class="dropdown-divider"></div>
+            <button *ngIf = "USE_TYPE === '2' " (click)="VerAdministracion = !VerAdministracion" class="btn-header ml-3 mb-1">
+                <i class="text-primary fas fa-user-shield fa-lg fa-fw mr-2"></i><span>Administración</span>
+            </button>
+                <section *ngIf="VerAdministracion" class="p-2">
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item pl-4 d-flex text-gray-400" [routerLink]="['/users']" >
+                        <i class="fas fa-users"></i>
+                        <span>&nbsp; Usuarios</span>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item pl-4 d-flex text-gray-400" [routerLink]="['/categorias']" >
+                        <i class="fas fa-tag"></i>
+                        <span>&nbsp; Categorías</span>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item pl-4 d-flex text-gray-400" [routerLink]="['/productos']" >
+                        <i class="fas fa-tags"></i>
+                        <span>&nbsp; Productos</span>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item pl-4 d-flex text-gray-400" [routerLink]="['/proveedor']" >
+                        <i class="fas fa-truck-loading"></i>
+                        <span>&nbsp; Proveedores</span>
+                    </a>
+                </section>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" data-toggle="modal" (click)="cerrarSesion()" data-target="#logoutModal">
-                <i class="fas fa-sign-out-alt fa-lg fa-fw mr-2 text-gray-400"></i>Cerrar Sesión
-            </a>
+            <button [routerLink]="['/compra']" class="btn-header ml-3 mb-1">
+                <i class="text-primary fas fa-truck fa-lg fa-fw mr-2"></i>Compras
+            </button>
+            <div class="dropdown-divider"></div>
+            <button (click)="VerReportes = !VerReportes" class="btn-header ml-3 mb-1">
+                <i class="text-primary fas fa-chart-bar fa-lg fa-fw mr-2"></i><span>Reportes</span>
+            </button>
+                <section *ngIf="VerReportes" class="p-2">
+                    <div *ngIf = "USE_TYPE === '2' " class="dropdown-divider"></div>
+                    <a *ngIf = " USE_TYPE === '2' " class="dropdown-item pl-4 d-flex text-gray-400" [routerLink]="['/reporte-caja']">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>&nbsp; Mensual (Caja - Tabla)</span>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item pl-4 d-flex text-gray-400" [routerLink]="['/reporte-venta']" >
+                        <i class="fas fa-chart-bar"></i>
+                        <span>&nbsp; Mensual (Ventas y Servicios - Tabla)</span>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item pl-4 d-flex text-gray-400" [routerLink]="['/reporte-venta-diario']">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>&nbsp; Diarios (Ventas y Servicios - Tabla)</span>
+                    </a>
+                    <div *ngIf = "USE_TYPE === '2' " class="dropdown-divider"></div>
+                    <a *ngIf = "USE_TYPE === '2' " class="dropdown-item pl-4 d-flex text-gray-400" [routerLink]="['/reporte-grafico']">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>&nbsp; Semanal-Mensual (Gráfico)</span>
+                    </a>
+                </section>    
+            <div class="dropdown-divider"></div>
+            <button (click)="cerrarSesion()" class="btn-header ml-3 mb-1" data-toggle="modal" data-target="#logoutModal">
+                <i class="text-danger fas fa-sign-out-alt fa-lg fa-fw mr-2"></i>Cerrar Sesión
+            </button>
+            
         </ul>
     </li>
 

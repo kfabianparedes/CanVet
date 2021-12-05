@@ -17,28 +17,29 @@ import { ReportesComponent } from './reportes/reportes.component';
 import { ReporteCajaComponent } from './reporte-caja/reporte-caja.component';
 import { ReporteVentaComponent } from './reporte-venta/reporte-venta.component';
 import { ReporteVentaDiarioComponent } from './reporte-venta-diario/reporte-venta-diario.component';
+import { AuthSesionGuard } from '../shared/guards/login.guard';
 
 const routes: Routes = [
   {
     path:'',
     component:LayoutComponent,
     children:[
-      {path:'dashboard',component:DashboardComponent},
-      {path:'categorias',component:CategoriaComponent},
-      {path:'productos',component:ProductoComponent},
-      {path:'users',component:UserComponent},
-      {path:'proveedor',component:ProveedorComponent},
-      {path:'profile',component:ProfileComponent},
-      {path:'servicio',component:ServicioComponent},
-      {path:'venta',component:VentaComponent},
-      {path:'compra',component:CompraComponent},
-      {path:'cliente',component:ClienteComponent},
-      {path:'caja',component:CajaComponent},
-      {path:'mascota',component:MascotaComponent},
-      {path:'reporte-grafico',component:ReportesComponent},
-      {path:'reporte-caja',component:ReporteCajaComponent},
-      {path:'reporte-venta',component:ReporteVentaComponent},
-      {path:'reporte-venta-diario',component:ReporteVentaDiarioComponent}
+      {path:'dashboard',component:DashboardComponent ,canLoad:[AuthSesionGuard],canActivate:[AuthSesionGuard]},
+      {path:'categorias',component:CategoriaComponent ,canLoad:[AuthSesionGuard],canActivate:[AuthSesionGuard]},
+      {path:'productos',component:ProductoComponent ,canLoad:[AuthSesionGuard],canActivate:[AuthSesionGuard]},
+      {path:'users',component:UserComponent ,canLoad:[AuthSesionGuard],canActivate:[AuthSesionGuard]},
+      {path:'proveedor',component:ProveedorComponent ,canLoad:[AuthSesionGuard],canActivate:[AuthSesionGuard]},
+      {path:'profile',component:ProfileComponent ,canLoad:[AuthSesionGuard],canActivate:[AuthSesionGuard]},
+      {path:'servicio',component:ServicioComponent ,canLoad:[AuthSesionGuard],canActivate:[AuthSesionGuard]},
+      {path:'venta',component:VentaComponent ,canLoad:[AuthSesionGuard],canActivate:[AuthSesionGuard]},
+      {path:'compra',component:CompraComponent ,canLoad:[AuthSesionGuard],canActivate:[AuthSesionGuard]},
+      {path:'cliente',component:ClienteComponent ,canLoad:[AuthSesionGuard],canActivate:[AuthSesionGuard]},
+      {path:'caja',component:CajaComponent ,canLoad:[AuthSesionGuard],canActivate:[AuthSesionGuard]},
+      {path:'mascota',component:MascotaComponent ,canLoad:[AuthSesionGuard],canActivate:[AuthSesionGuard]},
+      {path:'reporte-grafico',component:ReportesComponent ,canLoad:[AuthSesionGuard],canActivate:[AuthSesionGuard]},
+      {path:'reporte-caja',component:ReporteCajaComponent ,canLoad:[AuthSesionGuard],canActivate:[AuthSesionGuard]},
+      {path:'reporte-venta',component:ReporteVentaComponent ,canLoad:[AuthSesionGuard],canActivate:[AuthSesionGuard]},
+      {path:'reporte-venta-diario',component:ReporteVentaDiarioComponent ,canLoad:[AuthSesionGuard],canActivate:[AuthSesionGuard]}
 
     ]
   }

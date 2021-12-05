@@ -1,5 +1,6 @@
 export const environment = {
   production: true,
-  domain_url: 'https://despliegueapi.solucionesmk.online',
-  captcha : '6LfsrAkcAAAAAFQruh-XZdBhRXAOHGJwvs8EQpb4'
+  domain_url: 'https://despliegueapi.canvet.me', 
+  //captcha : '6Lc1mlwdAAAAAG90Hl9PIaez1hrbN-0wQ41XSmvD'
+  captcha : '6LfsrAkcAAAAAFQruh-XZdBhRXAOHGJwvs8EQpb4' //localhost
 };

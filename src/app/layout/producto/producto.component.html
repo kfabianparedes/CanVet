@@ -10,13 +10,13 @@
         <div class="card-header py-3 row justify-content-between">
             <div class="py-1 col-sm-12 col-md-7 col-lg-10">
                 <div class="row">
-                    <div class="col-12 col-lg-3">
+                    <div class="col-12 col-lg-3 mb-2">
                         <select class="pull-right" [(ngModel)]="tipoDeBusqueda" class="border-left-primary form-control form-control-sm custom-select" (change)="obtenerTipoDeBusqueda()">
                             <option value="0">POR NOMBRE</option>
                             <option value="1">POR CÓDIGO</option>                 
                         </select>  
                     </div>
-                    <div class="offset-0 offset-lg-1 col-12 col-lg-4">
+                    <div class="offset-0 offset-lg-1 col-12 col-lg-4 mb-2">
                         <div class="row">
                             <div class="col-9 col-lg-7">
                                 <input type="text" class="border-left-primary font-tamanio form-control" name="busquedaProducto" placeholder="Producto..." [(ngModel)]="busquedaProducto">
@@ -26,7 +26,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-lg-4">
+                    <div class="col-12 col-lg-4 mb-2">
                         <div class="row">
                             <div class="col-9 col-lg-7">
                                 <input type="text" class="border-left-primary font-tamanio form-control" name="busquedaCategoria" placeholder="Categoría..." [(ngModel)]="busquedaCategoria">
@@ -38,8 +38,8 @@
                     </div>
                 </div>
             </div>
-            <div class="py-1 col-sm-12 col-md-4 col-lg-2" >
-                <button [disabled]="cargando" style="float:right" (click)="abrirCrearProducto()" type="button" class="btn btn-primary">Crear Producto</button>
+            <div class="py-1 col-sm-12 col-md-4 col-lg-2 text-center" >
+                <button [disabled]="cargando"  (click)="abrirCrearProducto()" type="button" class="btn btn-primary">Crear Producto</button>
             </div>
         </div>
         <div class="card-body text-gray-400 ">
@@ -379,7 +379,7 @@
                         </div>
                     </div>
                 </section>
-                <section class="mb-4 col-12 offset-3 col-lg-6">
+                <section class="mb-4 col-12 offset-0 offset-lg-3 col-lg-6">
                     <label for="inputCodigoNombre">Código producto</label>
                     <input id="inputCodigoNombre" type="text" formControlName="codigo" class="border-left-primary font-tamanio form-control" placeholder="Ingrese código">
                     <div *ngIf="codigo.invalid && (codigo.dirty || codigo.touched)" class="my-1" style="color: rgb(197, 68, 68);">

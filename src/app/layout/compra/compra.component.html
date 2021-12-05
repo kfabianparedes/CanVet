@@ -169,7 +169,7 @@
     <div class="card shadow mb-4 col-12 col-lg-11" >
         <div class="card-header py-3 row">
             <div class="col-sm-12 col-md-5 ">
-                <button  (click)="articulosProveedor()" type="button" class="btn btn-primary" ><i class="fas fa-search"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Buscar Artículos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                <button [disabled]="comprobanteForm.invalid"  (click)="articulosProveedor()" type="button" class="btn btn-primary" ><i class="fas fa-search"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Buscar Artículos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
             </div>
         </div>
         <div class="card-body text-gray-400 ">

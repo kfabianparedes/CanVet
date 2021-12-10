@@ -55,9 +55,6 @@
                         <label for="inputProveedor">Serie/Folio:</label>
                         <input formControlName="serie" type="text" id="inputProveedor" class="border-left-primary font-tamanio form-control">
                         <div *ngIf="serie.invalid && (serie.dirty || serie.touched)" class="my-1" style="color: rgb(197, 68, 68);">
-                            <div *ngIf="serie.errors.required">
-                                * El número de serie es requerido.
-                            </div>
                             <div *ngIf="serie.errors.maxlength">
                                 * Se requieren máximo 5 caracteres.
                             </div>
@@ -73,9 +70,6 @@
                         <label for="inputProveedor">Nro. Comprobante:</label>
                         <input formControlName="nro_comprobante" type="text" id="inputProveedor" class="border-left-primary font-tamanio form-control">
                         <div *ngIf="nro_comprobante.invalid && (nro_comprobante.dirty || nro_comprobante.touched)" class="my-1" style="color: rgb(197, 68, 68);">
-                            <div *ngIf="nro_comprobante.errors.required">
-                                * El número de comprobante es requerido.
-                            </div>
                             <div *ngIf="nro_comprobante.errors.maxlength">
                                 * Se requieren máximo 10 caracteres.
                             </div>

@@ -18,6 +18,7 @@ import { ReporteCajaComponent } from './reporte-caja/reporte-caja.component';
 import { ReporteVentaComponent } from './reporte-venta/reporte-venta.component';
 import { ReporteVentaDiarioComponent } from './reporte-venta-diario/reporte-venta-diario.component';
 import { AuthSesionGuard } from '../shared/guards/login.guard';
+import { ReporteCompraComponent } from './reporte-compra/reporte-compra.component';
 
 const routes: Routes = [
   {
@@ -39,7 +40,8 @@ const routes: Routes = [
       {path:'reporte-grafico',component:ReportesComponent ,canLoad:[AuthSesionGuard],canActivate:[AuthSesionGuard]},
       {path:'reporte-caja',component:ReporteCajaComponent ,canLoad:[AuthSesionGuard],canActivate:[AuthSesionGuard]},
       {path:'reporte-venta',component:ReporteVentaComponent ,canLoad:[AuthSesionGuard],canActivate:[AuthSesionGuard]},
-      {path:'reporte-venta-diario',component:ReporteVentaDiarioComponent ,canLoad:[AuthSesionGuard],canActivate:[AuthSesionGuard]}
+      {path:'reporte-venta-diario',component:ReporteVentaDiarioComponent ,canLoad:[AuthSesionGuard],canActivate:[AuthSesionGuard]},
+      {path:'reporte-compra',component:ReporteCompraComponent ,canLoad:[AuthSesionGuard],canActivate:[AuthSesionGuard]}
 
     ]
   }

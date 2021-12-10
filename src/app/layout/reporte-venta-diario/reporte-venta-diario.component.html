@@ -60,7 +60,7 @@
                                                 <i style="color: white;" class="text-center far fa-eye" aria-hidden="true"></i>
                                             </button>
                                         </div>
-                                        <div *ngIf = "USE_TYPE === '2' "class="col-1 button-table btn-edit">
+                                        <div *ngIf = "USE_TYPE === '2' " class="col-1 button-table btn-edit">
                                             <button [disabled]="cargando" (click)=deshabilitarVenta(reporte.VENTA_ID) class="btn btn-danger btn-circle btn-sm" ngbTooltip="Deshabilitar">
                                                 <i style="color: white;" class="text-center fa fa-times" aria-hidden="true"></i>
                                             </button>
@@ -203,7 +203,7 @@
                                         <th class="color-row-table puntero" scope="col" sortable="PRO_NOMBRE" (sort)="onSortDetallesVenta($event)" >Producto</th>
                                         <th class="color-row-table puntero" scope="col" sortable="PRO_TAMANIO_TALLA" (sort)="onSortDetallesVenta($event)" >Tamaño/Talla/Peso</th>
                                         <th class="color-row-table puntero" scope="col" sortable="CAT_NOMBRE" (sort)="onSortDetallesVenta($event)" >Categoría</th>
-                                        <th class="color-row-table puntero" scope="col" sortable="PRO_PRECIO_COMPRA" (sort)="onSortDetallesVenta($event)" >P. Compra</th>
+                                        <th *ngIf = "USE_TYPE === '2' " class="color-row-table puntero" scope="col" sortable="PRO_PRECIO_COMPRA" (sort)="onSortDetallesVenta($event)" >P. Compra</th>
                                         <th class="color-row-table puntero" scope="col" sortable="PRO_PRECIO_VENTA" (sort)="onSortDetallesVenta($event)" >P. Venta</th>
                                         <th class="color-row-table puntero" scope="col" sortable="DET_CANTIDAD" (sort)="onSortDetallesVenta($event)" >Cantidad</th>
                                         <th class="color-row-table puntero" scope="col" sortable="DET_IMPORTE" (sort)="onSortDetallesVenta($event)" >Importe</th>
@@ -214,7 +214,7 @@
                                         <td class="color-row-table">{{detalle.PRO_NOMBRE}}</td>
                                         <td class="color-row-table">{{detalle.PRO_TAMANIO_TALLA}}</td>
                                         <td class="color-row-table">{{detalle.CAT_NOMBRE}}</td>
-                                        <td class="color-row-table">S/{{detalle.PRO_PRECIO_COMPRA}}</td>
+                                        <td *ngIf = "USE_TYPE === '2' " class="color-row-table">S/{{detalle.PRO_PRECIO_COMPRA}}</td>
                                         <td class="color-row-table">S/{{detalle.PRO_PRECIO_VENTA}}</td>
                                         <td class="color-row-table">{{detalle.DET_CANTIDAD}}</td>
                                         <td class="color-row-table">S/{{detalle.DET_IMPORTE}}</td>

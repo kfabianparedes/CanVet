@@ -25,6 +25,7 @@
     "@sweetalert2/ngx-sweetalert2": "^10.0.0",
     "@swimlane/ngx-charts": "^19.1.0",
     "bootstrap": "^5.1.0",
+    "ng-bootstrap": "^1.6.3",
     "ng-recaptcha": "^8.0.1",
     "ngx-captcha": "^10.0.0",
     "rxjs": "~6.6.0",

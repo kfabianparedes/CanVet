@@ -355,10 +355,9 @@
                         </div>
                         <div class="col-xl-2 col-lg-3 col-md-5 col-sm-5 col-6">
                         <select class="pull-right" [(ngModel)]="itemsPerPageModal" class="form-control form-control-sm custom-select">
-                            <option value="5"> 5 elementos</option>
-                            <option value="10">10 elementos</option>
-                            <option value="15">15 elementos</option>
                             <option value="20">20 elementos</option>                    
+                            <option value="50">50 elementos</option>                    
+                            <option value="100">100 elementos</option>                    
                         </select>  
                         </div>    
                     </div>
@@ -375,7 +374,7 @@
                                         <th class="color-row-table puntero" scope="col" sortable="PRO_PRECIO_VENTA" (sort)="onSort($event)" >P. Venta</th>
                                         <th class="color-row-table puntero" scope="col" sortable="PROV_EMPRESA_PROVEEDORA" (sort)="onSort($event)" >P. Proveedor</th>
                                         <th class="color-row-table puntero" scope="col" sortable="PRO_STOCK" (sort)="onSort($event)" >Stock</th>
-                                        <th class="color-row-table puntero" scope="col" sortable="PRO_PRECIO_COMPRA" (sort)="onSort($event)" >P. Compra</th>
+                                        <th *ngIf = "USE_TYPE === '2' " class="color-row-table puntero" scope="col" sortable="PRO_PRECIO_COMPRA" (sort)="onSort($event)" >P. Compra</th>
                                         
                                     </tr>
                                 </thead>
@@ -393,7 +392,7 @@
                                         <td [ngStyle]="{'background':producto.PRO_STOCK<=3 && producto.PRO_STOCK > 0?'#ffc107':producto.PRO_STOCK<=0?'#bb2124':'white','color':producto.PRO_STOCK<=3?'white':'#6E707E'}" class="color-row-table">S/{{producto.PRO_PRECIO_VENTA.toFixed(2)}}</td>
                                         <td [ngStyle]="{'background':producto.PRO_STOCK<=3 && producto.PRO_STOCK > 0?'#ffc107':producto.PRO_STOCK<=0?'#bb2124':'white','color':producto.PRO_STOCK<=3?'white':'#6E707E'}" class="color-row-table">{{producto.PROV_EMPRESA_PROVEEDORA}}</td>
                                         <td [ngStyle]="{'background':producto.PRO_STOCK<=3 && producto.PRO_STOCK > 0?'#ffc107':producto.PRO_STOCK<=0?'#bb2124':'white','color':producto.PRO_STOCK<=3?'white':'#6E707E'}" class="color-row-table">{{producto.PRO_STOCK}}</td>
-                                        <td [ngStyle]="{'background':producto.PRO_STOCK<=3 && producto.PRO_STOCK > 0?'#ffc107':producto.PRO_STOCK<=0?'#bb2124':'white','color':producto.PRO_STOCK<=3?'white':'#6E707E'}" class="color-row-table">S/{{producto.PRO_PRECIO_COMPRA.toFixed(2)}}</td>
+                                        <td *ngIf = "USE_TYPE === '2' " [ngStyle]="{'background':producto.PRO_STOCK<=3 && producto.PRO_STOCK > 0?'#ffc107':producto.PRO_STOCK<=0?'#bb2124':'white','color':producto.PRO_STOCK<=3?'white':'#6E707E'}" class="color-row-table">S/{{producto.PRO_PRECIO_COMPRA.toFixed(2)}}</td>
                                         
                                     </tr>
                                 </tbody>

@@ -3,7 +3,6 @@ import {Proveedor} from "../proveedor/proveedor.models";
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {ProveedorService} from '../../services/proveedor.service';
-import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript';
 @Component({
   selector: 'app-proveedor',
   templateUrl: './proveedor.component.html',
@@ -65,7 +64,7 @@ export class ProveedorComponent implements OnInit {
   }
   inicializarFormularioProveedor(){
     this.proveedorForm = this.formBuilder.group({
-      ruc:['',[Validators.required, Validators.maxLength(11), Validators.pattern(/^([0-9])*$/),Validators.minLength(11)]],
+      ruc:['',[Validators.maxLength(11), Validators.pattern(/^([0-9])*$/),Validators.minLength(11)]],
       nombreEmpresa:['',[Validators.required, Validators.pattern('[a-zñáéíóú A-ZÑÁÉÍÓÚ ]+'), Validators.maxLength(100)]],
       numeroContacto:['',[Validators.required,Validators.pattern('[+][0-9]+'), Validators.maxLength(12),Validators.minLength(12)]],
       

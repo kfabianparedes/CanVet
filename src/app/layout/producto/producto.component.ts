@@ -8,6 +8,7 @@ import {ProductoService} from '../../services/producto.service';
 import {ProveedorService} from '../../services/proveedor.service';
 import { Proveedor } from '../proveedor/proveedor.models';
 import { compare, SorteableDirective } from 'src/app/shared/directives/sorteable.directive';
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-producto',
@@ -27,7 +28,8 @@ export class ProductoComponent implements OnInit {
     public modal: NgbModal,
     configModal: NgbModalConfig,
     private productoService:ProductoService,
-    private proveedorService:ProveedorService) 
+    private proveedorService:ProveedorService,
+    private storageService: StorageService) 
     { 
       configModal.backdrop = 'static';
       configModal.keyboard = false;
@@ -41,7 +43,7 @@ export class ProductoComponent implements OnInit {
 
 // Paginación
   currentPage = 1;
-  itemsPerPage = 10;
+  itemsPerPage = 50;
 
   
   productoForm: FormGroup;
@@ -63,9 +65,10 @@ export class ProductoComponent implements OnInit {
   //modal para ver más de algún producto verProducto
   @ViewChild('verProducto') verMasPro: ElementRef;
 
-
+  public USE_TYPE : string  = '';
   ngOnInit(): void {
     this.listarProductos();
+    this.USE_TYPE = this.storageService.getString('USE_TYPE');
   }
 
   listarProveedores(){
@@ -190,12 +193,10 @@ export class ProductoComponent implements OnInit {
     this.productoInsertar.PROV_ID = +this.proveedor.value;
 
     this.productoService.editarProductoSeleccionado(this.productoInsertar).subscribe(
-      (data)=>{
-        this.productos.length = 0;
+      ()=>{
         this.cargando = false;
         this.modalIn = false;
         this.productoForm.reset();
-        this.listarProductos();
         this.modal.dismissAll();
         this.mostrar_alerta = true; 
         this.tipo_alerta='success';
@@ -319,7 +320,6 @@ export class ProductoComponent implements OnInit {
         this.mostrar_alerta = true;
         this.modalIn = false;
         this.mensaje_alerta = 'Solicitud ejectuda con éxito.'; 
-        this.listarProductos(); 
       },(error)=>{
         this.modalIn = false;
         this.cargando = false;
@@ -352,7 +352,6 @@ export class ProductoComponent implements OnInit {
         this.tipo_alerta = 'success';
         this.cargando = false;
         this.modalIn = false;
-        this.listarProductos();
         this.closeModal();
       },error=>{
         this.cargando = false;
@@ -396,9 +395,6 @@ export class ProductoComponent implements OnInit {
 
   /*************************** FILTRAR TABLA**************************************/
   tipoDeBusqueda: number = 0;
-  obtenerTipoDeBusqueda(){
-
-  }
 
   busquedaProducto: string = '';
   busquedaCategoria: string = '';

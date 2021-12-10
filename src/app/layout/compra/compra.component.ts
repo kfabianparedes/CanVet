@@ -403,8 +403,8 @@ export class CompraComponent implements OnInit {
     this.comprobanteForm = this.formBuilder.group({
       id_proveedor:['',[Validators.required]],
       tipo_comprobante:['',[Validators.required]],
-      serie:['',[Validators.required, Validators.pattern(/^([0-9])*$/), Validators.minLength(3), Validators.maxLength(5)]],
-      nro_comprobante:['',[Validators.required, Validators.pattern(/^([0-9])*$/), Validators.minLength(7), Validators.maxLength(10)]],
+      serie:['',[Validators.pattern(/^([0-9])*$/), Validators.minLength(3), Validators.maxLength(5)]],
+      nro_comprobante:['',[Validators.pattern(/^([0-9])*$/), Validators.minLength(7), Validators.maxLength(10)]],
       fecha_emision:['',[Validators.required]]
     });
   }

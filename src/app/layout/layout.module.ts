@@ -31,6 +31,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReporteCajaComponent } from './reporte-caja/reporte-caja.component';
 import { ReporteVentaComponent } from './reporte-venta/reporte-venta.component';
 import { ReporteVentaDiarioComponent } from './reporte-venta-diario/reporte-venta-diario.component';
+import { ReporteCompraComponent } from './reporte-compra/reporte-compra.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { ReporteVentaDiarioComponent } from './reporte-venta-diario/reporte-vent
     ReportesComponent,
     ReporteCajaComponent,
     ReporteVentaComponent,
-    ReporteVentaDiarioComponent
+    ReporteVentaDiarioComponent,
+    ReporteCompraComponent
   ],
   imports: [
     CommonModule,

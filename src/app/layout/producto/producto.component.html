@@ -11,14 +11,16 @@
             <div class="py-1 col-sm-12 col-md-7 col-lg-10">
                 <div class="row">
                     <div class="col-12 col-lg-3 mb-2">
-                        <select class="pull-right" [(ngModel)]="tipoDeBusqueda" class="border-left-primary form-control form-control-sm custom-select" (change)="obtenerTipoDeBusqueda()">
-                            <option value="0">POR NOMBRE</option>
-                            <option value="1">POR CÓDIGO</option>                 
-                        </select>  
-                    </div>
-                    <div class="offset-0 offset-lg-1 col-12 col-lg-4 mb-2">
                         <div class="row">
-                            <div class="col-9 col-lg-7">
+                            <select class="pull-right" [(ngModel)]="tipoDeBusqueda" class="border-left-primary form-control form-control-sm custom-select">
+                                <option value="0">POR NOMBRE</option>
+                                <option value="1">POR CÓDIGO</option>                 
+                            </select> 
+                        </div> 
+                    </div>
+                    <div class="col-12 col-lg-4 mb-2">
+                        <div class="row">
+                            <div class="col-9 col-lg-9">
                                 <input type="text" class="border-left-primary font-tamanio form-control" name="busquedaProducto" placeholder="Producto..." [(ngModel)]="busquedaProducto">
                             </div>
                             <div class="col-3 col-md-3 col-lg-3">
@@ -28,12 +30,17 @@
                     </div>
                     <div class="col-12 col-lg-4 mb-2">
                         <div class="row">
-                            <div class="col-9 col-lg-7">
+                            <div class="col-9 col-lg-9">
                                 <input type="text" class="border-left-primary font-tamanio form-control" name="busquedaCategoria" placeholder="Categoría..." [(ngModel)]="busquedaCategoria">
                             </div>
                             <div class="col-3 col-md-3 col-lg-3">
                                 <button (click)="filtrarProductoPorCategoria()" [disabled]="cargando" style="float:right" style="width: 100%;" type="button" class="btn btn-primary"><i class="fas fa-search"></i></button>
                             </div>
+                        </div>
+                    </div>
+                    <div class="col-1">
+                        <div class="row">
+                            <button [disabled]=cargando class="col btn btn-danger" (click)="listarProductos()"><i class="fas fa-sync-alt"></i></button>
                         </div>
                     </div>
                 </div>
@@ -53,9 +60,9 @@
                 </div>
                 <div class="col-xl-2 col-lg-3 col-md-4 col-sm-5 col-6">
                     <select class="pull-right" [(ngModel)]="itemsPerPage" class="form-control form-control-sm custom-select">
-                        <option value="10">10 elementos</option>
-                        <option value="15">15 elementos</option>
-                        <option value="20">20 elementos</option>                    
+                        <option value="50">50 elementos</option>                     
+                        <option value="100">100 elementos</option>                    
+                        <option value="200">200 elementos</option>                    
                     </select>  
                 </div>    
             </div> 
@@ -64,8 +71,8 @@
                     <table class="table table-bordered text-gray-400" id="dataTable" cellspacing="0">
                         <thead>
                             <tr>
-                                <th class="color-row-table puntero" scope="col" sortable="PRO_NOMBRE" (sort)="onSort($event)">Código</th>
-                                <th class="color-row-table puntero" scope="col" sortable="PRO_CODIGO" (sort)="onSort($event)">Producto</th>
+                                <th class="color-row-table puntero" scope="col" sortable="PRO_CODIGO" (sort)="onSort($event)">Código</th>
+                                <th class="color-row-table puntero" scope="col" sortable="PRO_NOMBRE" (sort)="onSort($event)">Producto</th>
                                 <th class="color-row-table puntero" scope="col" sortable="CAT_NOMBRE" (sort)="onSort($event)">Categoría</th>
                                 <th class="color-row-table puntero" scope="col" sortable="PRO_TAMANIO_TALLA" (sort)="onSort($event)">Tamaño/Talla</th>
                                 <th class="color-row-table puntero" scope="col" sortable="PRO_PRECIO_VENTA" (sort)="onSort($event)">P. Venta</th>
@@ -76,14 +83,14 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let pro of productos | slice:(currentPage-1)*itemsPerPage:currentPage*itemsPerPage ; let i = index">
-                                <td class="color-row-table">{{pro.PRO_CODIGO}}</td>
-                                <td class="color-row-table">{{pro.PRO_NOMBRE}}</td>
-                                <td class="color-row-table">{{pro.CAT_NOMBRE}}</td>
-                                <td class="color-row-table">{{pro.PRO_TAMANIO_TALLA}}</td>
-                                <td class="color-row-table">{{pro.PRO_PRECIO_VENTA.toFixed(2)}}</td>
-                                <td class="color-row-table">{{pro.PRO_PRECIO_COMPRA.toFixed(2)}}</td>
-                                <td class="color-row-table">{{pro.PRO_STOCK}}</td>
+                            <tr *ngFor="let pro of productos | filterProductByName:busquedaProducto | filterProductByCategory:busquedaCategoria | slice:(currentPage-1)*itemsPerPage:currentPage*itemsPerPage ; let i = index">
+                                <td [ngStyle]="{'background':pro.PRO_STOCK<=3 && pro.PRO_STOCK > 0?'#ffc107':pro.PRO_STOCK<=0?'#bb2124':'white','color':pro.PRO_STOCK<=3?'white':'#6E707E'}" class="color-row-table">{{pro.PRO_CODIGO}}</td>
+                                <td [ngStyle]="{'background':pro.PRO_STOCK<=3 && pro.PRO_STOCK > 0?'#ffc107':pro.PRO_STOCK<=0?'#bb2124':'white','color':pro.PRO_STOCK<=3?'white':'#6E707E'}" class="color-row-table text-start">{{pro.PRO_NOMBRE}}</td>
+                                <td [ngStyle]="{'background':pro.PRO_STOCK<=3 && pro.PRO_STOCK > 0?'#ffc107':pro.PRO_STOCK<=0?'#bb2124':'white','color':pro.PRO_STOCK<=3?'white':'#6E707E'}" class="color-row-table">{{pro.CAT_NOMBRE}}</td>
+                                <td [ngStyle]="{'background':pro.PRO_STOCK<=3 && pro.PRO_STOCK > 0?'#ffc107':pro.PRO_STOCK<=0?'#bb2124':'white','color':pro.PRO_STOCK<=3?'white':'#6E707E'}" class="color-row-table">{{pro.PRO_TAMANIO_TALLA}}</td>
+                                <td [ngStyle]="{'background':pro.PRO_STOCK<=3 && pro.PRO_STOCK > 0?'#ffc107':pro.PRO_STOCK<=0?'#bb2124':'white','color':pro.PRO_STOCK<=3?'white':'#6E707E'}" class="color-row-table">{{pro.PRO_PRECIO_VENTA.toFixed(2)}}</td>
+                                <td [ngStyle]="{'background':pro.PRO_STOCK<=3 && pro.PRO_STOCK > 0?'#ffc107':pro.PRO_STOCK<=0?'#bb2124':'white','color':pro.PRO_STOCK<=3?'white':'#6E707E'}" class="color-row-table">{{pro.PRO_PRECIO_COMPRA.toFixed(2)}}</td>
+                                <td [ngStyle]="{'background':pro.PRO_STOCK<=3 && pro.PRO_STOCK > 0?'#ffc107':pro.PRO_STOCK<=0?'#bb2124':'white','color':pro.PRO_STOCK<=3?'white':'#6E707E'}" class="color-row-table">{{pro.PRO_STOCK}}</td>
                                 <td class="color-row-table">{{pro.PRO_ESTADO==1?'Activo':'Inactivo'}}</td>
                                 <td class="color-row-table">
                                     <div class="row btnes">
@@ -104,7 +111,7 @@
                                                 <i style="color: white;" class="fas fa-eye" aria-hidden="true"   ></i>
                                             </button>
                                         </div>
-                                        <div class="col-1 button-table btn-edit">
+                                        <div *ngIf = "USE_TYPE === '2' " class="col-1 button-table btn-edit">
                                             <button [disabled]="cargando" (click)="abrirEditarProducto(pro)" class="btn btn-warning btn-circle btn-sm" ngbTooltip="Actualizar" >
                                                 <i style="color: white;" class="far fa-edit" aria-hidden="true"   ></i>
                                             </button>
@@ -142,7 +149,7 @@
                 <label for="inputPrecioVentaVer">Precio de venta</label>
                 <input id="inputPrecioVentaVer" type="text" disabled value="{{productoSeleccionado.PRO_PRECIO_VENTA.toFixed(2)}}" class="border-left-primary font-tamanio form-control" >
             </div>
-            <div class="col-12 col-lg-6 mb-4">
+            <div *ngIf = "USE_TYPE === '2' " class="col-12 col-lg-6 mb-4">
                 <label for="inputPrecioDeCompraVer">Precio de compra</label>
                 <input id="inputPrecioDeCompraVer" type="text" disabled value="{{productoSeleccionado.PRO_PRECIO_COMPRA.toFixed(2)}}" class="border-left-primary font-tamanio form-control" >
             </div>

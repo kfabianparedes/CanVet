@@ -14,7 +14,6 @@
     </a>
     
     <!-- Divider -->
-    <hr class="sidebar-divider my-0">
     <li class="nav-item">
         <a class="nav-link" [routerLink]="['/dashboard']"><i class="fas fa-fw fa-home"></i><span>Inicio</span></a>
     </li>
@@ -52,11 +51,15 @@
                     <i class="fas fa-cat"></i>
                     <span>&nbsp; Mascotas&nbsp;</span>
                 </a>
+                <a class="collapse-item" [routerLink]="['/productos']" >
+                    <i class="fas fa-tags"></i>
+                    <span>&nbsp; Productos</span>
+                </a>
             </div>
         </div>
     </li>
 
-    <hr  *ngIf = "USE_TYPE === '2' " class="sidebar-divider ">
+    <hr *ngIf = "USE_TYPE === '2' " class="sidebar-divider ">
     
     <li *ngIf = "USE_TYPE === '2' " class="nav-item">
         <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true"
@@ -67,14 +70,14 @@
         <div id="collapsePages" class="collapse" aria-labelledby="headingPages"
             data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Control:</h6>
-                <a class="collapse-item" [routerLink]="['/users']" >
+                <h6 *ngIf = "USE_TYPE === '2' " class="collapse-header">Control:</h6>
+                <a *ngIf = "USE_TYPE === '2' " class="collapse-item" [routerLink]="['/users']" >
                     <i class="fas fa-users"></i>
                     <span>&nbsp; Usuarios</span>
                 </a>
                 <div class="collapse-divider"></div>
                 <h6 class="collapse-header">Registros:</h6>
-                <a class="collapse-item" [routerLink]="['/categorias']" >
+                <a *ngIf = "USE_TYPE === '2' " class="collapse-item" [routerLink]="['/categorias']" >
                     <i class="fas fa-tag"></i>
                     <span>&nbsp; Categorías</span>
                 </a>
@@ -82,21 +85,13 @@
                     <i class="fas fa-tags"></i>
                     <span>&nbsp; Productos</span>
                 </a>
-                <a class="collapse-item" [routerLink]="['/proveedor']" >
+                <a *ngIf = "USE_TYPE === '2' " class="collapse-item" [routerLink]="['/proveedor']" >
                     <i class="fas fa-truck-loading"></i>
                     <span>&nbsp; Proveedores</span>
                 </a>
             </div>
         </div>
-    </li>
-
-    <hr *ngIf = "USE_TYPE === '2' " class="sidebar-divider ">
-
-    <li *ngIf = "USE_TYPE === '2' " class="nav-item">
-        <a class="nav-link" [routerLink]="['/compra']">
-            <i class="fas fa-fw fa-truck"></i>
-            <span>Compras</span></a>
-    </li>
+    </li>   
 
     <hr class="sidebar-divider ">
 
@@ -134,14 +129,29 @@
                     <span>&nbsp; Semanal-Mensual</span>
                 </a>
 
+                <div *ngIf = "USE_TYPE === '2' "  class="collapse-divider"></div>
+                
+                <h6 *ngIf = "USE_TYPE === '2' "  class="collapse-header">Compras (Tabla):</h6>
+                <a *ngIf = "USE_TYPE === '2' "  class="collapse-item" [routerLink]="['/reporte-compra']">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>&nbsp; Reporte Total</span>
+                </a>
+                
                 <div class="collapse-divider"></div>
                 
-                
-
             </div>
         </div>
     </li>
 
+    <hr *ngIf = "USE_TYPE === '2' " class="sidebar-divider ">
+
+    <li *ngIf = "USE_TYPE === '2' " class="nav-item">
+        <a class="nav-link" [routerLink]="['/compra']">
+            <i class="fas fa-fw fa-truck"></i>
+            <span>Compras</span></a>
+    </li>
+
+    
     <!-- Sidebar Toggler (Sidebar) -->
     <div class="text-center  d-md-inline">
         <button (clickBtnSideBar)="cambiarSideBar($event)" class="rounded-circle border-0" id="sidebarToggle" (click)="clickEvent()"></button>

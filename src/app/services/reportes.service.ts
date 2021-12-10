@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Venta } from '../models/venta';
 import { StorageService } from './storage.service';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -24,31 +25,36 @@ export class ReportesService {
     })
   };
 
-  reporteAnual(){
+  reporteAnual():Observable<any>{
     const url = environment.domain_url + '/api/ventas/gananciaAnual.php';
     return this.http.get<any>(url,this.httpHead).pipe(retry(2));
   }
-  reporteSemanal(){
+  reporteSemanal():Observable<any>{
     const url = environment.domain_url + '/api/ventas/gananciaSemanal.php';
     return this.http.get<any>(url,this.httpHead).pipe(retry(2));
   }
-  reporteMensual(){
+  reporteMensual():Observable<any>{
     const url = environment.domain_url + '/api/ventas/gananciasMensuales.php';
     return this.http.get<any>(url,this.httpHead).pipe(retry(2));
   }
 
-  reporteCaja(){
+  reporteCaja():Observable<any>{
     const url = environment.domain_url + '/api/cajas/reporte.php';
     return this.http.get<any>(url,this.httpHead).pipe(retry(2));
   }
 
-  reporteVentas(){
+  reporteVentas():Observable<any>{
     const url = environment.domain_url + '/api/ventas/reportesFacturasBoletas.php';
     return this.http.get<any>(url,this.httpHead).pipe(retry(2));
   }
 
-  reporteDiario(){
+  reporteDiario():Observable<any>{
     const url = environment.domain_url + '/api/ventas/gananciasDiaActual.php';
+    return this.http.get<any>(url,this.httpHead).pipe(retry(2));
+  }
+
+  reporteCompra():Observable<any>{
+    const url = environment.domain_url + '/api/compras/listar.php';
     return this.http.get<any>(url,this.httpHead).pipe(retry(2));
   }
 }

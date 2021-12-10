@@ -228,9 +228,6 @@
                     <div>
                         <input type="text" formControlName="ruc" class="border-left-primary font-tamanio form-control" placeholder="Ingrese el RUC">
                         <div *ngIf="ruc.invalid && (ruc.dirty || ruc.touched)" class="my-1" style="color: rgb(197, 68, 68);">
-                            <div *ngIf="ruc.errors.required">
-                            * El RUC de la empresa es requerido.
-                            </div>
                             <div *ngIf="ruc.errors.maxlength">
                             * Se requieren máximo 11 caracteres.
                             </div>
@@ -245,11 +242,9 @@
                 </div>
 
                 <div class="col-12 col-md-6"style="padding-top: 0.5rem;">
-                    <label for="">
-                        Número de contacto
-                    </label>
+                    <label for="inputNumeroContacto">Número de contacto</label>
                     <div>
-                        <input type="text" formControlName="numeroContacto" class="border-left-primary font-tamanio form-control" placeholder="Ingrese número de contacto">
+                        <input id="inputNumeroContacto" type="text" formControlName="numeroContacto" class="border-left-primary font-tamanio form-control" placeholder="Ingrese número de contacto">
                         <div *ngIf="numeroContacto.invalid && (numeroContacto.dirty || numeroContacto.touched)" class="my-1" style="color: rgb(197, 68, 68);">
                             <div *ngIf="numeroContacto.errors.required">
                             * El número de contacto de la empresa es requerido.

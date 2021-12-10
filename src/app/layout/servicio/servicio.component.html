@@ -7,23 +7,12 @@
 
     <!-- DataTales Example -->
     <div class="card shadow mb-3 col-12 col-lg-8" style="height: 100%;">
-        <div class="card-header py-3 row justify-content-between">
-            <div class="py-1 col-sm-12 col-md-5 col-lg-4">
-                <div class="row">
-                    <div class="col-md-9 col-sm-12">
-                        <h5>Servicio</h5>
-                    </div>
-                </div>
+        <div class="card-header py-3 row">
+            <div class="col-12 col-lg-2">
+                <button (click)="nuevoCliente()" style="width:100%" type="button" class="boton btn btn-primary ">Nuevo Cliente</button>
             </div>
-            <div class="py-1 col-sm-12 col-md-5 col-lg-6" >
-                <div class="row">
-                    <div class="col-6">
-                        <button (click)="crearMascota()" style="float:right" type="button" class="boton btn btn-primary ">Nueva Mascota</button>
-                    </div>
-                    <div class="col-6">
-                        <button (click)="nuevoCliente()" style="float:right" type="button" class="boton btn btn-primary ">Nuevo Cliente</button>
-                    </div>
-                </div>
+            <div class="col-12 col-lg-2">
+                <button (click)="crearMascota()" style="width:100%" type="button" class="boton btn btn-primary ">Nueva Mascota</button>
             </div>
         </div>
         <div class="card-body text-gray-400 ">

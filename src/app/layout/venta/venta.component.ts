@@ -64,7 +64,7 @@ export class VentaComponent implements OnInit {
   currentPage = 1;
   itemsPerPage = 10;
   currentPageModal = 1;
-  itemsPerPageModal = 5;
+  itemsPerPageModal = 20;
 
   //Varibale para el tipo de comprobante
   mostrar_guia: boolean = false;
@@ -103,7 +103,7 @@ export class VentaComponent implements OnInit {
   }
   
   @ViewChild('articulosModal') articulosModal: ElementRef;
-
+  public USE_TYPE : string = '';
   ngOnInit(): void {
     this.listarProductoTabla = true;
     this.inicializarFormulario();
@@ -112,6 +112,8 @@ export class VentaComponent implements OnInit {
     this.listarEmpresas();
     this.listarClientes();
     this.documento.disable();
+    this.USE_TYPE = this.storageService.getString('USE_TYPE');
+
   }
   
   closeModal(): any {
@@ -482,7 +484,6 @@ export class VentaComponent implements OnInit {
     
   }
 
- 
   inicializarFormulario(){
     this.comprobanteForm = this.formBuilder.group({
       documento:['',[Validators.required,Validators.pattern(/^([0-9])*$/),Validators.minLength(8),Validators.minLength(8),Validators.maxLength(11)]],
@@ -630,9 +631,10 @@ export class VentaComponent implements OnInit {
           this.mostrar_alerta = true;
           this.mensaje_alerta = 'El registro del cliente se realizó correctamente.';
           this.tipo_alerta = 'success';
-          this.modal.dismissAll();  
-          this.limpiar();
-          this.listarClientes();
+          this.modal.dismissAll();
+          this.clienteForm.reset();  
+          // this.limpiar();
+          // this.listarClientes();
         },
         (error)=>{
           this.cargando = false;
@@ -685,8 +687,9 @@ export class VentaComponent implements OnInit {
           this.mensaje_alerta = 'El registro del cliente se realizó correctamente.';
           this.tipo_alerta = 'success';
           this.modal.dismissAll();  
-          this.listarClientes();
-          this.limpiar();
+          this.clienteJuridicoForm.reset();
+          // this.listarClientes();
+          // this.limpiar();
         },
         (error)=>{
           this.cargando = false;

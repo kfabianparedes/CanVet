@@ -79,6 +79,7 @@
                                 <th class="color-row-table puntero" scope="col" sortable="PRO_PRECIO_COMPRA" (sort)="onSort($event)">P. Compra</th>
                                 <th class="color-row-table puntero" scope="col" sortable="PRO_STOCK" (sort)="onSort($event)">Stock</th>
                                 <th class="color-row-table puntero" scope="col" sortable="PRO_ESTADO" (sort)="onSort($event)">Estado</th>
+                                <th class="color-row-table puntero" scope="col" sortable="ULTIMA_COMPRA" (sort)="onSort($event)">Nuevo Lote</th>
                                 <th class="color-row-table">Acciones</th>
                             </tr>
                         </thead>
@@ -92,6 +93,7 @@
                                 <td [ngStyle]="{'background':pro.PRO_STOCK<=3 && pro.PRO_STOCK > 0?'#ffc107':pro.PRO_STOCK<=0?'#bb2124':'white','color':pro.PRO_STOCK<=3?'white':'#6E707E'}" class="color-row-table">{{pro.PRO_PRECIO_COMPRA.toFixed(2)}}</td>
                                 <td [ngStyle]="{'background':pro.PRO_STOCK<=3 && pro.PRO_STOCK > 0?'#ffc107':pro.PRO_STOCK<=0?'#bb2124':'white','color':pro.PRO_STOCK<=3?'white':'#6E707E'}" class="color-row-table">{{pro.PRO_STOCK}}</td>
                                 <td class="color-row-table">{{pro.PRO_ESTADO==1?'Activo':'Inactivo'}}</td>
+                                <td [ngStyle]="{'background':pro.ULTIMA_COMPRA==1?'#02AC66':'white','color':pro.ULTIMA_COMPRA==1?'white':''}" class="color-row-table">{{pro?.ULTIMA_COMPRA==1?'Nuevo Ingreso':''}}</td>
                                 <td class="color-row-table">
                                     <div class="row btnes">
                                         <div class="col-1 button-table"  *ngIf = "pro.PRO_ESTADO != 1; else Habilitar">

@@ -546,7 +546,6 @@ export class VentaComponent implements OnInit {
     this.cantidad_detalles.splice(0,this.cantidad_detalles.length);
     this.importes.splice(0,this.importes.length);
     this.TotalVenta = 0;
-    this.inicializarFormulario();
     this.TotalVentaTarjeta = 0;
     this.busquedaCliente = false;
   }
@@ -555,6 +554,7 @@ export class VentaComponent implements OnInit {
     this.clienteJuridicoForm.reset();
     this.clienteNatural = new Cliente();
     this.clienteJuridico = new Cliente();
+    this.inicializarFormulario();
   }  
   listarClientes(){
     this.cargando = true;
@@ -632,9 +632,8 @@ export class VentaComponent implements OnInit {
           this.mensaje_alerta = 'El registro del cliente se realizó correctamente.';
           this.tipo_alerta = 'success';
           this.modal.dismissAll();
-          this.clienteForm.reset();  
           // this.limpiar();
-          // this.listarClientes();
+          this.listarClientes();
         },
         (error)=>{
           this.cargando = false;
@@ -687,8 +686,7 @@ export class VentaComponent implements OnInit {
           this.mensaje_alerta = 'El registro del cliente se realizó correctamente.';
           this.tipo_alerta = 'success';
           this.modal.dismissAll();  
-          this.clienteJuridicoForm.reset();
-          // this.listarClientes();
+          this.listarClientes();
           // this.limpiar();
         },
         (error)=>{

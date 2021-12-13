@@ -52,7 +52,7 @@ export class CompraComponent implements OnInit {
   btnRegistroValido:boolean = false;
   // Paginación
   currentPage = 1;
-  itemsPerPage = 10;
+  itemsPerPage = 500;
   currentPageModal = 1;
   itemsPerPageModal = 5;
 

@@ -141,7 +141,7 @@ export class ReporteVentaComponent implements OnInit {
   }
 
   /************* PAGINACION TABLA **********************/
-  itemsPorPagina1: number = 5;
+  itemsPorPagina1: number = 50;
   paginaActual1: number = 1;
 
 
@@ -157,7 +157,7 @@ export class ReporteVentaComponent implements OnInit {
     }
   }
 
-  itemsPorPagina2: number = 5;
+  itemsPorPagina2: number = 50;
   paginaActual2: number = 1;
 
   flecha2 = 'down';

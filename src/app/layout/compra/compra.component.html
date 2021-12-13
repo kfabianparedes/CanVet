@@ -183,9 +183,10 @@
                 </div>
                 <div class="col-xl-2 col-lg-3 col-md-5 col-sm-4 col-5">
                 <select class="pull-right" [(ngModel)]="itemsPerPage" class="form-control form-control-sm custom-select">
-                    <option value="10">10 elementos</option>
-                    <option value="15">15 elementos</option>
-                    <option value="20">20 elementos</option>                    
+                    <option value="50">50 elementos</option>                    
+                    <option value="100">100 elementos</option>                    
+                    <option value="200">200 elementos</option>                    
+                    <option value="500">500 elementos</option>                    
                 </select>  
                 </div>    
             </div>
@@ -194,8 +195,8 @@
                     <table class="table table-bordered text-gray-400" id="dataTable" cellspacing="0">
                         <thead>
                             <tr>
-                                <th class="color-row-table">Categoría</th>
                                 <th class="color-row-table">Producto</th>
+                                <th class="color-row-table">Categoría</th>
                                 <th class="color-row-table">Tamaño/Talla</th>
                                 <!-- <th class="color-row-table">P. Venta</th> -->
                                 <th class="color-row-table">P. Compra</th>
@@ -207,8 +208,8 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let producto of productos_detalle | slice:(currentPage-1)*itemsPerPage:currentPage*itemsPerPage ; let i = index  ">
-                                <td class="color-row-table">{{producto.CAT_NOMBRE}}</td>
                                 <td class="color-row-table">{{producto.PRO_NOMBRE}}</td>
+                                <td class="color-row-table">{{producto.CAT_NOMBRE}}</td>
                                 <td class="color-row-table">{{producto.PRO_TAMANIO_TALLA}}</td>
                                 <!-- <td class="color-row-table">{{producto.PRO_PRECIO_VENTA.toFixed(2)}}</td> -->
                                 <td class="color-row-table">{{producto.PRO_PRECIO_COMPRA.toFixed(2)}}</td>

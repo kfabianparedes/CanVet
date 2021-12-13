@@ -430,9 +430,9 @@
                                 <label for="inputNombreClienteNatural" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Nombre: <small class="text-danger" data-toggle="tooltip" data-placement="top" title="*Obligatorio">(*)</small></label>
                                 <input formControlName="nombres" type="text" id="inputNombreClienteNatural" class="border-left-primary font-tamanio form-control">
                                 <div *ngIf="nombres.invalid && (nombres.dirty || nombres.touched)" class="my-1" style="color: rgb(197, 68, 68);">
-                                    <div *ngIf="nombres.errors.required">
+                                    <!-- <div *ngIf="nombres.errors.required">
                                         * El nombre del cliente es requerido.
-                                    </div>
+                                    </div> -->
                                     <div *ngIf="nombres.errors.pattern">
                                         * El formato es inválido.
                                     </div>
@@ -459,9 +459,9 @@
                                 <label for="inputCelularClienteNatural" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Celular: <small class="text-danger" data-toggle="tooltip" data-placement="top" title="*Obligatorio">(*)&nbsp;(Ejemplo: +51987802338)</small></label>
                                 <input formControlName="celular" type="text" id="inputCelularClienteNatural" class="border-left-primary font-tamanio form-control">
                                 <div *ngIf="celular.invalid && (celular.dirty || celular.touched)" class="my-1" style="color: rgb(197, 68, 68);">
-                                    <div *ngIf="celular.errors.required">
+                                    <!-- <div *ngIf="celular.errors.required">
                                         * El celular del cliente es requerido.
-                                    </div>
+                                    </div> -->
                                     <div *ngIf="celular.errors.pattern">
                                         * El formato es inválido.
                                     </div>
@@ -542,9 +542,9 @@
                                 <label for="inputNombreClienteJuridico" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Nombre: <small class="text-danger" data-toggle="tooltip" data-placement="top" title="*Obligatorio">(*)</small></label>
                                 <input formControlName="nombres_" type="text" id="inputNombreClienteJuridico" class="border-left-primary font-tamanio form-control">
                                 <div *ngIf="nombres_.invalid && (nombres_.dirty || nombres_.touched)" class="my-1" style="color: rgb(197, 68, 68);">
-                                    <div *ngIf="nombres_.errors.required">
+                                    <!-- <div *ngIf="nombres_.errors.required">
                                         * El nombre es requerido.
-                                    </div>
+                                    </div> -->
                                     <div *ngIf="nombres_.errors.pattern">
                                         * El formato es inválido.
                                     </div>
@@ -557,9 +557,9 @@
                                 <label for="inputRazonSocialClienteJuridico" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Razón Social: <small class="text-danger" data-toggle="tooltip" data-placement="top" title="*Obligatorio">(*)</small></label>
                                 <input formControlName="razon_social" type="text" id="inputRazonSocialClienteJuridico" class="border-left-primary font-tamanio form-control">
                                 <div *ngIf="razon_social.invalid && (razon_social.dirty || razon_social.touched)" class="my-1" style="color: rgb(197, 68, 68);">
-                                    <div *ngIf="razon_social.errors.required">
+                                    <!-- <div *ngIf="razon_social.errors.required">
                                         * Los razón social del cliente es requerida.
-                                    </div>
+                                    </div> -->
                                     <div *ngIf="razon_social.errors.pattern">
                                         * El formato es inválido.
                                     </div>
@@ -596,9 +596,9 @@
                                     <option [value]="empresa.TIPO_EMPRESA_ID" *ngFor="let empresa of empresas">{{empresa.TIPO_EMPRESA_CLAVE}}</option>
                                 </select>
                                 <div *ngIf="tipo_empresa.invalid && (tipo_empresa.dirty || tipo_empresa.touched)" class="my-1" style="color: rgb(197, 68, 68);">
-                                    <div *ngIf="tipo_empresa.errors.required">
+                                    <!-- <div *ngIf="tipo_empresa.errors.required">
                                         * El tipo de empresa es requerido.
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>
@@ -607,9 +607,6 @@
                                 <label for="inputDireccionClienteJuridico">Dirección:</label>
                                 <input formControlName="direccion_" type="text" id="inputDireccionClienteJuridico" class="mt-lg-0 mt-md-4 border-left-primary font-tamanio form-control">
                                 <div *ngIf="direccion_.invalid && (direccion_.dirty || direccion_.touched)" class="my-1" style="color: rgb(197, 68, 68);">
-                                    <div *ngIf="direccion_.errors.required">
-                                        * La dirección del cliente es requerida.
-                                    </div>
                                     <div *ngIf="direccion_.errors.pattern">
                                         * El formato es inválido.
                                     </div>
@@ -622,9 +619,9 @@
                                 <label for="inputCelularClienteJuridico">Celular: <small class="text-danger">&nbsp;(Ejemplo: +51987802338)</small></label>
                                 <input formControlName="celular_" type="text" id="inputCelularClienteJuridico" class="border-left-primary font-tamanio form-control">
                                 <div *ngIf="celular_.invalid && (celular_.dirty || celular_.touched)" class="my-1" style="color: rgb(197, 68, 68);">
-                                    <div *ngIf="celular_.errors.required">
+                                    <!-- <div *ngIf="celular_.errors.required">
                                         * El celular_ del cliente es requerido.
-                                    </div>
+                                    </div> -->
                                     <div *ngIf="celular_.errors.pattern">
                                         * El formato es inválido.
                                     </div>
@@ -667,7 +664,6 @@
                 </ng-template>
             </li>
         </ul>
-          
         <div [ngbNavOutlet]="nav" class="mt-2"></div>
     </div>
 </ng-template>

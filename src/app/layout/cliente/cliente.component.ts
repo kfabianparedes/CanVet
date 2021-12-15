@@ -33,6 +33,7 @@ export class ClienteComponent implements OnInit {
   clientes: Cliente[] = [];
   clientes_juridicos: Cliente[] = [];
   busquedaClienteNatural: string = '';
+  busquedaClienteNatural2: string = '';
   busquedaClienteJuridico: string = '';
   sortClientesNatural: any[];
   sortClientesJuridico: any[]= [];

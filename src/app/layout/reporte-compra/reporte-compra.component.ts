@@ -33,7 +33,7 @@ export class ReporteCompraComponent implements OnInit {
   public mostrarReporte : boolean = false;
 
   // detalle venta modal paginación
-  itemsPerPageModal: number = 5;
+  itemsPerPageModal: number = 50;
   currentPageModal: number = 1;
 
   

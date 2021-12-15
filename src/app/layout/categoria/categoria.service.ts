@@ -11,13 +11,16 @@ import { environment } from 'src/environments/environment';
 export class CategoriaService {
 
   constructor(private http: HttpClient) { }
-
+  
 
   listarCategorias():Observable<any>{
     const url = environment.domain_url + '/api/categorias/listarCategorias';
     return this.http.get<any>(url).pipe( retry(2) );
   }
-
+  listarCategoriasActivas():Observable<any>{
+    const url = environment.domain_url + '/api/categorias/listarCategoriasActivas.php';
+    return this.http.get<any>(url).pipe( retry(2) );
+  }
   habilitarInhabilitarCategoria(categoriaId:number,nuevoEstado:number){
     const url = environment.domain_url + '/api/categorias/habilitarInhabilitarCategoria';
 

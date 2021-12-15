@@ -10,10 +10,13 @@
     <div class="card shadow mb-3 col-12 col-lg-9" style="height: 100%;">
         <div class="card-header py-3 row justify-content-between">
             
-            <div class="py-1 col-sm-12 col-md-5 col-lg-4">
+            <div class="py-1 col-sm-12 col-md-7 col-lg-8 mb-4">
                 <div class="row">
-                    <div class="col-md-9 col-sm-12">
+                    <div class="col-md-4 col-sm-12">
                         <input type="text" class="border-left-primary font-tamanio form-control"  [(ngModel)]="busquedaClienteNatural" name="busquedaClienteNatural" placeholder="Ingrese DNI..">
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                        <input type="text" class="border-left-primary font-tamanio form-control"  [(ngModel)]="busquedaClienteNatural2" name="busquedaClienteNatural2" placeholder="Ingrese Nombre..">
                     </div>
                 </div>
             </div>
@@ -60,7 +63,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let cliente of clientes| filterClientByDNI:busquedaClienteNatural |slice:(currentPage-1)*itemsPerPage:currentPage*itemsPerPage ; let i = index ">
+                            <tr *ngFor="let cliente of clientes| filterClientByDNI:busquedaClienteNatural | filterClienteByName:busquedaClienteNatural2 |slice:(currentPage-1)*itemsPerPage:currentPage*itemsPerPage ; let i = index ">
                                 <td class="color-row-table">{{cliente.CLIENTE_ID}}</td>
                                 <td class="color-row-table">{{cliente.CLIENTE_DNI}}</td>
                                 <td class="color-row-table">{{cliente.CLIENTE_NOMBRES}}</td>

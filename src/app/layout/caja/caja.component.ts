@@ -68,7 +68,7 @@ export class CajaComponent implements OnInit {
   registrarApertura(){
     this.cargando = true;
     
-    this.caja.CAJA_MONTO_INICIAL = this.monto_incial.value;
+    this.caja.CAJA_MONTO_INICIAL = this.monto_incial.value *100;
     this.caja.CAJA_APERTURA = this.getTodayFecha();
     this.caja.USU_ID = +this.storageService.getString('USE_ID');
     console.log(this.caja);

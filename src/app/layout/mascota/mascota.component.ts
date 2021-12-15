@@ -28,7 +28,7 @@ export class MascotaComponent implements OnInit {
 
   //Paginacion de tabla
   currentPage = 1;
-  itemsPerPage = 5;
+  itemsPerPage = 50;
   
   @ViewChild('crearMascotaModal') crearMascotaModal: ElementRef;
   @ViewChild('editarMascotaModal') editarMascotaModal: ElementRef;

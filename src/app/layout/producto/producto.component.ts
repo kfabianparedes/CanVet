@@ -258,7 +258,7 @@ export class ProductoComponent implements OnInit {
     this.cargando = true;
     this.modalIn = true;
     this.mostrar_alerta = false;
-    this.categoriaService.listarCategorias().subscribe(
+    this.categoriaService.listarCategoriasActivas().subscribe(
       (data)=>{
         this.categorias = data['resultado']; 
         this.cargando = false;

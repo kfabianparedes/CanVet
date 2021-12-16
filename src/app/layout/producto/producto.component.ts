@@ -68,6 +68,8 @@ export class ProductoComponent implements OnInit {
   public USE_TYPE : string  = '';
   ngOnInit(): void {
     this.listarProductos();
+    this.listarProveedores();
+    this.listarCategorias();
     this.USE_TYPE = this.storageService.getString('USE_TYPE');
   }
 
@@ -108,8 +110,6 @@ export class ProductoComponent implements OnInit {
   }
   abrirEditarProducto(producto:Producto) {
     this.mostrar_alerta = false;
-    this.listarProveedores();
-    this.listarCategorias();
     this.inicializarFormulario();
     console.log(producto);
     this.productoSeleccionado = producto;

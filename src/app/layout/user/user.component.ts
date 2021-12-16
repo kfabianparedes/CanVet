@@ -39,7 +39,7 @@ export class UserComponent implements OnInit {
   userSelected = new Usuario(); 
   newUser = new Usuario();
   currentPage = 1;
-  itemsPerPage = 5;
+  itemsPerPage = 50;
 
   //Variables de cargando y error
   cargando = false;

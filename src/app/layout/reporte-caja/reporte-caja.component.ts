@@ -89,10 +89,10 @@ export class ReporteCajaComponent implements OnInit {
   }
   /********************  **************************/
   paginaActualCajaMesActual: number = 1;
-  itemsPorPaginaCajaMesActual: number = 5;
+  itemsPorPaginaCajaMesActual: number = 50;
 
   paginaActualCajaMesAnterior: number = 1;
-  itemsPorPaginaCajaMesAnterior: number = 5;
+  itemsPorPaginaCajaMesAnterior: number = 50;
   /************** BUSQUEDA DE REPORTES CAJA ************/
   busquedaCajaMesActual: string = '';
 

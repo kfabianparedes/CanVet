@@ -887,7 +887,7 @@ export class ServicioComponent implements OnInit {
   }
   /********************* FILTRAR CLIENTE***********************/
   currentPageModal = 1;
-  itemsPerPageModal = 5;
+  itemsPerPageModal = 50;
   filtrarCliente(){
     this.currentPageModal = 1;
     this.clientes = this.clientes_iniciales.slice(); 

@@ -54,10 +54,10 @@ export class ClienteComponent implements OnInit {
   datosJuridicoSeleccionado: DatosJuridicos = new DatosJuridicos();
 
   currentPage = 1;
-  itemsPerPage = 5;
+  itemsPerPage = 50;
 
   currentPageJuridico = 1;
-  itemsPerPageJuridico = 5;
+  itemsPerPageJuridico = 50;
   constructor(
     private clienteService:ClienteService,
     private formBuilder: FormBuilder,

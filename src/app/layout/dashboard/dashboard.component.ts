@@ -30,7 +30,7 @@ export class DashboardComponent implements OnInit {
 
   //Paginacion de tabla
   currentPageCard = 1;
-  itemsPerPageCard = 6;
+  itemsPerPageCard = 50;
   USE_TYPE: string;
   constructor(
     private servicioService:ServicioService,
@@ -413,7 +413,7 @@ export class DashboardComponent implements OnInit {
   nombre_mascota_seleccionada:string = '';
   //Paginacion de tabla
   currentPage = 1;
-  itemsPerPage = 5;
+  itemsPerPage = 50;
 
   tipo_cliente : number = -1;
   abrirBusqueda(){

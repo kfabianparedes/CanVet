@@ -62,9 +62,9 @@ export class VentaComponent implements OnInit {
 
   // Paginación
   currentPage = 1;
-  itemsPerPage = 10;
+  itemsPerPage = 50;
   currentPageModal = 1;
-  itemsPerPageModal = 20;
+  itemsPerPageModal = 50;
 
   //Varibale para el tipo de comprobante
   mostrar_guia: boolean = false;

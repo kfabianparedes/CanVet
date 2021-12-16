@@ -26,7 +26,7 @@ export class ProveedorComponent implements OnInit {
     this.listarProveedores();
   }
   currentPage = 1;
-  itemsPerPage = 10;
+  itemsPerPage = 50;
   
   cargando = false; 
   modalIn = false;

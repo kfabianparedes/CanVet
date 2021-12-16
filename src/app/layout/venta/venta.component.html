@@ -27,46 +27,65 @@
             <span *ngIf="mostrar_alerta_tabla && !modalIn" class="row justify-content-center text-danger" >{{mensaje_tabla}}</span>
             <ng-template #detalleModule>
                 <div class="table-module text-center">
-                    <table class="table table-bordered text-gray-400" id="dataTable" cellspacing="0">
-                        <thead>
-                            <tr>
-                                <th class="color-row-table">Categoría</th>
-                                <th class="color-row-table">Producto</th>
-                                <th class="color-row-table">Tamaño/Talla</th>
-                                <th class="color-row-table">P. Venta</th>
-                                <!-- <th class="color-row-table">P. Compra</th> -->
-                                <th class="color-row-table">Stock</th>
-                                <th class="color-row-table">Cantidad</th>
-                                <th class="color-row-table">Importe (S/)</th>
-                                <th class="color-row-table">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let producto of productos_detalle | slice:(currentPage-1)*itemsPerPage:currentPage*itemsPerPage ; let i = index  ">
-                                <td [ngStyle]="{'background':producto.PRO_STOCK<=0?'#bb2124':'white','color':producto.PRO_STOCK<=0?'white':'#6E707E'}" class="color-row-table">{{producto.CAT_NOMBRE}}</td>
-                                <td [ngStyle]="{'background':producto.PRO_STOCK<=0?'#bb2124':'white','color':producto.PRO_STOCK<=0?'white':'#6E707E'}" class="color-row-table">{{producto.PRO_NOMBRE}}</td>
-                                <td [ngStyle]="{'background':producto.PRO_STOCK<=0?'#bb2124':'white','color':producto.PRO_STOCK<=0?'white':'#6E707E'}" class="color-row-table">{{producto.PRO_TAMANIO_TALLA}}</td>
-                                <td [ngStyle]="{'background':producto.PRO_STOCK<=0?'#bb2124':'white','color':producto.PRO_STOCK<=0?'white':'#6E707E'}" class="color-row-table">{{producto.PRO_PRECIO_VENTA.toFixed(2)}}</td>
-                                <!-- <td [ngStyle]="{'background':producto.PRO_STOCK<=0?'#bb2124':'white','color':producto.PRO_STOCK<=0?'white':'#6E707E'}" class="color-row-table">{{producto.PRO_PRECIO_COMPRA.toFixed(2)}}</td> -->
-                                <td [ngStyle]="{'background':producto.PRO_STOCK<=0?'#bb2124':'white','color':producto.PRO_STOCK<=0?'white':'#6E707E'}" class="color-row-table">{{producto.PRO_STOCK}}</td>
-                                <td class="color-row-table">
-                                    <input [disabled]="producto.PRO_STOCK<=0" type="text" class="border-left-primary form-control"  (keyup)="agregarCantidadTabla(producto.PRO_PRECIO_VENTA,i)" [(ngModel)]="cantidad_detalles[i]">
-                                </td>
-                                <td class="color-row-table">
-                                    <span *ngIf="importes[i]">{{importes[i].toFixed(2)}}</span>
-                                </td>
-                                <td class="color-row-table">
-                                    <div class="row">
-                                        <div class="col-sm-1">
-                                            <span (click)="quitarProducto(producto,i)" class="btn btn-danger btn-circle btn-sm " ngbTooltip="Quitar">
-                                                <i class="fas fa-trash" aria-hidden="true"></i>
-                                            </span>
+                    <div class="row" *ngIf="productos_detalle.length<=0; else detallesProductos">
+                        <h3>No hay artículos.</h3>
+                    </div>
+                    <!---------------PAGINACIÓN------------->
+                    <div *ngIf="productos_detalle?.length>0" class="row box-footer clearfix mt-3">     
+                        <div class="col-xl-10 col-lg-9 col-md-7 col-sm-7 col-6">
+                        <ngb-pagination *ngIf="productos_detalle?.length>5" class="d-flex justify-content-start" size="sm" [maxSize]="5" [pageSize]="itemsPerPage"  [collectionSize]="productos_detalle?.length" [(page)]="currentPage"></ngb-pagination>
+                        </div>
+                        <div class="col-xl-2 col-lg-3 col-md-5 col-sm-5 col-6">
+                        <select class="pull-right" [(ngModel)]="itemsPerPage" class="form-control form-control-sm custom-select">
+                            <option value="50">50 elementos</option>                    
+                            <option value="100">100 elementos</option>                    
+                            <option value="200">200 elementos</option>                    
+                        </select>  
+                        </div>    
+                    </div>
+                    <ng-template #detallesProductos>
+                        <table class="table table-bordered text-gray-400" id="dataTable" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th class="color-row-table">Categoría</th>
+                                    <th class="color-row-table">Producto</th>
+                                    <th class="color-row-table">Tamaño/Talla</th>
+                                    <th class="color-row-table">P. Venta</th>
+                                    <!-- <th class="color-row-table">P. Compra</th> -->
+                                    <th class="color-row-table">Stock</th>
+                                    <th class="color-row-table">Cantidad</th>
+                                    <th class="color-row-table">Importe (S/)</th>
+                                    <th class="color-row-table">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let producto of productos_detalle | slice:(currentPage-1)*itemsPerPage:currentPage*itemsPerPage ; let i = index  ">
+                                    <td [ngStyle]="{'background':producto.PRO_STOCK<=0?'#bb2124':'white','color':producto.PRO_STOCK<=0?'white':'#6E707E'}" class="color-row-table">{{producto.CAT_NOMBRE}}</td>
+                                    <td [ngStyle]="{'background':producto.PRO_STOCK<=0?'#bb2124':'white','color':producto.PRO_STOCK<=0?'white':'#6E707E'}" class="color-row-table">{{producto.PRO_NOMBRE}}</td>
+                                    <td [ngStyle]="{'background':producto.PRO_STOCK<=0?'#bb2124':'white','color':producto.PRO_STOCK<=0?'white':'#6E707E'}" class="color-row-table">{{producto.PRO_TAMANIO_TALLA}}</td>
+                                    <td [ngStyle]="{'background':producto.PRO_STOCK<=0?'#bb2124':'white','color':producto.PRO_STOCK<=0?'white':'#6E707E'}" class="color-row-table">{{producto.PRO_PRECIO_VENTA.toFixed(2)}}</td>
+                                    <!-- <td [ngStyle]="{'background':producto.PRO_STOCK<=0?'#bb2124':'white','color':producto.PRO_STOCK<=0?'white':'#6E707E'}" class="color-row-table">{{producto.PRO_PRECIO_COMPRA.toFixed(2)}}</td> -->
+                                    <td [ngStyle]="{'background':producto.PRO_STOCK<=0?'#bb2124':'white','color':producto.PRO_STOCK<=0?'white':'#6E707E'}" class="color-row-table">{{producto.PRO_STOCK}}</td>
+                                    <td class="color-row-table">
+                                        <input [disabled]="producto.PRO_STOCK<=0" type="text" class="border-left-primary form-control"  (keyup)="agregarCantidadTabla(producto.PRO_PRECIO_VENTA,i)" [(ngModel)]="cantidad_detalles[i]">
+                                    </td>
+                                    <td class="color-row-table">
+                                        <span *ngIf="importes[i]">{{importes[i].toFixed(2)}}</span>
+                                    </td>
+                                    <td class="color-row-table">
+                                        <div class="row">
+                                            <div class="col-sm-1">
+                                                <span (click)="quitarProducto(producto,i)" class="btn btn-danger btn-circle btn-sm " ngbTooltip="Quitar">
+                                                    <i class="fas fa-trash" aria-hidden="true"></i>
+                                                </span>
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </ng-template>
+                    
                 </div>
             </ng-template>
         </div>
@@ -355,9 +374,9 @@
                         </div>
                         <div class="col-xl-2 col-lg-3 col-md-5 col-sm-5 col-6">
                         <select class="pull-right" [(ngModel)]="itemsPerPageModal" class="form-control form-control-sm custom-select">
-                            <option value="20">20 elementos</option>                    
                             <option value="50">50 elementos</option>                    
                             <option value="100">100 elementos</option>                    
+                            <option value="200">200 elementos</option>                    
                         </select>  
                         </div>    
                     </div>

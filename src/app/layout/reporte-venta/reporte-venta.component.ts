@@ -172,7 +172,7 @@ export class ReporteVentaComponent implements OnInit {
     }
   }
 
-  itemsPorPagina3: number = 5;
+  itemsPorPagina3: number = 50;
   paginaActual3: number = 1;
 
 
@@ -188,7 +188,7 @@ export class ReporteVentaComponent implements OnInit {
     }
   }
 
-  itemsPorPagina4: number = 5;
+  itemsPorPagina4: number = 50;
   paginaActual4: number = 1;
 
 
@@ -282,7 +282,7 @@ export class ReporteVentaComponent implements OnInit {
     this.modal.dismissAll();
   }
   // detalle venta modal paginación
-  itemsPerPageModal: number = 5;
+  itemsPerPageModal: number = 50;
   currentPageModal: number = 1;
   //variables faltantes venta
   USU_NOMBRE : string = '';

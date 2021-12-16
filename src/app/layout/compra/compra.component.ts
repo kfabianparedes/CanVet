@@ -54,7 +54,7 @@ export class CompraComponent implements OnInit {
   currentPage = 1;
   itemsPerPage = 500;
   currentPageModal = 1;
-  itemsPerPageModal = 5;
+  itemsPerPageModal = 50;
 
   //sibmolo de agregar guia de remision
   signo:string = 'plus';

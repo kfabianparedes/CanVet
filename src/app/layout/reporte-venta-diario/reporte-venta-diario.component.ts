@@ -41,7 +41,7 @@ export class ReporteVentaDiarioComponent implements OnInit {
   }
 
   /************* PAGINACION TABLA **********************/
-  itemsPorPagina1: number = 5;
+  itemsPorPagina1: number = 50;
   paginaActual1: number = 1;
 
 
@@ -58,7 +58,7 @@ export class ReporteVentaDiarioComponent implements OnInit {
     }
   }
 
-  itemsPorPagina2: number = 5;
+  itemsPorPagina2: number = 50;
   paginaActual2: number = 1;
 
   flecha2:string = 'down';
@@ -152,7 +152,7 @@ export class ReporteVentaDiarioComponent implements OnInit {
     this.modal.dismissAll();
   }
   // detalle venta modal paginación
-  itemsPerPageModal: number = 5;
+  itemsPerPageModal: number = 50;
   currentPageModal: number = 1;
   //variables faltantes venta
   USU_NOMBRE : string = '';

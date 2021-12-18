@@ -1,10 +1,11 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Compra } from 'src/app/models/compra';
 import { DetalleProducto } from 'src/app/models/detalle-producto';
 import { DetalleCompraService } from 'src/app/services/detalle-compra.service';
 import { ReportesService } from 'src/app/services/reportes.service';
+import { compare, SorteableDirective } from 'src/app/shared/directives/sorteable.directive';
 
 @Component({
   selector: 'app-reporte-compra',
@@ -21,7 +22,7 @@ export class ReporteCompraComponent implements OnInit {
 
   //Variables de la tabla compra
   public compras : Compra[] = [];
-  public comprasIniciales : Compra[] = [];
+  public comprasIniciales : any[] = [];
   //Variables de detalles de compra:
   public detallesCompra: any[] = [];
 
@@ -95,6 +96,10 @@ export class ReporteCompraComponent implements OnInit {
       (dataSuccess: any)=>{
         console.log(dataSuccess);
         this.comprasIniciales = dataSuccess.resultado;
+        this.compras = [...this.comprasIniciales];
+        console.log(this.compras);
+        this.flecha = 'up';
+        this.mostrarReporte = true;
         this.cargando = false;
       },
       (dataError: HttpErrorResponse)=>{
@@ -104,9 +109,24 @@ export class ReporteCompraComponent implements OnInit {
       }
     );
   }
+  @ViewChildren(SorteableDirective) headers: QueryList<SorteableDirective>;
 
-  public onSortVenta(event : any): void {
-
+  public onSortCompra({column, direction}: any): void {
+// resetting other headers
+    this.headers.forEach(header => {
+      if (header.sortable !== column) {
+        header.direction = '';
+      }
+    });
+  // sorting countries
+    if (direction === '' || column === '') {
+      this.compras = [...this.comprasIniciales];
+    } else {
+      this.compras = [...this.comprasIniciales].sort((a, b) => {
+        const res = compare(a[column], b[column]);
+        return direction === 'asc' ? res : -res;
+      });
+    }
   }
 
   public onSortdetallesCompra(event : any ) : void {

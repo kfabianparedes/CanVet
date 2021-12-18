@@ -32,17 +32,17 @@
                     <table class="table table-bordered text-gray-400" id="dataTable" cellspacing="1">
                         <thead>
                             <tr>
-                                <th class="color-row-table text-center puntero" scope="col" sortable="COMPRA_FECHA_REGISTRO" (sort)="onSortVenta($event)"><span>Nombre/Razón Social</span></th>
-                                <th class="color-row-table text-center puntero" scope="col" sortable="COMPRA_NRO_COMPROBANTE" (sort)="onSortVenta($event)"><span>Nro Comprobante</span></th>
-                                <th class="color-row-table text-center puntero" scope="col" sortable="COMPRA_TOTAL" (sort)="onSortVenta($event)"><span>Total</span></th>
-                                <th class="color-row-table text-center puntero" scope="col" sortable="COMPROBANTE_TIPO" (sort)="onSortVenta($event)"><span>Comprobante</span></th>
-                                <th class="color-row-table text-center puntero" scope="col" sortable="PROV_EMPRESA_PROVEEDORA" (sort)="onSortVenta($event)"><span>Proveedor</span></th>
-                                <th class="color-row-table text-center puntero" scope="col" sortable="USU_NOMBRE_COMPLETO" (sort)="onSortVenta($event)"><span>Registrado por</span></th>
+                                <th class="color-row-table text-center puntero" scope="col" sortable="COMPRA_FECHA_REGISTRO" (sort)="onSortCompra($event)"><span>Fecha Registro</span></th>
+                                <th class="color-row-table text-center puntero" scope="col" sortable="COMPRA_NRO_COMPROBANTE" (sort)="onSortCompra($event)"><span>Nro Comprobante</span></th>
+                                <th class="color-row-table text-center puntero" scope="col" sortable="COMPRA_TOTAL" (sort)="onSortCompra($event)"><span>Total</span></th>
+                                <th class="color-row-table text-center puntero" scope="col" sortable="COMPROBANTE_TIPO" (sort)="onSortCompra($event)"><span>Comprobante</span></th>
+                                <th class="color-row-table text-center puntero" scope="col" sortable="PROV_EMPRESA_PROVEEDORA" (sort)="onSortCompra($event)"><span>Proveedor</span></th>
+                                <th class="color-row-table text-center puntero" scope="col" sortable="USU_NOMBRE_COMPLETO" (sort)="onSortCompra($event)"><span>Registrado por</span></th>
                                 <th class="color-row-table text-center puntero" scope="col" ><span>Acciones</span></th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let compra of comprasIniciales | slice:(paginaActual-1)*itemsPorPagina:paginaActual*itemsPorPagina ; let i = index ">
+                            <tr *ngFor="let compra of compras | slice:(paginaActual-1)*itemsPorPagina:paginaActual*itemsPorPagina ; let i = index ">
                                 <td class="color-row-table text-center">{{compra.COMPRA_FECHA_REGISTRO | date: 'dd/MM/yyyy'}} </td>
                                 <td class="color-row-table text-center">{{compra.COMPRA_NRO_SERIE}}-{{compra.COMPRA_NRO_COMPROBANTE}} </td>
                                 <td class="color-row-table text-center">{{compra.COMPRA_TOTAL}}</td>

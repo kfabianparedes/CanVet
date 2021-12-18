@@ -1,5 +1,8 @@
-import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Caja } from 'src/app/models/caja';
+import { CajaService } from 'src/app/services/caja.service';
 import { ReportesService } from 'src/app/services/reportes.service';
 import { compare, SorteableDirective } from 'src/app/shared/directives/sorteable.directive';
 
@@ -17,7 +20,15 @@ export class ReporteCajaComponent implements OnInit {
   tipo_alerta: string;
 
 
-  constructor(private reporteService: ReportesService) { }
+  constructor(
+    private reporteService: ReportesService,
+    private cajaService: CajaService,
+    private modal: NgbModal,
+    private configModal: NgbModalConfig
+  ) {
+    this.configModal.backdrop = 'static';
+    this.configModal.keyboard = false;
+  }
 
   ngOnInit() {
     this.listarReportesCaja();
@@ -134,5 +145,41 @@ export class ReporteCajaComponent implements OnInit {
         return direction === 'asc' ? res : -res;
       });
     }
+  }
+
+  itemsPerPageModal: number = 50;
+  currentPageModal: number = 1;
+  @ViewChild('detallesCajaModal') detallesCajaModal: ElementRef;
+  detallesDeCaja: Caja[] = [];
+  // Ver detalles de caja
+  public verDetalleCaja(fechaCaja : string) : void {
+    this.cargando = true;
+    this.mostrar_alerta = false;
+    this.modalIn = false;
+    console.log(fechaCaja);
+    this.cajaService.listarDetallesCaja(fechaCaja).subscribe(
+      (data)=>{
+        this.cargando = false;
+        this.mostrar_alerta = false;
+        this.modalIn = true;
+        this.detallesDeCaja = data.resultado;
+        console.log(this.detallesDeCaja);
+        this.modal.open(this.detallesCajaModal,{size:'xl'});
+      },
+      (error: HttpErrorResponse)=>{
+        this.cargando = false;
+        this.mostrar_alerta = true;
+        this.tipo_alerta='danger';
+        this.modalIn = true;
+        if (error['error']['error'] !== undefined) {
+          if (error['error']['error'] === 'error_deBD') {
+            this.mensaje_alerta = 'Hubo un error al intentar ejecutar su solicitud. Por favor, actualice la página.';
+          }
+        }
+        else{
+          this.mensaje_alerta = 'Hubo un error al mostrar la información de esta página. Por favor, actualice la página.';
+        }
+      }
+    );
   }
 }

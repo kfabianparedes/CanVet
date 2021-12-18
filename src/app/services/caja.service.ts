@@ -65,4 +65,8 @@ export class CajaService {
       return this.http.put<any>(url,datos,this.httpHead).pipe(retry(2));
     }
 
+    public listarDetallesCaja(fecha: string) : Observable<any>{
+      const url = environment.domain_url + '/api/cajas/reporteCajaPorFecha.php?CAJA_APERTURA='+fecha;
+      return this.http.get<any>(url,this.httpHead).pipe(retry(2));
+    }
 }

@@ -15,4 +15,6 @@ export class Caja {
     USU_ID: number;
     CAJA_FECHA?: string;
     CAJA_DESCRIPCION: string;
+    USU_NOMBRE?: string;
+    MONTO_TOTAL?: number;
 }

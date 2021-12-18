@@ -231,13 +231,14 @@ export class CajaComponent implements OnInit {
 
   /***************************** LISTAR MONTOS *********************/
   montos:any[] =[];
-  gananciasServiciosEfectivo = 0; 
-  gananciasServiciosTarjeta = 0; 
-  gananciasServiciosYape = 0; 
-  gananciasVentasEfectivo = 0; 
-  gananciasVentasTarjeta = 0; 
-  gananciasVentasYape = 0; 
-  CAJA_MONTO_INICIAL = 0;
+  gananciasServiciosEfectivo : number = 0; 
+  gananciasServiciosTarjeta : number = 0; 
+  gananciasServiciosYape : number = 0; 
+  gananciasVentasEfectivo : number = 0; 
+  gananciasVentasTarjeta : number = 0; 
+  gananciasVentasYape : number = 0;
+  montoTotalEfectivo : string = '0.00'; 
+  CAJA_MONTO_INICIAL : number = 0;
   MontoTotalDeTotales :number = 0;
   listarMontoDelDia(){
     this.cargando = true;
@@ -252,15 +253,6 @@ export class CajaComponent implements OnInit {
         this.gananciasVentasTarjeta = data['resultado']['gananciasVentasTarjeta'] ; 
         this.gananciasVentasYape = data['resultado']['gananciasVentasYape'] ; 
         this.CAJA_MONTO_INICIAL= data['resultado']['montoInicial'];
-        
-        this.MontoTotalDeTotales = (
-          this.gananciasServiciosEfectivo +
-          this.gananciasServiciosTarjeta  + 
-          this.gananciasServiciosYape     +
-          this.gananciasVentasEfectivo    + 
-          this.gananciasVentasTarjeta     +
-          this.gananciasVentasYape
-        );
         this.cargando = false;
         console.log(data);
       },
@@ -284,4 +276,17 @@ export class CajaComponent implements OnInit {
     )
   }
 
+  public aplicarDescuento(): void {
+    console.log("descuentos => "+this.gastos.value);
+    this.montoTotalEfectivo = (this.gananciasServiciosEfectivo + this.gananciasVentasEfectivo - this.gastos.value).toFixed(2);
+    console.log("monto total ventas => "+this.montoTotalEfectivo);
+    this.MontoTotalDeTotales = (
+      this.gananciasServiciosTarjeta  + 
+      this.gananciasServiciosYape     +
+      this.gananciasVentasTarjeta     +
+      this.gananciasVentasYape        +
+      +this.montoTotalEfectivo
+    );
+    console.log("total => "+this.MontoTotalDeTotales);
+  }
 }

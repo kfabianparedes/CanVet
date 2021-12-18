@@ -97,7 +97,7 @@
                             <label  for="inputMontoTotalEfectivoVer">Monto Total Efectivo (S/):</label>
                         </div>
                         <div class="col-12 col-md-4 col-lg-2 mb-4">
-                            <input value="{{(gananciasVentasEfectivo + gananciasServiciosEfectivo).toFixed(2)}}" disabled type="text" id="inputMontoTotalEfectivoVer" class="border-left-primary font-tamanio form-control">
+                            <input [(ngModel)]="montoTotalEfectivo" disabled type="text" id="inputMontoTotalEfectivoVer" class="border-left-primary font-tamanio form-control">
                         </div>
                         <div class="w-100"></div>
 
@@ -131,8 +131,8 @@
             <form [formGroup]="cierreCajaForm">
                 <div class="row">
                     <div class="col-12 col-md-4 col-lg-3 mb-4 ">
-                        <label for="inputMontoInicial">Gastos del día (S/):</label>
-                        <input formControlName="gastos" type="text" id="inputMontoInicial" class="border-left-primary font-tamanio form-control">
+                        <label for="inputMontoGastos">Gastos del día (S/):</label>
+                        <input formControlName="gastos" type="text" id="inputMontoGastos" class="border-left-primary font-tamanio form-control" (keyup)="aplicarDescuento()">
                         <div *ngIf="gastos.invalid && (gastos.dirty || gastos.touched)" class="my-1" style="color: rgb(197, 68, 68);">
                             <div *ngIf="gastos.errors.required">
                                 * El monto de gastos del día es requerido.

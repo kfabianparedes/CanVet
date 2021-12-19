@@ -8,12 +8,14 @@ import { StorageService } from 'src/app/services/storage.service';
 export class SidebarComponent implements OnInit{
 
   USE_TYPE: string;
+  USE_ID: string;
   
   constructor(private storageService:StorageService){
   }
 
   ngOnInit(): void {
     this.USE_TYPE = this.storageService.getString('USE_TYPE');
+    this.USE_ID = this.storageService.getString('USE_ID');
   }
   toggled: string = '';
   

@@ -104,8 +104,8 @@
         <div id="collapsePagesReportes" class="collapse" aria-labelledby="headingPages"
             data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <h6 *ngIf = "USE_TYPE === '2' "  class="collapse-header">Caja (Tabla):</h6>
-                <a *ngIf = "USE_TYPE === '2' "  class="collapse-item" [routerLink]="['/reporte-caja']">
+                <h6 *ngIf = "USE_TYPE === '2' || USE_ID === '4'"  class="collapse-header">Caja (Tabla):</h6>
+                <a *ngIf = "USE_TYPE === '2' || USE_ID === '4'"  class="collapse-item" [routerLink]="['/reporte-caja']">
                     <i class="fas fa-chart-bar"></i>
                     <span>&nbsp; Mensual</span>
                 </a>

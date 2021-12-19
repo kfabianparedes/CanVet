@@ -6,74 +6,81 @@
 <h1 class="h3 mb-2 text-gray-800 col-12 text-center">Reporte General</h1>
 
 <!-- DataTales Example -->
-<div class="card shadow mb-3 col-12 col-lg-11" style="height: 100%;">
-    <div class="card-header py-3 row">
-        <h5 style="cursor:pointer" (click)="abrirReporteMesActual()"><span>CAJA: Mes Actual&nbsp;&nbsp;&nbsp;&nbsp;<i  class="fas fa-angle-{{flechaReporteMesActual}}"></i></span>
-        </h5>
-    </div>
-    <div *ngIf="mostrarReporteMesActual" class="card-body text-gray-400">
-        <div  *ngIf="reporte_mes_actual.length<=0; else reportesCajaMesActualModule">
-            <h3>No hay reportes de caja registrados.</h3>
+    <div class="card shadow mb-3 col-12 col-lg-11" style="height: 100%;">
+        <div class="card-header py-3 row">
+            <h5 style="cursor:pointer" (click)="abrirReporteMesActual()"><span>CAJA: Mes Actual&nbsp;&nbsp;&nbsp;&nbsp;<i  class="fas fa-angle-{{flechaReporteMesActual}}"></i></span>
+            </h5>
         </div>
-        <div *ngIf="reporte_mes_actual?.length>0" class="row box-footer clearfix mt-3">     
-            <div class="col-xl-10 col-lg-9 col-md-7 col-sm-7 col-6">
-                <ngb-pagination *ngIf="reporte_mes_actual?.length>5" class="d-flex justify-content-start" size="sm" [maxSize]="5" [pageSize]="itemsPorPaginaCajaMesActual"  [collectionSize]="reporte_mes_actual?.length" [(page)]="paginaActualCajaMesActual"></ngb-pagination>
+        <div *ngIf="mostrarReporteMesActual" class="card-body text-gray-400">
+            <div  *ngIf="reporte_mes_actual.length<=0; else reportesCajaMesActualModule">
+                <h3>No hay reportes de caja registrados.</h3>
             </div>
-            <div class="col-xl-2 col-lg-3 col-md-5 col-sm-5 col-6">
-                <select class="pull-right" [(ngModel)]="itemsPorPaginaCajaMesActual" class="form-control form-control-sm custom-select">
-                    <option value="50">50 elementos</option>                    
-                    <option value="100">100 elementos</option>                    
-                    <option value="200">200 elementos</option>                    
-                </select>  
-            </div>    
-        </div>
-        <ng-template #reportesCajaMesActualModule>
-            <div class="table-module">
-                <table class="table table-bordered text-gray-400" id="dataTable" cellspacing="1">
-                    <thead>
-                        <tr>
-                            <th class="color-row-table text-center puntero" scope="col" sortable="CAJA_FECHA" (sort)="onSort($event)">Fecha</th>
-                            <th class="color-row-table text-center puntero" scope="col" sortable="CAJA_MONTO_EFECTIVO_SERVICIOS" (sort)="onSort($event)"><span>Efectivo Servicios</span></th>
-                            <th class="color-row-table text-center puntero" scope="col" sortable="CAJA_MONTO_EFECTIVO_VENTAS" (sort)="onSort($event)"><span>Efectivo Ventas</span></th>
-                            <th class="color-row-table text-center puntero" scope="col" sortable="CAJA_MONTO_TARJETA_SERVICIOS" (sort)="onSort($event)"><span>Tarjeta Servicios</span></th>
-                            <th class="color-row-table text-center puntero" scope="col" sortable="CAJA_MONTO_TARJETA_VENTAS" (sort)="onSort($event)"><span>Tarjeta Ventas</span></th>
-                            <th class="color-row-table text-center puntero" scope="col" sortable="CAJA_MONTO_YAPE_SERVICIOS" (sort)="onSort($event)"><span>Yape Servicios</span></th>
-                            <th class="color-row-table text-center puntero" scope="col" sortable="CAJA_MONTO_YAPE_VENTAS" (sort)="onSort($event)"><span>Yape Ventas</span></th>
-                            <th class="color-row-table text-center puntero" scope="col" sortable="CAJA_DESCUENTO_GASTOS" (sort)="onSort($event)">Caja Gastos</th>
-                            <th class="color-row-table text-center puntero" scope="col" sortable="CAJA_MONTO_INICIAL" (sort)="onSort($event)">Monto inicial</th>
-                            <th class="color-row-table text-center puntero" scope="col" ><span>Acciones</span></th>
-                        
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let reporte of reporte_mes_actual| slice:(paginaActualCajaMesActual-1)*itemsPorPaginaCajaMesActual:paginaActualCajaMesActual*itemsPorPaginaCajaMesActual ; let i = index ">
-                            <td class="color-row-table">{{reporte.CAJA_FECHA | date: 'dd/MM/yyyy'}}</td>
-                            <td class="color-row-table">{{reporte.CAJA_MONTO_EFECTIVO_SERVICIOS}}</td>
-                            <td class="color-row-table">{{reporte.CAJA_MONTO_EFECTIVO_VENTAS}}</td>
-                            <td class="color-row-table">{{reporte.CAJA_MONTO_TARJETA_SERVICIOS}}</td>
-                            <td class="color-row-table">{{reporte.CAJA_MONTO_TARJETA_VENTAS}}</td>
-                            <td class="color-row-table">{{reporte.CAJA_MONTO_YAPE_SERVICIOS}}</td>
-                            <td class="color-row-table">{{reporte.CAJA_MONTO_YAPE_VENTAS}}</td>
-                            <td class="color-row-table">{{reporte.CAJA_DESCUENTO_GASTOS}}</td>
-                            <td class="color-row-table">{{reporte.CAJA_MONTO_INICIAL}}</td>
-                            <td class="color-row-table text-center">
-                                <div class="row btnes">
-                                    <div class="col-1 button-table btn-edit">
-                                        <button [disabled]="cargando" (click)=verDetalleCaja(reporte.CAJA_FECHA) class="btn btn-primary btn-circle btn-sm" ngbTooltip="Ver Más">
-                                            <i style="color: white;" class="text-center far fa-eye" aria-hidden="true"></i>
-                                        </button>
+            <div *ngIf="reporte_mes_actual?.length>0" class="row box-footer clearfix mt-3">     
+                <div class="col-xl-10 col-lg-9 col-md-7 col-sm-7 col-6">
+                    <ngb-pagination *ngIf="reporte_mes_actual?.length>5" class="d-flex justify-content-start" size="sm" [maxSize]="5" [pageSize]="itemsPorPaginaCajaMesActual"  [collectionSize]="reporte_mes_actual?.length" [(page)]="paginaActualCajaMesActual"></ngb-pagination>
+                </div>
+                <div class="col-xl-2 col-lg-3 col-md-5 col-sm-5 col-6">
+                    <select class="pull-right" [(ngModel)]="itemsPorPaginaCajaMesActual" class="form-control form-control-sm custom-select">
+                        <option value="50">50 elementos</option>                    
+                        <option value="100">100 elementos</option>                    
+                        <option value="200">200 elementos</option>                    
+                    </select>  
+                </div>    
+            </div>
+            <ng-template #reportesCajaMesActualModule>
+                <div class="table-module">
+                    <table class="table table-bordered text-gray-400" id="dataTable" cellspacing="1">
+                        <thead>
+                            <tr>
+                                <th class="color-row-table text-center puntero" scope="col" sortable="CAJA_FECHA" (sort)="onSort($event)">Fecha</th>
+                                <th class="color-row-table text-center puntero" scope="col" sortable="CAJA_MONTO_EFECTIVO_VENTAS" (sort)="onSort($event)"><span>Efectivo Ventas</span></th>
+                                <th class="color-row-table text-center puntero" scope="col" sortable="CAJA_MONTO_TARJETA_VENTAS" (sort)="onSort($event)"><span>Tarjeta Ventas</span></th>
+                                <th class="color-row-table text-center puntero" scope="col" sortable="CAJA_MONTO_YAPE_VENTAS" (sort)="onSort($event)"><span>Yape Ventas</span></th>
+
+
+                                <th class="color-row-table text-center puntero" scope="col" sortable="CAJA_MONTO_EFECTIVO_SERVICIOS" (sort)="onSort($event)"><span>Efectivo Servicios</span></th>
+                                <th class="color-row-table text-center puntero" scope="col" sortable="CAJA_MONTO_TARJETA_SERVICIOS" (sort)="onSort($event)"><span>Tarjeta Servicios</span></th>
+                                <th class="color-row-table text-center puntero" scope="col" sortable="CAJA_MONTO_YAPE_SERVICIOS" (sort)="onSort($event)"><span>Yape Servicios</span></th>
+                                
+                                <th class="color-row-table text-center puntero" scope="col" sortable="CAJA_MONTO_INICIAL" (sort)="onSort($event)">Monto inicial</th>
+                                <th class="color-row-table text-center puntero" scope="col" sortable="CAJA_DESCUENTO_GASTOS" (sort)="onSort($event)">Caja Gastos</th>
+                                
+                                <th class="color-row-table text-center puntero" scope="col" ><span>Acciones</span></th>
+                            
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let reporte of reporte_mes_actual | slice:(paginaActualCajaMesActual-1)*itemsPorPaginaCajaMesActual:paginaActualCajaMesActual*itemsPorPaginaCajaMesActual ; let i = index ">
+                                <td class="color-row-table">{{reporte.CAJA_FECHA | date: 'dd/MM/yyyy'}}</td>
+                                <td class="color-row-table">{{reporte.CAJA_MONTO_EFECTIVO_VENTAS}}</td>
+                                <td class="color-row-table">{{reporte.CAJA_MONTO_TARJETA_VENTAS}}</td>
+                                <td class="color-row-table">{{reporte.CAJA_MONTO_YAPE_VENTAS}}</td>
+                                
+                                <td class="color-row-table">{{reporte.CAJA_MONTO_EFECTIVO_SERVICIOS}}</td>
+                                <td class="color-row-table">{{reporte.CAJA_MONTO_TARJETA_SERVICIOS}}</td>
+                                <td class="color-row-table">{{reporte.CAJA_MONTO_YAPE_SERVICIOS}}</td>
+                                
+                                <td class="color-row-table">{{reporte.CAJA_MONTO_INICIAL}}</td>
+                                <td class="color-row-table">{{reporte.CAJA_DESCUENTO_GASTOS}}</td>
+
+                                <td class="color-row-table text-center">
+                                    <div class="row btnes">
+                                        <div class="col-1 button-table btn-edit">
+                                            <button [disabled]="cargando" (click)=verDetalleCaja(reporte.CAJA_FECHA) class="btn btn-primary btn-circle btn-sm" ngbTooltip="Ver Más">
+                                                <i style="color: white;" class="text-center far fa-eye" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
+                                </td>
+                            </tr>
+                        </tbody>
+                        
+                    </table>
                     
-                </table>
-                
-            </div>
-        </ng-template>
+                </div>
+            </ng-template>
+        </div>
     </div>
-</div>
 
     <div class="card shadow mb-3 col-12 col-lg-11" style="height: 100%;">
         <div class="card-header py-3 row">
@@ -102,27 +109,34 @@
                         <thead>
                             <tr>
                                 <th class="color-row-table text-center puntero" scope="col" sortable="CAJA_FECHA" (sort)="onSorted($event)">Fecha</th>
-                                <th class="color-row-table text-center puntero" scope="col" sortable="CAJA_MONTO_EFECTIVO_SERVICIOS" (sort)="onSorted($event)">Efectivo Servicios</th>
-                                <th class="color-row-table text-center puntero" scope="col" sortable="CAJA_MONTO_EFECTIVO_VENTAS" (sort)="onSorted($event)">Efectivo Ventas</th>
-                                <th class="color-row-table text-center puntero" scope="col" sortable="CAJA_MONTO_TARJETA_SERVICIOS" (sort)="onSorted($event)">Tarjeta Servicios</th>
-                                <th class="color-row-table text-center puntero" scope="col" sortable="CAJA_MONTO_TARJETA_VENTAS" (sort)="onSorted($event)">Tarjeta Ventas</th>
-                                <th class="color-row-table text-center puntero" scope="col" sortable="CAJA_MONTO_YAPE_SERVICIOS" (sort)="onSorted($event)">Yape Servicios</th>
-                                <th class="color-row-table text-center puntero" scope="col" sortable="CAJA_MONTO_YAPE_VENTAS" (sort)="onSorted($event)">Yape Ventas</th>
-                                <th class="color-row-table text-center puntero" scope="col" sortable="CAJA_DESCUENTO_GASTOS" (sort)="onSort($event)">Caja Gastos</th>
-                                <th class="color-row-table text-center puntero" scope="col" sortable="CAJA_MONTO_INICIAL" (sort)="onSort($event)">Monto Inicial</th>
+                                <th class="color-row-table text-center puntero" scope="col" sortable="CAJA_MONTO_EFECTIVO_VENTAS" (sort)="onSorted($event)"><span>Efectivo Ventas</span></th>
+                                <th class="color-row-table text-center puntero" scope="col" sortable="CAJA_MONTO_TARJETA_VENTAS" (sort)="onSorted($event)"><span>Tarjeta Ventas</span></th>
+                                <th class="color-row-table text-center puntero" scope="col" sortable="CAJA_MONTO_YAPE_VENTAS" (sort)="onSorted($event)"><span>Yape Ventas</span></th>
+
+
+                                <th class="color-row-table text-center puntero" scope="col" sortable="CAJA_MONTO_EFECTIVO_SERVICIOS" (sort)="onSorted($event)"><span>Efectivo Servicios</span></th>
+                                <th class="color-row-table text-center puntero" scope="col" sortable="CAJA_MONTO_TARJETA_SERVICIOS" (sort)="onSorted($event)"><span>Tarjeta Servicios</span></th>
+                                <th class="color-row-table text-center puntero" scope="col" sortable="CAJA_MONTO_YAPE_SERVICIOS" (sort)="onSorted($event)"><span>Yape Servicios</span></th>
+                                
+                                <th class="color-row-table text-center puntero" scope="col" sortable="CAJA_MONTO_INICIAL" (sort)="onSorted($event)">Monto inicial</th>
+                                <th class="color-row-table text-center puntero" scope="col" sortable="CAJA_DESCUENTO_GASTOS" (sort)="onSorted($event)">Caja Gastos</th>
+
                             </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor="let reporte of reporte_mes_anterior| slice:(paginaActualCajaMesAnterior-1)*itemsPorPaginaCajaMesAnterior:paginaActualCajaMesAnterior*itemsPorPaginaCajaMesAnterior ; let i = index ">
                                 <td class="color-row-table">{{reporte.CAJA_FECHA | date: 'dd/MM/yyyy'}}</td>
-                                <td class="color-row-table">{{reporte.CAJA_MONTO_EFECTIVO_SERVICIOS}}</td>
                                 <td class="color-row-table">{{reporte.CAJA_MONTO_EFECTIVO_VENTAS}}</td>
-                                <td class="color-row-table">{{reporte.CAJA_MONTO_TARJETA_SERVICIOS}}</td>
                                 <td class="color-row-table">{{reporte.CAJA_MONTO_TARJETA_VENTAS}}</td>
-                                <td class="color-row-table">{{reporte.CAJA_MONTO_YAPE_SERVICIOS}}</td>
                                 <td class="color-row-table">{{reporte.CAJA_MONTO_YAPE_VENTAS}}</td>
-                                <td class="color-row-table">{{reporte.CAJA_DESCUENTO_GASTOS}}</td>
+                                
+                                <td class="color-row-table">{{reporte.CAJA_MONTO_EFECTIVO_SERVICIOS}}</td>
+                                <td class="color-row-table">{{reporte.CAJA_MONTO_TARJETA_SERVICIOS}}</td>
+                                <td class="color-row-table">{{reporte.CAJA_MONTO_YAPE_SERVICIOS}}</td>
+                                
                                 <td class="color-row-table">{{reporte.CAJA_MONTO_INICIAL}}</td>
+                                <td class="color-row-table">{{reporte.CAJA_DESCUENTO_GASTOS}}</td>
+                                
                             </tr>
                         </tbody>
                         
@@ -132,6 +146,7 @@
             </ng-template>
         </div>
     </div>
+
 </div>
 
 <ng-template #detallesCajaModal let-modal="dismiss">

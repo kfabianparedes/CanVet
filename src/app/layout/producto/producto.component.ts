@@ -319,6 +319,7 @@ export class ProductoComponent implements OnInit {
         this.tipo_alerta = 'success';
         this.mostrar_alerta = true;
         this.modalIn = false;
+        this.cargando = false;
         this.mensaje_alerta = 'Solicitud ejectuda con éxito.'; 
       },(error)=>{
         this.modalIn = false;

@@ -43,89 +43,74 @@
                 </span>
             </h5>
         </div>
-        <div *ngIf="mostrarCierre && !cargando" class="card-body text-gray-400 text-center">
-                <div class="row color-row-table">
-                    <div class="w-100">
-                        <br>
-                    </div>
-                    <div class="col-12 col-sm-12 col-md-3 col-lg-3 offset-lg-1 mt-2 mb-2 ">
-                        <label for="inputMontoInicial">Monto ventas efectivo (S/):</label>
-                    </div>
-                    <div class="col-12 col-md-4 col-lg-2 mb-4">
-                        <input value="{{gananciasVentasEfectivo.toFixed(2)}}" disabled type="text" id="inputMontoInicial" class="border-left-primary font-tamanio form-control">
-                    </div>
-
-                    <div class="col-12 col-sm-12 col-md-3 col-lg-3 mt-2 mb-2">
-                        <label for="inputMontoInicial">Monto ventas tarjeta (S/):</label>
-                    </div>
-                    <div class="col-12 col-md-4 col-lg-2 mb-4">
-                        <input value="{{gananciasVentasTarjeta.toFixed(2)}}" disabled type="text" id="inputMontoInicial" class="border-left-primary font-tamanio form-control">
-                    </div>
-
-                    <div class="col-12 col-sm-12 col-md-3 col-lg-3 offset-lg-1 mt-2 mb-2">
-                        <label for="inputMontoInicial">Monto ventas yape (S/):</label>
-                    </div>
-                    <div class="col-12 col-md-4 col-lg-2 mb-4">
-                        <input value="{{gananciasVentasYape.toFixed(2)}}" disabled type="text" id="inputMontoInicial" class="border-left-primary font-tamanio form-control">
-                    </div>
-
-                    <div class="col-12 col-sm-12 col-md-3 col-lg-3 mt-2 mb-2">
-                        <label for="inputMontoInicial">Monto servicios efectivo (S/):</label>
-                    </div>
-                    <div class="col-12 col-md-4 col-lg-2 mb-4">
-                        <input value="{{gananciasServiciosEfectivo.toFixed(2)}}" disabled type="text" id="inputMontoInicial" class="border-left-primary font-tamanio form-control">
-                    </div>
-
-                    <div class="col-12 col-sm-12 col-md-3 col-lg-3 offset-lg-1 mt-2 mb-2">
-                        <label  for="inputMontoInicial">Monto servicios tarjeta (S/):</label>
-                    </div>
-                    <div class="col-12 col-md-4 col-lg-2 mb-4">
-                        <input value="{{gananciasServiciosTarjeta.toFixed(2)}}" disabled type="text" id="inputMontoInicial" class="border-left-primary font-tamanio form-control">
-                    </div>
-
-                    <div class="col-12 col-sm-12 col-md-3 col-lg-3 mt-2 mb-2">
-                        <label  for="inputMontoInicial">Monto servicios yape (S/):</label>
-                    </div>
-                    <div class="col-12 col-md-4 col-lg-2 mb-4">
-                        <input value="{{gananciasServiciosYape.toFixed(2)}}" disabled type="text" id="inputMontoInicial" class="border-left-primary font-tamanio form-control">
-                    </div>
-
-                    <div class="row justify-content-center">
-                        <hr>
-
-                        <div class="col-12 col-sm-12 col-md-3 col-lg-3 mt-2 mb-2">
-                            <label  for="inputMontoTotalEfectivoVer">Monto Total Efectivo (S/):</label>
+        <div *ngIf="mostrarCierre && !cargando" class="card-body text-gray-400">
+                <article class="row color-row-table">
+                    <section class="col-12 col-md-6 col-lg-6">
+                        <div class="row mb-2">
+                            <h5>Monto Ventas:</h5>
                         </div>
-                        <div class="col-12 col-md-4 col-lg-2 mb-4">
-                            <input [(ngModel)]="montoTotalEfectivo" disabled type="text" id="inputMontoTotalEfectivoVer" class="border-left-primary font-tamanio form-control">
+                        <div class="col-12 mb-4">
+                            <label for="montoVentasEfectivo">V. Efectivo (S/):</label>
+                            <input value="{{gananciasVentasEfectivo.toFixed(2)}}" disabled type="text" id="montoVentasEfectivo" class="border-left-primary font-tamanio form-control">
                         </div>
-                        <div class="w-100"></div>
+                        <div class="col-12 mb-4">
+                            <label for="montoVentasTarjeta">V. Tarjeta (S/):</label>
+                            <input value="{{gananciasVentasTarjeta.toFixed(2)}}" disabled type="text" id="montoVentasTarjeta" class="border-left-primary font-tamanio form-control">
+                        </div>
+                        <div class="col-12 mb-4">
+                            <label for="montoVentasYape">V. Yape (S/):</label>
+                            <input value="{{gananciasVentasYape.toFixed(2)}}" disabled type="text" id="montoVentasYape" class="border-left-primary font-tamanio form-control">
+                        </div>
+                    </section>
+                    <section class="col-12 col-md-6 col-lg-6">
+                        <div class="row mb-2">
+                            <h5>Monto Servicios:</h5>
+                        </div>
+                        <div class="col-12 mb-4">
+                            <label for="montoServiciosEfectivo">S. Efectivo (S/):</label>
+                            <input value="{{gananciasServiciosEfectivo.toFixed(2)}}" disabled type="text" id="montoServiciosEfectivo" class="border-left-primary font-tamanio form-control">
+                        </div>
+                        <div class="col-12 mb-4">
+                            <label for="montoServiciosTarjeta">S. Tarjeta (S/):</label>
+                            <input value="{{gananciasServiciosTarjeta.toFixed(2)}}" disabled type="text" id="montoServiciosTarjeta" class="border-left-primary font-tamanio form-control">
+                        </div>
+                        <div class="col-12 mb-4">
+                            <label for="montoServiciosYape">S. Yape (S/):</label>
+                            <input value="{{gananciasServiciosYape.toFixed(2)}}" disabled type="text" id="montoServiciosYape" class="border-left-primary font-tamanio form-control">
+                        </div>
+                    </section>
+                    
+                    <hr>
 
-                        <div class="col-12 col-sm-12 col-md-3 col-lg-3 mt-2 mb-2">
-                            <label  for="inputMontoTotalTarjetaVer">Monto Total Tarjeta (S/):</label>
+                    <section class="row justify-content-center">
+                        <div class="row mb-2">
+                            <h5>Monto Total:</h5>
                         </div>
-                        <div class="col-12 col-md-4 col-lg-2 mb-4">
-                            <input value="{{(gananciasVentasTarjeta + gananciasServiciosTarjeta).toFixed(2)}}" disabled type="text" id="inputMontoTotalTarjetaVer" class="border-left-primary font-tamanio form-control">
+                        <div class="row">
+                            <div class="col-12 col-lg-4 mb-4">
+                                <label  for="inputMontoTotalEfectivoVer">T. Efectivo (S/):</label>
+                                <input value="{{(montoTotalEfectivo).toFixed(2)}}" disabled type="text" id="inputMontoTotalEfectivoVer" class="border-left-primary font-tamanio form-control">
+                            </div>
+                            <div class="col-12 col-lg-4 mb-4">
+                                <label  for="inputMontoTotalTarjetaVer">T. Tarjeta (S/):</label>
+                                <input value="{{(gananciasVentasTarjeta + gananciasServiciosTarjeta).toFixed(2)}}" disabled type="text" id="inputMontoTotalTarjetaVer" class="border-left-primary font-tamanio form-control">
+                            </div>
+                            <div class="col-12 col-lg-4 mb-4">
+                                <label  for="inputMontoTotalYapeVer">T. Yape (S/):</label>
+                                <input value="{{(gananciasVentasYape + gananciasServiciosYape).toFixed(2)}}" disabled type="text" id="inputMontoTotalYapeVer" class="border-left-primary font-tamanio form-control">
+                            </div>
                         </div>
-                        <div class="w-100"></div>
+                    </section>
+                    
+                    <hr>
 
-                        <div class="col-12 col-sm-12 col-md-3 col-lg-3 mt-2 mb-2">
-                            <label  for="inputMontoTotalYapeVer">Monto Total Yape (S/):</label>
-                        </div>
-                        <div class="col-12 col-md-4 col-lg-2 mb-4">
-                            <input value="{{(gananciasVentasYape + gananciasServiciosYape).toFixed(2)}}" disabled type="text" id="inputMontoTotalYapeVer" class="border-left-primary font-tamanio form-control">
-                        </div>
-                        <hr>
-
-                        <div class="col-12 col-sm-12 col-md-3 col-lg-3 mt-2 mb-2">
-                            <label  for="inputMontoTotalVer">Monto Total (S/):</label>
-                        </div>
-                        <div class="col-12 col-md-4 col-lg-2 mb-4">
+                    <section class="row justify-content-center">
+                        <div class="col-12 col-lg-4 mb-4">
+                            <label  for="inputMontoTotalVer">Total. (S/):</label>
                             <input value="{{(MontoTotalDeTotales).toFixed(2)}}" disabled type="text" id="inputMontoTotalVer" class="border-left-primary font-tamanio form-control">
                         </div>
-
-                    </div>
-                </div>
+                    </section>
+                </article>
         </div>
         <div *ngIf="mostrarCierre " class="card-footer py-3 row justify-content-center">
             <form [formGroup]="cierreCajaForm">

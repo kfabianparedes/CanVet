@@ -11,14 +11,14 @@
             <div class="py-1 col-sm-12 col-md-7 col-lg-7">
                 <div class="row">
                     <div class="col-9 col-lg-7">
-                        <input type="text" class="border-left-primary font-tamanio form-control" name="filtroTexto" placeholder="Buscar..." [(ngModel)]="filtroTexto">
+                        <input type="text" class="border-left-primary font-tamanio form-control" name="filtroTexto" placeholder="Buscar..." [(ngModel)]="filtroTexto" (keyup.enter)="filtrarCategoria()">
                     </div>
                     <div class="col-3 col-lg-2  py-1">
                         <button (click)="filtrarCategoria()" [disabled]="carga" style="float:right" style="width: 100%;" type="button" class="btn btn-primary"><i class="fas fa-search"></i></button>
                     </div>
                 </div>
             </div>
-            <div class="py-1 col-12 col-md-4 col-lg-3 ">
+            <div class="py-1 col-6 col-md-4 col-lg-3 ">
                 <button [disabled]="carga"  (click)="abrirCrearCategoria()" type="button" class="btn btn-primary">Crear Categoría</button>
             </div>
             
@@ -95,13 +95,9 @@
     <mat-progress-bar *ngIf="cargaModal && modalIn" mode="indeterminate"></mat-progress-bar>
     <ngb-alert *ngIf="mostrarAlerta && modalIn" [type]="tipoAlerta" (closed)="mostrarAlerta = false" >{{mensajeAlerta}}</ngb-alert>
     <div class="modal-body">
-        <br>
-        <form [formGroup]="categoriaForm">
-            <div class="form-group row">
-                <div class="col-6">
+        <form [formGroup]="categoriaForm" class="form-group row justify-content-center">
+                <div class="col-12 col-lg-7">
                     <label for="inputNombreCategoria">Nombre de la categoría</label>
-                </div>
-                <div>
                     <input input="inputNombreCategoria" type="text" formControlName="nombreCategoria" class="border-left-primary font-tamanio form-control" placeholder="Ingrese la categoría">
                     <div *ngIf="nombreCategoria.invalid && (nombreCategoria.dirty || nombreCategoria.touched)" class="my-1" style="color: rgb(197, 68, 68);">
                         <div *ngIf="nombreCategoria.errors.required">
@@ -112,21 +108,15 @@
                         </div>
                     </div>
                 </div>
-            </div>
         </form>
-        <br>
-        <div class="row justify-content-center ">
-            <div class="my-1 col-sm-3 col-md-4 col-lg-4">
-                <button [disabled]="categoriaForm.invalid || cargaModal" (click)="catUpdate(categoriaSeleccionada)" class="btn btn-primary btn-icon-split" >
-                    <span class="text">Actualizar&nbsp;<i class="fas fa-save"></i></span>
-                </button>
-            </div>
-            <div class="my-1 col-sm-3 col-md-4 col-lg-4">
-                <button [disabled]="cargaModal" (click) = "d('Cross click')" class="btn btn-warning btn-icon-split">
-                    <span class="text">Cancelar&nbsp;<i class="fas fa-arrow-circle-left"></i></span>
-                </button>
-            </div>
-            
+        <hr>
+        <div class="row justify-content-around ">
+            <button [disabled]="categoriaForm.invalid || cargaModal" (click)="catUpdate(categoriaSeleccionada)" class="col-5 col-lg-3 btn btn-primary" >
+                <span class="text">Actualizar</span>
+            </button>
+            <button [disabled]="cargaModal" (click) = "d('Cross click')" class="col-5 col-lg-3 btn btn-warning">
+                <span class="text">Cancelar</span>
+            </button>
         </div>
     </div>
     <!-- <div class="modal-footer">
@@ -141,36 +131,30 @@
     <mat-progress-bar *ngIf="cargaModal && modalIn" mode="indeterminate"></mat-progress-bar>
     <ngb-alert *ngIf="mostrarAlerta && modalIn" [type]="tipoAlerta" (closed)="mostrarAlerta = false" >{{mensajeAlerta}}</ngb-alert>
     <div class="modal-body">
-        <br>
-        <form [formGroup]="categoriaForm">
-            <div class="form-group row">
-                <div class="col-12 col-lg-6">
-                    <label for="inputNombreCategoria">Nombre de la categoría</label>
-                    <input input="inputNombreCategoria" type="text" formControlName="nombreCategoria" class="border-left-primary font-tamanio form-control" placeholder="Ingrese la categoría">
-                    <div *ngIf="nombreCategoria.invalid && (nombreCategoria.dirty || nombreCategoria.touched)" class="my-1" style="color: rgb(197, 68, 68);">
-                        <div *ngIf="nombreCategoria.errors.required">
-                        * El nombre de la categoría es requerido.
-                        </div>
-                        <div *ngIf="nombreCategoria.errors.maxlength">
-                        * Se requieren máximo 60 caracteres.
-                        </div>
+        <form [formGroup]="categoriaForm" class="form-group row justify-content-center">
+            <div class="col-12 col-lg-7">
+                <label for="inputNombreCategoria">Nombre de la categoría</label>
+                <input input="inputNombreCategoria" type="text" formControlName="nombreCategoria" class="border-left-primary font-tamanio form-control" placeholder="Ingrese la categoría">
+                <div *ngIf="nombreCategoria.invalid && (nombreCategoria.dirty || nombreCategoria.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                    <div *ngIf="nombreCategoria.errors.required">
+                    * El nombre de la categoría es requerido.
+                    </div>
+                    <div *ngIf="nombreCategoria.errors.maxlength">
+                    * Se requieren máximo 60 caracteres.
                     </div>
                 </div>
             </div>
         </form>
-        <br><div class="row justify-content-center ">
-            <div class="my-1 col-sm-3 col-md-4 col-lg-4">
-                <button [disabled]="categoriaForm.invalid || cargaModal"  (click)="insertarCategoria()" class="btn btn-primary btn-icon-split" >
-                    <span class="text">Registrar&nbsp;<i class="fas fa-save"></i></span>
-                </button>
-            </div>
-            <div class="my-1 col-sm-3 col-md-4 col-lg-4">
-                <button [disabled]="cargaModal" (click) = "d('Cross click')" class="btn btn-warning btn-icon-split">
-                    <span class="text">Cancelar&nbsp;<i class="fas fa-arrow-circle-left"></i></span>
-                </button>
-            </div>
-            
+        <hr>
+        <div class="row justify-content-around">
+            <button [disabled]="categoriaForm.invalid || cargaModal" (click)="insertarCategoria()" class="col-5 col-lg-3 btn btn-primary" >
+                <span class="text">Registrar</span>
+            </button>
+            <button [disabled]="cargaModal" (click) = "d('Cross click')" class="col-5 col-lg-3 btn btn-warning">
+                <span class="text">Cancelar</span>
+            </button>
         </div>
+            
     </div>
     
 </ng-template>

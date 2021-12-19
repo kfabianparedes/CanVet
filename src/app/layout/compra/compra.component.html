@@ -267,7 +267,7 @@
                         <label for="inputBuscarCategoria">Producto/Código:</label>
                         <div class="row ">
                             <div class="col-10">
-                                <input id="inputBuscarCategoria" type="text" [(ngModel)]="busquedaProducto" class="border-left-primary font-tamanio form-control" name="busquedaProducto" placeholder="Producto..." >
+                                <input id="inputBuscarCategoria" type="text" [(ngModel)]="busquedaProducto" class="border-left-primary font-tamanio form-control" name="busquedaProducto" placeholder="Producto..." (keyup.enter)="filtrarProductoPorNombre()">
                             </div>
                             <div class="col-1">
                                 <button class="btn btn-success" (click)="filtrarProductoPorNombre()"><i class="fa fa-search"></i></button>
@@ -278,7 +278,7 @@
                         <label for="inputBuscarUnidadMedida">Categoría:</label>
                         <div class="row">
                             <div class="col-10">
-                                <input id="inputBuscarUnidadMedida" type="text" [(ngModel)]="busquedaCategoria" class="border-left-primary font-tamanio form-control" name="busquedaCategoria" placeholder="Categoría..." >
+                                <input id="inputBuscarUnidadMedida" type="text" [(ngModel)]="busquedaCategoria" class="border-left-primary font-tamanio form-control" name="busquedaCategoria" placeholder="Categoría..." (keyup.enter)="filtrarProductoPorCategoria()">
                             </div>
                             <div class="col-1">
                                 <button class="btn btn-success" (click)="filtrarProductoPorCategoria()"><i class="fa fa-search"></i></button>

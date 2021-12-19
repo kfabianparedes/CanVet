@@ -6,7 +6,7 @@
     <h1 class="h3 mb-2 text-gray-800 col-12 text-center">Productos</h1>
     <br><br>
     <!-- DataTales Example -->  
-    <div class="card shadow mb-4 col-12 col-lg-11" style="height: 100%;">
+    <div class="card shadow mb-4 col-12 col-lg-12" style="height: 100%;">
         <div class="card-header py-3 row justify-content-between">
             <div class="py-1 col-sm-12 col-md-7 col-lg-10">
                 <div class="row">
@@ -21,7 +21,7 @@
                     <div class="col-12 col-lg-4 mb-2">
                         <div class="row">
                             <div class="col-9 col-lg-9">
-                                <input type="text" class="border-left-primary font-tamanio form-control" name="busquedaProducto" placeholder="Producto..." [(ngModel)]="busquedaProducto">
+                                <input type="text" class="border-left-primary font-tamanio form-control" name="busquedaProducto" placeholder="Producto..." [(ngModel)]="busquedaProducto" (keyup.enter)="filtrarProductoPorNombre()">
                             </div>
                             <div class="col-3 col-md-3 col-lg-3">
                                 <button (click)="filtrarProductoPorNombre()" [disabled]="cargando" style="float:right" style="width: 100%;" type="button" class="btn btn-primary"><i class="fas fa-search"></i></button>
@@ -31,7 +31,7 @@
                     <div class="col-12 col-lg-4 mb-2">
                         <div class="row">
                             <div class="col-9 col-lg-9">
-                                <input type="text" class="border-left-primary font-tamanio form-control" name="busquedaCategoria" placeholder="Categoría..." [(ngModel)]="busquedaCategoria">
+                                <input type="text" class="border-left-primary font-tamanio form-control" name="busquedaCategoria" placeholder="Categoría..." [(ngModel)]="busquedaCategoria" (keyup.enter)="filtrarProductoPorCategoria()">
                             </div>
                             <div class="col-3 col-md-3 col-lg-3">
                                 <button (click)="filtrarProductoPorCategoria()" [disabled]="cargando" style="float:right" style="width: 100%;" type="button" class="btn btn-primary"><i class="fas fa-search"></i></button>
@@ -76,7 +76,7 @@
                                 <th class="color-row-table puntero" scope="col" sortable="CAT_NOMBRE" (sort)="onSort($event)">Categoría</th>
                                 <th class="color-row-table puntero" scope="col" sortable="PRO_TAMANIO_TALLA" (sort)="onSort($event)">Tamaño/Talla</th>
                                 <th class="color-row-table puntero" scope="col" sortable="PRO_PRECIO_VENTA" (sort)="onSort($event)">P. Venta</th>
-                                <th class="color-row-table puntero" scope="col" sortable="PRO_PRECIO_COMPRA" (sort)="onSort($event)">P. Compra</th>
+                                <th *ngIf = "USE_TYPE === '2' " class="color-row-table puntero" scope="col" sortable="PRO_PRECIO_COMPRA" (sort)="onSort($event)">P. Compra</th>
                                 <th class="color-row-table puntero" scope="col" sortable="PRO_STOCK" (sort)="onSort($event)">Stock</th>
                                 <th class="color-row-table puntero" scope="col" sortable="PRO_ESTADO" (sort)="onSort($event)">Estado</th>
                                 <th class="color-row-table puntero" scope="col" sortable="ULTIMA_COMPRA" (sort)="onSort($event)">Nuevo Lote</th>
@@ -90,7 +90,7 @@
                                 <td [ngStyle]="{'background':pro.PRO_STOCK<=3 && pro.PRO_STOCK > 0?'#ffc107':pro.PRO_STOCK<=0?'#bb2124':'white','color':pro.PRO_STOCK<=3?'white':'#6E707E'}" class="color-row-table">{{pro.CAT_NOMBRE}}</td>
                                 <td [ngStyle]="{'background':pro.PRO_STOCK<=3 && pro.PRO_STOCK > 0?'#ffc107':pro.PRO_STOCK<=0?'#bb2124':'white','color':pro.PRO_STOCK<=3?'white':'#6E707E'}" class="color-row-table">{{pro.PRO_TAMANIO_TALLA}}</td>
                                 <td [ngStyle]="{'background':pro.PRO_STOCK<=3 && pro.PRO_STOCK > 0?'#ffc107':pro.PRO_STOCK<=0?'#bb2124':'white','color':pro.PRO_STOCK<=3?'white':'#6E707E'}" class="color-row-table">{{pro.PRO_PRECIO_VENTA.toFixed(2)}}</td>
-                                <td [ngStyle]="{'background':pro.PRO_STOCK<=3 && pro.PRO_STOCK > 0?'#ffc107':pro.PRO_STOCK<=0?'#bb2124':'white','color':pro.PRO_STOCK<=3?'white':'#6E707E'}" class="color-row-table">{{pro.PRO_PRECIO_COMPRA.toFixed(2)}}</td>
+                                <td *ngIf = "USE_TYPE === '2' " [ngStyle]="{'background':pro.PRO_STOCK<=3 && pro.PRO_STOCK > 0?'#ffc107':pro.PRO_STOCK<=0?'#bb2124':'white','color':pro.PRO_STOCK<=3?'white':'#6E707E'}" class="color-row-table">{{pro.PRO_PRECIO_COMPRA.toFixed(2)}}</td>
                                 <td [ngStyle]="{'background':pro.PRO_STOCK<=3 && pro.PRO_STOCK > 0?'#ffc107':pro.PRO_STOCK<=0?'#bb2124':'white','color':pro.PRO_STOCK<=3?'white':'#6E707E'}" class="color-row-table">{{pro.PRO_STOCK}}</td>
                                 <td class="color-row-table">{{pro.PRO_ESTADO==1?'Activo':'Inactivo'}}</td>
                                 <td [ngStyle]="{'background':pro.ULTIMA_COMPRA==1?'#02AC66':'white','color':pro.ULTIMA_COMPRA==1?'white':''}" class="color-row-table">{{pro?.ULTIMA_COMPRA==1?'Nuevo Ingreso':''}}</td>

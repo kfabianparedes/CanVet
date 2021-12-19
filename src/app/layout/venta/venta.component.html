@@ -219,7 +219,7 @@
                         <div class="row">
                             <div class="col-10 col-md-10 col-lg-10">
                                 <label for="inputTipoDocumento">{{dni_ruc}}:</label>
-                                <input formControlName="documento" type="text" id="inputTipoDocumento"  class="border-left-primary font-tamanio form-control">
+                                <input formControlName="documento" type="text" id="inputTipoDocumento"  class="border-left-primary font-tamanio form-control" (keyup.enter)="obtenerDatosCliente(documento.value)">
                                 <div *ngIf="documento.invalid && (documento.dirty || documento.touched)" class="my-1" style="color: rgb(197, 68, 68);">
                                     <div *ngIf="documento.errors.required">
                                         * El campo es requerido.
@@ -344,7 +344,7 @@
                         <label for="inputBuscarCategoria">Producto/Código:</label>
                         <div class="row ">
                             <div class="col-10">
-                                <input id="inputBuscarCategoria" type="text" [(ngModel)]="busquedaProducto" class="border-left-primary font-tamanio form-control" name="busquedaProducto" placeholder="Producto..." >
+                                <input id="inputBuscarCategoria" type="text" [(ngModel)]="busquedaProducto" class="border-left-primary font-tamanio form-control" name="busquedaProducto" placeholder="Producto..." (keyup.enter)="filtrarProductoPorNombre()">
                             </div>
                             <div class="col-1">
                                 <button class="btn btn-success" (click)="filtrarProductoPorNombre()"><i class="fa fa-search"></i></button>
@@ -355,7 +355,7 @@
                         <label for="inputBuscarUnidadMedida">Categoría:</label>
                         <div class="row">
                             <div class="col-10">
-                                <input id="inputBuscarUnidadMedida" type="text" [(ngModel)]="busquedaCategoria" class="border-left-primary font-tamanio form-control" name="busquedaCategoria" placeholder="Categoría..." >
+                                <input id="inputBuscarUnidadMedida" type="text" [(ngModel)]="busquedaCategoria" class="border-left-primary font-tamanio form-control" name="busquedaCategoria" placeholder="Categoría..." (keyup.enter)="filtrarProductoPorCategoria()">
                             </div>
                             <div class="col-1">
                                 <button class="btn btn-success" (click)="filtrarProductoPorCategoria()"><i class="fa fa-search"></i></button>
@@ -446,7 +446,7 @@
                     <form [formGroup]="clienteForm">
                         <div class="row color-row-table mt-4 mb-3">
                             <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
-                                <label for="inputNombreClienteNatural" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Nombre: <small class="text-danger" data-toggle="tooltip" data-placement="top" title="*Obligatorio">(*)</small></label>
+                                <label for="inputNombreClienteNatural" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Nombre:</label>
                                 <input formControlName="nombres" type="text" id="inputNombreClienteNatural" class="border-left-primary font-tamanio form-control">
                                 <div *ngIf="nombres.invalid && (nombres.dirty || nombres.touched)" class="my-1" style="color: rgb(197, 68, 68);">
                                     <!-- <div *ngIf="nombres.errors.required">
@@ -475,7 +475,7 @@
                         </div>
                         <div class="row color-row-table mb-3">
                             <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
-                                <label for="inputCelularClienteNatural" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Celular: <small class="text-danger" data-toggle="tooltip" data-placement="top" title="*Obligatorio">(*)&nbsp;(Ejemplo: +51987802338)</small></label>
+                                <label for="inputCelularClienteNatural" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Celular: <small class="text-danger" data-toggle="tooltip" data-placement="top" title="*Obligatorio">(*)</small></label>
                                 <input formControlName="celular" type="text" id="inputCelularClienteNatural" class="border-left-primary font-tamanio form-control">
                                 <div *ngIf="celular.invalid && (celular.dirty || celular.touched)" class="my-1" style="color: rgb(197, 68, 68);">
                                     <!-- <div *ngIf="celular.errors.required">
@@ -485,10 +485,10 @@
                                         * El formato es inválido.
                                     </div>
                                     <div *ngIf="celular.errors.minlength">
-                                        * Se requieren mínimo 12 caracteres.
+                                        * Se requieren mínimo 9 caracteres.
                                     </div>
                                     <div *ngIf="celular.errors.maxlength">
-                                        * Se requieren máximo 12 caracteres.
+                                        * Se requieren máximo 9 caracteres.
                                     </div>
                                 </div>
                             </div>
@@ -558,7 +558,7 @@
                     <form [formGroup]="clienteJuridicoForm">
                         <div class="row color-row-table mt-4 mb-3">
                             <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
-                                <label for="inputNombreClienteJuridico" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Nombre: <small class="text-danger" data-toggle="tooltip" data-placement="top" title="*Obligatorio">(*)</small></label>
+                                <label for="inputNombreClienteJuridico" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Nombre:</label>
                                 <input formControlName="nombres_" type="text" id="inputNombreClienteJuridico" class="border-left-primary font-tamanio form-control">
                                 <div *ngIf="nombres_.invalid && (nombres_.dirty || nombres_.touched)" class="my-1" style="color: rgb(197, 68, 68);">
                                     <!-- <div *ngIf="nombres_.errors.required">
@@ -573,7 +573,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-12 col-md-6 col-lg-6">
-                                <label for="inputRazonSocialClienteJuridico" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Razón Social: <small class="text-danger" data-toggle="tooltip" data-placement="top" title="*Obligatorio">(*)</small></label>
+                                <label for="inputRazonSocialClienteJuridico" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Razón Social:</label>
                                 <input formControlName="razon_social" type="text" id="inputRazonSocialClienteJuridico" class="border-left-primary font-tamanio form-control">
                                 <div *ngIf="razon_social.invalid && (razon_social.dirty || razon_social.touched)" class="my-1" style="color: rgb(197, 68, 68);">
                                     <!-- <div *ngIf="razon_social.errors.required">
@@ -609,7 +609,7 @@
                                 
                             </div>
                             <div class="col-sm-12 col-md-6 col-lg-6">
-                                <label for="inputTipoEmpresa" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Empresa: <small class="text-danger" data-toggle="tooltip" data-placement="top" title="*Obligatorio">(*)</small></label>
+                                <label for="inputTipoEmpresa" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Empresa:</label>
                                 <select  formControlName="tipo_empresa" id="inputTipoEmpresa" class="border-left-primary form-select">
                                     <option hidden value="" disabled>Escoge una opción</option>
                                     <option [value]="empresa.TIPO_EMPRESA_ID" *ngFor="let empresa of empresas">{{empresa.TIPO_EMPRESA_CLAVE}}</option>
@@ -635,7 +635,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-12 col-md-6 col-lg-6">
-                                <label for="inputCelularClienteJuridico">Celular: <small class="text-danger">&nbsp;(Ejemplo: +51987802338)</small></label>
+                                <label for="inputCelularClienteJuridico">Celular: <small class="text-danger" data-toggle="tooltip" data-placement="top" title="*Obligatorio">(*)</small></label>
                                 <input formControlName="celular_" type="text" id="inputCelularClienteJuridico" class="border-left-primary font-tamanio form-control">
                                 <div *ngIf="celular_.invalid && (celular_.dirty || celular_.touched)" class="my-1" style="color: rgb(197, 68, 68);">
                                     <!-- <div *ngIf="celular_.errors.required">
@@ -645,10 +645,10 @@
                                         * El formato es inválido.
                                     </div>
                                     <div *ngIf="celular_.errors.minlength">
-                                        * Se requieren mínimo 12 caracteres.
+                                        * Se requieren mínimo 9 caracteres.
                                     </div>
                                     <div *ngIf="celular_.errors.maxlength">
-                                        * Se requieren máximo 12 caracteres.
+                                        * Se requieren máximo 9 caracteres.
                                     </div>
                                 </div>
                             </div>

@@ -84,7 +84,7 @@ export class CompraComponent implements OnInit {
     private storageService:StorageService
     ){ 
       this.configModal.backdrop = 'static';
-      this.configModal.keyboard = false;
+      this.configModal.keyboard = true;
       this.configModal.size = 'xl'
     }
 

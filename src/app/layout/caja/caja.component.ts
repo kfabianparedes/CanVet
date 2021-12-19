@@ -206,7 +206,7 @@ export class CajaComponent implements OnInit {
   }
   inicializarCierreFormulario(){
     this.cierreCajaForm = this.formBuilder.group({
-      gastos :['',[Validators.required, Validators.pattern('[0-9]+[.]?[0-9]*')]],
+      gastos :[0,[Validators.required, Validators.pattern('[0-9]+[.]?[0-9]*')]],
       descripcion:['',[Validators.maxLength(500),]],
     })
   }
@@ -237,7 +237,7 @@ export class CajaComponent implements OnInit {
   gananciasVentasEfectivo : number = 0; 
   gananciasVentasTarjeta : number = 0; 
   gananciasVentasYape : number = 0;
-  montoTotalEfectivo : string = '0.00'; 
+  montoTotalEfectivo : number = 0; 
   CAJA_MONTO_INICIAL : number = 0;
   MontoTotalDeTotales :number = 0;
   listarMontoDelDia(){
@@ -254,6 +254,7 @@ export class CajaComponent implements OnInit {
         this.gananciasVentasYape = data['resultado']['gananciasVentasYape'] ; 
         this.CAJA_MONTO_INICIAL= data['resultado']['montoInicial'];
         this.cargando = false;
+        this.montoTotalEfectivo = +(this.gananciasServiciosEfectivo + this.gananciasVentasEfectivo - this.gastos.value).toFixed(2);
         console.log(data);
       },
       (error)=>{
@@ -278,14 +279,14 @@ export class CajaComponent implements OnInit {
 
   public aplicarDescuento(): void {
     console.log("descuentos => "+this.gastos.value);
-    this.montoTotalEfectivo = (this.gananciasServiciosEfectivo + this.gananciasVentasEfectivo - this.gastos.value).toFixed(2);
+    this.montoTotalEfectivo = +(this.gananciasServiciosEfectivo + this.gananciasVentasEfectivo - this.gastos.value).toFixed(2);
     console.log("monto total ventas => "+this.montoTotalEfectivo);
     this.MontoTotalDeTotales = (
       this.gananciasServiciosTarjeta  + 
       this.gananciasServiciosYape     +
       this.gananciasVentasTarjeta     +
       this.gananciasVentasYape        +
-      +this.montoTotalEfectivo
+      this.montoTotalEfectivo
     );
     console.log("total => "+this.MontoTotalDeTotales);
   }

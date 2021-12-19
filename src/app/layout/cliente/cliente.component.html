@@ -210,7 +210,7 @@
                         </div>
                         <div class="row color-row-table mb-3">
                             <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
-                                <label for="inputCelularClienteNatural" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Celular: <small class="text-danger" data-toggle="tooltip" data-placement="top" title="*Obligatorio">(*)&nbsp;(Ejemplo: +51987802338)</small></label>
+                                <label for="inputCelularClienteNatural" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Celular: </label>
                                 <input formControlName="celular" type="text" id="inputCelularClienteNatural" class="border-left-primary font-tamanio form-control">
                                 <div *ngIf="celular.invalid && (celular.dirty || celular.touched)" class="my-1" style="color: rgb(197, 68, 68);">
                                     <div *ngIf="celular.errors.required">
@@ -220,10 +220,10 @@
                                         * El formato es inválido.
                                     </div>
                                     <div *ngIf="celular.errors.minlength">
-                                        * Se requieren mínimo 12 caracteres.
+                                        * Se requieren mínimo 9 caracteres.
                                     </div>
                                     <div *ngIf="celular.errors.maxlength">
-                                        * Se requieren máximo 12 caracteres.
+                                        * Se requieren máximo 9 caracteres.
                                     </div>
                                 </div>
                             </div>
@@ -296,9 +296,6 @@
                                 <label for="inputNombreClienteJuridico" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Nombre: <small class="text-danger" data-toggle="tooltip" data-placement="top" title="*Obligatorio">(*)</small></label>
                                 <input formControlName="nombres_" type="text" id="inputNombreClienteJuridico" class="border-left-primary font-tamanio form-control">
                                 <div *ngIf="nombres_.invalid && (nombres_.dirty || nombres_.touched)" class="my-1" style="color: rgb(197, 68, 68);">
-                                    <div *ngIf="nombres_.errors.required">
-                                        * El nombre es requerido.
-                                    </div>
                                     <div *ngIf="nombres_.errors.pattern">
                                         * El formato es inválido.
                                     </div>
@@ -373,7 +370,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-12 col-md-6 col-lg-6">
-                                <label for="inputCelularClienteJuridico">Celular: <small class="text-danger">&nbsp;(Ejemplo: +51987802338)</small></label>
+                                <label for="inputCelularClienteJuridico">Celular:</label>
                                 <input formControlName="celular_" type="text" id="inputCelularClienteJuridico" class="border-left-primary font-tamanio form-control">
                                 <div *ngIf="celular_.invalid && (celular_.dirty || celular_.touched)" class="my-1" style="color: rgb(197, 68, 68);">
                                     <div *ngIf="celular_.errors.required">
@@ -383,10 +380,10 @@
                                         * El formato es inválido.
                                     </div>
                                     <div *ngIf="celular_.errors.minlength">
-                                        * Se requieren mínimo 12 caracteres.
+                                        * Se requieren mínimo 9 caracteres.
                                     </div>
                                     <div *ngIf="celular_.errors.maxlength">
-                                        * Se requieren máximo 12 caracteres.
+                                        * Se requieren máximo 9 caracteres.
                                     </div>
                                 </div>
                             </div>
@@ -442,9 +439,7 @@
                     <label for="inputNombreClienteNatural">Nombre:</label>
                     <input formControlName="nombres" type="text" id="inputNombreClienteNatural" class="border-left-primary font-tamanio form-control">
                     <div *ngIf="nombres.invalid && (nombres.dirty || nombres.touched)" class="my-1" style="color: rgb(197, 68, 68);">
-                        <div *ngIf="nombres.errors.required">
-                            * El nombre del cliente es requerido.
-                        </div>
+                        
                         <div *ngIf="nombres.errors.pattern">
                             * El formato es inválido.
                         </div>
@@ -468,7 +463,7 @@
             </div>
             <div class="row color-row-table mb-3">
                 <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
-                    <label for="inputCelularClienteNatural">Celular: <small class="text-danger">&nbsp;(Ejemplo: +51987802338)</small></label>
+                    <label for="inputCelularClienteNatural">Celular:</label>
                     <input formControlName="celular" type="text" id="inputCelularClienteNatural" class="border-left-primary font-tamanio form-control">
                     <div *ngIf="celular.invalid && (celular.dirty || celular.touched)" class="my-1" style="color: rgb(197, 68, 68);">
                         <div *ngIf="celular.errors.required">
@@ -478,10 +473,10 @@
                             * El formato es inválido.
                         </div>
                         <div *ngIf="celular.errors.minlength">
-                            * Se requieren mínimo 12 caracteres.
+                            * Se requieren mínimo 9 caracteres.
                         </div>
                         <div *ngIf="celular.errors.maxlength">
-                            * Se requieren máximo 12 caracteres.
+                            * Se requieren máximo 9 caracteres.
                         </div>
                     </div>
                 </div>
@@ -560,9 +555,6 @@
                     <label for="inputNombreClienteJuridico">Nombre:</label>
                     <input formControlName="nombres_" type="text" id="inputNombreClienteJuridico" class="border-left-primary font-tamanio form-control">
                     <div *ngIf="nombres_.invalid && (nombres_.dirty || nombres_.touched)" class="my-1" style="color: rgb(197, 68, 68);">
-                        <div *ngIf="nombres_.errors.required">
-                            * El nombre es requerido.
-                        </div>
                         <div *ngIf="nombres_.errors.pattern">
                             * El formato es inválido.
                         </div>
@@ -637,7 +629,7 @@
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-6">
-                    <label for="inputCelularClienteJuridico">Celular: <small class="text-danger">&nbsp;(Ejemplo: +51987802338)</small></label>
+                    <label for="inputCelularClienteJuridico">Celular:</label>
                     <input formControlName="celular_" type="text" id="inputCelularClienteJuridico" class="border-left-primary font-tamanio form-control">
                     <div *ngIf="celular_.invalid && (celular_.dirty || celular_.touched)" class="my-1" style="color: rgb(197, 68, 68);">
                         <div *ngIf="celular_.errors.required">
@@ -647,10 +639,10 @@
                             * El formato es inválido.
                         </div>
                         <div *ngIf="celular_.errors.minlength">
-                            * Se requieren mínimo 12 caracteres.
+                            * Se requieren mínimo 9 caracteres.
                         </div>
                         <div *ngIf="celular_.errors.maxlength">
-                            * Se requieren máximo 12 caracteres.
+                            * Se requieren máximo 9 caracteres.
                         </div>
                     </div>
                 </div>

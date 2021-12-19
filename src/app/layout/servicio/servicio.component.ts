@@ -52,7 +52,7 @@ export class ServicioComponent implements OnInit {
     private clienteService:ClienteService,
   ) {
     this.configModal.backdrop = 'static';
-    this.configModal.keyboard = false;
+    // this.configModal.keyboard = true;
   }
 
   ngOnInit(): void {
@@ -183,7 +183,7 @@ export class ServicioComponent implements OnInit {
   nombre_mascota_seleccionada:string = '';
   //Paginacion de tabla
   currentPage = 1;
-  itemsPerPage = 5;
+  itemsPerPage = 50;
 
   tipo_cliente : number = -1;
   abrirBusqueda(){
@@ -203,7 +203,7 @@ export class ServicioComponent implements OnInit {
       }else{
         this.tipo_cliente = 0; // natural
       }
-      this.modal.open(this.buscarMascotaModal,{size:'xl'});
+      this.modal.open(this.buscarMascotaModal,{size:'xl', keyboard: true});
     }
     
   }
@@ -489,7 +489,7 @@ export class ServicioComponent implements OnInit {
     this.servicioInsertar.USU_ID = +this.storageService.getString('USE_ID');
     console.log(this.servicioInsertar);
     
-    this.modal.open(this.confirmarServicioModal,{size:'lg'});
+    this.modal.open(this.confirmarServicioModal,{size:'lg', keyboard: false});
   }
 
 
@@ -541,7 +541,7 @@ export class ServicioComponent implements OnInit {
 
   /********************REGISTRAR CLIENTE  ***********************/
   nuevoCliente(){
-    this.modal.open(this.clienteModal,{size: 'lg'});
+    this.modal.open(this.clienteModal,{size: 'lg', keyboard: false});
     this.mostrar_alerta = false;
     this.modalIn = false;
     this.inicializarClienteNaturalFormulario();
@@ -667,7 +667,7 @@ export class ServicioComponent implements OnInit {
     this.clienteForm = this.formBuilder.group({
       nombres:['',[Validators.required,Validators.pattern('[a-zñáéíóúA-ZÑÁÉÍÓÚ. ]+$'),Validators.maxLength(100)]],
       apellidos: ['', [Validators.pattern('[a-zñáéíóúA-ZÑÁÉÍÓÚ ]+'),Validators.maxLength(30)]],
-      celular: ['', [Validators.required, Validators.pattern('[+][0-9]+'), Validators.maxLength(12), Validators.minLength(12)]] ,
+      celular: ['', [Validators.required, Validators.pattern('[0-9]+'), Validators.maxLength(9), Validators.minLength(9)]] ,
       dni: ['', [Validators.required, Validators.pattern(/^([0-9])*$/), Validators.minLength(8),  Validators.maxLength(8)]],
       direccion: ['', [Validators.pattern('^[a-zñáéíóú#°/,. A-ZÑÁÉÍÓÚ  0-9 \-]+$'), Validators.maxLength(100)]],
       correo_: ['', [Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/), Validators.maxLength(60)]],
@@ -698,7 +698,7 @@ export class ServicioComponent implements OnInit {
       razon_social: ['', [Validators.required,Validators.pattern('^[a-zñáéíóúA-ZÑÁÉÍÓÚ. ]+$'), Validators.maxLength(100)]],
       ruc: ['', [Validators.required, Validators.pattern(/^([0-9])*$/), Validators.minLength(11),  Validators.maxLength(11)]],
       tipo_empresa:['',[Validators.required]],
-      celular_: ['', [Validators.pattern('[+][0-9]+'), Validators.maxLength(12), Validators.minLength(12)]] ,
+      celular_: ['', [Validators.pattern('[0-9]+'), Validators.maxLength(9), Validators.minLength(9)]] ,
       direccion_: ['', [Validators.pattern('^[a-zñáéíóú#°/,. A-ZÑÁÉÍÓÚ  0-9 \-]+$'), Validators.maxLength(100)]],
       correo: ['', [Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/), Validators.maxLength(60)]],
     });
@@ -734,7 +734,7 @@ export class ServicioComponent implements OnInit {
   @ViewChild('crearMascotaModal') crearMascotaModal: ElementRef;
   /******************** REGISTRAR MASCOTA *************************/
   crearMascota(){
-    this.modal.open(this.crearMascotaModal,{size:'xl'});
+    this.modal.open(this.crearMascotaModal,{size:'xl', keyboard: true});
     this.listarClientes();
   }
 

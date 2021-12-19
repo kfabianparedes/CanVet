@@ -175,7 +175,7 @@
                     <div class="py-1 col-sm-12 col-md-5 col-lg-4">
                         <div class="row">
                             <div class="col-10">
-                                <input type="text" class="border-left-primary font-tamanio form-control"  [(ngModel)]="busquedaMascota" name="busquedaMascota" placeholder="Nombre de la mascota...">
+                                <input type="text" class="border-left-primary font-tamanio form-control"  [(ngModel)]="busquedaMascota" name="busquedaMascota" placeholder="Nombre de la mascota..." (keyup.enter)="filtrarMascotaPorNombre()">
                             </div>
                             <div class="col-1">
                                 <button (click)="filtrarMascotaPorNombre()" class="btn btn-success"><i class="fa fa-search"></i></button>
@@ -185,7 +185,7 @@
                     <div class="py-1 col-sm-12 col-md-5 col-lg-4">
                         <div class="row ">
                             <div class="col-10">
-                                <input id="inputBuscarCategoria" type="text" [(ngModel)]="busquedaCliente" class="border-left-primary font-tamanio form-control" name="busquedaCliente" placeholder="Nombre del dueño..." >
+                                <input id="inputBuscarCategoria" type="text" [(ngModel)]="busquedaCliente" class="border-left-primary font-tamanio form-control" name="busquedaCliente" placeholder="Nombre del dueño..." (keyup.enter)="filtrarMascotaPorCliente()">
                             </div>
                             <div class="col-1">
                                 <button (click)="filtrarMascotaPorCliente()" class="btn btn-success"><i class="fa fa-search"></i></button>
@@ -229,7 +229,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let mascota of mascotas|slice:(currentPage-1)*itemsPerPage:currentPage*itemsPerPage ; let i = index ">
+                                    <tr *ngFor="let mascota of mascotas | slice:(currentPage-1)*itemsPerPage:currentPage*itemsPerPage ; let i = index ">
                                         <td class="color-row-table text-center">
                                             <button [disabled]="mascota.TIPO_CLIENTE!=tipo_cliente" (click)="agregarMascota(mascota)" class="btn btn-success btn-circle btn-sm" ngbTooltip="Agregar" >
                                                 <i class="fa fa-check" aria-hidden="true"></i>
@@ -422,7 +422,7 @@
                         </div>
                         <div class="row color-row-table mb-3">
                             <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
-                                <label for="inputCelularClienteNatural" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Celular: <small class="text-danger" data-toggle="tooltip" data-placement="top" title="*Obligatorio">(*)&nbsp;(Ejemplo: +51987802338)</small></label>
+                                <label for="inputCelularClienteNatural" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Celular:</label>
                                 <input formControlName="celular" type="text" id="inputCelularClienteNatural" class="border-left-primary font-tamanio form-control">
                                 <div *ngIf="celular.invalid && (celular.dirty || celular.touched)" class="my-1" style="color: rgb(197, 68, 68);">
                                     <div *ngIf="celular.errors.required">
@@ -432,10 +432,10 @@
                                         * El formato es inválido.
                                     </div>
                                     <div *ngIf="celular.errors.minlength">
-                                        * Se requieren mínimo 12 caracteres.
+                                        * Se requieren mínimo 9 caracteres.
                                     </div>
                                     <div *ngIf="celular.errors.maxlength">
-                                        * Se requieren máximo 12 caracteres.
+                                        * Se requieren máximo 9 caracteres.
                                     </div>
                                 </div>
                             </div>
@@ -585,7 +585,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-12 col-md-6 col-lg-6">
-                                <label for="inputCelularClienteJuridico">Celular: <small class="text-danger">&nbsp;(Ejemplo: +51987802338)</small></label>
+                                <label for="inputCelularClienteJuridico">Celular:</label>
                                 <input formControlName="celular_" type="text" id="inputCelularClienteJuridico" class="border-left-primary font-tamanio form-control">
                                 <div *ngIf="celular_.invalid && (celular_.dirty || celular_.touched)" class="my-1" style="color: rgb(197, 68, 68);">
                                     <div *ngIf="celular_.errors.required">
@@ -595,10 +595,10 @@
                                         * El formato es inválido.
                                     </div>
                                     <div *ngIf="celular_.errors.minlength">
-                                        * Se requieren mínimo 12 caracteres.
+                                        * Se requieren mínimo 9 caracteres.
                                     </div>
                                     <div *ngIf="celular_.errors.maxlength">
-                                        * Se requieren máximo 12 caracteres.
+                                        * Se requieren máximo 9 caracteres.
                                     </div>
                                 </div>
                             </div>

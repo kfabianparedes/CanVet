@@ -99,7 +99,8 @@ export class VentaComponent implements OnInit {
     private ventaService:VentaService
   ) {
       this.configModal.backdrop = 'static';
-      this.configModal.keyboard = false;
+      // this.configModal.keyboard = true;
+
   }
   
   @ViewChild('articulosModal') articulosModal: ElementRef;
@@ -268,12 +269,12 @@ export class VentaComponent implements OnInit {
     )
   }
   listarProductos(){
-    this.modal.open(this.articulosModal,{size: 'xl'});
+    this.modal.open(this.articulosModal,{size: 'xl', keyboard:true});
     this.mostrar_alerta = false;
     this.modalIn = true;
     if(this.listarProductoTabla){
       this.cargando = true;
-      this.productoService.listarProductos().subscribe(
+      this.productoService.listarProductosActivos().subscribe(
         data=>{
           this.productos_iniciales = data.resultado; 
           this.productos = this.productos_iniciales.slice();
@@ -528,7 +529,7 @@ export class VentaComponent implements OnInit {
 
   /************************************REGISTRO DE CLIENTES************************************/
   nuevoCliente(){
-    this.modal.open(this.clienteModal,{size: 'lg'});
+    this.modal.open(this.clienteModal,{size: 'lg', keyboard:false});
     this.mostrar_alerta = false;
     this.modalIn = false;
     this.inicializarClienteNaturalFormulario();
@@ -721,7 +722,7 @@ export class VentaComponent implements OnInit {
     this.clienteForm = this.formBuilder.group({
       nombres:['',[Validators.pattern('[a-zñáéíóúA-ZÑÁÉÍÓÚ. ]+$'),Validators.maxLength(100)]], //Validators.required, 
       apellidos: ['', [Validators.pattern('[a-zñáéíóúA-ZÑÁÉÍÓÚ ]+'),Validators.maxLength(30)]],
-      celular: ['', [Validators.pattern('[+][0-9]+'), Validators.maxLength(12), Validators.minLength(12)]] , //Validators.required, 
+      celular: ['', [Validators.pattern('[0-9]+'), Validators.maxLength(9), Validators.minLength(9)]] , //Validators.required, 
       dni: ['', [Validators.pattern(/^([0-9])*$/), Validators.minLength(8),  Validators.maxLength(8)]], //Validators.required, 
       direccion: ['', [Validators.pattern('^[a-zñáéíóú#°/,. A-ZÑÁÉÍÓÚ  0-9]+$'), Validators.maxLength(100)]],
       correo_: ['', [Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/), Validators.maxLength(60)]],
@@ -750,11 +751,11 @@ export class VentaComponent implements OnInit {
 
   inicializarClienteJuridicoFormulario(){
     this.clienteJuridicoForm = this.formBuilder.group({
-      nombres_:['',[Validators.required,Validators.pattern('[a-zñáéíóúA-ZÑÁÉÍÓÚ. ]+$'),Validators.maxLength(100)]], //Validators.required
-      razon_social: ['', [Validators.required,Validators.pattern('^[a-zñáéíóúA-ZÑÁÉÍÓÚ. ]+$'), Validators.maxLength(100)]], //Validators.required
+      nombres_:['',[Validators.pattern('[a-zñáéíóúA-ZÑÁÉÍÓÚ. ]+$'),Validators.maxLength(100)]], //Validators.required
+      razon_social: ['', [Validators.pattern('^[a-zñáéíóúA-ZÑÁÉÍÓÚ. ]+$'), Validators.maxLength(100)]], //Validators.required
       ruc: ['', [Validators.required, Validators.pattern(/^([0-9])*$/), Validators.minLength(11),  Validators.maxLength(11)]], 
       tipo_empresa:[''], //Validators.required
-      celular_: ['', [Validators.pattern('[+][0-9]+'), Validators.maxLength(12), Validators.minLength(12)]] ,
+      celular_: ['', [Validators.pattern('[0-9]+'), Validators.maxLength(9), Validators.minLength(9)]] ,
       direccion_: ['', [Validators.pattern('^[a-zñáéíóú#°/,. A-ZÑÁÉÍÓÚ  0-9]+$'), Validators.maxLength(100)]],
       correo: ['', [Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/), Validators.maxLength(60)]],
     });

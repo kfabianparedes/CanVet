@@ -239,6 +239,8 @@ export class ReporteVentaDiarioComponent implements OnInit {
   @ViewChild('detallesServicioModal') detallesServicioModal: ElementRef;
   DJ_RUC: string = '';
   CLIENTE_DNI: string = '';
+  MAS_ATENCIONES :number = 0;
+  MAS_NOMBRE : string = '';
   verDetallesServicio(reporte:any){
     console.log(reporte);
     console.log(reporte.USU_NOMBRE);
@@ -246,10 +248,13 @@ export class ReporteVentaDiarioComponent implements OnInit {
     this.USU_NOMBRE = reporte.USU_NOMBRE;
     this.CLIENTE_DNI = reporte.CLIENTE_DNI;
     this.CLIENTE_CORREO = reporte.CLIENTE_CORREO;
+    this.MAS_ATENCIONES = reporte.MAS_ATENCIONES;
+    this.MAS_NOMBRE = reporte.MAS_NOMBRE;
     this.DJ_RUC = reporte.DJ_RUC;
     this.modal.open(this.detallesServicioModal,{size:'lg'});
   }
-  
+
+
 
   onSortServicio({column, direction}: any) {
     // resetting other headers

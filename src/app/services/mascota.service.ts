@@ -33,7 +33,9 @@ export class MascotaService {
       MAS_RAZA: mascota.MAS_RAZA,
       MAS_ESPECIE: mascota.MAS_ESPECIE,
       MAS_COLOR: mascota.MAS_COLOR,
-      MAS_ESTADO: mascota.MAS_ESTADO
+      MAS_ESTADO: mascota.MAS_ESTADO,
+      MAS_TAMANIO: mascota.MAS_TAMANIO,
+      MAS_GENERO: mascota.MAS_GENERO
     }
     return this.http.post<any>(url,datos,this.httpHead).pipe(retry(2));
   }
@@ -47,7 +49,9 @@ export class MascotaService {
       MAS_RAZA: mascota.MAS_RAZA,
       MAS_ESPECIE: mascota.MAS_ESPECIE,
       MAS_COLOR: mascota.MAS_COLOR,
-      MAS_ESTADO: mascota.MAS_ESTADO
+      MAS_ESTADO: mascota.MAS_ESTADO,
+      MAS_TAMANIO: mascota.MAS_TAMANIO,
+      MAS_GENERO: mascota.MAS_GENERO
     }
     return this.http.put<any>(url,datos,this.httpHead).pipe(retry(2));
   }

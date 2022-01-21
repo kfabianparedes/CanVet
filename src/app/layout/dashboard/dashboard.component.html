@@ -155,9 +155,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="offset-md-2 offset-1 col-10 mb-4">
+                    <div class="offset-md-3 offset-1 col-10 mb-4">
                         <label for="inputHoraServicio">Hora del servicio:</label>
-                        <ngb-timepicker  formControlName="hora_"   class="text-center notranslate" [seconds]="seconds" [meridian]="meridian" id="inputHoraServicio"></ngb-timepicker>
+                        <ngb-timepicker  formControlName="hora_"   class="text-center notranslate" [meridian]="meridian" id="inputHoraServicio"></ngb-timepicker>
                     </div>
                 </div>
                 
@@ -290,7 +290,7 @@
                     </div>
                     <div class="row justify-content-between color-row-table mt-4">
                         <div class="col-sm-12 col-md-12 mb-4">
-                            <label for="inputDescripcionServicio">Descripción:</label>
+                            <label for="inputDescripcionServicio">Tipo de corte:</label>
                             <textarea formControlName="descripcion"  type="text" id="inputDescripcionServicio" class="border-left-primary font-tamanio form-control"></textarea>
                             <div *ngIf="descripcion.invalid && (descripcion.dirty || descripcion.touched)" class="my-1" style="color: rgb(197, 68, 68);">
                                 <div *ngIf="descripcion.errors.maxlength">

@@ -351,7 +351,7 @@ export class ServicioComponent implements OnInit {
     minuto = minuto < 10 ? "0" + minuto : minuto;
     segundo = segundo < 10 ? "0" + segundo : segundo;
     
-    this.HORA_SERVICIO = horaF + ":" + minuto + ":" + segundo;
+    this.HORA_SERVICIO = horaF + ":" + minuto + ":" + "00";
   }
 
 
@@ -756,6 +756,8 @@ export class ServicioComponent implements OnInit {
       this.mascotaNueva.MAS_ESPECIE = this.especie.value;
       this.mascotaNueva.MAS_NOMBRE = this.nombre.value;
       this.mascotaNueva.MAS_RAZA = this.raza.value;
+      this.mascotaNueva.MAS_TAMANIO = this.tamanio.value;
+      this.mascotaNueva.MAS_GENERO = this.sexo;
       this.mascotaNueva.MAS_ESTADO = 1;
       console.log(this.mascotaNueva);
       this.mascotaService.registrarMascota(this.mascotaNueva).subscribe(
@@ -802,6 +804,7 @@ export class ServicioComponent implements OnInit {
       raza:['',[Validators.required,Validators.pattern('[a-zñáéíóúA-ZÑÁÉÍÓÚ. ]+$'),Validators.minLength(3),Validators.maxLength(30)]],
       especie:['',[Validators.required,Validators.pattern('[a-zñáéíóúA-ZÑÁÉÍÓÚ. ]+$'),Validators.minLength(3),Validators.maxLength(20)]],
       color:['',[Validators.required,Validators.pattern('[a-zñáéíóúA-ZÑÁÉÍÓÚ. ]+$'),Validators.minLength(3),Validators.maxLength(45)]],
+      tamanio:['',[Validators.required]],
     });
   }
   get nombre() {
@@ -816,8 +819,13 @@ export class ServicioComponent implements OnInit {
   get color() {
     return this.mascotaForm.get('color');
   } 
-
-
+  get tamanio() {
+    return this.mascotaForm.get('tamanio');
+  } 
+  sexo: string = '';
+  obtenerSexo(sexo: string) {
+    this.sexo = sexo;
+  } 
   /******************** LISTAR CLIENTES *******************/
   clientes: Cliente[] = [];
   clientes_iniciales: any[]=[];

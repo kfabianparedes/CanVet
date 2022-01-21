@@ -41,7 +41,7 @@ export class MascotaComponent implements OnInit {
     private clienteService:ClienteService
     ) { 
       this.configModal.backdrop = 'static';
-      this.configModal.keyboard = false;
+      this.configModal.keyboard = true;
     }
 
   ngOnInit(): void {
@@ -109,12 +109,15 @@ export class MascotaComponent implements OnInit {
       this.cargando = true;
       this.modalIn = true;
       this.mascotaNueva.CLIENTE_ID = this.clienteSeleccionado;
-      this.mascotaNueva.MAS_ATENCIONES = 0;
+      this.mascotaNueva.MAS_ATENCIONES = this.atenciones.value;
       this.mascotaNueva.MAS_COLOR = this.color.value;
       this.mascotaNueva.MAS_ESPECIE = this.especie.value;
       this.mascotaNueva.MAS_NOMBRE = this.nombre.value;
       this.mascotaNueva.MAS_RAZA = this.raza.value;
       this.mascotaNueva.MAS_ESTADO = 1;
+      this.mascotaNueva.MAS_TAMANIO = this.tamanio.value;
+      this.mascotaNueva.MAS_GENERO = this.sexo;
+
       console.log(this.mascotaNueva);
       this.mascotaService.registrarMascota(this.mascotaNueva).subscribe(
         (data)=>{
@@ -163,6 +166,10 @@ export class MascotaComponent implements OnInit {
     this.raza.setValue(this.mascotaSeleccionada.MAS_RAZA);
     this.especie.setValue(this.mascotaSeleccionada.MAS_ESPECIE);
     this.color.setValue(this.mascotaSeleccionada.MAS_COLOR);
+    this.tamanio.setValue(this.mascotaSeleccionada.MAS_TAMANIO);
+    this.mascotaSeleccionada.MAS_GENERO=='M'?this.sexo_.setValue("1"):this.sexo_.setValue("0");
+    this.atenciones.setValue(this.mascotaSeleccionada.MAS_ATENCIONES);
+    console.log(this.mascotaSeleccionada);
     this.modal.open(this.editarMascotaModal,{size:'lg'});
   }
 
@@ -170,11 +177,13 @@ export class MascotaComponent implements OnInit {
     this.mostrar_alerta = false;
     this.modalIn = true;
     this.cargando = true;
-    
     this.mascotaSeleccionada.MAS_COLOR = this.color.value;
     this.mascotaSeleccionada.MAS_ESPECIE = this.especie.value;
     this.mascotaSeleccionada.MAS_NOMBRE = this.nombre.value;
     this.mascotaSeleccionada.MAS_RAZA = this.raza.value;
+    this.mascotaSeleccionada.MAS_ATENCIONES = this.atenciones.value;
+    this.sexo_.value == '1'?this.mascotaSeleccionada.MAS_GENERO='M':this.mascotaSeleccionada.MAS_GENERO='H';
+
     console.log(this.mascotaSeleccionada);
     this.mascotaService.actualizarMascota(this.mascotaSeleccionada).subscribe(
       (data)=>{
@@ -280,6 +289,9 @@ export class MascotaComponent implements OnInit {
       raza:['',[Validators.required,Validators.pattern('[a-zñáéíóúA-ZÑÁÉÍÓÚ. ]+$'),Validators.minLength(3),Validators.maxLength(30)]],
       especie:['',[Validators.required,Validators.pattern('[a-zñáéíóúA-ZÑÁÉÍÓÚ. ]+$'),Validators.minLength(3),Validators.maxLength(20)]],
       color:['',[Validators.required,Validators.pattern('[a-zñáéíóúA-ZÑÁÉÍÓÚ. ]+$'),Validators.minLength(3),Validators.maxLength(45)]],
+      tamanio:['',[Validators.required]],
+      sexo_ : [''],
+      atenciones:[0,[Validators.required]]
     });
   }
   get nombre() {
@@ -294,7 +306,19 @@ export class MascotaComponent implements OnInit {
   get color() {
     return this.mascotaForm.get('color');
   } 
-
+  get tamanio() {
+    return this.mascotaForm.get('tamanio');
+  } 
+  get sexo_() {
+    return this.mascotaForm.get('sexo_');
+  } 
+  get atenciones() {
+    return this.mascotaForm.get('atenciones');
+  } 
+  sexo : string = 'M';
+  obtenerSexo(sexo: string) {
+    this.sexo = sexo;
+  } 
 
   /******************** LISTAR CLIENTES *******************/
   clientes: Cliente[] = [];

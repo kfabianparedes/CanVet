@@ -88,7 +88,7 @@
             </h5>
         </div>
         <div *ngIf="mostrarReporteMesAnterior" class="card-body text-gray-400">
-            <div  *ngIf="reporte_mes_actual.length<=0; else reportesCajaMesActualModule">
+            <div  *ngIf="reporte_mes_actual.length<=0; else reportesCajaMesAnteriorModule">
                 <h3>No hay reportes de caja registrados.</h3>
             </div>
             <div *ngIf="reporte_mes_actual?.length>0" class="row box-footer clearfix mt-3">     
@@ -103,7 +103,7 @@
                     </select>  
                 </div>    
             </div>
-            <ng-template #reportesCajaMesActualModule>
+            <ng-template #reportesCajaMesAnteriorModule>
                 <div class="table-module">
                     <table class="table table-bordered text-gray-400" id="dataTable" cellspacing="1">
                         <thead>

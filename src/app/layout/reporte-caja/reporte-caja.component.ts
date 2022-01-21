@@ -75,7 +75,9 @@ export class ReporteCajaComponent implements OnInit {
         this.reporte_mes_actual_inicial = data['resultado']['mes_actual'];
         this.reporte_mes_actual = this.reporte_mes_actual_inicial.slice();
         this.reporte_mes_anterior_inicial = data['resultado']['mes_anterior'];
+        console.log(this.reporte_mes_anterior_inicial);
         this.reporte_mes_anterior = this.reporte_mes_anterior_inicial.slice();
+        console.log(this.reporte_mes_anterior);
         this.cargando = false;
         this.flechaReporteMesActual = 'up';
         this.mostrarReporteMesActual = true;

@@ -11,8 +11,8 @@
         <div class="card-header py-3 row justify-content-between">
             <div class="py-1 col-sm-12 col-md-5 col-lg-4">
                 <div class="row">
-                    <div class="col-md-9 col-sm-12">
-                        <input type="text" class="border-left-primary font-tamanio form-control"  [(ngModel)]="busquedaMascota" name="busquedaMascota" placeholder="Ingrese Nombre..">
+                    <div class="col-md-12 col-sm-12">
+                        <input type="text" class="border-left-primary font-tamanio form-control"  [(ngModel)]="busquedaMascota" name="busquedaMascota" placeholder="Ingrese nombre de mascota...">
                     </div>
                 </div>
             </div>
@@ -109,11 +109,24 @@
     <ngb-alert *ngIf="mostrar_alerta && modalIn" [type]="tipo_alerta" (closed)="mostrar_alerta = false" >{{mensaje_alerta}}</ngb-alert>
     <div class="modal-body">
         <div class="row justify-content-center">
-            <div class="card shadow mb-3 col-12 col-lg-8">
+            <div class="row d-flex text-center justify-content-center">
+                <div class="my-2 col-sm-12 col-md-12 col-lg-3">
+                    <button [disabled]="mascotaForm.invalid || cargando" (click)="registrarMascota()" class="btn btn-primary btn-icon-split">
+                        <span class="text">Registrar&nbsp;<i class="fas fa-save"></i></span>
+                    </button>
+                </div>
+                <div class="my-2 col-sm-12 col-md-12 col-lg-3">
+                    <button (click)="closeModal()" class="btn btn-warning btn-icon-split">
+                        <span class="text">Volver&nbsp;<i class="fas fa-arrow-circle-left"></i></span>
+                    </button>
+                </div>
+            </div>
+            <br>
+            <div class="card shadow mb-3 col-12 col-lg-11">
                 <div class="card-body">
                     <form [formGroup]="mascotaForm">
                         <div class="row color-row-table mt-4 mb-3">
-                            <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
+                            <div class="col-sm-12 col-md-6 col-lg-4 mb-3">
                                 <label for="inputNombreMascota" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Nombre de la mascota: <small class="text-danger" data-toggle="tooltip" data-placement="top" title="*Obligatorio">(*)</small></label>
                                 <input formControlName="nombre" type="text" id="inputNombreMascota" class="border-left-primary font-tamanio form-control">
                                 <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)" class="my-1" style="color: rgb(197, 68, 68);">
@@ -131,7 +144,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-12 col-md-6 col-lg-6">
+                            <div class="col-sm-12 col-md-6 col-lg-4">
                                 <label for="inputEspecieMascota" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Especie: <small class="text-danger" data-toggle="tooltip" data-placement="top" title="*Obligatorio">(*)</small></label>
                                 <input formControlName="especie" type="text" id="inputEspecieMascota" class="border-left-primary font-tamanio form-control">
                                 <div *ngIf="especie.invalid && (especie.dirty || especie.touched)" class="my-1" style="color: rgb(197, 68, 68);">
@@ -149,9 +162,22 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-sm-12 col-md-6 col-lg-4">
+                                <label for="inputSexo">Género</label>
+                                <div class="row">
+                                        <div class="form-check" style="align-items: center;text-align: center;">
+                                            <input (change)="obtenerSexo('M')"  class="form-check-input" type="radio" name="exampleRadios" id="inputMacho" checked>
+                                            <label class="form-check-label" for="inputMacho">MACHO</label>
+                                        </div>
+                                        <div class="form-check" style="align-items: center;text-align: center;">
+                                            <input (change)="obtenerSexo('H')"  class="form-check-input" type="radio" name="exampleRadios" id="inputHembra">
+                                            <label class="form-check-label" for="inputHembra">HEMBRA</label>
+                                        </div> 
+                                </div>
+                            </div>
                         </div>
                         <div class="row color-row-table mb-3">
-                            <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
+                            <div class="col-sm-12 col-md-6 col-lg-4 mb-3">
                                 <label for="inputRazaMascota" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Raza: <small class="text-danger" data-toggle="tooltip" data-placement="top" title="*Obligatorio">(*)</small></label>
                                 <input formControlName="raza" type="text" id="inputRazaMascota" class="border-left-primary font-tamanio form-control">
                                 <div *ngIf="raza.invalid && (raza.dirty || raza.touched)" class="my-1" style="color: rgb(197, 68, 68);">
@@ -169,7 +195,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-12 col-md-6 col-lg-6">
+                            <div class="col-sm-12 col-md-6 col-lg-4">
                                 <label for="inputColorMascota" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Color: <small class="text-danger" data-toggle="tooltip" data-placement="top" title="*Obligatorio">(*)</small></label>
                                 <input formControlName="color" type="text" id="inputColorMascota" class="border-left-primary font-tamanio form-control">
                                 <div *ngIf="color.invalid && (color.dirty || color.touched)" class="my-1" style="color: rgb(197, 68, 68);">
@@ -187,6 +213,24 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-sm-12 col-md-6 col-lg-4">
+                                <label for="inputTamanioMascota" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Tamaño/Peso: <small class="text-danger" data-toggle="tooltip" data-placement="top" title="*Obligatorio">(*)</small></label>
+                                <input formControlName="tamanio" type="text" id="inputTamanioMascota" class="border-left-primary font-tamanio form-control">
+                                <div *ngIf="tamanio.invalid && (tamanio.dirty || tamanio.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                                    <div *ngIf="tamanio.errors.required">
+                                        * El tamanio de la mascota es requerido.
+                                    </div>
+                                    <div *ngIf="tamanio.errors.pattern">
+                                        * El formato es inválido.
+                                    </div>
+                                    <div *ngIf="tamanio.errors.minlength">
+                                        * Se requieren mínimo 3 caracteres.
+                                    </div>
+                                    <div *ngIf="tamanio.errors.maxlength">
+                                        * Se requieren máximo 20 caracteres.
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -200,7 +244,7 @@
                         <label for="inputBuscarCategoria"><i class="fa fa-search"></i>&nbsp;&nbsp;&nbsp;&nbsp;Dueño:</label>
                         <div class="row ">
                             <div class="col-10">
-                                <input id="inputBuscarCategoria" type="text" [(ngModel)]="busquedaCliente" class="border-left-primary font-tamanio form-control" name="busquedaCliente" placeholder="Ingrese Nombre..." >
+                                <input id="inputBuscarCategoria" type="text" [(ngModel)]="busquedaCliente" class="border-left-primary font-tamanio form-control" name="busquedaCliente" placeholder="Ingrese Nombre ..." >
                             </div>
                             <div class="col-1">
                                 <button class="btn btn-success" (click)="filtrarCliente()"><i class="fa fa-search"></i></button>
@@ -265,19 +309,7 @@
                 </div>
             </div>
         </div>
-        <div class="row d-flex text-center justify-content-center">
-            <div class="my-2 col-sm-12 col-md-12 col-lg-3">
-                <button [disabled]="mascotaForm.invalid || cargando" (click)="registrarMascota()" class="btn btn-primary btn-icon-split">
-                    <span class="text">Registrar&nbsp;<i class="fas fa-save"></i></span>
-                </button>
-            </div>
-            <div class="my-2 col-sm-12 col-md-12 col-lg-3">
-                <button (click)="closeModal()" class="btn btn-warning btn-icon-split">
-                    <span class="text">Volver&nbsp;<i class="fas fa-arrow-circle-left"></i></span>
-                </button>
-            </div>
-        </div>
-          
+        
     </div>
 </ng-template>
 
@@ -290,7 +322,7 @@
     <div class="modal-body">
         <form [formGroup]="mascotaForm">
             <div class="row color-row-table mt-4 mb-3">
-                <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
+                <div class="col-sm-12 col-md-6 col-lg-4 mb-3">
                     <label for="inputNombreMascota" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Nombre de la mascota: <small class="text-danger" data-toggle="tooltip" data-placement="top" title="*Obligatorio">(*)</small></label>
                     <input formControlName="nombre" type="text" id="inputNombreMascota" class="border-left-primary font-tamanio form-control">
                     <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)" class="my-1" style="color: rgb(197, 68, 68);">
@@ -308,7 +340,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-12 col-md-6 col-lg-6">
+                <div class="col-sm-12 col-md-6 col-lg-4">
                     <label for="inputEspecieMascota" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Especie: <small class="text-danger" data-toggle="tooltip" data-placement="top" title="*Obligatorio">(*)</small></label>
                     <input formControlName="especie" type="text" id="inputEspecieMascota" class="border-left-primary font-tamanio form-control">
                     <div *ngIf="especie.invalid && (especie.dirty || especie.touched)" class="my-1" style="color: rgb(197, 68, 68);">
@@ -326,9 +358,22 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-sm-12 col-md-6 col-lg-4">
+                    <label for="inputSexo">Género: </label>
+                    <select  formControlName="sexo_" id="inputSexo" class="border-left-primary form-select">
+                        <option hidden value="" disabled >Selecciona una opción</option>
+                        <option [value]="1">MACHO</option>
+                        <option [value]="0">HEMBRA</option>
+                    </select>
+                    <div *ngIf="sexo_.invalid && (sexo_.dirty || sexo_.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                        <div *ngIf="sexo_.errors.required">
+                            * El género es requerido.
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="row color-row-table mb-3">
-                <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
+                <div class="col-sm-12 col-md-6 col-lg-4 mb-3">
                     <label for="inputRazaMascota" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Raza: <small class="text-danger" data-toggle="tooltip" data-placement="top" title="*Obligatorio">(*)</small></label>
                     <input formControlName="raza" type="text" id="inputRazaMascota" class="border-left-primary font-tamanio form-control">
                     <div *ngIf="raza.invalid && (raza.dirty || raza.touched)" class="my-1" style="color: rgb(197, 68, 68);">
@@ -346,7 +391,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-12 col-md-6 col-lg-6">
+                <div class="col-sm-12 col-md-6 col-lg-4">
                     <label for="inputColorMascota" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Color: <small class="text-danger" data-toggle="tooltip" data-placement="top" title="*Obligatorio">(*)</small></label>
                     <input formControlName="color" type="text" id="inputColorMascota" class="border-left-primary font-tamanio form-control">
                     <div *ngIf="color.invalid && (color.dirty || color.touched)" class="my-1" style="color: rgb(197, 68, 68);">
@@ -361,6 +406,35 @@
                         </div>
                         <div *ngIf="color.errors.maxlength">
                             * Se requieren máximo 20 caracteres.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-4">
+                    <label for="inputTamanioMascota" data-toggle="tooltip" data-placement="top" title="*Obligatorio">Tamaño/Peso: <small class="text-danger" data-toggle="tooltip" data-placement="top" title="*Obligatorio">(*)</small></label>
+                    <input formControlName="tamanio" type="text" id="inputTamanioMascota" class="border-left-primary font-tamanio form-control">
+                    <div *ngIf="tamanio.invalid && (tamanio.dirty || tamanio.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                        <div *ngIf="tamanio.errors.required">
+                            * El tamanio de la mascota es requerido.
+                        </div>
+                        <div *ngIf="tamanio.errors.pattern">
+                            * El formato es inválido.
+                        </div>
+                        <div *ngIf="tamanio.errors.minlength">
+                            * Se requieren mínimo 3 caracteres.
+                        </div>
+                        <div *ngIf="tamanio.errors.maxlength">
+                            * Se requieren máximo 20 caracteres.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row col-row-table mb-3">
+                <div class="col-sm-12 col-md-6 col-lg-4">
+                    <label for="inputAtenciones">Nro. Atenciones:</label>
+                    <input formControlName="atenciones" type="text" id="inputAtenciones" class="border-left-primary font-atenciones form-control">
+                    <div *ngIf="atenciones.invalid && (atenciones.dirty || atenciones.touched)" class="my-1" style="color: rgb(197, 68, 68);">
+                        <div *ngIf="atenciones.errors.required">
+                            * El número de atenciones es requerido.
                         </div>
                     </div>
                 </div>

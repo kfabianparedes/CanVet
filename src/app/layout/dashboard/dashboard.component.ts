@@ -141,7 +141,7 @@ export class DashboardComponent implements OnInit {
     minuto = minuto < 10 ? "0" + minuto : minuto;
     segundo = segundo < 10 ? "0" + segundo : segundo;
     
-    this.HORA_SERVICIO = horaF + ":" + minuto + ":" + segundo;
+    this.HORA_SERVICIO = horaF + ":" + minuto + ":" + "00";
   }
 
   servicioModificado: any;

@@ -25,7 +25,7 @@ export class ProductoService {
     })
   };
   listarProductos():Observable<any>{
-    const url = environment.domain_url + '/api/productos/listarProductos';
+    const url = environment.domain_url + '/api/productos/listarProductos.php';
     return this.http.get<any>(url).pipe( retry(2) );
   }
 
@@ -35,11 +35,11 @@ export class ProductoService {
   }
 
   listarProductosPorProveedor(idProveedor:number):Observable<any>{
-    const url = environment.domain_url + '/api/productos/listarProductosPorProveedor?PROV_ID='+idProveedor;
+    const url = environment.domain_url + '/api/productos/listarProductosPorProveedor.php?PROV_ID='+idProveedor;
     return this.http.get<any>(url).pipe( retry(2) );
   }
   habilitarDeshabilitarProducto(producto_id:number, nuevoEstado:number):Observable<any>{
-    const url = environment.domain_url + '/api/productos/habilitarInhabilitarProducto';
+    const url = environment.domain_url + '/api/productos/habilitarInhabilitarProducto.php';
 
     const datos = {
       PRO_ID: producto_id,
@@ -50,7 +50,7 @@ export class ProductoService {
 
 
   insertarProducto(pro:Producto):Observable<any>{
-    const url = environment.domain_url + '/api/productos/insertar';
+    const url = environment.domain_url + '/api/productos/insertar.php';
     const datos = {
       PRO_NOMBRE: pro.PRO_NOMBRE,
       PRO_CODIGO: pro.PRO_CODIGO,
@@ -65,7 +65,7 @@ export class ProductoService {
   }
 
   editarProductoSeleccionado(pro:Producto):Observable<any>{
-    const url = environment.domain_url + '/api/productos/editar';
+    const url = environment.domain_url + '/api/productos/editar.php';
     const datos = {
       PRO_ID : pro.PRO_ID,
       PRO_NOMBRE: pro.PRO_NOMBRE,

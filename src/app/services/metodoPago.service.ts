@@ -23,7 +23,7 @@ export class MetodoPagoService {
   };
 
   listarMetodosDePago():Observable<any>{
-    const url = environment.domain_url + '/api/metodoPago/listar';
+    const url = environment.domain_url + '/api/metodoPago/listar.php';
     return this.http.get<any>(url,this.httpHead).pipe(retry(2));
   }
 }

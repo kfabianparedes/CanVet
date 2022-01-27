@@ -38,7 +38,7 @@ export class UserService {
   
 
   registerUser(usuario:Usuario):Observable<any>{
-    const url = environment.domain_url + '/api/usuarios/insertar';
+    const url = environment.domain_url + '/api/usuarios/insertar.php';
     const datos = {
       
       USU_USUARIO : usuario.USU_USUARIO,
@@ -59,17 +59,17 @@ export class UserService {
   }
 
   listUsers():Observable<any>{
-    const url = environment.domain_url + '/api/usuarios/listarUsuarios';
+    const url = environment.domain_url + '/api/usuarios/listarUsuarios.php';
     return this.http.get<any>(url).pipe(retry(2));
   }
 
   getUserById(userId : number):Observable<any>{
-    const url = environment.domain_url + `/api/usuarios/obtenerUsuario?USU_ID=${userId}`;
+    const url = environment.domain_url + `/api/usuarios/obtenerUsuario.php?USU_ID=${userId}`;
     return this.http.get<any>(url).pipe(retry(2));
   }
 
   updateUser(usuario:Usuario):Observable<any>{
-    const url = environment.domain_url + '/api/usuarios/actualizar';
+    const url = environment.domain_url + '/api/usuarios/actualizar.php';
     const datos = {
       USU_ID: usuario.USU_ID,
       USU_USUARIO : usuario.USU_USUARIO,
@@ -90,7 +90,7 @@ export class UserService {
   }
 
   habilitarInhabilitarUsuarios(USU_ID:number,numeroEstado:number):Observable<any>{
-    const url = environment.domain_url + '/api/usuarios/habilitarInhabilitarUsuario';
+    const url = environment.domain_url + '/api/usuarios/habilitarInhabilitarUsuario.php';
     const datos = {
       USU_ID: USU_ID,
       USU_ESTADO: numeroEstado

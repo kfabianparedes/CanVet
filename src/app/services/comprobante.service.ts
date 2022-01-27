@@ -24,7 +24,7 @@ export class ComprobanteService {
   };
 
   listarComprobantes():Observable<any>{
-    const url = environment.domain_url + '/api/comprobantes/listarComprobantes';
+    const url = environment.domain_url + '/api/comprobantes/listarComprobantes.php';
     return this.http.get<any>(url,this.httpHead).pipe(retry(2));
   }
 }

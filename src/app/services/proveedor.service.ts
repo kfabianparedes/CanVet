@@ -35,7 +35,7 @@ export class ProveedorService {
   }
 
   habilitarInhabilitarProveedor(proveEdoRId:number,numeroEstado:number):Observable<any>{
-    const url = environment.domain_url + '/api/proveedores/habilitarInhabilitarProveedor';
+    const url = environment.domain_url + '/api/proveedores/habilitarInhabilitarProveedor.php';
     const datos = {
       PROV_ID: proveEdoRId,
       PROV_ESTADO: numeroEstado
@@ -44,7 +44,7 @@ export class ProveedorService {
   }
 
   insertarProveedor(pro:Proveedor):Observable<any>{
-    const url = environment.domain_url + '/api/proveedores/insertar';
+    const url = environment.domain_url + '/api/proveedores/insertar.php';
     const datos = {
       PROV_RUC: pro.PROV_RUC,
       PROV_EMPRESA_PROVEEDORA: pro.PROV_EMPRESA_PROVEEDORA,
@@ -54,7 +54,7 @@ export class ProveedorService {
   }
 
   actualizarProveedor(pro:Proveedor):Observable<any>{
-    const url = environment.domain_url + '/api/proveedores/editar';
+    const url = environment.domain_url + '/api/proveedores/editar.php';
     const datos = {
       PROV_ID : pro.PROV_ID,
       PROV_RUC: pro.PROV_RUC,

@@ -23,7 +23,7 @@ export class TipoServicioService {
   };
 
   listarTipoServicio():Observable<any>{
-    const url = environment.domain_url + '/api/tipoServicio/listar';
+    const url = environment.domain_url + '/api/tipoServicio/listar.php';
     return this.http.get<any>(url,this.httpHead).pipe(retry(2));
   }
 }

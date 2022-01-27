@@ -822,7 +822,7 @@ export class ServicioComponent implements OnInit {
   get tamanio() {
     return this.mascotaForm.get('tamanio');
   } 
-  sexo: string = '';
+  sexo: string = 'M';
   obtenerSexo(sexo: string) {
     this.sexo = sexo;
   } 
